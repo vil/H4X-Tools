@@ -1,0 +1,5 @@
+colorama
+phonenumbers
+requests
+beautifulsoup4
+urllib3
