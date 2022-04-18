@@ -87,6 +87,7 @@ if __name__ == "__main__":
         if a == 1:
             inputt = str(input("Username : "))
             igdoxed(inputt)
+            time.sleep(1)
         if a == 2:
             query = str(input("Search :"))
             web_search(query)
@@ -101,6 +102,7 @@ if __name__ == "__main__":
                 os.system("git pull")
             except Exception as e:
                 print("ERROR! Check your Internet Connection or No repository found!")
+            time.sleep(1)    
         if a == 6:
             name = str(input("Enter Username"))
             instagram(name)
@@ -110,7 +112,8 @@ if __name__ == "__main__":
         if a == 7:
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person using their socials.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
-            print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")    
+            print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
+            time.sleep(1)    
 
         if a == 8:
             print("Closing the application in 3 second")

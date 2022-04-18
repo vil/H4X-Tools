@@ -7,7 +7,8 @@ class dox:
     def __init__(self, username):
         link = "https://www.instagram.com/"+username+"/?__a=1"
         response = urlopen(link)
-        self.doxed = json.loads(response.read()) 
+        final_process = "".join(map(chr, response.read()))
+        self.doxed = json.loads(final_process)
             
 
     def username(self):
