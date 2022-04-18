@@ -1,4 +1,4 @@
 # H4XTools
 
-Multiple useful tools in one software.
+Multiple useful tools in one program.
 
