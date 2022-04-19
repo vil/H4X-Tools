@@ -172,7 +172,7 @@ if __name__ == "__main__":
             time.sleep(1)    
 
         if a == 7:
-            print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person using their socials.\n")
+            print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)    
