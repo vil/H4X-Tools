@@ -129,7 +129,7 @@ if __name__ == "__main__":
     """)
 
     while(1):
-        print(Fore.BLUE + "\n \n")
+        print(Fore.CYAN + "\n \n")
         print("[1] IGDox                      || [2] WebSearch")
         print("[3] Phoneloopkup               || [4] Iplookup")
         print("[5] SearchEverywhere           || [6] Update")
