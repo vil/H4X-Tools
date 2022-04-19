@@ -27,3 +27,7 @@ More tools coming when I have time to make em.
 
 ## Setup
 Run setup.sh/setup.bat depending on your OS.
+
+
+# NOTE
+THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!
