@@ -3,6 +3,10 @@ import os
 import time
 import random
 import sys
+import json
+import phonenumbers as p
+from phonenumbers import geocoder
+from phonenumbers import carrier
 from utils.igdox import dox
 from urllib.request import urlopen
 import urllib
@@ -53,9 +57,41 @@ def igdoxed(inputt):
                 
         print('\n')
         return None
-    except urllib.error.HTTPError as e:
+    except urllib.error.HTTPError as err:
         print("User not found")
         return ("User not found")
+
+#¤ Phonenumber
+def number(no):
+    print("\n")
+    try:
+        ph_no = p .parse(no)
+        geo_location = geocoder.description_for_number(ph_no,'en')
+        no_carrier = carrier.name_for_number(ph_no,'en')
+        print ("Country : ",geo_location)
+        print ("Sim Provider : ", no_carrier)
+        return None
+    except Exception :
+        print("No data found for this number")
+        return("No data found for this number")
+
+## Ip lookup
+def find_ip(ip):
+    try :
+        #ip=str(input ("Enter Ip address "))
+        url="http://ip-api.com/json/"+ip
+
+        values = json.load(urlopen(url))
+        print("[*] Ip Address : ",values['query'])
+        print("[*] Country :\t ",values['country'])
+        print("[*] City : ",values['city'])
+        return None
+    except Exception as e:
+        print("\n Can't find any information for the given ip address ")
+        return("\n Can't find any information for the given ip address ")
+
+
+
 
 if __name__ == "__main__":
     print(Fore.CYAN + """
@@ -119,6 +155,3 @@ if __name__ == "__main__":
             print("Closing the application in 3 second")
             time.sleep(3)
             break
-        else:
-            print("Invalid option.")
-            time.sleep(1)
