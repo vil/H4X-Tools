@@ -7,9 +7,8 @@ class dox:
     def __init__(self, username):
         link = "https://www.instagram.com/"+username+"/?__a=1"
         response = urlopen(link)
-        final_process = "".join(map(chr, response.read()))
+        final_process = "".join(map(chr, response))
         self.doxed = json.loads(final_process)
-        #self.doxed = json.load(final_process)
 
     def username(self):
         return self.doxed["graphql"]["user"]["username"]

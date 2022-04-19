@@ -118,7 +118,7 @@ if __name__ == "__main__":
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.1
 |
 | by Vp (https://github.com/herravp)
 |
@@ -130,10 +130,10 @@ if __name__ == "__main__":
 
     while(1):
         print(Fore.CYAN + "\n \n")
-        print("[1] IGDox                      || [2] WebSearch")
-        print("[3] Phoneloopkup               || [4] Iplookup")
-        print("[5] SearchEverywhere           || [6] Update")
-        print("[7] About                      || [8] Exit")
+        print("[1] IGDox             ||  [2] WebSearch")
+        print("[3] Phoneloopkup      ||  [4] Iplookup")
+        print("[5] SearchEverywhere  ||  [6] Update")
+        print("[7] About             ||  [8] Exit")
         print("\n")
         a = int(input("Select your option :\t"))
         if a == 1:
@@ -181,3 +181,7 @@ if __name__ == "__main__":
             print("Closing the application in 3 second")
             time.sleep(3)
             break
+
+print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
+time.sleep(1)
+print(Fore.WHITE)             
