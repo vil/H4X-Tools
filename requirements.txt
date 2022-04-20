@@ -3,4 +3,4 @@ phonenumbers
 requests
 beautifulsoup4
 urllib3
-instaloader
+pyinstaller
