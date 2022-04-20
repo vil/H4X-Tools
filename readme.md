@@ -38,9 +38,7 @@ This tool is designed for Linux users, but it should work fine on Windows too.
 ### Linux
 1. Download H4XTools from the [releases](https://github.com/HerraVp/H4X-Tools/releases) section. OR clone the repo.
 
-2. Run `chmod +x setup` to make the setup tool executable.
-
-3. Run `sh setup` or `./setup` in terminal to install the tool.
+2. Run `sh setup.sh` in terminal to install the tool.
 
 To update the tool, run `sh update.sh` if you are on Linux.
 
