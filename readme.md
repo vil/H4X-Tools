@@ -26,8 +26,19 @@ More tools coming when I have time to make em.
 >Exit || Exits the tool.
 
 ## Setup
-Run setup.sh/setup.bat depending on your OS.
+This tool is designed for Linux users, but it should work fine on Windows too.
 
+1. Make sure you have [python](https://www.python.org/downloads/) installed.
 
-# NOTE
+2. Run setup.sh/setup.bat depending on your OS.
+
+To update the tool, run update.sh if you are on Linux.
+
+If you are on Windows, run the program as usual and run the update option.
+
+### Only tested on Fedora 35 and Windows 10
+But it should work fine on other Linux distros too. 
+
+-------------------------------------------
+-------------------------------------------
 THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!
