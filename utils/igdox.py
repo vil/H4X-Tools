@@ -1,6 +1,5 @@
-#From 007-TheBond tool
 import requests
-from urllib.request import urlopen, re
+import re
 import json
 
 class dox:
