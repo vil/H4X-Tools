@@ -155,7 +155,7 @@ if __name__ == "__main__":
             print("\n")
             instagram(name)
             facebook(name)
-            pinrest(name)
+            pinterest(name)
             twitter(name)
             linkedin(name)
             youtube(name)

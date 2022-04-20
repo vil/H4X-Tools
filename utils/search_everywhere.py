@@ -11,14 +11,14 @@ def instagram(username):
         print("Username not found in Instagram")
             
 
-def pinrest(username):
-    url="http://pinrest.com/"+username
+def pinterest(username):
+    url="http://pinterest.com/"+username
     r = requests.get(url)
     if r.status_code == 200:
-        print("[*] Username found in Pinrest")
+        print("[*] Username found in Pinterest")
         print(url)
     else:
-        print("Username not found in Pinrest")
+        print("Username not found in Pinterest")
 
 def facebook(username):
     url="http://facebook.com/"+username
