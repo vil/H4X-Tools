@@ -15,12 +15,8 @@ by Vp (https://github.com/herravp)
 
 echo Installing dependencies in 3 seconds...
 sleep 3
-pip3 install -r requirements.txt
 
-if [ ! -f "pip3" ]; then
-    echo "Error: pip3 not found. Please install pip3."
-    exit 1
-fi 
+pip3 install -r requirements.txt
 
 sleep 1
 echo Making H4XTools into a linux command...
