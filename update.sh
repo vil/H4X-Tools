@@ -21,5 +21,5 @@ fi
 echo Run setup.sh to apply changes. Do it now? [y/n]
 read answer
 if [ "$answer" = "y" ]; then
-    ./setup.sh
+    sh setup.sh
 fi
