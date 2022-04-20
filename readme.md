@@ -1,6 +1,5 @@
 # H4XTools
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/herravp/H4X-Tools?include_prereleases&label=Version)
-![GitHub all releases](https://img.shields.io/github/downloads/herravp/H4X-Tools/total?color=blue&label=Downloads&style=flat-square)
 
 Multiple useful tools in one program.
 
