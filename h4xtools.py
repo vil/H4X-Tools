@@ -12,6 +12,7 @@ from phonenumbers import geocoder
 from phonenumbers import carrier
 import urllib
 from urllib.request import urlopen
+import socket
 from utils.igdox import dox
 from utils.search_everywhere import *
 
@@ -30,6 +31,15 @@ try:
     from colorama import Fore
 except ModuleNotFoundError:
     install("colorama")
+
+def internet_check():
+    try:
+        socket.create_connection(("www.google.com", 80))
+        print(Fore.GREEN + "\n[*] Internet Connection is Available!")
+        return None
+    except OSError:
+        print(Fore.RED + "\n[*] Warning! Internet Connection is Unavailable!")
+        return None    
 
 ## IG Dox
 def igdoxed(ig_username):
@@ -108,7 +118,22 @@ def find_ip(ip):
         print("\n Can't find any information for the given ip address ")
         return("\n Can't find any information for the given ip address ")
 
-
+## Ip scanner
+def ip_scanner(ip):
+    ip_add=socket.gethostbyname(ip)
+    for i in range (10,100,10):
+        time.sleep(2)
+        print("Loading", i, "%")
+    print("\t [*] Successfully connected with the Server........!")
+    for j in range (0,5):
+        time.sleep(2)
+        print("[*] Now Scanning for the Ip address")
+    print ("[*] IP Address Found ...!")
+    time .sleep(5)
+    for k in range (0,4):
+        time.sleep(5)
+        print("[*] Decoding")
+    print("\t [*] IP ADDRESS OF THE WEBSITE : \t ", ip_add)
 
 
 if __name__ == "__main__":
@@ -120,7 +145,7 @@ if __name__ == "__main__":
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.1b
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.2
 |
 | by Vp (https://github.com/herravp)
 |
@@ -130,12 +155,15 @@ if __name__ == "__main__":
 
     """)
 
+    internet_check()
+
     while(1):
         print(Fore.CYAN + "\n \n")
         print("[1] IGDox             ||  [2] WebSearch")
         print("[3] Phoneloopkup      ||  [4] Iplookup")
-        print("[5] SearchEverywhere  ||  [6] Update")
-        print("[7] About             ||  [8] Exit")
+        print("[5] SearchEverywhere  ||  [6] IpScanner")
+        print("[7] About             ||  [8] Update")
+        print("[9] Exit              ||  ")
         print("\n")
         a = int(input("Select your option :\t"))
         if a == 1:
@@ -167,20 +195,25 @@ if __name__ == "__main__":
             reddit(name)
 
         if a == 6:
-            try:
-                os.system("git fetch")
-                os.system("git pull")
-            except Exception as e:
-                print("ERROR! Check your Internet Connection or No repository found!")
-            time.sleep(1)    
+            url = str(input("Enter a url (Without http://): \t"))
+            print("\n")
+            ip_scanner(url)    
 
         if a == 7:
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
-            time.sleep(1)    
+            time.sleep(1)      
 
         if a == 8:
+            try:
+                os.system("git fetch")
+                os.system("git pull")
+            except Exception as e:
+                print("ERROR! Check your Internet Connection!")
+            time.sleep(1)      
+
+        if a == 9:
             print("Closing the application in 3 second")
             time.sleep(3)
             break
