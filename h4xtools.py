@@ -166,6 +166,7 @@ if __name__ == "__main__":
 
         if a == 6:
             try:
+                os.system("git fetch")
                 os.system("git pull")
             except Exception as e:
                 print("ERROR! Check your Internet Connection or No repository found!")
