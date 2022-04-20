@@ -17,6 +17,9 @@ More tools coming when I have time to make em.
 
 >Iplookup || Looks up an IP address and returns information about it.
 
+
+>IpScanner || Scans an website for IP addresses.
+
 >SearchEverywhere || Tries to find a given username from many different websites.
 
 >Update || Updates the tool if new versions are available.
