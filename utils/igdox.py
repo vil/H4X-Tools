@@ -1,13 +1,13 @@
 #From 007-TheBond tool
 import requests
-from urllib.request import urlopen
+from urllib.request import urlopen, re
 import json
 
 class dox:
     def __init__(self, username):
-        link = "https://www.instagram.com/"+username+"/?__a=1"
-        response = urlopen(link)
-        final_process = "".join(map(chr, response))
+        link = f"https://www.instagram.com/{username}/channel/?__a=1"
+        response = requests.get(link)
+        final_process = re.sub(r'^jsonp\d+\(|\)\s+$', '', response.text)
         self.doxed = json.loads(final_process)
 
     def username(self):
