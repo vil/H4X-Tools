@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+# H4XTools by Vp
 
 clear
 echo """
@@ -110,7 +110,7 @@ if [ -e  /usr/bin/apk ];then
 fi
 sleep 1
 
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 sleep 1
 echo Making H4XTools into a linux command...
 pyinstaller h4xtools.py --onefile

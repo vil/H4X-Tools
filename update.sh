@@ -21,5 +21,6 @@ fi
 echo Run setup.sh to apply changes. Do it now? [y/n]
 read answer
 if [ "$answer" = "y" ]; then
-    sh setup.sh
+    chmod +x setup
+    sh setup
 fi
