@@ -30,7 +30,9 @@ This tool is designed for Linux users, but it should work fine on Windows too.
 
 1. Make sure you have [python](https://www.python.org/downloads/) installed.
 
-2. Run setup.sh/setup.bat depending on your OS.
+2. Download H4XTools from the [releases](https://github.com/HerraVp/H4X-Tools/releases) section.
+
+3. Run setup.sh/setup.bat depending on your OS.
 
 To update the tool, run update.sh if you are on Linux.
 
