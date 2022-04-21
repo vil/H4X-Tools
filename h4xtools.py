@@ -106,9 +106,9 @@ def find_ip(ip):
         url="http://ip-api.com/json/"+ip
 
         values = json.load(urlopen(url))
-        print("[*] Ip Address : ",values['query'])
-        print("[*] Country :\t ",values['country'])
-        print("[*] City : ",values['city'])
+        print("[*] Ip Address : \t", values['query'])
+        print("[*] Country : \t", values['country'])
+        print("[*] City : \t", values['city'])
         return None
     except Exception as e:
         print("\n Can't find any information for the given ip address ")
