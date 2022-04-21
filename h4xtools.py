@@ -131,6 +131,22 @@ def ip_scanner(ip):
         print("[*] Decoding")
     print("\t [*] IP ADDRESS OF THE WEBSITE : \t ", ip_add)
 
+## Webhook spammer
+def webhook_spam(url, amount, message):
+    data = {
+    "content" : message,
+    "username" : "H4X-Tools"
+    }
+    try:
+        for i in range(1, amount + 1):
+            requests.post(url, json=data)
+            print(f"[*] Message Sent to {url} !")
+            time.sleep(1)
+        return None
+    except requests.exceptions.HTTPError as e:
+        print("[*] Error : ", e)
+        return("[*] Error : ", e)
+
 
 if __name__ == "__main__":
     print(Fore.CYAN + """
@@ -141,7 +157,7 @@ if __name__ == "__main__":
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.2
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.2b
 |
 | by Vp (https://github.com/herravp)
 |
@@ -155,11 +171,11 @@ if __name__ == "__main__":
 
     while(1):
         print(Fore.CYAN + "\n \n")
-        print("[1] IGDox             ||  [2] WebSearch")
-        print("[3] Phoneloopkup      ||  [4] Iplookup")
-        print("[5] SearchEverywhere  ||  [6] IpScanner")
-        print("[7] About             ||  [8] Update")
-        print("[9] Exit              ||  ")
+        print("[1] IGDox              ||   [2] WebSearch")
+        print("[3] Phoneloopkup       ||   [4] Iplookup")
+        print("[5] SearchEverywhere   ||   [6] IpScanner")
+        print("[7] WebhookSpammer     ||   [8] About")
+        print("[9] Update             ||   [10] Exit")
         print("\n")
         a = int(input("Select your option :\t"))
         if a == 1:
@@ -193,15 +209,21 @@ if __name__ == "__main__":
         if a == 6:
             url = str(input("Enter a url (Without http://): \t"))
             print("\n")
-            ip_scanner(url)    
+            ip_scanner(url)
 
         if a == 7:
+            url = str(input("Enter a webhook url : \t"))
+            amount = int(input("Enter a amount of messages : \t"))
+            message = str(input("Enter a message : \t"))
+            webhook_spam(url, amount, message)        
+
+        if a == 8:
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)      
 
-        if a == 8:
+        if a == 9:
             try:
                 os.system("git fetch")
                 os.system("git pull")
@@ -209,7 +231,7 @@ if __name__ == "__main__":
                 print("ERROR! Check your Internet Connection!")
             time.sleep(1)      
 
-        if a == 9:
+        if a == 10:
             print("Closing the application in 3 second")
             time.sleep(3)
             break
