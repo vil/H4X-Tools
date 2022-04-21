@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+import imp
 import requests
 import os
 import time
 import random
 import sys
 import json
+from colorama import Fore
 from bs4 import BeautifulSoup
 import phonenumbers as p
 from phonenumbers import geocoder
@@ -25,12 +27,6 @@ if os.name == "posix":
 
 def install(package):
     os.system(f"{sys.executable} -m pip install {package}")
-
-
-try:
-    from colorama import Fore
-except ModuleNotFoundError:
-    install("colorama")
 
 def internet_check():
     try:
