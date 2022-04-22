@@ -225,6 +225,7 @@ if __name__ == "__main__":
 
         if a == 9:
             try:
+                os.system(f"cd {os.path.dirname(os.path.abspath(__file__))}")
                 os.system("git fetch")
                 os.system("git pull")
             except Exception as e:
