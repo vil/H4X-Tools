@@ -17,10 +17,11 @@ More tools coming when I have time to make em.
 
 >Iplookup || Looks up an IP address and returns information about it.
 
-
 >IpScanner || Scans an website for IP addresses.
 
 >SearchEverywhere || Tries to find a given username from many different websites.
+
+>WebhookSpammer || Spams messages to a discord webhook.
 
 >Update || Updates the tool if new versions are available.
 
@@ -39,7 +40,7 @@ This tool is designed for Linux users, but it should work fine on Windows too.
 3. Run the setup.bat file.
 
 ### Linux
-1. Download H4XTools from the [releases](https://github.com/HerraVp/H4X-Tools/releases) section. OR clone the repo.
+1. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
 
 2. Run `sh setup.sh` in terminal to install the tool.
 
