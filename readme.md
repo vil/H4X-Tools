@@ -49,7 +49,7 @@ To update the tool, run `sh update.sh` if you are on Linux.
 If you are on Windows, run the program as usual and run the update option.
 
 ### Only tested on Fedora 35 and Windows 10
-But it should work fine on other Linux distros too.
+But it should work fine on other Linux distros and Windows 11 too.
 
 If it doesnt work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
 
