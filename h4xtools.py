@@ -221,7 +221,7 @@ if __name__ == "__main__":
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
-            time.sleep(1)      
+            time.sleep(1)
 
         if a == 9:
             try:
@@ -229,11 +229,11 @@ if __name__ == "__main__":
                 os.system("git pull")
             except Exception as e:
                 print("ERROR! Check your Internet Connection!")
-            time.sleep(1)      
+            time.sleep(1)
 
         if a == 10:
-            print("Closing the application in 3 second")
-            time.sleep(3)
+            print("Closing the application...")
+            time.sleep(1)
             break
 
 print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
