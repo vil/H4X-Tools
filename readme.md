@@ -19,7 +19,9 @@ More tools coming when I have time to make em.
 
 >IpScanner || Scans an website for IP addresses.
 
->SearchEverywhere || Tries to find a given username from many different websites.
+>UsernameSearch || Tries to find a given username from websites like Steam and TikTok.
+
+>RealnameSearch || Tries to find a given name from websites like Facebook and Linkedin.
 
 >WebhookSpammer || Spams messages to a discord webhook.
 
