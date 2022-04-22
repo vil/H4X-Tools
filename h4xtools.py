@@ -15,6 +15,7 @@ from phonenumbers import carrier
 import urllib
 from urllib.request import urlopen
 import socket
+import whois
 from utils.igdox import dox
 from utils import search_realname, search_username
 
@@ -147,6 +148,16 @@ def webhook_spam(url, amount, message):
         print("[*] Error : ", e)
         return("[*] Error : ", e)
 
+## Who is
+def whois_lookup(domain):
+    try:
+        domain_info = whois.whois(domain)
+        for key, value in domain_info.items():
+            print(f"[*] {key} : \t {value}")
+    except Exception as e:
+        print("[*] Error : ", e)
+        return("[*] Error : ", e)    
+
 
 if __name__ == "__main__":
     print(Fore.CYAN + """
@@ -175,8 +186,8 @@ if __name__ == "__main__":
         print("[3] Phoneloopkup       ||   [4] Iplookup")
         print("[5] UsernameSearch     ||   [6] RealNameSearch")
         print("[7] IpScanner          ||   [8] WebhookSpammer")
-        print("[9] About              ||   [10] Update")
-        print("[11] Exit              ||            ")
+        print("[9] WhoIs              ||   [10] About")
+        print("[11] Update            ||   [12] Exit")
         print("\n")
         a = int(input("Select your option :\t"))
         if a == 1:
@@ -218,7 +229,7 @@ if __name__ == "__main__":
             search_realname.doxbin(name)
 
         if a == 7:
-            url = str(input("Enter a url (Without http://): \t"))
+            url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
             ip_scanner(url)
 
@@ -226,15 +237,20 @@ if __name__ == "__main__":
             url = str(input("Enter a webhook url : \t"))
             amount = int(input("Enter a amount of messages : \t"))
             message = str(input("Enter a message : \t"))
-            webhook_spam(url, amount, message)        
+            webhook_spam(url, amount, message)
 
         if a == 9:
+            url = str(input("Enter a url (Without http://) : \t"))
+            print("\n")
+            whois_lookup(url)            
+
+        if a == 10:
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
 
-        if a == 10:
+        if a == 11:
             try:
                 os.system(f"cd {os.path.dirname(os.path.abspath(__file__))}")
                 os.system("git fetch")
@@ -243,7 +259,7 @@ if __name__ == "__main__":
                 print("ERROR! Check your Internet Connection!")
             time.sleep(1)
 
-        if a == 11:
+        if a == 12:
             print("Closing the application...")
             time.sleep(1)
             break
