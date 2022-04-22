@@ -25,6 +25,8 @@ More tools coming when I have time to make em.
 
 >WebhookSpammer || Spams messages to a discord webhook.
 
+>WhoIs || Looks up a domain and returns information about it.
+
 >Update || Updates the tool if new versions are available.
 
 >About || Tells you about the tool.
