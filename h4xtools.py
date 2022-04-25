@@ -40,6 +40,8 @@ def internet_check():
 
 ## IG Dox
 def igdoxed(ig_username):
+    print("\n")
+    print("\t Log in to your Instagram account if this doesn't work..! \t")
     try:
         print("\n")
         acc = dox(ig_username)
