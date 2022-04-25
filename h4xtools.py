@@ -117,7 +117,7 @@ def find_ip(ip):
 
 ## Ip scanner
 def ip_scanner(ip):
-    ip_add=socket.gethostbyname(ip)
+    ip_add = socket.gethostbyname(ip)
     for i in range (10,100,10):
         time.sleep(2)
         print("Loading", i, "%")
@@ -151,12 +151,12 @@ def webhook_spam(url, amount, message):
 ## Who is
 def whois_lookup(domain):
     try:
-        domain_info = whois.whois(domain)
-        for key, value in domain_info.items():
-            print(f"[*] {key} : \t {value}")
+        domain = whois.query(domain)
+        for key in domain.__dict__:
+            print("[*] ", key, ":", domain.__dict__[key])
     except Exception as e:
         print("[*] Error : ", e)
-        return("[*] Error : ", e)    
+        return("[*] Error : ", e)              
 
 
 if __name__ == "__main__":
@@ -261,7 +261,6 @@ if __name__ == "__main__":
 
         if a == 12:
             print("Closing the application...")
-            time.sleep(1)
             break
 
 print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")

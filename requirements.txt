@@ -4,4 +4,4 @@ requests
 beautifulsoup4
 urllib3
 pyinstaller
-python-whois
+whois
