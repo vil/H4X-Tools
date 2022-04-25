@@ -50,7 +50,7 @@ This tool is designed for Linux users, but it should work fine on Windows too.
 
 To update the tool, run `sh update.sh` if you are on Linux.
 
-If you are on Windows, run the program as usual and run the update option.
+If you are on Windows, run the program as usual (Inside the folder!!!) and run the update option.
 
 ### Only tested on Fedora 35 and Windows 10
 But it should work fine on other Linux distros and Windows 11 too.
