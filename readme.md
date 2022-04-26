@@ -1,12 +1,15 @@
 # H4XTools
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/herravp/H4X-Tools?include_prereleases&label=Version)
+[![GitHub commits](https://badgen.net/github/commits/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
+[![GitHub latest commit](https://badgen.net/github/last-commit/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
+[![GitHub stars](https://badgen.net/github/stars/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/stargazers/)
+[![GitHub forks](https://badgen.net/github/forks/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/network/)
 
 Multiple useful tools in one program.
 
 More tools coming when I have time to make em.
 
 
-![](img/gui-v0.2.png)
+![](https://github.com/HerraVp/H4X-Tools/blob/master/img/gui-v0.2.3.png)
 
 ## Current tools
 >IgDox || Scrapes information from IG accounts.
