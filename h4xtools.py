@@ -1,22 +1,11 @@
 #!/usr/bin/env python3
 
-import requests
 import os
 import time
-import random
 import sys
-import json
 from colorama import Fore
-from bs4 import BeautifulSoup
-import phonenumbers as p
-from phonenumbers import geocoder
-from phonenumbers import carrier
-import urllib
-from urllib.request import urlopen
 import socket
-import whois
-from utils.igdox import dox
-from utils import search_realname, search_username
+from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, phonenumber_lookup, websearch
 
 if os.name == "nt":
     os.system("cls")
@@ -37,129 +26,6 @@ def internet_check():
         print(Fore.RED + "\n[*] Warning! Internet Connection is Unavailable!")
         return None    
 
-## IG Dox
-def igdoxed(ig_username):
-    print("\n")
-    print("\t Log in to your Instagram account if this doesn't work..! \t")
-    try:
-        print("\n")
-        acc = dox(ig_username)
-        print("[*] Username: \t" + ig_username)
-        print("[*] Fullname: \t" + str(acc.fullname()))
-        print("[*] Profile Picture: \t" + str(acc.profile_pic()))
-        print("[*] Id : \t" + str(acc.user_id()))
-        print("[*] Url : \t" + str(acc.url()))
-        print("[*] Number of Post : \t" + str(acc.posts()))
-        print("[*] Followers : \t" + str(acc.followers()))
-        print("[*] Following : \t" + str(acc.following()))
-        print("[*] Bio : \t" + str(acc.bio()))    
-        
-        if acc.private() == False:
-            print("[*] Private Account : \t No")
-        else:
-            print("[*] Private Account : \t Yes")
-            if acc.verified() == False:
-                print("[*] Verified : \t No")
-            else:
-                print("[*] Verified : \t Yes")
-                print(acc.verified())
-                
-        print('\n')
-        return None
-    except urllib.error.HTTPError as e:
-        print("User not found")
-        return ("User not found")
-
-# Search using duckduckgo
-def web_search(query):
-    url = "https://duckduckgo.com/html/?q=" + query
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"}
-    r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.text, "html.parser")
-    results = soup.find_all("div", {"class": "result__body"})
-    for result in results:
-        title = result.find("a").text
-        url = result.find("a").get("href")
-        print("[*] Title : \t", title)
-        print("[*] Url : \t", url)
-        print("\n")
-    if title and url == None:
-        print("No results found!")
-
-
-# Phonenumber
-def number(no):
-    print("\n")
-    try:
-        ph_no = p .parse(no)
-        geo_location = geocoder.description_for_number(ph_no,'en')
-        no_carrier = carrier.name_for_number(ph_no,'en')
-        print ("[*] Country : \t", geo_location)
-        print ("[*] Sim Provider \t: ", no_carrier)
-        return None
-    except Exception :
-        print("No data were found for this number!")
-        return("No data were found for this number!")
-
-## Ip lookup
-def find_ip(ip):
-    try :
-        #ip=str(input ("Enter Ip address "))
-        url="http://ip-api.com/json/"+ip
-
-        values = json.load(urlopen(url))
-        print("[*] Ip Address : \t", values['query'])
-        print("[*] Country : \t", values['country'])
-        print("[*] City : \t", values['city'])
-        return None
-    except Exception as e:
-        print("\n Can't find any information for the given IP address ")
-        return("\n Can't find any information for the given IP address ")
-
-## Ip scanner
-def ip_scanner(ip):
-    ip_add = socket.gethostbyname(ip)
-    for i in range (10,100,10):
-        time.sleep(2)
-        print("Loading", i, "%")
-    print("\t [*] Successfully connected with the Server........!")
-    for j in range (0,5):
-        time.sleep(2)
-        print("[*] Scanning for the IP address...")
-    print ("[*] IP Address Found ...!")
-    time .sleep(5)
-    for k in range (0,4):
-        time.sleep(5)
-        print("[*] Decoding")
-    print("\t [*] IP ADDRESS OF THE WEBSITE : \t ", ip_add)
-
-## Webhook spammer
-def webhook_spam(url, amount, message):
-    data = {
-    "content" : message,
-    "username" : "H4X-Tools"
-    }
-    try:
-        for i in range(1, amount + 1):
-            requests.post(url, json=data)
-            print(f"[*] Message Sent to {url} !")
-            time.sleep(1)
-        return None
-    except requests.exceptions.HTTPError as e:
-        print("[*] Error : ", e)
-        return("[*] Error : ", e)
-
-## Who is
-def whois_lookup(domain):
-    try:
-        domain = whois.query(domain)
-        for key in domain.__dict__:
-            print("[*] ", key, ":", domain.__dict__[key])
-    except Exception as e:
-        print("[*] Error : ", e)
-        return("[*] Error : ", e)              
-
-
 if __name__ == "__main__":
     print(Fore.CYAN + """
 [+]    
@@ -169,7 +35,7 @@ if __name__ == "__main__":
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.3
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.3b
 |
 | by Vp (https://github.com/herravp)
 |
@@ -190,20 +56,22 @@ if __name__ == "__main__":
         print("[9] WhoIs              ||   [10] About")
         print("[11] Update            ||   [12] Exit")
         print("\n")
-        a = int(input("Select your option :\t"))
+
+        a = int(input("[*] Select your option : \t"))
+
         if a == 1:
             ig_username = str(input("Enter a Username : \t")).replace(" ", "_")
-            igdoxed(ig_username)
+            igdox.dox(ig_username)
             time.sleep(1)
         if a == 2:
             query = str(input("Search query : \t"))
-            web_search(query)
+            websearch.web(query)
         if a == 3:
             no = str(input("Enter a phonenumber with country code : \t"))
-            number(no)
+            phonenumber_lookup.number(no)
         if a == 4:
             ip = str(input("Enter a IP address : \t"))
-            find_ip(ip)
+            ip_lookup.find_ip(ip)
     
         if a == 5:
             username = str(input("Enter a Username : \t")).replace(" ", "_")
@@ -232,18 +100,18 @@ if __name__ == "__main__":
         if a == 7:
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
-            ip_scanner(url)
+            ip_scanner.scan(url)
 
         if a == 8:
             url = str(input("Enter a webhook url : \t"))
             amount = int(input("Enter a amount of messages : \t"))
             message = str(input("Enter a message : \t"))
-            webhook_spam(url, amount, message)
+            webhook_spammer.spam(url, amount, message)
 
         if a == 9:
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
-            whois_lookup(url)            
+            whois_lookup.lookup(url)            
 
         if a == 10:
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
@@ -256,7 +124,7 @@ if __name__ == "__main__":
                 os.system("git fetch")
                 os.system("git pull")
             except Exception as e:
-                print("ERROR! Check your Internet Connection!")
+                print("ERROR! Check your Internet Connection! And make sure to run this command in the root directory of the project!")
             time.sleep(1)
 
         if a == 12:
@@ -265,4 +133,4 @@ if __name__ == "__main__":
 
 print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
 time.sleep(1)
-print(Fore.WHITE)             
+print(Fore.RESET)             

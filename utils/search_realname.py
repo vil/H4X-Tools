@@ -1,4 +1,5 @@
 import requests
+from colorama import Fore
 
 def linkedin(name):
     url="http://linkedin.com/in/"+name.replace(" ", "-")
@@ -7,7 +8,7 @@ def linkedin(name):
         print("[*] Name found in Linkedin!")
         print(url + "\n")
     else:
-        print("Name not found in Linkedin \n")
+        print(Fore.RED + "Name not found in Linkedin \n" + Fore.RESET)
 
 def facebook(name):
     url="http://facebook.com/"+name.replace(" ", ".")
@@ -16,7 +17,7 @@ def facebook(name):
         print("[*] Name found in Facebook!")
         print(url + "\n")
     else:
-        print("Name not found in Facebook \n")
+        print(Fore.RED + "Name not found in Facebook \n" + Fore.RESET)
 
 def whitepages(name):
     url="http://whitepages.com/name/"+name.replace(" ", "-")
@@ -25,7 +26,7 @@ def whitepages(name):
         print("[*] Name found in Whitepages!")
         print(url + "\n")
     else:
-        print("Name not found in Whitepages \n")
+        print(Fore.RED + "Name not found in Whitepages \n" + Fore.RESET)
 
 def peoplefinders(name):
     url="http://peoplefinders.com/name/"+name.replace(" ", "-")
@@ -34,7 +35,7 @@ def peoplefinders(name):
         print("[*] Name found in Peoplefinders!")
         print(url + "\n")
     else:
-        print("Name not found in Peoplefinders \n")
+        print(Fore.RED + "Name not found in Peoplefinders \n" + Fore.RESET)
 
 def doxbin(name):
     url="http://doxbin.com/upload/"+name.replace(" ", "")
@@ -43,4 +44,4 @@ def doxbin(name):
         print("[*] Name found in Doxbin!")
         print(url + "\n")
     else:
-        print("Name not found in Doxbin \n")        
+        print(Fore.RED + "Name not found in Doxbin \n" + Fore.RESET)       
