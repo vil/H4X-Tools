@@ -37,9 +37,9 @@ More tools coming when I have time to make em.
 This tool is designed for Linux users, but it should work fine on Windows too.
 
 ### Windows
-1. Make sure you have [python](https://www.python.org/downloads/) installed.
+1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
-2. Download H4XTools from the [releases](https://github.com/HerraVp/H4X-Tools/releases) section.
+2. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
 
 3. Run the setup.bat file.
 
