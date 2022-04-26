@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import imp
 import requests
 import os
 import time

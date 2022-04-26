@@ -5,3 +5,6 @@ beautifulsoup4
 urllib3
 pyinstaller
 whois
+requests
+re
+socket
