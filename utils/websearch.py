@@ -12,8 +12,8 @@ class web:
         for result in results:
             title = result.find("a").text
             url = result.find("a").get("href")
-            print("[*] Title : \t", title)
-            print("[*] Url : \t", url)
+            print(f"{Fore.GREEN}[*] Title : \t", title)
+            print(f"{Fore.GREEN}[*] Url : \t", url)
             print("\n")
         if title and url == None:
             print(f"{Fore.RED}No results found!" + Fore.RESET)
