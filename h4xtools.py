@@ -50,7 +50,7 @@ if __name__ == "__main__":
     while(1):
         print(Fore.CYAN + "\n \n")
         print("[1] IGDox              ||   [2] WebSearch")
-        print("[3] Phoneloopkup       ||   [4] Iplookup")
+        print("[3] Phonelookup        ||   [4] Iplookup")
         print("[5] UsernameSearch     ||   [6] RealNameSearch")
         print("[7] IpScanner          ||   [8] WebhookSpammer")
         print("[9] WhoIs              ||   [10] About")
