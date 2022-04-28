@@ -1,11 +1,28 @@
 #!/usr/bin/env python3
 
+"""
+ Copyright (c) 2022 GNU GENERAL PUBLIC
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ """
+
 import os
 import time
 import sys
 from colorama import Fore
 import socket
-from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, phonenumber_lookup, websearch
+from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, phonenumber_lookup, websearch, smsbomber
 
 if os.name == "nt":
     os.system("cls")
@@ -35,7 +52,7 @@ if __name__ == "__main__":
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.3b
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.3b+
 |
 | by Vp (https://github.com/herravp)
 |
@@ -53,8 +70,9 @@ if __name__ == "__main__":
         print("[3] Phonelookup        ||   [4] Iplookup")
         print("[5] UsernameSearch     ||   [6] RealNameSearch")
         print("[7] IpScanner          ||   [8] WebhookSpammer")
-        print("[9] WhoIs              ||   [10] About")
-        print("[11] Update            ||   [12] Exit")
+        print("[9] WhoIs              ||   [10] SMSBomber")
+        print("[11] About             ||   [12] Update")
+        print("[13] Exit")
         print("\n")
 
         a = int(input("[*] Select your option : \t"))
@@ -111,24 +129,30 @@ if __name__ == "__main__":
         if a == 9:
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
-            whois_lookup.lookup(url)            
+            whois_lookup.lookup(url)
 
         if a == 10:
+            number = str(input("Enter mobile number : \t")).strip("+")
+            count = str(input("Enter number of Messages : \t"))
+            throttle = str(input("Enter time of sleep : \t"))
+            smsbomber.spam(number, count, throttle)
+
+        if a == 11:
             print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
 
-        if a == 11:
+        if a == 12:
             try:
                 os.system("git fetch")
                 os.system("git pull")
             except Exception as e:
-                print("ERROR! Check your Internet Connection! And make sure to run this command in the root directory of the project!")
+                print(Fore.RED + "ERROR! Check your Internet Connection! And make sure to run this command in the root directory of the project!")
             time.sleep(1)
 
-        if a == 12:
-            print("Closing the application...")
+        if a == 13:
+            print(Fore.RED + "Closing the application...")
             break
 
 print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
