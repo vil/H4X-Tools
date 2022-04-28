@@ -133,8 +133,8 @@ if __name__ == "__main__":
 
         if a == 10:
             number = str(input("Enter mobile number : \t")).strip("+")
-            count = str(input("Enter number of Messages : \t"))
-            throttle = str(input("Enter time of sleep : \t"))
+            count = int(input("Enter number of Messages : \t"))
+            throttle = int(input("Enter time of sleep : \t"))
             smsbomber.spam(number, count, throttle)
 
         if a == 11:

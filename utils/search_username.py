@@ -16,11 +16,14 @@
  """
 
 import requests
+import random
 from colorama import Fore
+from utils.randomuser import users
 
 def instagram(username):
     url="http://instagram.com/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Instagram!")
         print(url + "\n")
@@ -31,6 +34,7 @@ def instagram(username):
 def pinterest(username):
     url="http://pinterest.com/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Pinterest!")
         print(url + "\n")
@@ -40,6 +44,7 @@ def pinterest(username):
 def twitter(username):
     url="http://twitter.com/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Twitter!")
         print(url + "\n")
@@ -49,6 +54,7 @@ def twitter(username):
 def youtube(username):
     url="http://youtube.com/user/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Youtube!")
         print(url + "\n")
@@ -58,6 +64,7 @@ def youtube(username):
 def github(username):
     url="http://github.com/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Github!")
         print(url + "\n")
@@ -67,6 +74,7 @@ def github(username):
 def stackoverflow(username):
     url="http://stackoverflow.com/users/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Stackoverflow!")
         print(url + "\n")
@@ -76,6 +84,7 @@ def stackoverflow(username):
 def steam(username):
     url="http://steamcommunity.com/id/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Steam!")
         print(url + "\n")
@@ -85,6 +94,7 @@ def steam(username):
 def reddit(username):
     url="http://reddit.com/user/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Reddit!")
         print(url + "\n")
@@ -94,6 +104,7 @@ def reddit(username):
 def doxbin(username):
     url="http://doxbin.com/upload/"+username.replace(" ", "")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Doxbin!")
         print(url + "\n")
@@ -103,6 +114,7 @@ def doxbin(username):
 def tiktok(username):
     url="http://www.tiktok.com/@"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in TikTok!")
         print(url + "\n")
@@ -112,6 +124,7 @@ def tiktok(username):
 def xbox(username):
     url="http://account.xbox.com/"+username
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Xbox!")
         print(url + "\n")
@@ -121,6 +134,7 @@ def xbox(username):
 def twitch(username):
     url="http://www.twitch.tv/"+username.replace(" ", "_")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Username found in Twitch!")
         print(url + "\n")

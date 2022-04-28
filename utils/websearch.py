@@ -16,21 +16,26 @@
  """
 
 import requests
+import random
 from bs4 import BeautifulSoup
 from colorama import Fore
+from utils.randomuser import users
 
 class web:
     def __init__(self, query):
         url = "https://duckduckgo.com/html/?q=" + query
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"}
+        headers = {"User-Agent": random.choice(users)}
         r = requests.get(url, headers=headers)
+        print(headers)
         soup = BeautifulSoup(r.text, "html.parser")
         results = soup.find_all("div", {"class": "result__body"})
+
+        if r.status_code != 200:
+            print(f"{Fore.RED}No results found..!" + Fore.RESET)
+
         for result in results:
             title = result.find("a").text
             url = result.find("a").get("href")
             print(f"{Fore.GREEN}[*] Title : \t", title)
             print(f"{Fore.GREEN}[*] Url : \t", url)
             print("\n")
-        if title and url == None:
-            print(f"{Fore.RED}No results found!" + Fore.RESET)

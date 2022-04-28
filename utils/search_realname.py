@@ -16,11 +16,14 @@
  """
 
 import requests
+import random
+from utils.randomuser import users
 from colorama import Fore
 
 def linkedin(name):
     url="http://linkedin.com/in/"+name.replace(" ", "-")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Name found in Linkedin!")
         print(url + "\n")
@@ -30,6 +33,7 @@ def linkedin(name):
 def facebook(name):
     url="http://facebook.com/"+name.replace(" ", ".")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Name found in Facebook!")
         print(url + "\n")
@@ -39,6 +43,7 @@ def facebook(name):
 def whitepages(name):
     url="http://whitepages.com/name/"+name.replace(" ", "-")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Name found in Whitepages!")
         print(url + "\n")
@@ -48,6 +53,7 @@ def whitepages(name):
 def peoplefinders(name):
     url="http://peoplefinders.com/name/"+name.replace(" ", "-")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Name found in Peoplefinders!")
         print(url + "\n")
@@ -57,6 +63,7 @@ def peoplefinders(name):
 def doxbin(name):
     url="http://doxbin.com/upload/"+name.replace(" ", "")
     r = requests.get(url)
+    r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Name found in Doxbin!")
         print(url + "\n")
