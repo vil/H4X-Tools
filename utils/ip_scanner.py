@@ -21,20 +21,10 @@ from colorama import Fore
 
 class scan:
     def __init__(self, ip):
-        ip_add = socket.gethostbyname(ip)
         try:
-            for i in range (10,100,10):
-                time.sleep(2)
-                print("Loading", i, "%")
-            print(f"\t{Fore.GREEN}[*] Successfully connected with the Server........!")
-            for j in range (0,5):
-                time.sleep(2)
-                print(f"{Fore.GREEN}[*] Scanning for the IP address...")
-            print (f"{Fore.GREEN}[*] IP Address Found ...!")
-            time .sleep(5)
-            for k in range (0,4):
-                time.sleep(5)
-                print(f"{Fore.GREEN}[*] Decoding")
-            print(f"\t{Fore.GREEN}[*] IP ADDRESS OF THE WEBSITE : \t ", ip_add)
+            ip_addr = socket.gethostbyname(ip)
+            print (Fore.GREEN + f"[*] Trying to find the IP address of {ip}")
+            time.sleep(2)
+            print(f"{Fore.GREEN}[*] IP address of the website : \t ", ip_addr)
         except Exception as e:
-            print(f"\t{Fore.RED}[*] Can't connect to the server" + Fore.RESET)    
+            print(f"{Fore.RED}[*] Can't connect to the server..!" + Fore.RESET)    
