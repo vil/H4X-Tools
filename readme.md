@@ -43,13 +43,6 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 ## Setup
 This tool is designed for Linux users, but it should work fine on Windows too.
 
-### Windows
-1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
-
-2. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
-
-3. Run the setup.bat file.
-
 ### Linux
 1. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
 
@@ -59,10 +52,18 @@ To update the tool, run `sh update.sh` if you are on Linux.
 
 If you are on Windows, run the program as usual (Inside the folder!!!) and run the update option.
 
-### Only tested on Fedora 35 and Windows 10
-But it should work fine on other Linux distros and Windows 11 too.
+### Only tested on Fedora 35 and Fedora 36
+But it should work fine on other Linux distros too.
 
 If it doesnt work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
+
+
+### Windows
+1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
+
+2. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
+
+3. Run the setup.bat file.
 
 -------------------------------------------
 -------------------------------------------
