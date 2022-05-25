@@ -92,6 +92,7 @@ if __name__ == "__main__":
             ip_lookup.find_ip(ip)
     
         if a == 5:
+            print("WARNING! This feature is really broken and shows false positives!")
             username = str(input("Enter a Username : \t")).replace(" ", "_")
             print("\n")
             search_username.instagram(username)
@@ -108,6 +109,7 @@ if __name__ == "__main__":
             search_username.twitch(username)
 
         if a == 6:
+            print("WARNING! This feature is really broken and shows false positives!")
             name = str(input("Enter a name : \t"))
             search_realname.facebook(name)
             search_realname.linkedin(name)
