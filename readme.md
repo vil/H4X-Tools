@@ -24,9 +24,9 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >IpScanner || Scans an website for IP addresses.
 
->UsernameSearch || Tries to find a given username from websites like Steam and TikTok.
+>UsernameSearch (Needs a serious rewrite) || Tries to find a given username from websites like Steam and TikTok.
 
->RealnameSearch || Tries to find a given name from websites like Facebook and Linkedin.
+>RealnameSearch (Needs a serious rewrite) || Tries to find a given name from websites like Facebook and Linkedin.
 
 >WebhookSpammer || Spams messages to a discord webhook.
 
