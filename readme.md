@@ -52,7 +52,7 @@ To update the tool, run `sh update.sh` if you are on Linux.
 
 If you are on Windows, run the program as usual (Inside the folder!!!) and run the update option.
 
-### Only tested on Fedora 35 and Fedora 36
+### Only tested on Fedora (35 & 36) and Arch
 But it should work fine on other Linux distros too.
 
 If it doesnt work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
