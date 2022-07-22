@@ -23,12 +23,13 @@ from utils.randomuser import users
 
 class web:
     def __init__(self, query):
-        url = "https://duckduckgo.com/html/?q=" + query
+        url = "https://searx.org/search?q=" + query
         headers = {"User-Agent": random.choice(users)}
         r = requests.get(url, headers=headers)
         print(headers)
         soup = BeautifulSoup(r.text, "html.parser")
-        results = soup.find_all("div", {"class": "result__body"})
+        result = soup.find("div", {"id": "main_results"})
+        results = result.find_all("div", {"class": "result"})
 
         if r.status_code != 200:
             print(f"{Fore.RED}No results found..!" + Fore.RESET)
