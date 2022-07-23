@@ -16,7 +16,7 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 ## Current tools
 >IgDox || Scrapes information from IG accounts.
 
->WebSearch || Searches the web using duckduckgo for a given query.
+>WebSearch || Searches the web using searx.org for a given query.
 
 >Phonelookup || Looks up a phone number and returns information about it.
 
