@@ -129,7 +129,8 @@ if __name__ == "__main__":
             url = str(input("Enter a webhook url : \t"))
             amount = int(input("Enter a amount of messages : \t"))
             message = str(input("Enter a message : \t"))
-            webhook_spammer.spam(url, amount, message)
+            username = str(input("Enter a username : \t"))
+            webhook_spammer.spam(url, amount, message, username)
 
         if a == 9:
             url = str(input("Enter a url (Without http://) : \t"))
