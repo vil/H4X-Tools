@@ -20,8 +20,10 @@ import random
 from utils.randomuser import users
 from colorama import Fore
 
+
+# TODO: Rewrite the whole thing.
 def linkedin(name):
-    url="http://linkedin.com/in/"+name.replace(" ", "-")
+    url = "http://linkedin.com/in/" + name.replace(" ", "-")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -30,8 +32,9 @@ def linkedin(name):
     else:
         print(Fore.RED + "Name not found in Linkedin! \n" + Fore.RESET)
 
+
 def facebook(name):
-    url="http://facebook.com/"+name.replace(" ", ".")
+    url = "http://facebook.com/" + name.replace(" ", ".")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -40,8 +43,9 @@ def facebook(name):
     else:
         print(Fore.RED + "Name not found in Facebook! \n" + Fore.RESET)
 
+
 def whitepages(name):
-    url="http://whitepages.com/name/"+name.replace(" ", "-")
+    url = "http://whitepages.com/name/" + name.replace(" ", "-")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -50,8 +54,9 @@ def whitepages(name):
     else:
         print(Fore.RED + "Name not found in Whitepages! \n" + Fore.RESET)
 
+
 def peoplefinders(name):
-    url="http://peoplefinders.com/name/"+name.replace(" ", "-")
+    url = "http://peoplefinders.com/name/" + name.replace(" ", "-")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -60,12 +65,13 @@ def peoplefinders(name):
     else:
         print(Fore.RED + "Name not found in Peoplefinders! \n" + Fore.RESET)
 
+
 def doxbin(name):
-    url="http://doxbin.com/upload/"+name.replace(" ", "")
+    url = "http://doxbin.com/upload/" + name.replace(" ", "")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
         print(f"{Fore.GREEN}[*] Name found in Doxbin!")
         print(url + "\n")
     else:
-        print(Fore.RED + "Name not found in Doxbin! \n" + Fore.RESET)       
+        print(Fore.RED + "Name not found in Doxbin! \n" + Fore.RESET)

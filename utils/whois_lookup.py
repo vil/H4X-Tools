@@ -18,6 +18,7 @@
 import whois
 from colorama import Fore
 
+
 class lookup:
     def __init__(self, domain):
         try:
@@ -26,4 +27,3 @@ class lookup:
                 print(f"{Fore.GREEN}[*] ", key, ":", domain.__dict__[key])
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
-            return(f"{Fore.RED}[*] Error : ", e, Fore.RESET)

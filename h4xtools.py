@@ -22,7 +22,8 @@ import time
 import sys
 from colorama import Fore
 import socket
-from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, phonenumber_lookup, websearch, smsbomber
+from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
+    phonenumber_lookup, websearch, smsbomber
 
 if os.name == "nt":
     os.system("cls")
@@ -34,6 +35,7 @@ if os.name == "posix":
 def install(package):
     os.system(f"{sys.executable} -m pip install {package}")
 
+
 def internet_check():
     try:
         socket.create_connection(("www.google.com", 80))
@@ -41,7 +43,8 @@ def internet_check():
         return None
     except OSError:
         print(Fore.RED + "\n[*] Warning! Internet Connection is Unavailable!")
-        return None    
+        return None
+
 
 if __name__ == "__main__":
     print(Fore.CYAN + """
@@ -52,7 +55,7 @@ if __name__ == "__main__":
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.3b+
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.4
 |
 | by Vp (https://github.com/herravp)
 |
@@ -64,13 +67,13 @@ if __name__ == "__main__":
 
     internet_check()
 
-    while(1):
+    while 1:
         print(Fore.CYAN + "\n \n")
         print("[1] IGDox              ||   [2] WebSearch")
         print("[3] Phonelookup        ||   [4] Iplookup")
         print("[5] UsernameSearch     ||   [6] RealNameSearch")
         print("[7] IpScanner          ||   [8] WebhookSpammer")
-        print("[9] WhoIs              ||   [10] SMSBomber")
+        print("[9] WhoIs              ||   [10] SMSBomber (US Only!)")
         print("[11] About             ||   [12] Update")
         print("[13] Exit")
         print("\n")
@@ -90,9 +93,9 @@ if __name__ == "__main__":
         if a == 4:
             ip = str(input("Enter a IP address : \t"))
             ip_lookup.find_ip(ip)
-    
+
         if a == 5:
-            print("WARNING! This feature is really broken and shows false positives!")
+            print("WARNING! This feature is really poorly made and shows false positives!")
             username = str(input("Enter a Username : \t")).replace(" ", "_")
             print("\n")
             search_username.instagram(username)
@@ -109,7 +112,7 @@ if __name__ == "__main__":
             search_username.twitch(username)
 
         if a == 6:
-            print("WARNING! This feature is really broken and shows false positives!")
+            print("WARNING! This feature is really poorly made and shows false positives!")
             name = str(input("Enter a name : \t"))
             search_realname.facebook(name)
             search_realname.linkedin(name)
@@ -140,7 +143,8 @@ if __name__ == "__main__":
             smsbomber.spam(number, count, throttle)
 
         if a == 11:
-            print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
+            print(
+                Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
@@ -154,9 +158,9 @@ if __name__ == "__main__":
             time.sleep(1)
 
         if a == 13:
-            print(Fore.RED + "Closing the application...")
+            print(Fore.RED + "Exiting...")
             break
 
 print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
 time.sleep(1)
-print(Fore.RESET)             
+print(Fore.RESET)

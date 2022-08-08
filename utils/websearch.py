@@ -21,6 +21,7 @@ from bs4 import BeautifulSoup
 from colorama import Fore
 from utils.randomuser import users
 
+
 class web:
     def __init__(self, query):
         url = "https://searx.org/search?q=" + query
