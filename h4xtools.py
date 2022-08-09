@@ -46,7 +46,7 @@ def internet_check():
         return None
 
 
-if __name__ == "__main__":
+def main():
     print(Fore.CYAN + """
 [+]    
 |
@@ -160,8 +160,10 @@ if __name__ == "__main__":
 
         if a == 13:
             print(Fore.RED + "Exiting...")
+            print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
+            time.sleep(1)
+            print(Fore.RESET)
             break
 
-print(Fore.GREEN + "\n Thanks for using H4XTools! \n -Vp")
-time.sleep(1)
-print(Fore.RESET)
+if __name__ == '__main__':
+    main()
