@@ -30,8 +30,6 @@ class spam:
         try:
             for i in range(1, amount + 1):
                 requests.post(url, json=data)
-                print(f"{Fore.GREEN}[*] Message Sent to {url} !")
-                time.sleep(1)
-                return None
+                print(f"{Fore.GREEN}[*] {str(i)} Message Sent to {url} !")
         except requests.exceptions.HTTPError as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
