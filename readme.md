@@ -24,9 +24,9 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >IpScanner || Scans an website for IP addresses.
 
->UsernameSearch (Needs a serious rewrite) || Tries to find a given username from websites like Steam and TikTok.
+>UsernameSearch (Needs a rewrite) || Tries to find a given username from websites like Steam and TikTok.
 
->RealnameSearch (Needs a serious rewrite) || Tries to find a given name from websites like Facebook and Linkedin.
+>RealnameSearch (Needs a rewrite) || Tries to find a given name from websites like Facebook and Linkedin.
 
 >WebhookSpammer || Spams messages to a discord webhook.
 
@@ -48,15 +48,9 @@ This tool is designed for Linux users, but it should work fine on Windows too.
 
 2. Run `sh setup.sh` in terminal to install the tool.
 
-To update the tool, run `sh update.sh` if you are on Linux.
-
-If you are on Windows, run the program as usual (Inside the folder!!!) and run the update option.
-
-### Only tested on Fedora (35 & 36) and Arch
-But it should work fine on other Linux distros too.
-
 If it doesnt work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
 
+To update the tool, run `sh update.sh`.
 
 ### Windows
 1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
@@ -64,6 +58,8 @@ If it doesnt work, install the dependencies manually and start the application i
 2. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
 
 3. Run the setup.bat file.
+
+To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[11]` option.
 
 -------------------------------------------
 -------------------------------------------
