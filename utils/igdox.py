@@ -15,49 +15,38 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import requests
-import re
-import json
-import random
+from instagram_private_api import Client, ClientCompatPatch
 from colorama import Fore
 from utils.randomuser import users
 
 
-class dox:
-    def __init__(self, username):
-        link = f"https://www.instagram.com/{username}/?__a=1"
-        session = requests.session()
-        session.headers = random.choice(users)
-        response = session.get(link)
+class Dox:
+    def __init__(self, target):
+        # read username and password from igdox/username.txt and igdox/password.txt
+        try:
+            with open("igdox/username.txt", "r") as f:
+                username = f.read()
+            with open("igdox/password.txt", "r") as f:
+                password = f.read()
+        except Exception as e:
+            print(f"{Fore.RED}[*] Username or password invalid!", Fore.RESET)
+            return
 
-        if response.status_code != 200:
-            print(f"{Fore.RED}[*] IGDox : \t user not found..! {Fore.RESET}")
+        # login to instagram
+        try:
+            api = Client(username, password)
+            data = api.username_info(target)
+        except Exception as e:
+            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            return
 
-        final_process = re.sub(r'^jsonp\d+\(|\)\s+$', '', response.text)
-        self.doxed = json.loads(final_process)
-
-        data = {
-            'Profile picture': self.doxed['graphql']['user']['profile_pic_url_hd'],
-            'Username': self.doxed['graphql']['user']['username'],
-            'User ID': self.doxed['graphql']['user']['id'],
-            'External URL': self.doxed['graphql']['user']['external_url'],
-            'Bio': self.doxed['graphql']['user']['biography'],
-            'Followers': self.doxed['graphql']['user']['edge_followed_by']['count'],
-            'Following': self.doxed['graphql']['user']['edge_follow']['count'],
-            'Pronouns': self.doxed['graphql']['user']['pronouns'],
-            'Images': self.doxed['graphql']['user']['edge_owner_to_timeline_media']['count'],
-            'Videos': self.doxed['graphql']['user']['edge_felix_video_timeline']['count'],
-            'Reels': self.doxed['graphql']['user']['highlight_reel_count'],
-            'Is private?': self.doxed['graphql']['user']['is_private'],
-            'Is verified?': self.doxed['graphql']['user']['is_verified'],
-            'Is business account?': self.doxed['graphql']['user']['is_business_account'],
-            'Is professional account?': self.doxed['graphql']['user']['is_professional_account'],
-            'Is recently joined?': self.doxed['graphql']['user']['is_joined_recently'],
-            'Business category': self.doxed['graphql']['user']['business_category_name'],
-            'Category': self.doxed['graphql']['user']['category_enum'],
-            'Has guides?': self.doxed['graphql']['user']['has_guides']}
-
-        print(f"{Fore.GREEN} \n{self.doxed['graphql']['user']['full_name']} | IGDox \n")
-
-        for key, value in data.items():
-            print(f"{Fore.GREEN}[*] {key} : \t {value}")
+        # print data
+        print(f"{Fore.GREEN}[*] Username : ", data["user"]["username"])
+        print(f"{Fore.GREEN}[*] Full Name : ", data["user"]["full_name"])
+        print(f"{Fore.GREEN}[*] Biography : ", data["user"]["biography"])
+        print(f"{Fore.GREEN}[*] External Url : ", data["user"]["external_url"])
+        print(f"{Fore.GREEN}[*] Followers : ", data["user"]["follower_count"])
+        print(f"{Fore.GREEN}[*] Following : ", data["user"]["following_count"])
+        print(f"{Fore.GREEN}[*] Is Private : ", data["user"]["is_private"])
+        print(f"{Fore.GREEN}[*] Is Verified : ", data["user"]["is_verified"])
+        print(f"{Fore.GREEN}[*] Profile Pic Url : ", data["user"]["hd_profile_pic_url_info"]["url"])

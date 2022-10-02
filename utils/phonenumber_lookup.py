@@ -21,7 +21,7 @@ from phonenumbers import carrier
 from colorama import Fore
 
 
-class number:
+class Number:
     def __init__(self, no):
         print("\n")
         try:

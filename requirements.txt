@@ -6,3 +6,4 @@ urllib3
 pyinstaller
 whois
 requests
+instagram_private_api

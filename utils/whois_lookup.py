@@ -19,7 +19,7 @@ import whois
 from colorama import Fore
 
 
-class lookup:
+class Lookup:
     def __init__(self, domain):
         try:
             domain = whois.query(domain)
@@ -27,3 +27,4 @@ class lookup:
                 print(f"{Fore.GREEN}[*] ", key, ":", domain.__dict__[key])
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            return

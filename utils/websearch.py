@@ -22,7 +22,7 @@ from colorama import Fore
 from utils.randomuser import users
 
 
-class web:
+class Search:
     def __init__(self, query):
         url = "https://searx.org/search?q=" + query
         headers = {"User-Agent": random.choice(users)}

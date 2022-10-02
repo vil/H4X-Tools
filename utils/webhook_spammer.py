@@ -20,7 +20,7 @@ import time
 from colorama import Fore
 
 
-class spam:
+class Spam:
     def __init__(self, url, amount, message, username):
         data = {
             "content": message,
@@ -33,3 +33,4 @@ class spam:
                 print(f"{Fore.GREEN}[*] {str(i)} Message Sent to {url} !")
         except requests.exceptions.HTTPError as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            return

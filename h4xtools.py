@@ -55,7 +55,7 @@ def main():
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.4
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.4+
 |
 | by Vp (https://github.com/v1li)
 |
@@ -81,18 +81,40 @@ def main():
         a = int(input("[*] Select your option : \t"))
 
         if a == 1:
-            ig_username = str(input("Enter a Username : \t")).replace(" ", "_")
-            igdox.dox(ig_username)
-            time.sleep(1)
+            if not os.path.exists("igdox"):
+                os.mkdir("igdox")
+                print(Fore.RED + "[*] It appears that you are running this tool for the first time!")
+                print(Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the 'igdox' folder!")
+                print(Fore.RED + "[*] Or do you want to type your credentials now? (y/n)")
+                b = input("[*] Your answer : \t")
+                if b == "y":
+                    c = input("[*] Enter your username : \t")
+                    d = input("[*] Enter your password : \t")
+                    with open("igdox/username.txt", "w") as f:
+                        f.write(c)
+                    with open("igdox/password.txt", "w") as f:
+                        f.write(d)
+                    print(Fore.GREEN + "[*] Credentials saved!")
+                    time.sleep(2)
+                print(Fore.GREEN + "[*] Done! Now you can run the tool again!")
+
+            else:
+                # If username.txt or password.txt is empty then ask for credentials
+                if os.stat("igdox/username.txt").st_size == 0 or os.stat("igdox/password.txt").st_size == 0:
+                    print(Fore.RED + "[*] username.txt/password.txt is empty!")
+                    return
+                target = str(input("Enter a Username : \t")).replace(" ", "_")
+                igdox.Dox(target)
+                time.sleep(1)
         if a == 2:
             query = str(input("Search query : \t"))
-            websearch.web(query)
+            websearch.Search(query)
         if a == 3:
-            no = str(input("Enter a phonenumber with country code : \t"))
-            phonenumber_lookup.number(no)
+            no = str(input("Enter a phone-number with country code : \t"))
+            phonenumber_lookup.Number(no)
         if a == 4:
             ip = str(input("Enter a IP address : \t"))
-            ip_lookup.find_ip(ip)
+            ip_lookup.FindIp(ip)
 
         if a == 5:
             print("WARNING! This feature is really poorly made and shows false positives!")
@@ -123,29 +145,28 @@ def main():
         if a == 7:
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
-            ip_scanner.scan(url)
+            ip_scanner.Scan(url)
 
         if a == 8:
             url = str(input("Enter a webhook url : \t"))
             amount = int(input("Enter a amount of messages : \t"))
             message = str(input("Enter a message : \t"))
             username = str(input("Enter a username : \t"))
-            webhook_spammer.spam(url, amount, message, username)
+            webhook_spammer.Spam(url, amount, message, username)
 
         if a == 9:
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
-            whois_lookup.lookup(url)
+            whois_lookup.Lookup(url)
 
         if a == 10:
             number = str(input("Enter mobile number : \t")).strip("+")
             count = int(input("Enter number of Messages : \t"))
             throttle = int(input("Enter time of sleep : \t"))
-            smsbomber.spam(number, count, throttle)
+            smsbomber.Spam(number, count, throttle)
 
         if a == 11:
-            print(
-                Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
+            print(Fore.GREEN + "H4XTools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
@@ -164,6 +185,7 @@ def main():
             time.sleep(1)
             print(Fore.RESET)
             break
+
 
 if __name__ == '__main__':
     main()

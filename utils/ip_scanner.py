@@ -20,7 +20,7 @@ import time
 from colorama import Fore
 
 
-class scan:
+class Scan:
     def __init__(self, ip):
         try:
             ip_addr = socket.gethostbyname(ip)

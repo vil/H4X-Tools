@@ -418,7 +418,6 @@ users = [
 ]
 
 
-class randomusers:
+class RandomUsers:
     def __init__(self):
         user = random.choice(users)
-        return user
