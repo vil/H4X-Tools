@@ -1,8 +1,10 @@
 # H4XTools
-[![GitHub commits](https://badgen.net/github/commits/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
+[![GitHub commits](https://badgen.net/github/commits/V1li/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
+![](https://img.shields.io/tokei/lines/github/V1li/H4X-Tools)
+![](https://img.shields.io/github/languages/code-size/v1li/h4x-tools)
 [![GitHub latest commit](https://badgen.net/github/last-commit/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
-[![GitHub stars](https://badgen.net/github/stars/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/stargazers/)
-[![GitHub forks](https://badgen.net/github/forks/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/network/)
+[![GitHub stars](https://badgen.net/github/stars/V1li/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/stargazers/)
+[![GitHub forks](https://badgen.net/github/forks/V1li/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/network/)
 
 Multiple useful tools in one program.
 
