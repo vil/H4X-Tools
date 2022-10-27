@@ -68,7 +68,7 @@ def main():
     internet_check()
 
     while 1:
-        print(Fore.CYAN + "\n \n")
+        print(Fore.CYAN)
         print("[1] IGDox              ||   [2] WebSearch")
         print("[3] Phonelookup        ||   [4] Iplookup")
         print("[5] UsernameSearch     ||   [6] RealNameSearch")
