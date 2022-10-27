@@ -24,7 +24,7 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >Iplookup || Looks up an IP address and returns information about it.
 
->IpScanner || Scans an website for IP addresses.
+>IpScanner || Scans a website for IP addresses.
 
 >UsernameSearch (Needs a rewrite) || Tries to find a given username from websites like Steam and TikTok.
 
