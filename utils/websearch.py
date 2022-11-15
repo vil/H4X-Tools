@@ -24,20 +24,17 @@ from utils.randomuser import users
 
 class Search:
     def __init__(self, query):
-        url = "https://searx.org/search?q=" + query
+        url = "https://duckduckgo.com/html/?q=" + query
         headers = {"User-Agent": random.choice(users)}
         r = requests.get(url, headers=headers)
-        print(headers)
         soup = BeautifulSoup(r.text, "html.parser")
-        result = soup.find("div", {"id": "main_results"})
-        results = result.find_all("div", {"class": "result"})
+        results = soup.find_all("div", {"class": "result__body"})
 
-        if r.status_code != 200:
-            print(f"{Fore.RED}No results found..!" + Fore.RESET)
+        if len(results) == 0:
+            print(Fore.RED + "No results found!" + Fore.RESET)
+            return
 
         for result in results:
-            title = result.find("a").text
-            url = result.find("a").get("href")
-            print(f"{Fore.GREEN}[*] Title : \t", title)
-            print(f"{Fore.GREEN}[*] Url : \t", url)
-            print("\n")
+            title = result.find("a", {"class": "result__a"}).text
+            link = result.find("a", {"class": "result__a"})["href"]
+            print(f"{Fore.GREEN} [*] {title}{Fore.RESET} - {link}")

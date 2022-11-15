@@ -27,4 +27,3 @@ class Lookup:
                 print(f"{Fore.GREEN}[*] ", key, ":", domain.__dict__[key])
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
-            return

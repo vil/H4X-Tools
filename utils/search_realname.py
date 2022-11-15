@@ -23,7 +23,7 @@ from colorama import Fore
 
 # TODO: Rewrite the whole thing.
 def linkedin(name):
-    url = "http://linkedin.com/in/" + name.replace(" ", "-")
+    url = "https://linkedin.com/in/" + name.replace(" ", "-")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -34,7 +34,7 @@ def linkedin(name):
 
 
 def facebook(name):
-    url = "http://facebook.com/" + name.replace(" ", ".")
+    url = "https://facebook.com/" + name.replace(" ", ".")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -45,7 +45,7 @@ def facebook(name):
 
 
 def whitepages(name):
-    url = "http://whitepages.com/name/" + name.replace(" ", "-")
+    url = "https://whitepages.com/name/" + name.replace(" ", "-")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -56,7 +56,7 @@ def whitepages(name):
 
 
 def peoplefinders(name):
-    url = "http://peoplefinders.com/name/" + name.replace(" ", "-")
+    url = "https://peoplefinders.com/name/" + name.replace(" ", "-")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -64,14 +64,3 @@ def peoplefinders(name):
         print(url + "\n")
     else:
         print(Fore.RED + "Name not found in Peoplefinders! \n" + Fore.RESET)
-
-
-def doxbin(name):
-    url = "http://doxbin.com/upload/" + name.replace(" ", "")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Name found in Doxbin!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Name not found in Doxbin! \n" + Fore.RESET)

@@ -23,7 +23,7 @@ from utils.randomuser import users
 
 # TODO: Rewrite the whole thing.
 def instagram(username):
-    url = "http://instagram.com/" + username.replace(" ", "_")
+    url = "https://instagram.com/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -34,7 +34,7 @@ def instagram(username):
 
 
 def pinterest(username):
-    url = "http://pinterest.com/" + username.replace(" ", "_")
+    url = "https://pinterest.com/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -45,7 +45,7 @@ def pinterest(username):
 
 
 def twitter(username):
-    url = "http://twitter.com/" + username.replace(" ", "_")
+    url = "https://twitter.com/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -56,7 +56,7 @@ def twitter(username):
 
 
 def youtube(username):
-    url = "http://youtube.com/user/" + username.replace(" ", "_")
+    url = "https://youtube.com/user/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -67,7 +67,7 @@ def youtube(username):
 
 
 def github(username):
-    url = "http://github.com/" + username.replace(" ", "_")
+    url = "https://github.com/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -78,7 +78,7 @@ def github(username):
 
 
 def stackoverflow(username):
-    url = "http://stackoverflow.com/users/" + username.replace(" ", "_")
+    url = "https://stackoverflow.com/users/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -89,7 +89,7 @@ def stackoverflow(username):
 
 
 def steam(username):
-    url = "http://steamcommunity.com/id/" + username.replace(" ", "_")
+    url = "https://steamcommunity.com/id/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -100,7 +100,7 @@ def steam(username):
 
 
 def reddit(username):
-    url = "http://reddit.com/user/" + username.replace(" ", "_")
+    url = "https://reddit.com/user/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -109,20 +109,8 @@ def reddit(username):
     else:
         print(Fore.RED + "Username not found in Reddit! \n" + Fore.RESET)
 
-
-def doxbin(username):
-    url = "http://doxbin.com/upload/" + username.replace(" ", "")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Doxbin!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Doxbin! \n" + Fore.RESET)
-
-
 def tiktok(username):
-    url = "http://www.tiktok.com/@" + username.replace(" ", "_")
+    url = "https://www.tiktok.com/@" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
@@ -131,20 +119,8 @@ def tiktok(username):
     else:
         print(Fore.RED + "Username not found in TikTok! \n" + Fore.RESET)
 
-
-def xbox(username):
-    url = "http://account.xbox.com/" + username
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Xbox!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Xbox! \n" + Fore.RESET)
-
-
 def twitch(username):
-    url = "http://www.twitch.tv/" + username.replace(" ", "_")
+    url = "https://www.twitch.tv/" + username.replace(" ", "_")
     r = requests.get(url)
     r.headers = random.choice(users)
     if r.status_code == 200:
