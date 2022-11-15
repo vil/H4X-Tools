@@ -35,6 +35,8 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >SMSBomber || Spams messages to a given mobile number.
 
+>TLoggerGenerator || Creates a ready discord tokenlogger file. 
+
 >Update || Updates the tool if new versions are available.
 
 >About || Tells you about the tool.
