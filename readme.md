@@ -1,18 +1,18 @@
-# H4XTools
-[![GitHub commits](https://badgen.net/github/commits/V1li/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
+# H4X-Tools
+[![GitHub commits](https://badgen.net/github/commits/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/commit/)
 ![](https://img.shields.io/github/languages/code-size/v1li/h4x-tools)
-[![GitHub latest commit](https://badgen.net/github/last-commit/HerraVp/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/commit/)
-[![GitHub stars](https://badgen.net/github/stars/V1li/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/stargazers/)
-[![GitHub forks](https://badgen.net/github/forks/V1li/H4X-Tools)](https://GitHub.com/HerraVp/H4X-Tools/network/)
+[![GitHub latest commit](https://badgen.net/github/last-commit/HerraVp/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/commit/)
+[![GitHub stars](https://badgen.net/github/stars/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/stargazers/)
+[![GitHub forks](https://badgen.net/github/forks/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/network/)
 
 Multiple useful tools in one program.
 
 More tools coming when I have time to make em.
 
-If u have questions or suggestions, ask them in the [discussions page](https://github.com/HerraVp/H4X-Tools/discussions/3).
+If u have questions or suggestions, ask them in the [discussions page](https://github.com/V1li/H4X-Tools/discussions/3).
 
 
-![](https://github.com/HerraVp/H4X-Tools/blob/master/img/gui-v0.2.4plus.png?raw=true)
+![](https://github.com/v1li/H4X-Tools/blob/master/img/gui-v0.2.4plus.png?raw=true)
 
 ## Current tools
 >IgDox || Scrapes information from IG accounts.
@@ -47,7 +47,7 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 This tool is designed for Linux users, but it should work fine on Windows too.
 
 ### Linux
-1. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
+1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
 2. Run `sh setup.sh` in terminal to install the tool.
 
@@ -58,7 +58,7 @@ To update the tool, run `sh update.sh`.
 ### Windows
 1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
-2. Clone the repo `git clone https://github.com/HerraVp/H4X-Tools.git`
+2. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
 3. Run the setup.bat file.
 
