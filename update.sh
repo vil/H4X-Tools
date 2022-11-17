@@ -10,7 +10,7 @@ echo """
 ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
 ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░
 
-by Vp (https://github.com/herravp)
+by Vili (https://github.com/v1li)
 """
 
 echo Do you want to update H4XTools? [y/n]
