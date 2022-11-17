@@ -2,9 +2,8 @@
 :start
 cls
 echo --------------- H4X-Tools ----------------
-echo %date% %time%
-echo By Vp (https://github.com/herravp)
-echo
+echo By Vili (https://github.com/v1li)
+echo -------------------------------------------
 echo
 echo Installing dependencies in 3 seconds...
 timeout /t 3 /nobreak
