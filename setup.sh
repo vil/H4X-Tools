@@ -10,7 +10,7 @@ echo """
 ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
 ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░
 
-by Vp (https://github.com/herravp)
+by Vili (https://github.com/v1li)
 """
 
 echo Installing dependencies in 3 seconds...
