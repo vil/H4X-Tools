@@ -22,8 +22,10 @@ import time
 import sys
 from colorama import Fore
 import socket
+
+import utils.twitter_scraping
 from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator
+    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping
 
 if os.name == "nt":
     os.system("cls")
@@ -75,7 +77,8 @@ def main():
         print("[7] IpScanner          ||   [8] WebhookSpammer")
         print("[9] WhoIs              ||   [10] SMSBomber (US Only!)")
         print("[11] About             ||   [12] Update")
-        print("[13] TLoggerGenerator  ||   [14] Exit")
+        print("[13] TLoggerGenerator  ||   [14] Twitter Scrapy")
+        print("[15] Exit")
         print("\n")
 
         a = input("[*] Select your option : \t")
@@ -106,19 +109,19 @@ def main():
                 igdox.Dox(target)
                 time.sleep(1)
 
-        if a == "2":
+        elif a == "2":
             query = str(input("Search query : \t"))
             websearch.Search(query)
 
-        if a == "3":
+        elif a == "3":
             no = str(input("Enter a phone-number with country code : \t"))
             phonenumber_lookup.Number(no)
 
-        if a == "4":
+        elif a == "4":
             ip = str(input("Enter a IP address : \t"))
             ip_lookup.FindIp(ip)
 
-        if a == "5":
+        elif a == "5":
             print("WARNING! This feature is really poorly made and shows false positives!")
             username = str(input("Enter a Username : \t")).replace(" ", "_")
             print("\n")
@@ -133,7 +136,7 @@ def main():
             search_username.tiktok(username)
             search_username.twitch(username)
 
-        if a == "6":
+        elif a == "6":
             print("WARNING! This feature is really poorly made and shows false positives!")
             name = str(input("Enter a name : \t"))
             search_realname.facebook(name)
@@ -141,36 +144,36 @@ def main():
             search_realname.whitepages(name)
             search_realname.peoplefinders(name)
 
-        if a == "7":
+        elif a == "7":
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
             ip_scanner.Scan(url)
 
-        if a == "8":
+        elif a == "8":
             url = str(input("Enter a webhook url : \t"))
             amount = int(input("Enter a amount of messages : \t"))
             message = str(input("Enter a message : \t"))
             username = str(input("Enter a username : \t"))
             webhook_spammer.Spam(url, amount, message, username)
 
-        if a == "9":
+        elif a == "9":
             url = str(input("Enter a url (Without http://) : \t"))
             print("\n")
             whois_lookup.Lookup(url)
 
-        if a == "10":
+        elif a == "10":
             number = str(input("Enter mobile number : \t")).strip("+")
             count = int(input("Enter number of Messages : \t"))
             throttle = int(input("Enter time of sleep : \t"))
             smsbomber.Spam(number, count, throttle)
 
-        if a == "11":
+        elif a == "11":
             print(Fore.GREEN + "H4X-Tools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
 
-        if a == "12":
+        elif a == "12":
             try:
                 os.system("git fetch")
                 os.system("git pull")
@@ -178,12 +181,15 @@ def main():
                 print(Fore.RED + f"[*] Error! {e}")
             time.sleep(1)
 
-        if a == "13":
+        elif a == "13":
             print("Note! Tokenlogger only works on Windows machines!")
             webhook_url = input("Enter a webhook url : \t")
             tokenlogger_generator.Create(webhook_url)
 
-        if a == "14":
+        elif a == "14":
+            twitter_scraping.scraping_options()
+
+        elif a == "15":
             print(Fore.RED + "Exiting...")
             print(Fore.GREEN + "Thanks for using H4X-Tools! \n -Vili")
             time.sleep(1)
