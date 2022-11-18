@@ -20,13 +20,13 @@ from colorama import Fore
 from utils.randomuser import users
 
 
-class Dox:
+class Scrape:
     def __init__(self, target):
-        # read username and password from igdox/username.txt and igdox/password.txt
+        # read username and password from igscrape/username.txt and igscrape/password.txt
         try:
-            with open("igdox/username.txt", "r") as f:
+            with open("igscrape/username.txt", "r") as f:
                 username = f.read()
-            with open("igdox/password.txt", "r") as f:
+            with open("igscrape/password.txt", "r") as f:
                 password = f.read()
         except Exception as e:
             print(f"{Fore.RED}[*] Username or password invalid!", Fore.RESET)
@@ -41,6 +41,7 @@ class Dox:
             return
 
         # print data
+        print(f"{Fore.GREEN}----->Scraping data from the account {target}<-----", Fore.RESET)
         print(f"{Fore.GREEN}[*] Username : ", data["user"]["username"])
         print(f"{Fore.GREEN}[*] Full Name : ", data["user"]["full_name"])
         print(f"{Fore.GREEN}[*] Biography : ", data["user"]["biography"])

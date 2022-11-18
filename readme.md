@@ -15,29 +15,29 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 ![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5.png?raw=true)
 
 ## Current tools
->IgDox || Scrapes information from IG accounts.
+>Ig Scrape || Scrapes information from IG accounts.
 
->WebSearch || Searches the internet for the given query.
+>Web Search || Searches the internet for the given query.
 
->Phonelookup || Looks up a phone number and returns information about it.
+>Phone Lookup || Looks up a phone number and returns information about it.
 
->Iplookup || Looks up an IP address and returns information about it.
+>Ip lookup || Looks up an IP address and returns information about it.
 
->IpScanner || Scans a website for IP addresses.
+>Ip Scanner || Scans a website for IP addresses.
 
->UsernameSearch (Needs a rewrite) || Tries to find a given username from websites like Steam and TikTok.
+>Username Search (Needs a rewrite) || Tries to find a given username from websites like Steam and TikTok.
 
->RealnameSearch (Needs a rewrite) || Tries to find a given name from websites like Facebook and Linkedin.
+>Name Search (Needs a rewrite) || Tries to find a given name from websites like Facebook and Linkedin.
 
->WebhookSpammer || Spams messages to a discord webhook.
+>Webhook Spammer || Spams messages to a discord webhook.
 
 >WhoIs || Looks up a domain and returns information about it.
 
->SMSBomber || Spams messages to a given mobile number.
+>SMS Bomber || Spams messages to a given mobile number.
 
->TLoggerGenerator || Creates a ready discord tokenlogger file.
+>TLogger Generator || Creates a ready discord tokenlogger file.
 
->TwitterScrapy || Scrapes information from Twitter accounts.
+>Twitter Scrapy || Scrapes information from Twitter accounts.
 
 >Update || Updates the tool if new versions are available.
 

