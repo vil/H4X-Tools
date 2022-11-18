@@ -12,7 +12,7 @@ More tools coming when I have time to make em.
 If u have questions or suggestions, ask them in the [discussions page](https://github.com/V1li/H4X-Tools/discussions/3).
 
 
-![](https://github.com/v1li/H4X-Tools/blob/master/img/gui-v0.2.4plus.png?raw=true)
+![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5.png?raw=true)
 
 ## Current tools
 >IgDox || Scrapes information from IG accounts.
@@ -35,7 +35,9 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >SMSBomber || Spams messages to a given mobile number.
 
->TLoggerGenerator || Creates a ready discord tokenlogger file. 
+>TLoggerGenerator || Creates a ready discord tokenlogger file.
+
+>TwitterScrapy || Scrapes information from Twitter accounts.
 
 >Update || Updates the tool if new versions are available.
 
