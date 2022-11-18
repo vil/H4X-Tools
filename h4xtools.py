@@ -77,7 +77,7 @@ def main():
         print("[7] Ip Scanner         ||   [8] Webhook Spammer")
         print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
         print("[11] About             ||   [12] Update")
-        print("[13] TLogger Generator ||   [14] Twitter Scrapy")
+        print("[13] TLogger Generator ||   [14] Twitter Scrape")
         print("[15] Exit")
         print("\n")
 

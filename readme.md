@@ -37,7 +37,7 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >TLogger Generator || Creates a ready discord tokenlogger file.
 
->Twitter Scrapy || Scrapes information from Twitter accounts.
+>Twitter Scrape || Scrapes information from Twitter accounts.
 
 >Update || Updates the tool if new versions are available.
 
