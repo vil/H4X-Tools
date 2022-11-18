@@ -14,7 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
-
+import time
 import requests
 import random
 from bs4 import BeautifulSoup
@@ -34,7 +34,9 @@ class Search:
             print(Fore.RED + "No results found!" + Fore.RESET)
             return
 
+        print(f"{Fore.GREEN}[*] Searching for {query}")
+        time.sleep(1)
         for result in results:
             title = result.find("a", {"class": "result__a"}).text
             link = result.find("a", {"class": "result__a"})["href"]
-            print(f"{Fore.GREEN} [*] {title}{Fore.RESET} - {link}")
+            print(f"{Fore.GREEN}[*] {title}{Fore.RESET} - {link}")

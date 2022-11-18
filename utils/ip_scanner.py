@@ -29,3 +29,4 @@ class Scan:
             print(f"{Fore.GREEN}[*] IP address of the website : \t ", ip_addr)
         except Exception as e:
             print(f"{Fore.RED}[*] Can't connect to the server..!" + Fore.RESET)
+            print(f"{Fore.RED}[*] Detailed error : ", e)

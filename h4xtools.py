@@ -57,7 +57,7 @@ def main():
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.5
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.5+
 |
 | by Vili (https://github.com/v1li)
 |
@@ -119,7 +119,7 @@ def main():
 
         elif a == "4":
             ip = str(input("Enter a IP address : \t"))
-            ip_lookup.FindIp(ip)
+            ip_lookup.Lookup(ip)
 
         elif a == "5":
             print(f"{Fore.RED} WARNING! This feature is really poorly made and shows false positives!")
@@ -191,7 +191,7 @@ def main():
 
         elif a == "15":
             print(Fore.RED + "Exiting...")
-            print(Fore.GREEN + "Thanks for using H4X-Tools! \n -Vili")
+            print(Fore.GREEN + "Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
             time.sleep(1)
             print(Fore.RESET)
             break

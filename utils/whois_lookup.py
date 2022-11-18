@@ -24,6 +24,6 @@ class Lookup:
         try:
             domain = whois.query(domain)
             for key in domain.__dict__:
-                print(f"{Fore.GREEN}[*] ", key, ":", domain.__dict__[key])
+                print(f"{Fore.GREEN}[*] ", key, "-", domain.__dict__[key])
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
