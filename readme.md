@@ -21,7 +21,7 @@ If u have questions or suggestions, ask them in the [discussions page](https://g
 
 >Phone Lookup || Looks up a phone number and returns information about it.
 
->Ip lookup || Looks up an IP address and returns information about it.
+>Ip Lookup || Looks up an IP address and returns information about it.
 
 >Ip Scanner || Scans a website for IP addresses.
 
