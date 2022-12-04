@@ -12,7 +12,7 @@ More tools coming when I have time to make em.
 If u have questions or suggestions, ask them in the [discussions page](https://github.com/V1li/H4X-Tools/discussions/3).
 
 
-![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5.png?raw=true)
+![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5%2B.png)
 
 ## Current tools
 >Ig Scrape || Scrapes information from IG accounts.
