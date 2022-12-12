@@ -7,6 +7,7 @@ import time
     [1] Get information from an account based on the username
     [2] Get the latest tweets based on a specific query (word or sentence)
     [3] Get the latest tweets that were posted from a specific account 
+    [4] Get Twitter Trends from user's country
 """
 
 
@@ -15,8 +16,9 @@ def scraping_options():
     print("[1] Scraping a specific profile")
     print("[2] Scraping tweets based on text")
     print("[3] Scraping tweets from a specific user")
-    print("[4] Go Back to Menu ")
-    option = input("\nEnter your option (1,2,3 or 4): \t")
+    print("[4] Get Twitter Trends Of Your Country")
+    print("[5] Go Back to Menu")
+    option = input("\nEnter your option (1,2,3,4 or 5): \t")
 
     if option == "1":
         scraping_a_specific_twitter_account()
@@ -25,10 +27,13 @@ def scraping_options():
     elif option == "3":
         scraping_tweets_from_a_specific_user()
     elif option == "4":
+        scraping_twitter_trends()
+    elif option == "5":
         pass
     else:
         print(Fore.RED + "Invalid Option! Going back to the main menu")
-        time.sleep(1)
+        print(Fore.CYAN + "\n")
+        time.sleep(2)
 
 
 def scraping_a_specific_twitter_account():
@@ -41,9 +46,15 @@ def scraping_a_specific_twitter_account():
         print(f"[🔹]Profile Is Verified: {profile_data.verified}")
         print(f"[🔹]Total Followers: {profile_data.followersCount}")
         print(f"[🔹]Account Was Created on: {profile_data.created}")
+        print(f"[🔹]Account's location: {profile_data.location}")
+        print(f"[🔹]Account's profile image URL: {profile_data.profileImageUrl}")
+        print(f"[🔹]Account's banner image URL: {profile_data.profileBannerUrl}")
+        print(f"[🔹]Account's friends count (accounts they follow): {profile_data.friendsCount}")
+        print(Fore.CYAN + "\n")
         time.sleep(2)
     except (AttributeError, ValueError):
         print(Fore.RED + f"We couldn't find {username} on Twitter")
+        print(Fore.CYAN + "\n")
 
 
 def scraping_tweets_based_on_query():
@@ -62,9 +73,11 @@ def scraping_tweets_based_on_query():
                 break
         if counter == 0:
             print(Fore.RED + f"This list is empty !")
-        time.sleep(1)
+            print(Fore.CYAN + "\n")
+        time.sleep(2)
     except (AttributeError, ValueError):
         print(Fore.RED + "Please Enter a Valid Query !")
+        print(Fore.CYAN + "\n")
 
 
 def scraping_tweets_from_a_specific_user():
@@ -83,9 +96,20 @@ def scraping_tweets_from_a_specific_user():
                 break
     except (AttributeError, ValueError):
         print(Fore.RED + f"We couldn't find {username} on Twitter")
+        print(Fore.CYAN + "\n")
     if counter == 0:
         print(Fore.RED + f"This list is empty !")
-    time.sleep(1)
+        print(Fore.CYAN + "\n")
+    time.sleep(2)
+
+
+def scraping_twitter_trends():
+    all_trends = snstwitter.TwitterTrendsScraper().get_items()
+    print(Fore.MAGENTA + "Here are the trends:\n")
+    for trend in all_trends:
+        print(f"{trend.name} ----> Here is the link: {trend}")
+    print(Fore.CYAN + "\n")
+    time.sleep(2)
 
 
 def printing_tweets(tweet, no_of_tweet):
@@ -94,4 +118,18 @@ def printing_tweets(tweet, no_of_tweet):
     print(f"[🔹]Content: {tweet.content}")
     print(f"[🔹]Posted on: {tweet.date}")
     print(f"[🔹]Tweet URL: {tweet.url}")
-    print("\n")
+    print(f"[🔹]Hashtags: {tweet.hashtags}")
+    print(f"[🔹]Total Likes: {tweet.likeCount}")
+    print(f"[🔹]Total Replies: {tweet.replyCount}")
+    print(f"[🔹]Total Retweets: {tweet.retweetCount}")
+    print(f"[🔹]Mentioned Users: ", end=" ")
+    try:
+        printing_mentioned_users_from_a_tweet(tweet.mentionedUsers)
+    except TypeError:
+        print("None")
+    print(Fore.CYAN + "\n")
+
+
+def printing_mentioned_users_from_a_tweet(mentioned_users):
+    for user in mentioned_users:
+        print(user.username + " ", end="")
