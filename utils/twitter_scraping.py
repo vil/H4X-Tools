@@ -67,8 +67,6 @@ def scraping_tweets_based_on_query():
         for tweet in tweets_based_on_text:
             counter += 1
             printing_tweets(tweet, counter)
-            counter += 1
-            printing_tweets(tweet, counter)
             if counter == 100:
                 break
         if counter == 0:
