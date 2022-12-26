@@ -9,7 +9,7 @@ Multiple useful tools in one program.
 
 If you have questions or suggestions, ask them in the [discussions page](https://github.com/V1li/H4X-Tools/discussions/3).
 
-If you want to help the developtment, check the [projects page](https://github.com/users/V1li/projects/2) or simply open up a pull request.
+If you want to help the development, check the [projects page](https://github.com/users/V1li/projects/2) or simply open up a pull request.
 
 
 ![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5%2B.png)
