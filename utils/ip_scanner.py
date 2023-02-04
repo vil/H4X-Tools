@@ -25,7 +25,7 @@ class Scan:
         try:
             ip_addr = socket.gethostbyname(ip)
             print(Fore.GREEN + f"[*] Trying to find the IP address of {ip}")
-            time.sleep(2)
+            time.sleep(1)
             print(f"{Fore.GREEN}[*] IP address of the website : \t ", ip_addr)
         except Exception as e:
             print(f"{Fore.RED}[*] Can't connect to the server..!" + Fore.RESET)

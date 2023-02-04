@@ -420,4 +420,4 @@ users = [
 
 class RandomUsers:
     def __init__(self):
-        user = random.choice(users)
+        self.user_agent = random.choice(users)

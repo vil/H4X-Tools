@@ -19,16 +19,25 @@ import phonenumbers as p
 from phonenumbers import geocoder
 from phonenumbers import carrier
 from colorama import Fore
+import time
 
 
-class Number:
+class LookUp:
     def __init__(self, no):
         print("\n")
         try:
             ph_no = p.parse(no)
             geo_location = geocoder.description_for_number(ph_no, 'en')
             no_carrier = carrier.name_for_number(ph_no, 'en')
-            print(f"{Fore.GREEN}[*] Country : \t", geo_location)
-            print(f"{Fore.GREEN}[*] Sim Provider \t: ", no_carrier)
-        except Exception:
+            no_valid = p.is_valid_number(ph_no)
+            no_possible = p.is_possible_number(ph_no)
+            print(f"{Fore.GREEN}[*] Trying to find the information of {no}")
+            time.sleep(1)
+            print(f"{Fore.GREEN}[*] Valid Number -", no_valid)
+            print(f"{Fore.GREEN}[*] Possible Number -", no_possible)
+            print(f"{Fore.GREEN}[*] Country -", geo_location)
+            print(f"{Fore.GREEN}[*] Sim Provider -", no_carrier)
+            print("\n")
+
+        except Exception as e:
             print(f"{Fore.RED}No data were found for this number!" + Fore.RESET)
