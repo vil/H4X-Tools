@@ -12,7 +12,10 @@ echo """
 
 by Vili (https://github.com/v1li)
 """
-
+echo
+echo
+echo Make sure to run this in the main directory!
+echo
 echo Do you want to update H4XTools? [y/n]
 read answer
 if [ "$answer" = "y" ]; then
