@@ -40,7 +40,7 @@ class Spam:
                 req = session.post(random.choice(url))
                 time.sleep(int(throttle))
                 if req.status_code == 200:
-                    print(f"{Fore.GREEN}[*] SMSBomber - \t sent {i + 1} sms to {number}")
+                    print(f"{Fore.GREEN}[*] sent {i + 1} sms to {number}")
             except Exception as e:
-                print(f"{Fore.RED}[*] SMSBomber - \t number not found..! {e} {Fore.RESET}")
+                print(f"{Fore.RED}[*] number not found..! {e} {Fore.RESET}")
                 break

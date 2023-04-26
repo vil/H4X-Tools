@@ -22,6 +22,7 @@ import time
 import sys
 from colorama import Fore
 import socket
+import requests
 from utils import search_realname, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping
 
@@ -46,8 +47,30 @@ def internet_check():
         return None
 
 
+def version_check():
+    url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/version.txt"
+    # Get the version from the url and return it
+    try:
+        r = requests.get(url)
+        return r.text
+    except requests.exceptions.ConnectionError:
+        print(Fore.RED + "[*] Error! Couldn't connect to the server!")
+        return None
+
+
 def main():
-    print(Fore.CYAN + """
+    version = "0.2.6-pre"
+    version_from_url = version_check()
+
+    # Check if the user is using the latest version
+    if version.strip() != version_from_url.strip():
+        print(Fore.RED + f"[*] Outdated version ({version})! Please update! ({version_from_url})")
+        time.sleep(3)
+    else:
+        print(Fore.GREEN + f"[*] Up to date! ({version})")
+        time.sleep(1)
+
+    print(Fore.CYAN + f"""
 [+]    
 |
 |  ██╗░░██╗░░██╗██╗██╗░░██╗████████╗░█████╗░░█████╗░██╗░░░░░░██████╗
@@ -55,7 +78,7 @@ def main():
 |  ███████║██╔╝░██║░╚███╔╝░░░░██║░░░██║░░██║██║░░██║██║░░░░░╚█████╗░
 |  ██╔══██║███████║░██╔██╗░░░░██║░░░██║░░██║██║░░██║██║░░░░░░╚═══██╗
 |  ██║░░██║╚════██║██╔╝╚██╗░░░██║░░░╚█████╔╝╚█████╔╝███████╗██████╔╝
-|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v0.2.6
+|  ╚═╝░░╚═╝░░░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░░╚════╝░╚══════╝╚═════╝░ v{version}
 |
 | by Vili (https://vili.dev)
 |
@@ -174,7 +197,8 @@ def main():
             twitter_scraping.scraping_options()
 
         elif a == "13":
-            print(Fore.GREEN + "H4X-Tools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
+            print(
+                f"{Fore.GREEN}H4X-Tools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
@@ -183,6 +207,7 @@ def main():
             try:
                 os.system("git fetch")
                 os.system("git pull")
+                print(Fore.GREEN + "[*] Updated!")
             except Exception as e:
                 print(Fore.RED + f"[*] Error! {e}")
             time.sleep(1)

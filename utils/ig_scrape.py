@@ -41,7 +41,7 @@ class Scrape:
             return
 
         # print data
-        print(f"{Fore.GREEN}----->Scraping data from the account {target}<-----", Fore.RESET)
+        print(f"{Fore.GREEN}[*] Scraping data from the account {target}", Fore.RESET)
         print(f"{Fore.GREEN}[*] Username : ", data["user"]["username"])
         print(f"{Fore.GREEN}[*] Full Name : ", data["user"]["full_name"])
         print(f"{Fore.GREEN}[*] Biography : ", data["user"]["biography"])
