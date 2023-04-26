@@ -15,35 +15,24 @@ If you want to help the development, check the [projects page](https://github.co
 ![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5%2B.png)
 
 ## Current tools
->Ig Scrape || Scrapes information from IG accounts.
+| Tool Name                   | Description                                                              |
+|-----------------------------|--------------------------------------------------------------------------|
+| Ig Scrape                   | Scrapes information from IG accounts.                                    |
+| Web Search                  | Searches the internet for the given query.                               |
+| Phone Lookup                | Looks up a phone number and returns information about it.                |
+| Ip Lookup                   | Looks up an IP address and returns information about it.                 |
+| Ip Scanner                  | Scans a website for IP addresses.                                        |
+| ~~Username Search~~ REWRITE | ~~Tries to find a given username from websites like Steam and TikTok.~~  |
+| ~~Name Search~~ REWRITE     | ~~Tries to find a given name from websites like Facebook and Linkedin.~~ |
+| Webhook Spammer             | Spams messages to a discord webhook.                                     |
+| WhoIs                       | Looks up a domain and returns information about it.                      |
+| SMS Bomber                  | Spams messages to a given mobile number.                                 |
+| TLogger Generator           | Creates a ready discord token logger file.                               |
+| Twitter Scrape              | Scrapes information from Twitter accounts.                               |
+| Update                      | Updates the tool if new versions are available.                          |
+| About                       | Tells you about the tool.                                                |
+| Exit                        | Exits the tool.                                                          |
 
->Web Search || Searches the internet for the given query.
-
->Phone Lookup || Looks up a phone number and returns information about it.
-
->Ip Lookup || Looks up an IP address and returns information about it.
-
->Ip Scanner || Scans a website for IP addresses.
-
->Username Search (Needs a rewrite) || Tries to find a given username from websites like Steam and TikTok.
-
->Name Search (Needs a rewrite) || Tries to find a given name from websites like Facebook and Linkedin.
-
->Webhook Spammer || Spams messages to a discord webhook.
-
->WhoIs || Looks up a domain and returns information about it.
-
->SMS Bomber || Spams messages to a given mobile number.
-
->TLogger Generator || Creates a ready discord tokenlogger file.
-
->Twitter Scrape || Scrapes information from Twitter accounts.
-
->Update || Updates the tool if new versions are available.
-
->About || Tells you about the tool.
-
->Exit || Exits the tool.
 
 ## Setup
 This tool is designed for Linux users, but it should work fine on Windows too.
@@ -53,7 +42,7 @@ This tool is designed for Linux users, but it should work fine on Windows too.
 
 2. Run `sh setup.sh` in terminal to install the tool.
 
-If it doesnt work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
+If it doesn't work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
 
 To update the tool, run `sh update.sh`.
 
@@ -64,7 +53,7 @@ To update the tool, run `sh update.sh`.
 
 3. Run the setup.bat file.
 
-To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[12]` option.
+To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[14]` option.
 
 -------------------------------------------
 -------------------------------------------
