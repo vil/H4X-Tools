@@ -54,8 +54,7 @@ To update the tool, run `sh update.sh`.
 
 3. Run the setup.bat file.
 
-To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[14]` option.
+To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[15]` option.
 
--------------------------------------------
 -------------------------------------------
 THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT TO DO SOMETHING ILLEGAL!
