@@ -67,7 +67,7 @@ def main():
         print(Fore.RED + f"[*] Version mismatch! ({version}) ... Should be ({version_from_url})")
         time.sleep(3)
     else:
-        print(Fore.GREEN + f"[*] Up to date! ({version})")
+        print(Fore.GREEN + f"[*] Version matches! ({version})")
         time.sleep(1)
 
     print(Fore.CYAN + f"""
