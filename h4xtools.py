@@ -24,7 +24,7 @@ from colorama import Fore
 import socket
 import requests
 from utils import search_realname, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping
+    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping, web_scrape
 
 if os.name == "nt":
     os.system("cls")
@@ -59,12 +59,12 @@ def version_check():
 
 
 def main():
-    version = "0.2.6-pre"
+    version = "0.2.7"
     version_from_url = version_check()
 
     # Check if the user is using the latest version
     if version.strip() != version_from_url.strip():
-        print(Fore.RED + f"[*] Outdated version ({version})! Please update! ({version_from_url})")
+        print(Fore.RED + f"[*] Version mismatch! ({version}) ... Should be ({version_from_url})")
         time.sleep(3)
     else:
         print(Fore.GREEN + f"[*] Up to date! ({version})")
@@ -98,8 +98,8 @@ def main():
         print("[7] Ip Scanner         ||   [8] Webhook Spammer")
         print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
         print("[11] TLogger Generator ||   [12] Twitter Scrape")
-        print("[13] About             ||   [14] Update")
-        print("[15] Exit")
+        print("[13] Web Scrape        ||   [14] About")
+        print("[15] Update            ||   [16] Exit")
         print("\n")
 
         a = input("[*] Select your option : \t")
@@ -197,13 +197,17 @@ def main():
             twitter_scraping.scraping_options()
 
         elif a == "13":
+            url = str(input(f"{Fore.GREEN}Enter a url : \t"))
+            web_scrape.Scrape(url)
+
+        elif a == "14":
             print(
                 f"{Fore.GREEN}H4X-Tools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
             print("Or you can use it to do some other cool stuff :^) \n")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
 
-        elif a == "14":
+        elif a == "15":
             try:
                 os.system("git fetch")
                 os.system("git pull")
@@ -212,7 +216,7 @@ def main():
                 print(Fore.RED + f"[*] Error! {e}")
             time.sleep(1)
 
-        elif a == "15":
+        elif a == "16":
             print(Fore.RED + "Exiting...")
             print(Fore.GREEN + "Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
             time.sleep(1)
