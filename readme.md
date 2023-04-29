@@ -29,6 +29,7 @@ If you want to help the development, check the [projects page](https://github.co
 | SMS Bomber                  | Spams messages to a given mobile number.                                 |
 | TLogger Generator           | Creates a ready discord token logger file.                               |
 | Twitter Scrape              | Scrapes information from Twitter accounts.                               |
+| Web Scrape                  | Scrapes links from a given url.                                          |
 | Update                      | Updates the tool if new versions are available.                          |
 | About                       | Tells you about the tool.                                                |
 | Exit                        | Exits the tool.                                                          |
