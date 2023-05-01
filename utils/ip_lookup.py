@@ -41,6 +41,5 @@ class Lookup:
             print(f"{Fore.GREEN}[*] AS - ", values['as'])
 
         except Exception as e:
-            print(f"{Fore.RED}[*] Can't find any information for the given IP address!" + Fore.RESET)
-            print(f"{Fore.RED}[*] Detailed error : ", e)
-            return
+            print(f"{Fore.RED}[*] Error : ", e)
+            pass
