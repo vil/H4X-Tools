@@ -139,18 +139,8 @@ def main():
             ip_lookup.Lookup(ip)
 
         elif a == "5":
-            print(f"{Fore.RED} WARNING! This feature is really poorly made and shows false positives!")
             username = str(input(f"{Fore.GREEN}Enter a Username : \t")).replace(" ", "_")
-            search_username.instagram(username)
-            search_username.pinterest(username)
-            search_username.twitter(username)
-            search_username.youtube(username)
-            search_username.github(username)
-            search_username.stackoverflow(username)
-            search_username.steam(username)
-            search_username.reddit(username)
-            search_username.tiktok(username)
-            search_username.twitch(username)
+            search_username.Sherlock(username)
 
         elif a == "6":
             email = str(input(f"{Fore.GREEN}Enter a email address : \t"))
@@ -200,7 +190,12 @@ def main():
             try:
                 os.system("git fetch")
                 os.system("git pull")
-                print(Fore.GREEN + "[*] Updated!")
+                print(Fore.GREEN + "[*] Updated H4X-Tools. Checking for sherlock now...")
+                if os.path.exists("sherlock"):
+                    os.system("cd sherlock && git fetch && git pull")
+                    print(Fore.GREEN + "[*] Updated sherlock!")
+                else:
+                    print(Fore.RED + "[*] sherlock not found..! Have you used username search before?")
             except Exception as e:
                 print(Fore.RED + f"[*] Error! {e}")
             time.sleep(1)

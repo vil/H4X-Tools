@@ -15,116 +15,31 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import requests
-import random
 from colorama import Fore
-from utils.randomuser import users
+import os
+import sys
+
+"""
+
+Searches websites for the given username using sherlock.
+
+Thanks to sherlock team, https://github.com/sherlock-project/sherlock
+
+"""
 
 
-# TODO: Rewrite the whole thing.
-def instagram(username):
-    url = "https://instagram.com/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Instagram!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Instagram! \n" + Fore.RESET)
-
-
-def pinterest(username):
-    url = "https://pinterest.com/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Pinterest!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Pinterest! \n" + Fore.RESET)
-
-
-def twitter(username):
-    url = "https://twitter.com/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Twitter!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Twitter! \n" + Fore.RESET)
-
-
-def youtube(username):
-    url = "https://youtube.com/user/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Youtube!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Youtube! \n" + Fore.RESET)
-
-
-def github(username):
-    url = "https://github.com/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Github!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Github! \n" + Fore.RESET)
-
-
-def stackoverflow(username):
-    url = "https://stackoverflow.com/users/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Stackoverflow!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Stackoverflow! \n" + Fore.RESET)
-
-
-def steam(username):
-    url = "https://steamcommunity.com/id/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Steam!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Steam! \n" + Fore.RESET)
-
-
-def reddit(username):
-    url = "https://reddit.com/user/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Reddit!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Reddit! \n" + Fore.RESET)
-
-def tiktok(username):
-    url = "https://www.tiktok.com/@" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in TikTok!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in TikTok! \n" + Fore.RESET)
-
-def twitch(username):
-    url = "https://www.twitch.tv/" + username.replace(" ", "_")
-    r = requests.get(url)
-    r.headers = random.choice(users)
-    if r.status_code == 200:
-        print(f"{Fore.GREEN}[*] Username found in Twitch!")
-        print(url + "\n")
-    else:
-        print(Fore.RED + "Username not found in Twitch! \n" + Fore.RESET)
+class Sherlock:
+    def __init__(self, username):
+        if not os.path.exists("sherlock"):
+            print(f"{Fore.RED}[*] Installing sherlock for you...")
+            try:
+                os.system("git clone https://github.com/sherlock-project/sherlock.git")
+                print(f"{Fore.GREEN}[*] Cloned sherlock successfully. Now installing requirements.", Fore.RED)
+                os.system(f"cd sherlock && {sys.executable} -m pip install -r requirements.txt")
+                print(f"{Fore.GREEN}[*] Installed requirements successfully.")
+            except Exception as e:
+                print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+        try:
+            os.system(f"cd sherlock && {sys.executable} sherlock/sherlock.py --nsfw {username}")
+        except Exception as e:
+            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
