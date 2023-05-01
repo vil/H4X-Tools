@@ -34,8 +34,11 @@ class Sherlock:
             print(f"{Fore.RED}[*] Installing sherlock for you...")
             try:
                 os.system("git clone https://github.com/sherlock-project/sherlock.git")
-                print(f"{Fore.GREEN}[*] Cloned sherlock successfully. Now installing requirements.", Fore.RED)
-                os.system(f"cd sherlock && {sys.executable} -m pip install -r requirements.txt")
+                print(f"{Fore.GREEN}[*] Cloned sherlock successfully. Now installing requirements. Might ask for sudo password.", Fore.RED)
+                if os.name == "nt":
+                    os.system(f"cd sherlock && {sys.executable} -m pip install -r requirements.txt")
+                else:
+                    os.system(f"cd sherlock && sudo {sys.executable} -m pip install -r requirements.txt")
                 print(f"{Fore.GREEN}[*] Installed requirements successfully.")
             except Exception as e:
                 print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
