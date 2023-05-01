@@ -14,6 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
+
 from colorama import Fore
 import time
 import os
@@ -29,7 +30,10 @@ Thanks megadose, https://github.com/megadose/holehe
 
 
 def install(package):
-    os.system(f"{sys.executable} -m pip install {package}")
+    if os.name == "nt":
+        os.system(f"{sys.executable} -m pip install {package}")
+    else:
+        os.system(f"sudo {sys.executable} -m pip install {package}")
 
 
 class Holehe:
@@ -37,7 +41,7 @@ class Holehe:
         try:
             import holehe
         except ModuleNotFoundError:
-            print(f"{Fore.RED}[*] Installing holehe for you...")
+            print(f"{Fore.RED}[*] Installing holehe for you... Might ask for sudo password.")
             install("holehe")
 
         print(f"{Fore.GREEN}[*] Trying to find sites where {email} is used, thanks to holehe.")
