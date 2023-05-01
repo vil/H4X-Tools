@@ -19,11 +19,10 @@
 
 import os
 import time
-import sys
 from colorama import Fore
 import socket
 import requests
-from utils import search_realname, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
+from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping, web_scrape
 
 if os.name == "nt":
@@ -31,10 +30,6 @@ if os.name == "nt":
     os.system("title H4X-Tools")
 if os.name == "posix":
     os.system("clear")
-
-
-def install(package):
-    os.system(f"{sys.executable} -m pip install {package}")
 
 
 def internet_check():
@@ -59,7 +54,7 @@ def version_check():
 
 
 def main():
-    version = "0.2.7"
+    version = "0.2.8"
     version_from_url = version_check()
 
     # Check if the user is using the latest version
@@ -94,7 +89,7 @@ def main():
         print(Fore.CYAN)
         print("[1] IG Scrape          ||   [2] Web Search")
         print("[3] Phone Lookup       ||   [4] Ip Lookup")
-        print("[5] Username Search    ||   [6] Name Search")
+        print("[5] Username Search    ||   [6] Email Search")
         print("[7] Ip Scanner         ||   [8] Webhook Spammer")
         print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
         print("[11] TLogger Generator ||   [12] Twitter Scrape")
@@ -108,7 +103,8 @@ def main():
             if not os.path.exists("igscrape"):
                 os.mkdir("igscrape")
                 print(Fore.RED + "[*] It appears that you are running this tool for the first time!")
-                print(Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the 'igscrape' folder!")
+                print(
+                    Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the 'igscrape' folder!")
                 b = input(Fore.RED + "[*] Or do you want to type your credentials now? (y/n) : ")
                 if b == "y":
                     c = input("[*] Enter your username : \t")
@@ -139,13 +135,12 @@ def main():
             phonenumber_lookup.LookUp(no)
 
         elif a == "4":
-            ip = str(input("Enter a IP address : \t"))
+            ip = str(input("Enter a IP address / url (without http://) : \t"))
             ip_lookup.Lookup(ip)
 
         elif a == "5":
             print(f"{Fore.RED} WARNING! This feature is really poorly made and shows false positives!")
             username = str(input(f"{Fore.GREEN}Enter a Username : \t")).replace(" ", "_")
-            print("\n")
             search_username.instagram(username)
             search_username.pinterest(username)
             search_username.twitter(username)
@@ -158,16 +153,11 @@ def main():
             search_username.twitch(username)
 
         elif a == "6":
-            print(f"{Fore.RED} WARNING! This feature is really poorly made and shows false positives!")
-            name = str(input(f"{Fore.GREEN}Enter a name : \t"))
-            search_realname.facebook(name)
-            search_realname.linkedin(name)
-            search_realname.whitepages(name)
-            search_realname.peoplefinders(name)
+            email = str(input(f"{Fore.GREEN}Enter a email address : \t"))
+            email_search.Holehe(email)
 
         elif a == "7":
             url = str(input("Enter a url (Without http://) : \t"))
-            print("\n")
             ip_scanner.Scan(url)
 
         elif a == "8":
@@ -179,7 +169,6 @@ def main():
 
         elif a == "9":
             url = str(input("Enter a url (Without http://) : \t"))
-            print("\n")
             whois_lookup.Lookup(url)
 
         elif a == "10":

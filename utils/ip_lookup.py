@@ -27,7 +27,7 @@ class Lookup:
             url = "http://ip-api.com/json/" + ip
             values = json.load(urlopen(url))
 
-            print(Fore.GREEN + f"[*] Trying to find the IP address of {ip}")
+            print(Fore.GREEN + f"[*] Trying to find information for {ip}")
             time.sleep(1)
             print(f"{Fore.GREEN}[*] Ip Address - ", values['query'])
             print(f"{Fore.GREEN}[*] Country - ", values['country'])
