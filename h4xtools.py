@@ -23,7 +23,7 @@ from colorama import Fore
 import socket
 import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, twitter_scraping, web_scrape
+    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, web_scrape
 
 if os.name == "nt":
     os.system("cls")
@@ -54,7 +54,7 @@ def version_check():
 
 
 def main():
-    version = "0.2.8"
+    version = "0.2.8-b"
     version_from_url = version_check()
 
     # Check if the user is using the latest version
@@ -92,8 +92,8 @@ def main():
         print("[5] Username Search    ||   [6] Email Search")
         print("[7] Ip Scanner         ||   [8] Webhook Spammer")
         print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
-        print("[11] TLogger Generator ||   [12] Twitter Scrape")
-        print("[13] Web Scrape        ||   [14] About & Donate")
+        print("[11] TLogger Generator ||   [12] Web Scrape")
+        print("[13] About             ||   [14] Donate")
         print("[15] Update            ||   [16] Exit")
         print("\n")
 
@@ -173,21 +173,23 @@ def main():
             tokenlogger_generator.Create(webhook_url)
 
         elif a == "12":
-            twitter_scraping.scraping_options()
-
-        elif a == "13":
             url = str(input(f"{Fore.GREEN}Enter a url : \t"))
             web_scrape.Scrape(url)
 
-        elif a == "14":
+        elif a == "13":
             print(f"{Fore.GREEN}H4X-Tools, collection of multiple tools for scraping, OSINT and more.\n")
+            print(f"{Fore.GREEN}Completely open source and free to use! Feel free to contribute.\n")
+            print(f"{Fore.GREEN}Repo: https://github.com/v1li/h4x-tools\n")
+            print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
+            time.sleep(1)
+
+        elif a == "14":
             print(f"""
 If you want to support me and my work, you can donate to these addresses: \n 
 | BCH: bitcoincash:qqk9qkm7j6lc5dzjwsylnh6q3ytp8pp7yunc6tt2nv
 | BTC: bitcoin:153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
 | ETH: 153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
-""")
-            print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
+            """)
             time.sleep(1)
 
         elif a == "15":

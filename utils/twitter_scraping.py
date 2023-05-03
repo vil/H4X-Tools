@@ -15,17 +15,18 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+"""
 import snscrape.modules.twitter as snstwitter
 from colorama import Fore
 import time
 
-""" This module scrapes data from Twitter.
+    This module scrapes data from Twitter.
     Options:
     [1] Get information from an account based on the username
     [2] Get the latest tweets based on a specific query (word or sentence)
     [3] Get the latest tweets that were posted from a specific account 
     [4] Get Twitter Trends from user's country
-"""
+
 
 
 def scraping_options():
@@ -148,3 +149,4 @@ def printing_tweets(tweet, no_of_tweet):
 def printing_mentioned_users_from_a_tweet(mentioned_users):
     for user in mentioned_users:
         print(user.username + " ", end="")
+"""

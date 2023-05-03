@@ -34,7 +34,7 @@ class Search:
             print(Fore.RED + "No results found!" + Fore.RESET)
             return
 
-        print(f"{Fore.GREEN}[*] Searching for {query}")
+        print(f"{Fore.GREEN}[*] Searching for {query} -- With the agent {headers['User-Agent']}{Fore.RESET}")
         time.sleep(1)
         for result in results:
             title = result.find("a", {"class": "result__a"}).text
