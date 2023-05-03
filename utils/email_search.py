@@ -18,7 +18,7 @@
 from colorama import Fore
 import time
 import os
-import sys
+
 
 """
 
@@ -29,23 +29,8 @@ Thanks megadose, https://github.com/megadose/holehe
 """
 
 
-def install(package):
-    if os.name == "nt":
-        os.system(f"{sys.executable} -m pip install {package}")
-    else:
-        os.system(f"sudo {sys.executable} -m pip install {package}")
-
-
 class Holehe:
     def __init__(self, email):
-        try:
-            import holehe
-        except ModuleNotFoundError:
-            print(f"{Fore.RED}[*] Installing holehe for you... Might ask for sudo password.")
-            install("holehe")
-            print(f"{Fore.GREEN}[*] Installed holehe successfully! You may rerun it now.")
-            return
-
         print(f"{Fore.GREEN}[*] Trying to find sites where {email} is used, thanks to holehe.")
         time.sleep(1)
         try:

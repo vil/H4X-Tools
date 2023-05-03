@@ -19,7 +19,6 @@
 from colorama import Fore
 import time
 import os
-import sys
 
 
 """
@@ -33,23 +32,8 @@ Thanks soxoj, https://github.com/soxoj/maigret
 """
 
 
-def install(package):
-    if os.name == "nt":
-        os.system(f"{sys.executable} -m pip install {package}")
-    else:
-        os.system(f"sudo {sys.executable} -m pip install {package}")
-
-
 class Maigret:
     def __init__(self, username):
-        try:
-            import maigret
-        except ModuleNotFoundError:
-            print(f"{Fore.RED}[*] Installing maigret for you... Might ask for sudo password.")
-            install("maigret")
-            print(f"{Fore.GREEN}[*] Installed maigret successfully! You may rerun it now.")
-            return
-
         print(f"{Fore.GREEN}[*] Trying to find sites where {username} is used, thanks to maigret.")
         time.sleep(1)
         try:

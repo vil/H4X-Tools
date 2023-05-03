@@ -195,15 +195,10 @@ If you want to support me and my work, you can donate to these addresses: \n
             time.sleep(1)
 
         elif a == "15":
+            print(Fore.RED + "[*] This doesn't work if you dont run this in the git directory that you cloned!")
             try:
                 os.system("git fetch")
                 os.system("git pull")
-                print(Fore.GREEN + "[*] Updated H4X-Tools. Checking for sherlock now...")
-                if os.path.exists("sherlock"):
-                    os.system("cd sherlock && git fetch && git pull")
-                    print(Fore.GREEN + "[*] Updated sherlock!")
-                else:
-                    print(Fore.RED + "[*] sherlock not found..! Have you used username search before?")
             except Exception as e:
                 print(Fore.RED + f"[*] Error! {e}")
             time.sleep(1)

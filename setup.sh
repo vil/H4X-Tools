@@ -14,16 +14,20 @@ by Vili (https://github.com/v1li)
 """
 
 echo Installing dependencies in 3 seconds...
+echo May require sudo.
 sleep 3
 
 if pip3 --version; then
     pip3 install -r requirements.txt
+    echo Installing maigret and holehe for email and username search...
+    sleep 2
+    sudo pip3 install maigret holehe
 else
     echo python3-pip not installed, failed to install dependencies.
 fi
 
 sleep 1
-echo Making H4XTools into a linux command... Might ask for sudo password.
+echo Making H4XTools into a linux command...
 sleep 1
 
 chmod +x h4xtools.py
