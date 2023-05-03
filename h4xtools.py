@@ -100,18 +100,19 @@ def main():
         a = input("[*] Select your option : \t")
 
         if a == "1":
-            if not os.path.exists("igscrape"):
-                os.mkdir("igscrape")
+            # Check if .igscrape folder exists
+            if not os.path.exists(".igscrape"):
+                os.mkdir(".igscrape")
                 print(Fore.RED + "[*] It appears that you are running this tool for the first time!")
                 print(
-                    Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the 'igscrape' folder!")
+                    Fore.RED + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the '.igscrape' folder!")
                 b = input(Fore.RED + "[*] Or do you want to type your credentials now? (y/n) : ")
                 if b == "y":
                     c = input("[*] Enter your username : \t")
                     d = input("[*] Enter your password : \t")
-                    with open("igscrape/username.txt", "w") as f:
+                    with open(".igscrape/username.txt", "w") as f:
                         f.write(c)
-                    with open("igscrape/password.txt", "w") as f:
+                    with open(".igscrape/password.txt", "w") as f:
                         f.write(d)
                     print(Fore.GREEN + "[*] Credentials saved!")
                     time.sleep(2)
@@ -119,9 +120,10 @@ def main():
 
             else:
                 # If username.txt or password.txt is empty then ask for credentials
-                if os.stat("igscrape/username.txt").st_size == 0 or os.stat("igscrape/password.txt").st_size == 0:
+                if os.stat(".igscrape/username.txt").st_size == 0 or os.stat(".igscrape/password.txt").st_size == 0:
                     print(Fore.RED + "[*] username.txt/password.txt is empty!")
                     return
+
                 target = str(input("Enter a Username : \t")).replace(" ", "_")
                 ig_scrape.Scrape(target)
                 time.sleep(1)
@@ -140,7 +142,7 @@ def main():
 
         elif a == "5":
             username = str(input(f"{Fore.GREEN}Enter a Username : \t")).replace(" ", "_")
-            search_username.Sherlock(username)
+            search_username.Maigret(username)
 
         elif a == "6":
             email = str(input(f"{Fore.GREEN}Enter a email address : \t"))

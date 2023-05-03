@@ -43,6 +43,8 @@ class Holehe:
         except ModuleNotFoundError:
             print(f"{Fore.RED}[*] Installing holehe for you... Might ask for sudo password.")
             install("holehe")
+            print(f"{Fore.GREEN}[*] Installed holehe successfully! You may rerun it now.")
+            return
 
         print(f"{Fore.GREEN}[*] Trying to find sites where {email} is used, thanks to holehe.")
         time.sleep(1)

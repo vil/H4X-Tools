@@ -21,11 +21,11 @@ from colorama import Fore
 
 class Scrape:
     def __init__(self, target):
-        # read username and password from igscrape/username.txt and igscrape/password.txt
+        # read username and password from .igscrape/username.txt and .igscrape/password.txt
         try:
-            with open("igscrape/username.txt", "r") as f:
+            with open(".igscrape/username.txt", "r") as f:
                 username = f.read()
-            with open("igscrape/password.txt", "r") as f:
+            with open(".igscrape/password.txt", "r") as f:
                 password = f.read()
         except Exception as e:
             print(f"{Fore.RED}[*] Username or password invalid!", e, Fore.RESET)

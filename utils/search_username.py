@@ -15,34 +15,44 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+
 from colorama import Fore
+import time
 import os
 import sys
 
-"""
-
-Searches websites for the given username using sherlock.
-
-Thanks to sherlock team, https://github.com/sherlock-project/sherlock
 
 """
 
+Maigret collects a dossier on a person by username only, 
+checking for accounts on a huge number of sites and gathering all the available information from web pages. 
+No API keys required. Maigret is an easy-to-use and powerful fork of Sherlock.
 
-class Sherlock:
+Thanks soxoj, https://github.com/soxoj/maigret
+
+"""
+
+
+def install(package):
+    if os.name == "nt":
+        os.system(f"{sys.executable} -m pip install {package}")
+    else:
+        os.system(f"sudo {sys.executable} -m pip install {package}")
+
+
+class Maigret:
     def __init__(self, username):
-        if not os.path.exists("sherlock"):
-            print(f"{Fore.RED}[*] Installing sherlock for you...")
-            try:
-                os.system("git clone https://github.com/sherlock-project/sherlock.git")
-                print(f"{Fore.GREEN}[*] Cloned sherlock successfully. Now installing requirements. Might ask for sudo password.", Fore.RED)
-                if os.name == "nt":
-                    os.system(f"cd sherlock && {sys.executable} -m pip install -r requirements.txt")
-                else:
-                    os.system(f"cd sherlock && sudo {sys.executable} -m pip install -r requirements.txt")
-                print(f"{Fore.GREEN}[*] Installed requirements successfully.")
-            except Exception as e:
-                print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
         try:
-            os.system(f"cd sherlock && python3 sherlock/sherlock.py --nsfw {username}")
+            import maigret
+        except ModuleNotFoundError:
+            print(f"{Fore.RED}[*] Installing maigret for you... Might ask for sudo password.")
+            install("maigret")
+            print(f"{Fore.GREEN}[*] Installed maigret successfully! You may rerun it now.")
+            return
+
+        print(f"{Fore.GREEN}[*] Trying to find sites where {username} is used, thanks to maigret.")
+        time.sleep(1)
+        try:
+            os.system("maigret " + username)
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
