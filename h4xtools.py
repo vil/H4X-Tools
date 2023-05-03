@@ -93,7 +93,7 @@ def main():
         print("[7] Ip Scanner         ||   [8] Webhook Spammer")
         print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
         print("[11] TLogger Generator ||   [12] Twitter Scrape")
-        print("[13] Web Scrape        ||   [14] About")
+        print("[13] Web Scrape        ||   [14] About & Donate")
         print("[15] Update            ||   [16] Exit")
         print("\n")
 
@@ -180,9 +180,13 @@ def main():
             web_scrape.Scrape(url)
 
         elif a == "14":
-            print(
-                f"{Fore.GREEN}H4X-Tools is a tool that helps you to find information about any person, ip address, phonenumbers, etc.\n")
-            print("Or you can use it to do some other cool stuff :^) \n")
+            print(f"{Fore.GREEN}H4X-Tools, collection of multiple tools for scraping, OSINT and more.\n")
+            print(f"""
+If you want to support me and my work, you can donate to these addresses: \n 
+| BCH: bitcoincash:qqk9qkm7j6lc5dzjwsylnh6q3ytp8pp7yunc6tt2nv
+| BTC: bitcoin:153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
+| ETH: 153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
+""")
             print("NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
             time.sleep(1)
 
