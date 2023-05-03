@@ -28,10 +28,10 @@ If you want to help with the development, feel free to make a pull request.
 | WhoIs             | Looks up a domain and returns information about it.                                                                              |
 | SMS Bomber        | Spams messages to a given mobile number.                                                                                         |
 | TLogger Generator | Creates a ready discord token logger file.                                                                                       |
-| Twitter Scrape    | Scrapes information from Twitter accounts.                                                                                       |
 | Web Scrape        | Scrapes links from a given url.                                                                                                  |
 | Update            | Updates the tool if new versions are available.                                                                                  |
 | About             | Tells you about the tool.                                                                                                        |
+| Donate            | My crypto addresses where to donate.                                                                                             |    
 | Exit              | Exits the tool.                                                                                                                  |
 
 
