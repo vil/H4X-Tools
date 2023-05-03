@@ -15,9 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-from instagram_private_api import Client, ClientCompatPatch
+from instagram_private_api import Client
 from colorama import Fore
-from utils.randomuser import users
 
 
 class Scrape:
