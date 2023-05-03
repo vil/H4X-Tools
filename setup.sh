@@ -23,16 +23,16 @@ else
 fi
 
 sleep 1
-echo Making H4XTools into a linux command...
+echo Making H4XTools into a linux command... Might ask for sudo password.
+sleep 1
+
 chmod +x h4xtools.py
 
 if pyinstaller --version; then
     pyinstaller h4xtools.py --onefile -F
     sleep 1
-    cd dist
-    chmod +x h4xtools
-    sudo mv h4xtools /usr/local/bin/
-    cd -
+    chmod +x dist/h4xtools
+    sudo mv dist/h4xtools /usr/local/bin/
     rm h4xtools.spec
     rm build -r
     rm dist -r
@@ -43,5 +43,6 @@ if pyinstaller --version; then
     fi
 else
     echo pyinstaller not installed or in path!
+    echo This can be fixed by running: sudo pip3 install pyinstaller
 fi
 
