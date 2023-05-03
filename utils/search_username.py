@@ -43,6 +43,6 @@ class Sherlock:
             except Exception as e:
                 print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
         try:
-            os.system(f"cd sherlock && {sys.executable} sherlock/sherlock.py --nsfw {username}")
+            os.system(f"cd sherlock && python3 sherlock/sherlock.py --nsfw {username}")
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
