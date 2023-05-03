@@ -12,9 +12,9 @@ Submit requests and bugs in the [issues](https://github.com/V1li/H4X-Tools/issue
 If you want to help with the development, feel free to make a pull request.
 
 
-![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.5%2B.png)
+![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.8.png)
 
-## Current tools
+# Current tools
 | Tool Name         | Description                                                                                                                      |
 |-------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | Ig Scrape         | Scrapes information from IG accounts.                                                                                            |
@@ -35,13 +35,15 @@ If you want to help with the development, feel free to make a pull request.
 | Exit              | Exits the tool.                                                                                                                  |
 
 
-## Setup
+# Setup
 This tool is designed for Linux users, but it should work fine on Windows too.
 
 ### Linux
 1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
-2. Run `sh setup.sh` in terminal to install the tool.
+2. Change directory `cd H4X-Tools`
+
+3. Run `sh setup.sh` in terminal to install the tool.
 
 If it doesn't work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
 
@@ -52,7 +54,9 @@ To update the tool, run `sh update.sh`.
 
 2. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
-3. Run the setup.bat file.
+3. Change directory `cd H4X-Tools`
+
+4. Run the setup.bat file.
 
 To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[15]` option.
 
