@@ -59,7 +59,7 @@ To update the tool, run `sh update.sh`.
 
 4. Run the setup.bat file.
 
-To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[15]` option.
+To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[16]` option.
 
 
 ## Credits
