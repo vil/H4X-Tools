@@ -5,7 +5,7 @@
 [![GitHub stars](https://badgen.net/github/stars/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/stargazers/)
 [![GitHub forks](https://badgen.net/github/forks/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/network/)
 
-Multiple useful tools in one program.
+Toolkit for scraping, OSINT and more.
 
 Submit requests and bugs in the [issues](https://github.com/V1li/H4X-Tools/issues) tab.
 
