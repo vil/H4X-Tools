@@ -23,7 +23,7 @@ from colorama import Fore
 import socket
 import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, web_scrape
+    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, web_scrape, wifi_finder
 
 if os.name == "nt":
     os.system("cls")
@@ -101,8 +101,9 @@ def print_menu():
     print("[7] IP Scanner         ||   [8] Webhook Spammer")
     print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
     print("[11] TLogger Generator ||   [12] Web Scrape")
-    print("[13] About             ||   [14] Donate")
-    print("[15] Update            ||   [16] Exit")
+    print("[13] WiFi Finder       ||   [14] About")
+    print("[15] Donate            ||   [16] Update")
+    print("[17] Exit")
     print("\n")
 
 
@@ -206,14 +207,18 @@ def handle_web_scrape():
     web_scrape.Scrape(url)
 
 
+# Handle for WiFi finder
+def handle_wifi_finder():
+    print(f"{Fore.GREEN}Scanning for nearby WiFi networks...")
+    wifi_finder.Scan()
+
+
 # Handle for update
 def update():
-    # Check for git directory
-    if os.system("git fetch"):
-        os.system("git pull")
-        print("Run the setup file again to apply these changes!")
-    else:
-        print(f"{Fore.RED}Not a git directory!")
+    try:
+        os.system("git fetch && git pull")
+    except Exception as e:
+        print(f"{Fore.RED}", e)
 
 
 # Create a dictionary to map menu options to corresponding functions
@@ -230,9 +235,10 @@ menu_options = {
     "10": handle_sms_bomber,
     "11": handle_dtlg,
     "12": handle_web_scrape,
-    "13": print_about,
-    "14": print_donate,
-    "15": update
+    "13": handle_wifi_finder,
+    "14": print_about,
+    "15": print_donate,
+    "16": update
 }
 
 
@@ -258,7 +264,7 @@ def __main__():
         if a in menu_options:
             menu_options[a]()  # Call the corresponding function based on the selected option
             time.sleep(3)  # Sleep so user has time to see results.
-        elif a == "16":
+        elif a == "17":
             print(Fore.RED + "Exiting...")
             print(Fore.GREEN + "Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
             time.sleep(1)

@@ -1,4 +1,4 @@
-@ECHO OFF
+@echo off
 :start
 cls
 echo "    //    / /        \\ / /      /__  ___/ //   ) ) //   ) ) / /        //   ) )"
