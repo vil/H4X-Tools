@@ -24,7 +24,7 @@ import time
 class Scan:
     def __init__(self):
         if os.name == "nt":
-            print(f"{Fore.GREEN}Windows system detected..!")
+            print(f"{Fore.GREEN}Windows system detected..!\n")
             time.sleep(1)
             output = subprocess.check_output("netsh wlan show profile", shell=True)
             output = str(output)
@@ -69,7 +69,7 @@ class Scan:
                         pass
                     
         else:
-            print(f"{Fore.GREEN}Linux system detected..! May ask for sudo.")
+            print(f"{Fore.GREEN}Linux system detected..! May ask for sudo.\n")
             time.sleep(1)
             try:
                 os.system("sudo grep -r '^psk=' /etc/NetworkManager/system-connections/")
