@@ -29,7 +29,8 @@ If you want to help with the development, feel free to make a pull request.
 | SMS Bomber        | Spams messages to a given mobile number.                                                                              |
 | TLogger Generator | Creates a ready discord token logger file.                                                                            |
 | Web Scrape        | Scrapes links from a given url.                                                                                       |
-| Wifi Finder       | Scans for nearby WiFi networks.                                                                                       |
+| WiFi Finder       | Scans for nearby WiFi networks.                                                                                       |
+| WiFi Passwords    | Scans for locally saved WiFi passwords.                                                                               |
 | Update            | Updates the tool if new versions are available.                                                                       |
 | About             | Tells you about the tool.                                                                                             |
 | Donate            | My crypto addresses where to donate.                                                                                  |    

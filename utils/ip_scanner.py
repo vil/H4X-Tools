@@ -24,7 +24,7 @@ class Scan:
     def __init__(self, ip):
         try:
             ip_addr = socket.gethostbyname(ip)
-            print(Fore.GREEN + f"[*] Trying to find the IP address of {ip}")
+            print(f"{Fore.GREEN}[*] Trying to find the IP address of {ip}")
             time.sleep(1)
             print(f"{Fore.GREEN}[*] IP address of the website : \t ", ip_addr)
         except Exception as e:

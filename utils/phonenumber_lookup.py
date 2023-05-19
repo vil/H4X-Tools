@@ -38,6 +38,5 @@ class LookUp:
             print(f"{Fore.GREEN}[*] Country -", geo_location)
             print(f"{Fore.GREEN}[*] Sim Provider -", no_carrier)
             print("\n")
-
         except Exception as e:
-            print(f"{Fore.RED}No data were found for this number!" + Fore.RESET)
+            print(f"{Fore.RED}Error: ", e, Fore.RESET)

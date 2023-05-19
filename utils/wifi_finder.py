@@ -35,6 +35,6 @@ class Scan:
             try:
                 os.system("nmcli dev wifi")
             except Exception as e:
-                print(f"{Fore.RED}Error: ", e)
+                print(f"{Fore.RED}Error : ", e)
                 
             

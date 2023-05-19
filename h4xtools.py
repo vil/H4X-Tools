@@ -23,7 +23,7 @@ from colorama import Fore
 import socket
 import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, web_scrape, wifi_finder
+    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, web_scrape, wifi_finder, wifi_password_getter
 
 if os.name == "nt":
     os.system("cls")
@@ -101,9 +101,9 @@ def print_menu():
     print("[7] IP Scanner         ||   [8] Webhook Spammer")
     print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
     print("[11] TLogger Generator ||   [12] Web Scrape")
-    print("[13] WiFi Finder       ||   [14] About")
-    print("[15] Donate            ||   [16] Update")
-    print("[17] Exit")
+    print("[13] WiFi Finder       ||   [14] Saved WiFi Passwords")
+    print("[15] About             ||   [16] Donate")
+    print("[17] Update            ||   [18] Exit")
     print("\n")
 
 
@@ -213,6 +213,12 @@ def handle_wifi_finder():
     wifi_finder.Scan()
 
 
+# Handle for WiFi password getter
+def handle_wifi_password_getter():
+    print(f"{Fore.GREEN}Scanning for locally saved WiFi passwords...")
+    wifi_password_getter.Scan()
+
+
 # Handle for update
 def update():
     try:
@@ -236,9 +242,10 @@ menu_options = {
     "11": handle_dtlg,
     "12": handle_web_scrape,
     "13": handle_wifi_finder,
-    "14": print_about,
-    "15": print_donate,
-    "16": update
+    "14": handle_wifi_password_getter,
+    "15": print_about,
+    "16": print_donate,
+    "17": update
 }
 
 
@@ -264,7 +271,7 @@ def __main__():
         if a in menu_options:
             menu_options[a]()  # Call the corresponding function based on the selected option
             time.sleep(3)  # Sleep so user has time to see results.
-        elif a == "17":
+        elif a == "18":
             print(Fore.RED + "Exiting...")
             print(Fore.GREEN + "Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
             time.sleep(1)
