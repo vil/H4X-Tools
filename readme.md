@@ -12,7 +12,7 @@ Submit requests and bugs in the [issues](https://github.com/V1li/H4X-Tools/issue
 If you want to help with the development, feel free to make a pull request.
 
 
-![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.8b.png)
+![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.9.png)
 
 # Current tools
 | Tool Name         | Description                                                                                                           |

@@ -155,14 +155,20 @@ def handle_ip_lookup():
 
 # Handle for username search
 def handle_username_search():
-    username = str(input("Enter a Username : \t")).replace(" ", "_")
-    search_username.Maigret(username)
+    if os.name == "nt":
+        print(f"{Fore.RED}Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
+    else:
+        username = str(input("Enter a Username : \t")).replace(" ", "_")
+        search_username.Maigret(username)
 
 
 # Handle for email search
 def handle_email_search():
-    email = str(input("Enter a email address : \t"))
-    email_search.Holehe(email)
+    if os.name == "nt":
+        print(f"{Fore.RED}Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
+    else:
+        email = str(input("Enter a email address : \t"))
+        email_search.Holehe(email)
 
 
 # Handle for IP scanner
@@ -261,6 +267,10 @@ def __main__():
         print(Fore.GREEN + f"[*] Version matches! ({version})")
         time.sleep(1)
 
+    if os.name == "nt":
+        print(f"{Fore.RED}Windows system detected..! Some of the tools may not work properly...")
+        time.sleep(1)
+        
     while True:
         print_banner()
         time.sleep(1)
