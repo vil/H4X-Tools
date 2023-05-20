@@ -51,7 +51,7 @@ If it doesn't work, install the dependencies manually and start the application 
 
 To update the tool, run `sh update.sh`.
 
-### Windows
+### Windows (not fully supported)
 1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
 2. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
