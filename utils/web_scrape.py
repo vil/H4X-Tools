@@ -33,10 +33,12 @@ class Scrape:
             r = requests.get(url)
             r.headers = random.choice(users)
             soup = BeautifulSoup(r.text, "html.parser")
-            print(f"{Fore.GREEN}[*] Trying to scrape links from {url}")
+            count = 0
+            print(f"{Fore.GREEN}[*] Trying to scrape links from {url}.")
             time.sleep(1)
             for link in soup.find_all("a"):
-                print(f"[*] ", link.get("href"))
+                count += 1
+                print(f"[*] found {count} link(s) : ", link.get("href"))
 
         except Exception as e:
             print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
