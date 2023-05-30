@@ -12,14 +12,16 @@ by Vili (https://github.com/v1li)
 """
 
 echo Installing dependencies in 3 seconds...
-echo May require sudo.
+echo Press CTRL+C to cancel.
+echo
+echo
 sleep 3
 
 if pip3 --version; then
     pip3 install -r requirements.txt
     echo Installing maigret and holehe for email and username search...
     sleep 2
-    sudo pip3 install maigret holehe
+    pip3 install maigret holehe
 else
     echo python3-pip not installed, failed to install dependencies.
 fi
@@ -45,6 +47,6 @@ if pyinstaller --version; then
     fi
 else
     echo pyinstaller not installed or in path!
-    echo This can be fixed by running: sudo pip3 install pyinstaller
+    echo Try running the script as sudo.
 fi
 

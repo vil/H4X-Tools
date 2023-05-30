@@ -33,12 +33,12 @@ class Scan:
             substring = output[start:end]
             list_of_word = output.split()
             j = 2
-            
+
             for word in output.split():
                 if word == "Profile":
                     next_word = list_of_word[list_of_word.index(word) + j]
                     next_word = next_word.split('\\r\\n')[0]
-                    
+
                     if ':' in next_word:
                         next_word = next_word.split(':')[1]
                         if ' ' in next_word:
@@ -54,7 +54,7 @@ class Scan:
                     substring = wifi[start:end]
                     list_of_words = wifi.split()
                     j = j + 5
-                    #print(substring)
+                    # print(substring)
                     try:
                         next_word = list_of_words[list_of_words.index(key_content) + 2]
                         i = 2
@@ -67,7 +67,7 @@ class Scan:
                         print("WiFi Password : ", next_word, "\n")
                     except OSError as e:
                         pass
-                    
+
         else:
             print(f"{Fore.GREEN}Linux system detected..! May ask for sudo.\n")
             time.sleep(1)
@@ -75,4 +75,3 @@ class Scan:
                 os.system("sudo grep -r '^psk=' /etc/NetworkManager/system-connections/")
             except OSError as e:
                 print(f"{Fore.RED}Error : ", e)
-                
