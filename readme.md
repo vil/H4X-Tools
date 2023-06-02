@@ -65,7 +65,7 @@ To update the tool, run the program as usual (Inside the folder!!!) and then run
 
 ## Credits
 - [holehe](https://github.com/megadose/holehe) for the email search tool.
-- [maigret](https://github.com/soxoj/maigret) & [sherlock](https://github.com/sherlock-project/sherlock) for the username search tool.
+- [maigret](https://github.com/soxoj/maigret) for the username search tool.
 
 -------------------------------------------
 THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT TO DO SOMETHING ILLEGAL!
