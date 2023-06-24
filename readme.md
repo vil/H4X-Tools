@@ -15,26 +15,26 @@ If you want to help with the development, feel free to make a pull request.
 ![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.9.png)
 
 # Current tools
-| Tool Name         | Description                                                                                                           |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------|
-| Ig Scrape         | Scrapes information from IG accounts.                                                                                 |
-| Web Search        | Searches the internet for the given query.                                                                            |
-| Phone Lookup      | Looks up a phone number and returns information about it.                                                             |
-| Ip Lookup         | Looks up an IP address and returns information about it.                                                              |
-| Ip Scanner        | Scans a website for IP addresses.                                                                                     |
-| Username Search   | Tries to find a given username from many different websites. Thanks to [maigret.](https://github.com/soxoj/maigret)   |
-| Email Search      | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe)     |
-| Webhook Spammer   | Spams messages to a discord webhook.                                                                                  |
-| WhoIs             | Looks up a domain and returns information about it.                                                                   |
-| SMS Bomber        | Spams messages to a given mobile number.                                                                              |
-| TLogger Generator | Creates a ready discord token logger file.                                                                            |
-| Web Scrape        | Scrapes links from a given url.                                                                                       |
-| WiFi Finder       | Scans for nearby WiFi networks.                                                                                       |
-| WiFi Passwords    | Scans for locally saved WiFi passwords.                                                                               |
-| Update            | Updates the tool if new versions are available.                                                                       |
-| About             | Tells you about the tool.                                                                                             |
-| Donate            | My crypto addresses where to donate.                                                                                  |    
-| Exit              | Exits the tool.                                                                                                       |
+| Tool Name           | Description                                                                                                         |
+|---------------------|---------------------------------------------------------------------------------------------------------------------|
+| Ig Scrape           | Scrapes information from IG accounts.                                                                               |
+| Web Search          | Searches the internet for the given query.                                                                          |
+| Phone Lookup        | Looks up a phone number and returns information about it.                                                           |
+| Ip Lookup           | Looks up an IP address and returns information about it.                                                            |
+| Ip Scanner          | Scans a website for IP addresses.                                                                                   |
+| Username Search     | Tries to find a given username from many different websites. Thanks to [maigret.](https://github.com/soxoj/maigret) |
+| Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe)   |
+| Webhook Spammer     | Spams messages to a discord webhook.                                                                                |
+| WhoIs               | Looks up a domain and returns information about it.                                                                 |
+| SMS Bomber          | Spams messages to a given mobile number.                                                                            |
+| Fake Info Generator | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                          |
+| Web Scrape          | Scrapes links from a given url.                                                                                     |
+| WiFi Finder         | Scans for nearby WiFi networks.                                                                                     |
+| WiFi Passwords      | Scans for locally saved WiFi passwords.                                                                             |
+| Update              | Updates the tool if new versions are available.                                                                     |
+| About               | Tells you about the tool.                                                                                           |
+| Donate              | My crypto addresses where to donate.                                                                                |    
+| Exit                | Exits the tool.                                                                                                     |
 
 
 # Setup
@@ -61,11 +61,6 @@ To update the tool, run `sh update.sh`.
 4. Run the setup.bat file.
 
 To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[17]` option.
-
-
-## Credits
-- [holehe](https://github.com/megadose/holehe) for the email search tool.
-- [maigret](https://github.com/soxoj/maigret) for the username search tool.
 
 -------------------------------------------
 THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT TO DO SOMETHING ILLEGAL!
