@@ -21,18 +21,18 @@ import time
 import os
 
 
-"""
-
-Maigret collects a dossier on a person by username only, 
-checking for accounts on a huge number of sites and gathering all the available information from web pages. 
-No API keys required. Maigret is an easy-to-use and powerful fork of Sherlock.
-
-Thanks soxoj, https://github.com/soxoj/maigret
-
-"""
-
-
 class Maigret:
+    """
+    Maigret collects a dossier on a person by username only,
+    checking for accounts on a huge number of sites and gathering all the available information from web pages.
+    No API keys required. Maigret is an easy-to-use and powerful fork of Sherlock.
+
+    Thanks soxoj, https://github.com/soxoj/maigret
+
+    Requires to be installed externally, since this only runs the command using os.system.
+
+    :param username: The username to search for.
+    """
     def __init__(self, username):
         print(f"{Fore.GREEN}[*] Trying to find sites where {username} is used, thanks to maigret.")
         time.sleep(1)

@@ -23,6 +23,11 @@ from utils.randomuser import users
 
 
 class Search:
+    """
+    Searches for a given query on DuckDuckGo.
+
+    :param query: The query to search for.
+    """
     def __init__(self, query):
         url = "https://duckduckgo.com/html/?q=" + query
         headers = {"User-Agent": random.choice(users)}

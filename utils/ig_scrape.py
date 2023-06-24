@@ -20,6 +20,15 @@ from colorama import Fore
 
 
 class Scrape:
+    """
+    Scrapes data from an instagram account.
+
+    Requires username and password to log in to instagram.
+
+    Thanks to Instagram Private API, https://pypi.org/project/instagram-private-api/
+
+    :param target: The username of the account to scrape.
+    """
     def __init__(self, target):
         # read username and password from .igscrape/username.txt and .igscrape/password.txt
         try:

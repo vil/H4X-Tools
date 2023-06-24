@@ -21,6 +21,14 @@ from colorama import Fore
 
 
 class Spam:
+    """
+    Spams a given webhook with a given message.
+
+    :param url: The webhook url.
+    :param amount: The amount of messages to send.
+    :param message: The message to send.
+    :param username: The username of the webhook.
+    """
     def __init__(self, url, amount, message, username):
         data = {
             "content": message,

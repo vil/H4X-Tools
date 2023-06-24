@@ -419,5 +419,8 @@ users = [
 
 
 class RandomUsers:
+    """
+    Return a random user agent from the list.
+    """
     def __init__(self):
         self.user_agent = random.choice(users)

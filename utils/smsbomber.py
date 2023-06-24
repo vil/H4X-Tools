@@ -23,6 +23,15 @@ from utils.randomuser import users
 
 
 class Spam:
+    """
+    Spams the given number with the given count and throttle.
+
+    US numbers only.
+
+    :param number: The number to spam.
+    :param count: The number of times to spam.
+    :param throttle: The time interval between each spam.
+    """
     def __init__(self, number, count, throttle):
         url = ["https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20" + number,
                "https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B" + str(91) + "&nod=4&phone=" + number,

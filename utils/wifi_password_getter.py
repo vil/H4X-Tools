@@ -22,6 +22,9 @@ import time
 
 
 class Scan:
+    """
+    Scans for the saved Wi-Fi passwords on the system.
+    """
     def __init__(self):
         if os.name == "nt":
             print(f"{Fore.GREEN}Windows system detected..!\n")

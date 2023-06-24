@@ -21,6 +21,11 @@ from colorama import Fore
 
 
 class Scan:
+    """
+    Scans for an IP address of a given website.
+
+    :param ip: The website url.
+    """
     def __init__(self, ip):
         try:
             ip_addr = socket.gethostbyname(ip)

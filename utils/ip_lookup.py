@@ -22,6 +22,11 @@ from colorama import Fore
 
 
 class Lookup:
+    """
+    Gets information about a given ip address using ip-api.com.
+
+    :param ip: The ip address to search for.
+    """
     def __init__(self, ip):
         try:
             url = "http://ip-api.com/json/" + ip

@@ -20,16 +20,14 @@ import time
 import os
 
 
-"""
-
-Searches for the email address in various websites using holehe.
-
-Thanks megadose, https://github.com/megadose/holehe
-
-"""
-
-
 class Holehe:
+    """
+    Searches for the email address in various websites using holehe.
+
+    Thanks to Holehe, https://github.com/megadose/holehe
+
+    :param email: The email address to search for.
+    """
     def __init__(self, email):
         print(f"{Fore.GREEN}[*] Trying to find sites where {email} is used, thanks to holehe.")
         time.sleep(1)

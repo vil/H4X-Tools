@@ -21,6 +21,11 @@ import time
 
 
 class Scan:
+    """
+    Scans for the available Wi-Fi networks.
+
+    Requires netsh for Windows and nmcli for Linux.
+    """
     def __init__(self):
         if os.name == "nt":
             print(f"{Fore.GREEN}Windows system detected..! Doing a netsh scan...")
@@ -36,5 +41,3 @@ class Scan:
                 os.system("nmcli dev wifi")
             except Exception as e:
                 print(f"{Fore.RED}Error : ", e)
-                
-            

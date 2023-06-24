@@ -23,6 +23,11 @@ import time
 
 
 class LookUp:
+    """
+    Looks up for the information of a given phone number.
+
+    :param no: The phone number.
+    """
     def __init__(self, no):
         print("\n")
         try:

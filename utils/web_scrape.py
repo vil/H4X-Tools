@@ -22,12 +22,13 @@ import random
 from colorama import Fore
 from utils.randomuser import users
 
-"""
-Scrapes information from the given URL. 
-"""
-
 
 class Scrape:
+    """
+    Scrapes links from a given website.
+
+    :param url: The website url.
+    """
     def __init__(self, url):
         try:
             r = requests.get(url)

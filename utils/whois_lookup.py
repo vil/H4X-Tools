@@ -21,6 +21,11 @@ import time
 
 
 class Lookup:
+    """
+    Looks up for the information of a given domain.
+
+    :param domain: The domain name.
+    """
     def __init__(self, domain):
         try:
             domain = whois.query(domain)

@@ -23,7 +23,7 @@ from colorama import Fore
 import socket
 import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, tokenlogger_generator, web_scrape, wifi_finder, wifi_password_getter
+    phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator
 
 if os.name == "nt":
     os.system("cls")
@@ -31,11 +31,15 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.9"
+version = "0.2.10"
 
 
-# Check if user has internet available
 def internet_check():
+    """
+    Checks if the internet connection is available.
+
+    :return: None
+    """
     try:
         socket.create_connection(("www.google.com", 80))
         print(Fore.GREEN + "\n[*] Internet Connection is Available!")
@@ -45,8 +49,12 @@ def internet_check():
         return None
 
 
-# Checks the version from an external url
 def version_check():
+    """
+    Checks the version from an external url and returns it.
+
+    :return: version
+    """
     url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/version.txt"
     # Get the version from the url and return it
     try:
@@ -56,8 +64,10 @@ def version_check():
         print(Fore.RED + "[*] Error! Couldn't connect to the server!")
 
 
-# Banner
 def print_banner():
+    """
+    Prints the banner of H4X-Tools.
+    """
     print(Fore.CYAN + f"""
 [+]
 |
@@ -75,8 +85,10 @@ def print_banner():
     """)
 
 
-# About
 def print_about():
+    """
+    Prints the about text.
+    """
     print(f"{Fore.GREEN}H4X-Tools, collection of multiple tools for scraping, OSINT and more.\n")
     print(f"{Fore.GREEN}Completely open source and free to use! Feel free to contribute.\n")
     print(f"{Fore.GREEN}Repo: https://github.com/v1li/h4x-tools\n")
@@ -84,6 +96,9 @@ def print_about():
 
 
 def print_donate():
+    """
+    Prints the donate text.
+    """
     print(f"""{Fore.GREEN}
 If you want to support me and my work, you can donate to these addresses: \n
 | BCH: bitcoincash:qqk9qkm7j6lc5dzjwsylnh6q3ytp8pp7yunc6tt2nv
@@ -92,23 +107,27 @@ If you want to support me and my work, you can donate to these addresses: \n
             """)
 
 
-# Main menu
 def print_menu():
+    """
+    Prints the main menu of H4X-Tools.
+    """
     print(Fore.CYAN)
-    print("[1] IG Scrape          ||   [2] Web Search")
-    print("[3] Phone Lookup       ||   [4] IP Lookup")
-    print("[5] Username Search    ||   [6] Email Search")
-    print("[7] IP Scanner         ||   [8] Webhook Spammer")
-    print("[9] WhoIs              ||   [10] SMS Bomber (US Only!)")
-    print("[11] TLogger Generator ||   [12] Web Scrape")
-    print("[13] WiFi Finder       ||   [14] Saved WiFi Passwords")
-    print("[15] About             ||   [16] Donate")
-    print("[17] Update            ||   [18] Exit")
+    print("[1] IG Scrape            ||   [2] Web Search")
+    print("[3] Phone Lookup         ||   [4] IP Lookup")
+    print("[5] Username Search      ||   [6] Email Search")
+    print("[7] IP Scanner           ||   [8] Webhook Spammer")
+    print("[9] WhoIs                ||   [10] SMS Bomber (US Only!)")
+    print("[11] Fake Info Generator ||   [12] Web Scrape")
+    print("[13] WiFi Finder         ||   [14] Saved WiFi Passwords")
+    print("[15] About               ||   [16] Donate")
+    print("[17] Update              ||   [18] Exit")
     print("\n")
 
 
-# Handle for IG scrape
 def handle_ig_scrape():
+    """
+    Handles the IG Scrape util.
+    """
     if os.path.exists(".igscrape"):
         if os.stat(".igscrape/username.txt").st_size == 0 or os.stat(".igscrape/password.txt").st_size == 0:
             print(Fore.RED + "[*] username.txt/password.txt is empty!")
@@ -135,26 +154,36 @@ def handle_ig_scrape():
         print(Fore.GREEN + "[*] Done! Now you can run the tool again!")
 
 
-# Handle for web search.
 def handle_web_search():
+    """
+    Handles the Web Search util.
+    """
     query = str(input("Search query : \t"))
     websearch.Search(query)
 
 
-# Handle for Phone lookup
 def handle_phone_lookup():
+    """
+    Handles the Phone number Lookup util.
+    """
     no = str(input("Enter a phone-number with country code : \t"))
     phonenumber_lookup.LookUp(no)
 
 
-# Handle for IP lookup
 def handle_ip_lookup():
+    """
+    Handles the IP/Domain Lookup util.
+    """
     ip = str(input("Enter a IP address OR domain : \t"))
     ip_lookup.Lookup(ip)
 
 
-# Handle for username search
 def handle_username_search():
+    """
+    Handles the Username Search util.
+
+    Windows support is not available yet.
+    """
     if os.name == "nt":
         print(f"{Fore.RED}Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
     else:
@@ -162,8 +191,12 @@ def handle_username_search():
         search_username.Maigret(username)
 
 
-# Handle for email search
 def handle_email_search():
+    """
+    Handles the Email Search util.
+
+    Windows support is not available yet.
+    """
     if os.name == "nt":
         print(f"{Fore.RED}Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
     else:
@@ -171,14 +204,18 @@ def handle_email_search():
         email_search.Holehe(email)
 
 
-# Handle for IP scanner
 def handle_ip_scanner():
+    """
+    Handles the IP Scanner util.
+    """
     domain = str(input("Enter a domain : \t"))
     ip_scanner.Scan(domain)
 
 
-# Handle for Discord webhook spammer
 def handle_webhook_spammer():
+    """
+    Handles the Webhook Spammer util.
+    """
     url = str(input("Enter a webhook url : \t"))
     amount = int(input("Enter a amount of messages : \t"))
     message = str(input("Enter a message : \t"))
@@ -186,47 +223,71 @@ def handle_webhook_spammer():
     webhook_spammer.Spam(url, amount, message, username)
 
 
-# Handle for whois lookup
 def handle_whois_lookup():
+    """
+    Handles the WhoIs Lookup util.
+    """
     domain = str(input("Enter a domain : \t"))
     whois_lookup.Lookup(domain)
 
 
-# Handle for SMS bomber
 def handle_sms_bomber():
+    """
+    Handles the SMS Bomber util.
+
+    Currently only works for US numbers.
+    """
     number = str(input("Enter mobile number : \t")).strip("+")
     count = int(input("Enter number of Messages : \t"))
     throttle = int(input("Enter time of sleep : \t"))
     smsbomber.Spam(number, count, throttle)
 
 
-# Handle for Discord token logger generator
+""" 
+Deprecated
+
 def handle_dtlg():
     print(f"{Fore.RED}Note! Tokenlogger only works on Windows machines!")
     webhook_url = input(f"{Fore.GREEN}Enter a webhook url : \t")
     tokenlogger_generator.Create(webhook_url)
+"""
 
 
-# Handle for web scrape
+def handle_fake_info_generator():
+    """
+    Handles the Fake Info Generator util.
+    """
+    fake_info_generator.Generate()
+
+
 def handle_web_scrape():
+    """
+    Handles the Web Scrape util.
+    """
     url = str(input(f"Enter a url : \t"))
     web_scrape.Scrape(url)
 
 
-# Handle for WiFi finder
 def handle_wifi_finder():
+    """
+    Handles the Wi-Fi Finder util.
+    """
     print(f"{Fore.GREEN}Scanning for nearby WiFi networks...")
     wifi_finder.Scan()
 
 
-# Handle for WiFi password getter
 def handle_wifi_password_getter():
+    """
+    Handles the Wi-Fi Password Getter util.
+    """
     print(f"{Fore.GREEN}Scanning for locally saved WiFi passwords...")
     wifi_password_getter.Scan()
 
 
-# Handle for update
 def update():
+    """
+    Performs a git fetch and a git pull to update the tool.
+    """
     try:
         os.system("git fetch && git pull")
     except Exception as e:
@@ -245,7 +306,7 @@ menu_options = {
     "8": handle_webhook_spammer,
     "9": handle_whois_lookup,
     "10": handle_sms_bomber,
-    "11": handle_dtlg,
+    "11": handle_fake_info_generator,
     "12": handle_web_scrape,
     "13": handle_wifi_finder,
     "14": handle_wifi_password_getter,
@@ -255,8 +316,10 @@ menu_options = {
 }
 
 
-# Main
 def __main__():
+    """
+    Main function.
+    """
     version_from_url = version_check()
     # Check if the user is using the latest version
     if version.strip() != version_from_url.strip():
@@ -270,7 +333,7 @@ def __main__():
     if os.name == "nt":
         print(f"{Fore.RED}Windows system detected..! Some of the tools may not work properly...")
         time.sleep(1)
-        
+
     while True:
         print_banner()
         time.sleep(1)
