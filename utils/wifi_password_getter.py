@@ -31,48 +31,29 @@ class Scan:
         if os.name == "nt":
             printer.info("Windows system detected..!")
             time.sleep(1)
-            output = subprocess.check_output("netsh wlan show profile", shell=True)
-            output = str(output)
-            start = output.find("Profile :")
-            end = output.find("\\r\\n")
-            substring = output[start:end]
-            list_of_word = output.split()
-            j = 2
 
-            for word in output.split():
-                if word == "Profile":
-                    next_word = list_of_word[list_of_word.index(word) + j]
-                    next_word = next_word.split('\\r\\n')[0]
+            output = subprocess.check_output("netsh wlan show profile", shell=True).decode("utf-8")
+            profiles = output.split("User Profile")[1:]
 
-                    if ':' in next_word:
-                        next_word = next_word.split(':')[1]
-                        if ' ' in next_word:
-                            next_word = next_word.replace(' ', "")
-                            # print(next_word)
-                    wifi = subprocess.check_output('netsh wlan show profile ' + '"' + next_word + '"' + ' key=clear',
-                                                   shell=True)
-                    printer.success("Wi-Fi Name : ", next_word)
-                    wifi = str(wifi)
-                    start = wifi.find("Key Content")
-                    end = wifi.find("Cost settings")
-                    key_content = "Content"
-                    substring = wifi[start:end]
-                    list_of_words = wifi.split()
-                    j = j + 5
-                    # print(substring)
-                    try:
-                        next_word = list_of_words[list_of_words.index(key_content) + 2]
-                        i = 2
-                        for words in wifi.split():
-                            if words == "Content":
-                                next_word = list_of_words[list_of_words.index(key_content) + i]
-                                next_word = next_word.split('\\r\\n\\r\\nCost')[0]
-                                next_word = next_word.replace(' ', "\\ ")
-                                i = i + 5
-                        printer.success("Wi-Fi Password : ", next_word, "\n")
-                    except OSError as e:
-                        printer.error(f"Error : ", e)
-                        pass
+            for profile in profiles:
+                profile_name = profile.split(":")[1].strip()
+                printer.success("Wi-Fi Name: ", profile_name)
+
+                try:
+                    wifi_info = subprocess.check_output(
+                        'netsh wlan show profile name="' + profile_name + '" key=clear', shell=True
+                    ).decode("utf-8")
+
+                    password_index = wifi_info.find("Key Content")
+                    if password_index != -1:
+                        password_start = password_index + len("Key Content") + 2
+                        password = wifi_info[password_start:].split("\r\n")[0].strip()
+                        printer.success("Wi-Fi Password: ", password, "\n")
+                    else:
+                        printer.warning("No Wi-Fi password found.")
+                except subprocess.CalledProcessError as e:
+                    printer.error("Error retrieving Wi-Fi information: ", str(e))
+                    pass
 
         else:
             printer.info(f"Linux system detected..!\n")
