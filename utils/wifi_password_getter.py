@@ -65,7 +65,8 @@ class Scan:
                     password_output = subprocess.check_output(
                         ['nmcli', '-s', '-g', '802-11-wireless-security.psk', 'connection', 'show', uuid])
                     password = password_output.decode().strip()
-                    printer.success(f"SSID: {ssid}\nPassword: {password}\n")
+                    printer.success(f"SSID: {ssid}")
+                    printer.success(f"Password: {password}\n")
 
             except OSError as e:
                 printer.error("Is your system using nmcli?")
