@@ -18,6 +18,7 @@
 from colorama import Fore
 import time
 import os
+from helper import printer
 
 
 class Holehe:
@@ -29,9 +30,9 @@ class Holehe:
     :param email: The email address to search for.
     """
     def __init__(self, email):
-        print(f"{Fore.GREEN}[*] Trying to find sites where {email} is used, thanks to holehe.")
+        printer.info(f"Trying to find sites where {email} is used, thanks to holehe.")
         time.sleep(1)
         try:
             os.system("holehe " + email)
         except Exception as e:
-            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            printer.error(f"Error: {e}")

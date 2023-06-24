@@ -16,7 +16,8 @@
  """
 
 from instagram_private_api import Client
-from colorama import Fore
+from helper import printer
+import time
 
 
 class Scrape:
@@ -37,7 +38,7 @@ class Scrape:
             with open(".igscrape/password.txt", "r") as f:
                 password = f.read()
         except Exception as e:
-            print(f"{Fore.RED}[*] Username or password invalid!", e, Fore.RESET)
+            printer.error(f"Invalid username or password..! {e}")
             return
 
         # login to instagram
@@ -45,17 +46,18 @@ class Scrape:
             api = Client(username, password)
             data = api.username_info(target)
         except Exception as e:
-            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            printer.error(f"Error : {e}")
             return
 
         # print data
-        print(f"{Fore.GREEN}[*] Scraping data from the account {target}", Fore.RESET)
-        print(f"{Fore.GREEN}[*] Username : ", data["user"]["username"])
-        print(f"{Fore.GREEN}[*] Full Name : ", data["user"]["full_name"])
-        print(f"{Fore.GREEN}[*] Biography : ", data["user"]["biography"])
-        print(f"{Fore.GREEN}[*] External Url : ", data["user"]["external_url"])
-        print(f"{Fore.GREEN}[*] Followers : ", data["user"]["follower_count"])
-        print(f"{Fore.GREEN}[*] Following : ", data["user"]["following_count"])
-        print(f"{Fore.GREEN}[*] Is Private : ", data["user"]["is_private"])
-        print(f"{Fore.GREEN}[*] Is Verified : ", data["user"]["is_verified"])
-        print(f"{Fore.GREEN}[*] Profile Pic Url : ", data["user"]["hd_profile_pic_url_info"]["url"])
+        printer.info(f"Scraping data from the account {target}")
+        time.sleep(1)
+        printer.success(f"Username : ", data["user"]["username"])
+        printer.success(f"Full Name : ", data["user"]["full_name"])
+        printer.success(f"Biography : ", data["user"]["biography"])
+        printer.success(f"External Url : ", data["user"]["external_url"])
+        printer.success(f"Followers : ", data["user"]["follower_count"])
+        printer.success(f"Following : ", data["user"]["following_count"])
+        printer.success(f"Is Private : ", data["user"]["is_private"])
+        printer.success(f"Is Verified : ", data["user"]["is_verified"])
+        printer.success(f"Profile Pic Url : ", data["user"]["hd_profile_pic_url_info"]["url"])

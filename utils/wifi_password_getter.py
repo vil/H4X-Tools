@@ -17,7 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
 import subprocess
-from colorama import Fore
+import re
+from helper import printer
 import time
 
 
@@ -25,9 +26,10 @@ class Scan:
     """
     Scans for the saved Wi-Fi passwords on the system.
     """
+
     def __init__(self):
         if os.name == "nt":
-            print(f"{Fore.GREEN}Windows system detected..!\n")
+            printer.info("Windows system detected..!")
             time.sleep(1)
             output = subprocess.check_output("netsh wlan show profile", shell=True)
             output = str(output)
@@ -46,10 +48,10 @@ class Scan:
                         next_word = next_word.split(':')[1]
                         if ' ' in next_word:
                             next_word = next_word.replace(' ', "")
-                            print(next_word)
+                            # print(next_word)
                     wifi = subprocess.check_output('netsh wlan show profile ' + '"' + next_word + '"' + ' key=clear',
                                                    shell=True)
-                    print("WiFi Name : ", next_word)
+                    printer.success("Wi-Fi Name : ", next_word)
                     wifi = str(wifi)
                     start = wifi.find("Key Content")
                     end = wifi.find("Cost settings")
@@ -67,14 +69,24 @@ class Scan:
                                 next_word = next_word.split('\\r\\n\\r\\nCost')[0]
                                 next_word = next_word.replace(' ', "\\ ")
                                 i = i + 5
-                        print("WiFi Password : ", next_word, "\n")
+                        printer.success("Wi-Fi Password : ", next_word, "\n")
                     except OSError as e:
+                        printer.error(f"Error : ", e)
                         pass
 
         else:
-            print(f"{Fore.GREEN}Linux system detected..! May ask for sudo.\n")
+            printer.info(f"Linux system detected..!\n")
             time.sleep(1)
             try:
-                os.system("sudo grep -r '^psk=' /etc/NetworkManager/system-connections/")
+                output = subprocess.check_output(['nmcli', '-f', 'NAME,UUID', 'connection', 'show', '--active'])
+                connections = re.findall(r'(\S+)\s+([0-9a-f-]{36})', output.decode())
+                for ssid, uuid in connections:
+                    password_output = subprocess.check_output(
+                        ['nmcli', '-s', '-g', '802-11-wireless-security.psk', 'connection', 'show', uuid])
+                    password = password_output.decode().strip()
+                    printer.success(f"SSID: {ssid}\nPassword: {password}\n")
+
             except OSError as e:
-                print(f"{Fore.RED}Error : ", e)
+                printer.error("Is your system using nmcli?")
+                printer.error(f"Error : ", e)
+                pass

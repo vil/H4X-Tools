@@ -18,7 +18,7 @@ import time
 import requests
 import random
 from bs4 import BeautifulSoup
-from colorama import Fore
+from helper import printer
 from utils.randomuser import users
 
 
@@ -36,12 +36,12 @@ class Search:
         results = soup.find_all("div", {"class": "result__body"})
 
         if len(results) == 0:
-            print(Fore.RED + "No results found!" + Fore.RESET)
+            printer.error(f"Error : No results found for {query}..!")
             return
 
-        print(f"{Fore.GREEN}[*] Searching for {query} -- With the agent {headers['User-Agent']}{Fore.RESET}")
+        printer.info(f"Searching for {query} -- With the agent {headers['User-Agent']}")
         time.sleep(1)
         for result in results:
             title = result.find("a", {"class": "result__a"}).text
             link = result.find("a", {"class": "result__a"})["href"]
-            print(f"{Fore.GREEN}[*] {title}{Fore.RESET} - {link}")
+            printer.success(f"{title} - {link}")

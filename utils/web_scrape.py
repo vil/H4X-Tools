@@ -19,7 +19,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import random
-from colorama import Fore
+from helper import printer
 from utils.randomuser import users
 
 
@@ -35,11 +35,11 @@ class Scrape:
             r.headers = random.choice(users)
             soup = BeautifulSoup(r.text, "html.parser")
             count = 0
-            print(f"{Fore.GREEN}[*] Trying to scrape links from {url}.")
+            printer.info(f"Trying to scrape links from {url}.")
             time.sleep(1)
             for link in soup.find_all("a"):
                 count += 1
-                print(f"[*] found {count} link(s) : ", link.get("href"))
-
+                printer.info(f"found {count} link(s) : ", link.get("href"))
         except Exception as e:
-            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            printer.error(f"Error : ", e)
+            pass

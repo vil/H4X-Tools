@@ -18,7 +18,7 @@
 import random
 import requests
 import time
-from colorama import Fore
+from helper import printer
 from utils.randomuser import users
 
 
@@ -42,14 +42,14 @@ class Spam:
         req = session.post(random.choice(url))
 
         if req.status_code != 200:
-            print(f"{Fore.RED}[*] SMSBomber : \t number not found..! {Fore.RESET}")
+            printer.error(f"Error : {req.status_code}")
 
         for i in range(int(count) + 1):
             try:
                 req = session.post(random.choice(url))
                 time.sleep(int(throttle))
                 if req.status_code == 200:
-                    print(f"{Fore.GREEN}[*] sent {i + 1} sms to {number}")
+                    printer.success(f"sent {i + 1} sms to {number}")
             except Exception as e:
-                print(f"{Fore.RED}[*] number not found..! {e} {Fore.RESET}")
-                break
+                printer.error(f"Error : {e}")
+                pass

@@ -18,7 +18,7 @@
 import phonenumbers as p
 from phonenumbers import geocoder
 from phonenumbers import carrier
-from colorama import Fore
+from helper import printer
 import time
 
 
@@ -36,12 +36,13 @@ class LookUp:
             no_carrier = carrier.name_for_number(ph_no, 'en')
             no_valid = p.is_valid_number(ph_no)
             no_possible = p.is_possible_number(ph_no)
-            print(f"{Fore.GREEN}[*] Trying to find the information of {no}")
+            printer.info(f"Trying to find the information of {no}")
             time.sleep(1)
-            print(f"{Fore.GREEN}[*] Valid Number -", no_valid)
-            print(f"{Fore.GREEN}[*] Possible Number -", no_possible)
-            print(f"{Fore.GREEN}[*] Country -", geo_location)
-            print(f"{Fore.GREEN}[*] Sim Provider -", no_carrier)
-            print("\n")
+            printer.success(f"Valid Number -", no_valid)
+            printer.success(f"Possible Number -", no_possible)
+            printer.success(f"Country -", geo_location)
+            printer.success(f"Sim Provider -", no_carrier)
+            printer.success("\n")
         except Exception as e:
-            print(f"{Fore.RED}Error: ", e, Fore.RESET)
+            printer.error(f"Error : ", e)
+            pass

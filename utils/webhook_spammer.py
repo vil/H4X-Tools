@@ -16,8 +16,7 @@
  """
 
 import requests
-import time
-from colorama import Fore
+from helper import printer
 
 
 class Spam:
@@ -37,10 +36,10 @@ class Spam:
         }
 
         try:
-            print(f"{Fore.GREEN}[*] Trying to send {amount} messages to {url} !")
+            printer.info(f"Trying to send {amount} messages to {url}..!")
             for i in range(1, amount + 1):
                 requests.post(url, json=data)
-                print(f"{Fore.GREEN}[*] {str(i)} Message Sent to {url} !")
+                printer.success(f"{str(i)} Message Sent to {url}..!")
         except requests.exceptions.HTTPError as e:
-            print(f"{Fore.RED}[*] Error -", e, Fore.RESET)
-            return
+            printer.error(f"Error: {e}")
+            pass

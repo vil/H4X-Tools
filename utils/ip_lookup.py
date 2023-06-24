@@ -18,7 +18,7 @@
 import json
 import time
 from urllib.request import urlopen
-from colorama import Fore
+from helper import printer
 
 
 class Lookup:
@@ -32,19 +32,19 @@ class Lookup:
             url = "http://ip-api.com/json/" + ip
             values = json.load(urlopen(url))
 
-            print(Fore.GREEN + f"[*] Trying to find information for {ip}")
+            printer.info(f"Trying to find information for {ip}")
             time.sleep(1)
-            print(f"{Fore.GREEN}[*] Ip Address - ", values['query'])
-            print(f"{Fore.GREEN}[*] Country - ", values['country'])
-            print(f"{Fore.GREEN}[*] City - ", values['city'])
-            print(f"{Fore.GREEN}[*] ISP - ", values['isp'])
-            print(f"{Fore.GREEN}[*] Region - ", values['regionName'])
-            print(f"{Fore.GREEN}[*] Timezone - ", values['timezone'])
-            print(f"{Fore.GREEN}[*] Zip - ", values['zip'])
-            print(f"{Fore.GREEN}[*] Lat - ", values['lat'])
-            print(f"{Fore.GREEN}[*] Lon - ", values['lon'])
-            print(f"{Fore.GREEN}[*] AS - ", values['as'])
+            printer.success(f"Ip Address - ", values['query'])
+            printer.success(f"Country - ", values['country'])
+            printer.success(f"City - ", values['city'])
+            printer.success(f"ISP - ", values['isp'])
+            printer.success(f"Region - ", values['regionName'])
+            printer.success(f"Timezone - ", values['timezone'])
+            printer.success(f"Zip - ", values['zip'])
+            printer.success(f"Lat - ", values['lat'])
+            printer.success(f"Lon - ", values['lon'])
+            printer.success(f"AS - ", values['as'])
 
         except Exception as e:
-            print(f"{Fore.RED}[*] Error : ", e)
+            printer.error(f"Error : ", e)
             pass

@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import os
-from colorama import Fore
+from helper import printer
 import time
 
 
@@ -28,16 +28,18 @@ class Scan:
     """
     def __init__(self):
         if os.name == "nt":
-            print(f"{Fore.GREEN}Windows system detected..! Doing a netsh scan...")
+            printer.info("Windows system detected..! Doing a netsh scan...")
             time.sleep(1)
             try:
                 os.system("netsh wlan show networks")
             except Exception as e:
-                print(f"{Fore.RED}Error: ", e)
+                printer.error(f"Error : ", e)
+                pass
         else:
-            print(f"{Fore.GREEN}Linux system detected..! Doing a nmcli scan...")
+            printer.info(f"Linux system detected..! Doing a nmcli scan...")
             time.sleep(1)
             try:
                 os.system("nmcli dev wifi")
             except Exception as e:
-                print(f"{Fore.RED}Error : ", e)
+                printer.error(f"Error : ", e)
+                pass

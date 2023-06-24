@@ -16,10 +16,9 @@
  """
 
 
-from colorama import Fore
 import time
 import os
-
+from helper import printer
 
 class Maigret:
     """
@@ -34,9 +33,10 @@ class Maigret:
     :param username: The username to search for.
     """
     def __init__(self, username):
-        print(f"{Fore.GREEN}[*] Trying to find sites where {username} is used, thanks to maigret.")
+        printer.info(f"Trying to find sites where {username} is used, thanks to maigret.")
         time.sleep(1)
         try:
             os.system("maigret " + username)
         except Exception as e:
-            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            printer.error(f"Maigret maybe could not be found. Please install it using 'pip install maigret'. Also try installing it with sudo.")
+            printer.error(f"Error: {e}")

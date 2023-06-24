@@ -24,6 +24,7 @@ import socket
 import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator
+from helper import printer
 
 if os.name == "nt":
     os.system("cls")
@@ -42,10 +43,10 @@ def internet_check():
     """
     try:
         socket.create_connection(("www.google.com", 80))
-        print(Fore.GREEN + "\n[*] Internet Connection is Available!")
+        printer.success("\nInternet Connection is Available!")
         return None
     except OSError:
-        print(Fore.RED + "\n[*] Warning! Internet Connection is Unavailable!")
+        printer.warning("\nWarning! Internet Connection is Unavailable!")
         return None
 
 
@@ -61,7 +62,7 @@ def version_check():
         r = requests.get(url)
         return r.text
     except requests.exceptions.ConnectionError:
-        print(Fore.RED + "[*] Error! Couldn't connect to the server!")
+        printer.error("Failed to check the version..!")
 
 
 def print_banner():
@@ -89,21 +90,25 @@ def print_about():
     """
     Prints the about text.
     """
-    print(f"{Fore.GREEN}H4X-Tools, collection of multiple tools for scraping, OSINT and more.\n")
-    print(f"{Fore.GREEN}Completely open source and free to use! Feel free to contribute.\n")
-    print(f"{Fore.GREEN}Repo: https://github.com/v1li/h4x-tools\n")
-    print(f"{Fore.RED}NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
+    print(Fore.GREEN)
+    printer.nonprefix(f"H4X-Tools, collection of multiple tools for scraping, OSINT and more.\n")
+    printer.nonprefix(f"Completely open source and free to use! Feel free to contribute.\n")
+    printer.nonprefix(f"Repo: https://github.com/v1li/h4x-tools\n")
+    printer.nonprefix(f"NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
 
 
 def print_donate():
     """
     Prints the donate text.
     """
-    print(f"""{Fore.GREEN}
+    printer.nonprefix(f"""{Fore.GREEN}
 If you want to support me and my work, you can donate to these addresses: \n
 | BCH: bitcoincash:qqk9qkm7j6lc5dzjwsylnh6q3ytp8pp7yunc6tt2nv
 | BTC: bitcoin:153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
 | ETH: 153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
+Or support me on GitHub: https://github.com/sponsors/v1li
+
+Every single donation is appreciated! <3
             """)
 
 
@@ -130,7 +135,7 @@ def handle_ig_scrape():
     """
     if os.path.exists(".igscrape"):
         if os.stat(".igscrape/username.txt").st_size == 0 or os.stat(".igscrape/password.txt").st_size == 0:
-            print(Fore.RED + "[*] username.txt/password.txt is empty!")
+            printer.error("username.txt/password.txt is empty!")
             return
 
         target = str(input("Enter a Username : \t")).replace(" ", "_")
@@ -138,20 +143,19 @@ def handle_ig_scrape():
         time.sleep(1)
     else:
         os.mkdir(".igscrape")
-        print(Fore.YELLOW + "[*] It appears that you are running this tool for the first time!")
-        print(
-            Fore.YELLOW + "[*] Put your credentials in the file named 'username.txt' and 'password.txt' in the '.igscrape' folder!")
-        b = input(Fore.YELLOW + "[*] Or do you want to type your credentials now? (y/n) : ")
+        printer.warning("It appears that you are running this tool for the first time!")
+        printer.warning("Put your credentials in the file named 'username.txt' and 'password.txt' in the '.igscrape' folder!")
+        b = input("Or do you want to type your credentials now? (y/n) : ")
         if b == "y":
-            c = input("[*] Enter your username : \t")
-            d = input("[*] Enter your password : \t")
+            c = input("Enter your username : \t")
+            d = input("Enter your password : \t")
             with open(".igscrape/username.txt", "w") as f:
                 f.write(c)
             with open(".igscrape/password.txt", "w") as f:
                 f.write(d)
-            print(Fore.GREEN + "[*] Credentials saved!")
+            printer.success("Credentials saved!")
             time.sleep(2)
-        print(Fore.GREEN + "[*] Done! Now you can run the tool again!")
+        printer.success("Done! Now you can run the tool again!")
 
 
 def handle_web_search():
@@ -185,7 +189,7 @@ def handle_username_search():
     Windows support is not available yet.
     """
     if os.name == "nt":
-        print(f"{Fore.RED}Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
+        printer.warning(f"Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
     else:
         username = str(input("Enter a Username : \t")).replace(" ", "_")
         search_username.Maigret(username)
@@ -198,7 +202,7 @@ def handle_email_search():
     Windows support is not available yet.
     """
     if os.name == "nt":
-        print(f"{Fore.RED}Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
+        printer.warning(f"Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
     else:
         email = str(input("Enter a email address : \t"))
         email_search.Holehe(email)
@@ -272,7 +276,7 @@ def handle_wifi_finder():
     """
     Handles the Wi-Fi Finder util.
     """
-    print(f"{Fore.GREEN}Scanning for nearby WiFi networks...")
+    printer.info(f"Scanning for nearby WiFi networks...")
     wifi_finder.Scan()
 
 
@@ -280,7 +284,7 @@ def handle_wifi_password_getter():
     """
     Handles the Wi-Fi Password Getter util.
     """
-    print(f"{Fore.GREEN}Scanning for locally saved WiFi passwords...")
+    printer.info(f"Scanning for locally saved WiFi passwords...")
     wifi_password_getter.Scan()
 
 
@@ -291,7 +295,7 @@ def update():
     try:
         os.system("git fetch && git pull")
     except Exception as e:
-        print(f"{Fore.RED}", e)
+        printer.error(f"Error while updating..! {e}")
 
 
 # Create a dictionary to map menu options to corresponding functions
@@ -323,15 +327,15 @@ def __main__():
     version_from_url = version_check()
     # Check if the user is using the latest version
     if version.strip() != version_from_url.strip():
-        print(Fore.RED + f"[*] Version mismatch! ({version}) ... Should be ({version_from_url})")
-        print("Check for updates..! (https://github.com/v1li/h4x-tools)")
+        printer.error(f"Version mismatch! ({version}) ... Should be ({version_from_url})")
+        printer.error("Check for updates..! (https://github.com/v1li/h4x-tools)")
         time.sleep(3)
     else:
-        print(Fore.GREEN + f"[*] Version matches! ({version})")
+        printer.success(f"Version matches! ({version})")
         time.sleep(1)
 
     if os.name == "nt":
-        print(f"{Fore.RED}Windows system detected..! Some of the tools may not work properly...")
+        printer.warning("Windows system detected..! Some of the tools may not work properly...")
         time.sleep(1)
 
     while True:
@@ -345,13 +349,13 @@ def __main__():
             menu_options[a]()  # Call the corresponding function based on the selected option
             time.sleep(3)  # Sleep so user has time to see results.
         elif a == "18":
-            print(Fore.RED + "Exiting...")
-            print(Fore.GREEN + "Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
+            printer.warning("Exiting...")
+            printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
             time.sleep(1)
             print(Fore.RESET)
             break
         else:
-            print(Fore.RED + "Invalid option!")
+            printer.error("Invalid option!")
             time.sleep(2)
 
 

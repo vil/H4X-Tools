@@ -16,7 +16,7 @@
  """
 
 import whois
-from colorama import Fore
+from helper import printer
 import time
 
 
@@ -29,9 +29,10 @@ class Lookup:
     def __init__(self, domain):
         try:
             domain = whois.query(domain)
-            print(f"{Fore.GREEN}[*] Trying to find the information of {domain}")
+            printer.info(f"Trying to find the information of {domain}")
             time.sleep(1)
             for key in domain.__dict__:
-                print(f"{Fore.GREEN}[*] ", key, "-", domain.__dict__[key])
+                printer.success(key, "-", domain.__dict__[key])
         except Exception as e:
-            print(f"{Fore.RED}[*] Error : ", e, Fore.RESET)
+            printer.error(f"Error : ", e)
+            pass
