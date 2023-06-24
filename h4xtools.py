@@ -123,7 +123,7 @@ def print_menu():
     print("[7] IP Scanner           ||   [8] Webhook Spammer")
     print("[9] WhoIs                ||   [10] SMS Bomber (US Only!)")
     print("[11] Fake Info Generator ||   [12] Web Scrape")
-    print("[13] WiFi Finder         ||   [14] Saved WiFi Passwords")
+    print("[13] Wi-Fi Finder        ||   [14] Saved Wi-Fi Passwords")
     print("[15] About               ||   [16] Donate")
     print("[17] Update              ||   [18] Exit")
     print("\n")
@@ -276,7 +276,7 @@ def handle_wifi_finder():
     """
     Handles the Wi-Fi Finder util.
     """
-    printer.info(f"Scanning for nearby WiFi networks...")
+    printer.info(f"Scanning for nearby Wi-Fi networks...")
     wifi_finder.Scan()
 
 
@@ -284,7 +284,7 @@ def handle_wifi_password_getter():
     """
     Handles the Wi-Fi Password Getter util.
     """
-    printer.info(f"Scanning for locally saved WiFi passwords...")
+    printer.info(f"Scanning for locally saved Wi-Fi passwords...")
     wifi_password_getter.Scan()
 
 
