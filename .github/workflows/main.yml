@@ -1,4 +1,4 @@
-name: Build executable on ${{ github.run_number }} - ${{ steps.dateTime.outputs.iso8601 }}
+name: Build executables
 
 on:
   workflow_dispatch: # Manually triggered event
