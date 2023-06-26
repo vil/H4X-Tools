@@ -132,30 +132,14 @@ def print_menu():
 def handle_ig_scrape():
     """
     Handles the IG Scrape util.
-    """
-    if os.path.exists(".igscrape"):
-        if os.stat(".igscrape/username.txt").st_size == 0 or os.stat(".igscrape/password.txt").st_size == 0:
-            printer.error("username.txt/password.txt is empty!")
-            return
 
-        target = str(input("Enter a Username : \t")).replace(" ", "_")
-        ig_scrape.Scrape(target)
-        time.sleep(1)
-    else:
-        os.mkdir(".igscrape")
-        printer.warning("It appears that you are running this tool for the first time!")
-        printer.warning("Put your credentials in the file named 'username.txt' and 'password.txt' in the '.igscrape' folder!")
-        b = input("Or do you want to type your credentials now? (y/n) : ")
-        if b == "y":
-            c = input("Enter your username : \t")
-            d = input("Enter your password : \t")
-            with open(".igscrape/username.txt", "w") as f:
-                f.write(c)
-            with open(".igscrape/password.txt", "w") as f:
-                f.write(d)
-            printer.success("Credentials saved!")
-            time.sleep(2)
-        printer.success("Done! Now you can run the tool again!")
+    Note, you have to log in to Instagram in order to use this util.
+    """
+    printer.warning("NOTE! You have to log in to Instagram everytime in order to use this util.")
+    printer.warning("I suggest you to create a new account for this purpose.")
+    target = str(input("Enter a target username : \t")).replace(" ", "_")
+    ig_scrape.Scrape(target)
+    time.sleep(1)
 
 
 def handle_web_search():

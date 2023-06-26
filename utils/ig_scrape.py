@@ -17,6 +17,7 @@
 
 from instagram_private_api import Client
 from helper import printer
+from getpass import getpass
 import time
 
 
@@ -31,15 +32,8 @@ class Scrape:
     :param target: The username of the account to scrape.
     """
     def __init__(self, target):
-        # read username and password from .igscrape/username.txt and .igscrape/password.txt
-        try:
-            with open(".igscrape/username.txt", "r") as f:
-                username = f.read()
-            with open(".igscrape/password.txt", "r") as f:
-                password = f.read()
-        except Exception as e:
-            printer.error(f"Invalid username or password..! {e}")
-            return
+        username = input("Your username : ")
+        password = getpass("Your password : ")
 
         # login to instagram
         try:
