@@ -15,10 +15,10 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-
 import time
 import os
 from helper import printer
+
 
 class Maigret:
     """
@@ -36,7 +36,9 @@ class Maigret:
         printer.info(f"Trying to find sites where {username} is used, thanks to maigret.")
         time.sleep(1)
         try:
-            os.system("maigret " + username)
+            if os.name == "nt":
+                os.system("python -m maigret " + username)
+            else:
+                os.system("maigret " + username)
         except Exception as e:
-            printer.error(f"Maigret maybe could not be found. Please install it using 'pip install maigret'. Also try installing it with sudo.")
-            printer.error(f"Error: {e}")
+            printer.error("Error : " + str(e))

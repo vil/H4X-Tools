@@ -185,14 +185,9 @@ def handle_ip_lookup():
 def handle_username_search():
     """
     Handles the Username Search util.
-
-    Windows support is not available yet.
     """
-    if os.name == "nt":
-        printer.warning(f"Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
-    else:
-        username = str(input("Enter a Username : \t")).replace(" ", "_")
-        search_username.Maigret(username)
+    username = str(input("Enter a Username : \t")).replace(" ", "_")
+    search_username.Maigret(username)
 
 
 def handle_email_search():
