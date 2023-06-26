@@ -37,9 +37,11 @@ If you want to help with the development, feel free to make a pull request.
 | Exit                | Exits the tool.                                                                                                     |
 
 
-# Setup
-This tool is designed for Linux users, but it should work fine on Windows too.
+# Installation
+I'll upload already built executables to the [releases](https://github.com/V1li/H4X-Tools/releases) tab, 
+but I'd recommend installing the tool manually by following the instructions below.
 
+# Setup
 ### Linux
 1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
@@ -51,7 +53,7 @@ If it doesn't work, install the dependencies manually and start the application 
 
 To update the tool, run `sh update.sh`.
 
-### Windows (not fully supported)
+### Windows
 1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
 2. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
@@ -60,7 +62,14 @@ To update the tool, run `sh update.sh`.
 
 4. Run the setup.bat file.
 
+Setup files will automatically build the tool and install the dependencies.
+You can also run them with `python3 h4xtools.py` if you want to.
+
 To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[17]` option.
+
+
+# License
+>[This source code is under the GNU General Public License, version 3.](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 -------------------------------------------
 THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT TO DO SOMETHING ILLEGAL!
