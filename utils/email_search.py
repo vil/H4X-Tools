@@ -36,3 +36,6 @@ class Holehe:
             os.system("holehe " + email)
         except Exception as e:
             printer.error(f"Error: {e}")
+            printer.error("Please make sure you have holehe installed and in your PATH. "
+                          "If you downloaded H4X-Tools from a already built executable, "
+                          "you can try 'sudo pip3 install holehe'.")

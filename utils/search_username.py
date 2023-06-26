@@ -41,4 +41,7 @@ class Maigret:
             else:
                 os.system("maigret " + username)
         except Exception as e:
-            printer.error("Error : " + str(e))
+            printer.error(f"Error: {e}")
+            printer.error("Please make sure you have maigret installed and in your PATH. "
+                          "If you downloaded H4X-Tools from a already built executable, "
+                          "you can try 'sudo pip3 install maigret'.")
