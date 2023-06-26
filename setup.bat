@@ -13,10 +13,6 @@ echo Installing dependencies in 3 seconds...
 timeout /t 3 /nobreak > nul
 pip3 install -r requirements.txt
 echo.
-echo.
-echo Installing Maigret and Holehe in 3 seconds...
-timeout /t 3 /nobreak > nul
-pip3 install maigret holehe
 timeout /t 1 /nobreak > nul
 echo.
 echo Done..!

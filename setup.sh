@@ -21,9 +21,6 @@ sleep 3
 
 if command -v pip3 >/dev/null 2>&1; then
     pip3 install -r requirements.txt
-    echo "Installing maigret and holehe for email and username search..."
-    sleep 2
-    pip3 install maigret holehe
 else
     echo "python3-pip not installed, failed to install dependencies."
 fi

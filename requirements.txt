@@ -9,3 +9,5 @@ requests
 instagram_private_api
 snscrape
 faker
+holehe
+maigret
