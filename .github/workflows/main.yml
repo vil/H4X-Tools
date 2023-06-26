@@ -1,10 +1,10 @@
-name: Build executable
+name: Build executable on ${{ github.run_number }} - ${{ steps.dateTime.outputs.iso8601 }}
 
 on:
   workflow_dispatch: # Manually triggered event
 
 jobs:
-  build:
+  build_windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
@@ -16,11 +16,32 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Build with pyinstaller
+      - name: Build Windows executable with pyinstaller
         run: |
           pyinstaller --onefile h4xtools.py
-      - name: Upload artifact
+      - name: Upload Windows artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Executable
+          name: Windows Executable
+          path: dist/
+
+  build_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.10.11
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Build Linux executable with pyinstaller
+        run: |
+          pyinstaller --onefile -F h4xtools.py
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Linux Executable
           path: dist/
