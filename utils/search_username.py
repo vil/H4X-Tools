@@ -15,33 +15,122 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+import json
+import random
 import time
-import os
+from datetime import datetime
+import aiohttp
+import asyncio
+from utils import randomuser
 from helper import printer
 
+file = 'data/data.json'
+searchData = json.load(open(file))
 
-class Maigret:
+
+class Search:
     """
-    Maigret collects a dossier on a person by username only,
-    checking for accounts on a huge number of sites and gathering all the available information from web pages.
-    No API keys required. Maigret is an easy-to-use and powerful fork of Sherlock.
-
-    Thanks soxoj, https://github.com/soxoj/maigret
-
-    Requires to be installed externally, since this only runs the command using os.system.
+    Performs a search for the given username.
 
     :param username: The username to search for.
     """
     def __init__(self, username):
-        printer.info(f"Trying to find sites where {username} is used, thanks to maigret.")
-        time.sleep(1)
-        try:
-            if os.name == "nt":
-                os.system("python -m maigret " + username)
+        self.username = username
+        scan(self.username)
+
+
+def scan(username):
+    """
+    Scans for the given username across many different sites.
+
+    :param username: The username to scan for.
+    """
+    start_time = time.time()
+    printer.info(f"Searching for '{username}' across {len(searchData['sites'])} sites...")
+
+    results = []
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(make_requests(username, results))
+
+    now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+    execution_time = round(time.time() - start_time, 1)
+    user_json = {
+        "search-params": {
+            "username": username,
+            "sites-number": len(searchData['sites']),
+            "date": now,
+            "execution-time": execution_time
+        },
+        "sites": results
+    }
+
+    # print_results(user_json)
+
+    return user_json
+
+
+async def make_requests(username, results):
+    """
+    Makes the requests to the sites.
+
+    :param username: The username to scan for.
+    :param results: The results list.
+    """
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
+        tasks = []
+        for u in searchData["sites"]:
+            task = asyncio.ensure_future(make_request(session, u, username, results))
+            tasks.append(task)
+        await asyncio.gather(*tasks)
+
+
+async def make_request(session, u, username, results):
+    url = u["url"].format(username=username)
+    json_body = None
+    useragent = random.choice(randomuser.users)
+    headers = {"User-Agent": useragent}
+    if 'headers' in u:
+        headers.update(eval(u['headers']))
+    if 'json' in u:
+        json_body = u['json'].format(username=username)
+        json_body = json.loads(json_body)
+    try:
+        async with session.request(u["method"], url, json=json_body, proxy=None, headers=headers,
+                                   ssl=False) as response:
+            if eval(u["valid"]):
+                printer.success(
+                    f'- #{u["id"]} {u["app"]} - Account found - {url} [{response.status} {response.reason}]')
+                results.append({
+                    "id": u["id"],
+                    "app": u['app'],
+                    "url": url,
+                    "response-status": f"{response.status} {response.reason}",
+                    "status": "FOUND",
+                    "error-message": None
+                })
             else:
-                os.system("maigret " + username)
-        except Exception as e:
-            printer.error(f"Error: {e}")
-            printer.error("Please make sure you have maigret installed and in your PATH. "
-                          "If you downloaded H4X-Tools from a already built executable, "
-                          "you can try 'sudo pip3 install maigret'.")
+                results.append({
+                    "id": u["id"],
+                    "app": u['app'],
+                    "url": url,
+                    "response-status": f"{response.status} {response.reason}",
+                    "status": "NOT FOUND",
+                    "error-message": None
+                })
+    except:
+        pass
+
+
+def print_results(user_json):
+    """
+    Prints the results.
+
+    :param user_json: The user json.
+    """
+    for site in user_json["sites"]:
+        printer.success(f"ID: {site['id']}")
+        printer.success(f"App: {site['app']}")
+        printer.success(f"URL: {site['url']}")
+        printer.success(f"Response Status: {site['response-status']}")
+        printer.success(f"Status: {site['status']}")
+        printer.error(f"Error Message: {site['error-message']}\n")

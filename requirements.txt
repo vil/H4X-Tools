@@ -10,4 +10,5 @@ instagram_private_api
 snscrape
 faker
 holehe
-maigret
+aiohttp
+asyncio

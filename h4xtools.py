@@ -171,7 +171,7 @@ def handle_username_search():
     Handles the Username Search util.
     """
     username = str(input("Enter a Username : \t")).replace(" ", "_")
-    search_username.Maigret(username)
+    search_username.Search(username)
 
 
 def handle_email_search():
