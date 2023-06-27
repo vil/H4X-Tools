@@ -25,12 +25,13 @@ If you want to help with the development, feel free to make a pull request.
 | Username Search     | Tries to find a given username from many different websites.                                                      |
 | Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe) |
 | Webhook Spammer     | Spams messages to a discord webhook.                                                                              |
-| WhoIs               | Looks up a domain and returns information about it.                                                               |
+| WhoIs Scan          | Looks up a domain and returns information about it.                                                               |
 | SMS Bomber          | Spams messages to a given mobile number.                                                                          |
 | Fake Info Generator | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                        |
 | Web Scrape          | Scrapes links from a given url.                                                                                   |
 | Wi-Fi Finder        | Scans for nearby Wi-Fi networks.                                                                                  |
 | Wi-Fi Passwords     | Scans for locally saved Wi-Fi passwords.                                                                          |
+| DirBuster           | Bruteforces directories on a website.                                                                             |
 | Update              | Updates the tool if new versions are available.                                                                   |
 | About               | Tells you about the tool.                                                                                         |
 | Donate              | My crypto addresses where to donate.                                                                              |    

@@ -23,7 +23,8 @@ from colorama import Fore
 import socket
 import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator
+    phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator, \
+    dirbuster
 from helper import printer
 
 if os.name == "nt":
@@ -121,11 +122,12 @@ def print_menu():
     print("[3] Phone Lookup         ||   [4] IP Lookup")
     print("[5] Username Search      ||   [6] Email Search")
     print("[7] IP Scanner           ||   [8] Webhook Spammer")
-    print("[9] WhoIs                ||   [10] SMS Bomber (US Only!)")
+    print("[9] WhoIs Scan           ||   [10] SMS Bomber (US Only!)")
     print("[11] Fake Info Generator ||   [12] Web Scrape")
     print("[13] Wi-Fi Finder        ||   [14] Saved Wi-Fi Passwords")
-    print("[15] About               ||   [16] Donate")
-    print("[17] Update              ||   [18] Exit")
+    print("[15] Dir Buster          ||   [16] About")
+    print("[17] Donate              ||   [18] Update")
+    print("[19] Exit")
     print("\n")
 
 
@@ -267,6 +269,14 @@ def handle_wifi_password_getter():
     wifi_password_getter.Scan()
 
 
+def handle_dir_buster():
+    """
+    Handles the Dir Buster util.
+    """
+    url = input(f"Enter a domain : \t")
+    dirbuster.Scan(url)
+
+
 def update():
     """
     Performs a git fetch and a git pull to update the tool.
@@ -293,9 +303,10 @@ menu_options = {
     "12": handle_web_scrape,
     "13": handle_wifi_finder,
     "14": handle_wifi_password_getter,
-    "15": print_about,
-    "16": print_donate,
-    "17": update
+    "15": handle_dir_buster,
+    "16": print_about,
+    "17": print_donate,
+    "18": update
 }
 
 
@@ -327,7 +338,7 @@ def __main__():
         if a in menu_options:
             menu_options[a]()  # Call the corresponding function based on the selected option
             time.sleep(3)  # Sleep so user has time to see results.
-        elif a == "18":
+        elif a == "19":
             printer.warning("Exiting...")
             printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
             time.sleep(1)

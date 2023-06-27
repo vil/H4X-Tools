@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import os
 from helper import printer
 import time
+import subprocess
 
 
 class Scan:
@@ -31,15 +32,13 @@ class Scan:
             printer.info("Windows system detected..! Doing a netsh scan...")
             time.sleep(1)
             try:
-                os.system("netsh wlan show networks")
-            except Exception as e:
-                printer.error(f"Error : ", e)
-                pass
+                subprocess.run(["netsh", "wlan", "show", "networks"], check=True)
+            except subprocess.CalledProcessError as e:
+                printer.error(f"Error: {e.returncode}")
         else:
-            printer.info(f"Linux system detected..! Doing a nmcli scan...")
+            printer.info("Linux system detected..! Doing an nmcli scan...")
             time.sleep(1)
             try:
-                os.system("nmcli dev wifi")
-            except Exception as e:
-                printer.error(f"Error : ", e)
-                pass
+                subprocess.run(["nmcli", "dev", "wifi"], check=True)
+            except subprocess.CalledProcessError as e:
+                printer.error(f"Error: {e.returncode}")
