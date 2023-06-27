@@ -39,7 +39,7 @@ If you want to help with the development, feel free to make a pull request.
 
 # Installation
 I'll upload already built executables to the [releases](https://github.com/V1li/H4X-Tools/releases) tab, 
-but I'd recommend installing the tool manually by following the instructions below.
+but I'd recommend installing the tool manually by following the instructions below. This way you also get the freshest version.
 
 # Setup
 ### Linux
@@ -60,7 +60,7 @@ To update the tool, run `sh update.sh`.
 
 3. Change directory `cd H4X-Tools`
 
-4. Run the setup.bat file.
+4. Run the `setup.bat` file.
 
 Setup files will automatically build the tool and install the dependencies.
 You can also run them with `python3 h4xtools.py` if you want to.
