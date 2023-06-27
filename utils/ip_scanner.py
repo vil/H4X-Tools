@@ -19,6 +19,7 @@ import socket
 import time
 from helper import printer
 
+
 class Scan:
     """
     Scans for an IP address of a given website.
@@ -28,7 +29,7 @@ class Scan:
     def __init__(self, ip):
         try:
             ip_addr = socket.gethostbyname(ip)
-            printer.info(f"Trying to find the IP address of {ip}")
+            printer.info(f"Trying to find the IP address of '{ip}'")
             time.sleep(1)
             printer.success(f"IP address of the website : \t ", ip_addr)
         except Exception as e:

@@ -49,7 +49,7 @@ class Spam:
                 req = session.post(random.choice(url))
                 time.sleep(int(throttle))
                 if req.status_code == 200:
-                    printer.success(f"sent {i + 1} sms to {number}")
+                    printer.success(f"sent {i + 1} sms to '{number}'")
             except Exception as e:
                 printer.error(f"Error : {e}")
                 pass

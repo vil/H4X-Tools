@@ -39,7 +39,7 @@ class Search:
             printer.error(f"Error : No results found for {query}..!")
             return
 
-        printer.info(f"Searching for {query} -- With the agent {headers['User-Agent']}")
+        printer.info(f"Searching for '{query}' -- With the agent {headers['User-Agent']}")
         time.sleep(1)
         for result in results:
             title = result.find("a", {"class": "result__a"}).text

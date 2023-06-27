@@ -36,10 +36,10 @@ class Spam:
         }
 
         try:
-            printer.info(f"Trying to send {amount} messages to {url}..!")
+            printer.info(f"Trying to send {amount} messages to '{url}'..!")
             for i in range(1, amount + 1):
                 requests.post(url, json=data)
-                printer.success(f"{str(i)} Message Sent to {url}..!")
+                printer.success(f"{str(i)} Message Sent to '{url}'..!")
         except requests.exceptions.HTTPError as e:
             printer.error(f"Error: {e}")
             pass

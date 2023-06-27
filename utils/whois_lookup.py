@@ -29,7 +29,7 @@ class Lookup:
     def __init__(self, domain):
         try:
             domain = whois.query(domain)
-            printer.info(f"Trying to find the information of {domain}")
+            printer.info(f"Trying to find the information of '{domain}'")
             time.sleep(1)
             for key in domain.__dict__:
                 printer.success(key, "-", domain.__dict__[key])

@@ -314,7 +314,7 @@ def __main__():
         time.sleep(1)
 
     if os.name == "nt":
-        printer.warning("Windows system detected..! Some of the tools may not work properly...")
+        printer.warning("Windows system detected..! Expect issues...")
         time.sleep(1)
 
     while True:

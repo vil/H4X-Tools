@@ -44,7 +44,7 @@ class Scrape:
             return
 
         # print data
-        printer.info(f"Scraping data from the account {target}")
+        printer.info(f"Scraping data from the account '{target}'")
         time.sleep(1)
         printer.success(f"Username : ", data["user"]["username"])
         printer.success(f"Full Name : ", data["user"]["full_name"])

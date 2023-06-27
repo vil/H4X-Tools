@@ -35,7 +35,7 @@ class Scrape:
             r.headers = random.choice(users)
             soup = BeautifulSoup(r.text, "html.parser")
             count = 0
-            printer.info(f"Trying to scrape links from {url}.")
+            printer.info(f"Trying to scrape links from '{url}'.")
             time.sleep(1)
             for link in soup.find_all("a"):
                 count += 1

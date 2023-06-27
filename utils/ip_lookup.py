@@ -32,7 +32,7 @@ class Lookup:
             url = "http://ip-api.com/json/" + ip
             values = json.load(urlopen(url))
 
-            printer.info(f"Trying to find information for {ip}")
+            printer.info(f"Trying to find information for '{ip}'")
             time.sleep(1)
             printer.success(f"Ip Address - ", values['query'])
             printer.success(f"Country - ", values['country'])

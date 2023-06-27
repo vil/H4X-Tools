@@ -36,7 +36,7 @@ class LookUp:
             no_carrier = carrier.name_for_number(ph_no, 'en')
             no_valid = p.is_valid_number(ph_no)
             no_possible = p.is_possible_number(ph_no)
-            printer.info(f"Trying to find the information of {no}")
+            printer.info(f"Trying to find the information of '{no}'")
             time.sleep(1)
             printer.success(f"Valid Number -", no_valid)
             printer.success(f"Possible Number -", no_possible)
