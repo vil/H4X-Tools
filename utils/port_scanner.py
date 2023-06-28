@@ -20,7 +20,7 @@ from helper import printer
 from concurrent.futures import ThreadPoolExecutor
 
 # port_range = list(range(1, 65535))
-#ip_range = list(range(1, 255))
+# ip_range = list(range(1, 255))
 open_ports = []
 
 

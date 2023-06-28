@@ -20,6 +20,8 @@ import random
 from helper import printer
 from utils import randomuser
 
+url_list = []
+
 
 class Scan:
     """
@@ -28,12 +30,13 @@ class Scan:
     :param domain: url to scan
     """
     def __init__(self, domain):
-        self.url_list = []
+        self.url_list = url_list
         self.domain = domain
 
         printer.info(f"Scanning for valid URLs for '{domain}'..!")
         printer.warning("This may take a while..!")
         scan_urls(domain)
+        printer.success(f"Scan Complete..! Found {len(url_list)} valid URL(s)..!")
 
 
 def get_wordlist(text_file):
@@ -62,7 +65,6 @@ def scan_urls(domain):
     :param domain: domain name to scan
     """
     paths = get_wordlist('data/wordlist.txt')
-    url_list = []
     valid_url = 0
 
     try:
