@@ -22,7 +22,7 @@ import time
 from colorama import Fore
 import socket
 import requests
-from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, ip_scanner, ip_lookup, \
+from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, port_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator, \
     dirbuster
 from helper import printer
@@ -121,7 +121,7 @@ def print_menu():
     print("[1] IG Scrape            ||   [2] Web Search")
     print("[3] Phone Lookup         ||   [4] IP Lookup")
     print("[5] Username Search      ||   [6] Email Search")
-    print("[7] IP Scanner           ||   [8] Webhook Spammer")
+    print("[7] Port Scanner         ||   [8] Webhook Spammer")
     print("[9] WhoIs Scan           ||   [10] SMS Bomber (US Only!)")
     print("[11] Fake Info Generator ||   [12] Web Scrape")
     print("[13] Wi-Fi Finder        ||   [14] Saved Wi-Fi Passwords")
@@ -189,12 +189,13 @@ def handle_email_search():
         email_search.Holehe(email)
 
 
-def handle_ip_scanner():
+def handle_port_scanner():
     """
-    Handles the IP Scanner util.
+    Handles the Port Scanner util.
     """
-    domain = str(input("Enter a domain : \t"))
-    ip_scanner.Scan(domain)
+    ip = str(input("Enter a IP address OR domain : \t"))
+    port_range = int(input("Enter a port range (eg. 1-100) : \t"))
+    port_scanner.Scan(ip, port_range)
 
 
 def handle_webhook_spammer():
@@ -295,7 +296,7 @@ menu_options = {
     "4": handle_ip_lookup,
     "5": handle_username_search,
     "6": handle_email_search,
-    "7": handle_ip_scanner,
+    "7": handle_port_scanner,
     "8": handle_webhook_spammer,
     "9": handle_whois_lookup,
     "10": handle_sms_bomber,

@@ -20,8 +20,8 @@ If you want to help with the development, feel free to make a pull request.
 | Ig Scrape           | Scrapes information from IG accounts.                                                                             |
 | Web Search          | Searches the internet for the given query.                                                                        |
 | Phone Lookup        | Looks up a phone number and returns information about it.                                                         |
-| Ip Lookup           | Looks up an IP address and returns information about it.                                                          |
-| Ip Scanner          | Scans a website for IP addresses.                                                                                 |
+| Ip Lookup           | Looks up an IP/domain address and returns information about it.                                                   |
+| Port Scanner        | Scans for open ports in a given IP/domain address.                                                                |
 | Username Search     | Tries to find a given username from many different websites.                                                      |
 | Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe) |
 | Webhook Spammer     | Spams messages to a discord webhook.                                                                              |

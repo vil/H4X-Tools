@@ -65,18 +65,22 @@ def scan_urls(domain):
     url_list = []
     valid_url = 0
 
-    for path in paths:
-        url = f"https://{domain}/{path}"
-        try:
-            headers = {"User-Agent": random.choice(randomuser.users)}
-            response = requests.get(url, headers=headers)
+    try:
+        for path in paths:
+            url = f"https://{domain}/{path}"
+            try:
+                headers = {"User-Agent": random.choice(randomuser.users)}
+                response = requests.get(url, headers=headers)
 
-            if response.status_code == 200:
-                valid_url += 1
-                printer.success(f"{valid_url} Valid URL(s): {url}")
-                url_list.append(url)
-        except requests.ConnectionError:
-            printer.error("Connection Error..!")
-            continue
+                if response.status_code == 200:
+                    valid_url += 1
+                    printer.success(f"{valid_url} Valid URL(s): {url}")
+                    url_list.append(url)
+            except requests.ConnectionError:
+                printer.error("Connection Error..!")
+                continue
+    except KeyboardInterrupt:
+        printer.error("Cancelled..!")
+        pass
 
     return url_list
