@@ -194,7 +194,7 @@ def handle_port_scanner():
     Handles the Port Scanner util.
     """
     ip = str(input("Enter a IP address OR domain : \t"))
-    port_range = int(input("Enter a port range (eg. 1-100) : \t"))
+    port_range = int(input("Enter number of ports to scan : \t"))
     port_scanner.Scan(ip, port_range)
 
 
