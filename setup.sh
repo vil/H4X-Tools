@@ -13,12 +13,20 @@ cat << "EOF"
 
 EOF
 
-echo "Installing dependencies in 3 seconds..."
 echo "Press CTRL+C to cancel."
 echo
 echo "Note that this script might ask for sudo password."
 sleep 3
 
+echo "Creating virtual environment..."
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+echo "Installing dependencies in 3 seconds..."
+sleep 3
+
+# Install dependencies
 if command -v pip3 >/dev/null 2>&1; then
     pip3 install -r requirements.txt
 else
@@ -46,5 +54,4 @@ if command -v pyinstaller >/dev/null 2>&1; then
     fi
 else
     echo "pyinstaller not installed or not in PATH!"
-    echo "Try running the script as sudo."
 fi
