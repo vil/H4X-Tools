@@ -66,7 +66,7 @@ To update the tool, run `sh update.sh`.
 Setup files will automatically build the tool and install the dependencies.
 You can also run them with `python3 h4xtools.py` if you want to.
 
-To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[17]` option.
+To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[18]` option.
 
 
 # License
