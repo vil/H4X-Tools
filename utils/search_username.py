@@ -25,7 +25,10 @@ from utils import randomuser
 from helper import printer
 
 file = 'data/data.json'
-searchData = json.load(open(file))
+if file is None:
+    printer.error(f"File '{file}' not found..!")
+else:
+    searchData = json.load(open(file))
 
 
 class Search:
@@ -87,8 +90,7 @@ async def make_requests(username, results):
 async def make_request(session, u, username, results):
     url = u["url"].format(username=username)
     json_body = None
-    useragent = random.choice(randomuser.users)
-    headers = {"User-Agent": useragent}
+    headers = {"User-Agent": random.choice(randomuser.users)}
     if 'headers' in u:
         headers.update(eval(u['headers']))
     if 'json' in u:

@@ -46,16 +46,17 @@ def get_wordlist(text_file):
     :param text_file: path to the text file
     """
     names = []
-
-    with open(text_file, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if len(line) == 0:
-                continue
-            else:
-                names.append(line)
-
-    return names
+    try:
+        with open(text_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if len(line) == 0:
+                    continue
+                else:
+                    names.append(line)
+        return names
+    except FileNotFoundError:
+        printer.error(f"File '{text_file}' not found..!")
 
 
 def scan_urls(domain):
