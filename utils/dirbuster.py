@@ -59,13 +59,35 @@ def get_wordlist(text_file):
         printer.error(f"File '{text_file}' not found..!")
 
 
+def get_wordlist_from_url(url):
+    """
+    Reads the wordlist from the url and returns a list of names
+
+    :param url: url to the text file
+    """
+    names = []
+    try:
+        r = requests.get(url)
+        for line in r.text.splitlines():
+            line = line.strip()
+            if len(line) == 0:
+                continue
+            else:
+                names.append(line)
+        return names
+    except requests.ConnectionError:
+        printer.error("Connection Error..!")
+        return None
+
+
 def scan_urls(domain):
     """
     Scans the given domain name for valid paths
 
     :param domain: domain name to scan
     """
-    paths = get_wordlist('data/wordlist.txt')
+    # paths = get_wordlist('data/wordlist.txt')
+    paths = get_wordlist_from_url("https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/wordlist.txt")
     valid_url = 0
 
     try:

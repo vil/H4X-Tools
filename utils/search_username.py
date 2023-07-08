@@ -20,15 +20,12 @@ import random
 import time
 from datetime import datetime
 import aiohttp
+import requests
 import asyncio
 from utils import randomuser
 from helper import printer
 
-file = 'data/data.json'
-if file is None:
-    printer.error(f"File '{file}' not found..!")
-else:
-    searchData = json.load(open(file))
+url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/data.json"
 
 
 class Search:
@@ -39,7 +36,11 @@ class Search:
     """
     def __init__(self, username):
         self.username = username
-        scan(self.username)
+        try:
+            scan(self.username)
+        except KeyboardInterrupt:
+            printer.error("Cancelled..!")
+            pass
 
 
 def scan(username):
@@ -49,7 +50,7 @@ def scan(username):
     :param username: The username to scan for.
     """
     start_time = time.time()
-    printer.info(f"Searching for '{username}' across {len(searchData['sites'])} sites...")
+    printer.info(f"Searching for '{username}' across {len(get_data_from_url(url)['sites'])} sites...")
 
     results = []
     loop = asyncio.get_event_loop()
@@ -60,7 +61,7 @@ def scan(username):
     user_json = {
         "search-params": {
             "username": username,
-            "sites-number": len(searchData['sites']),
+            "sites-number": len(get_data_from_url(url)['sites']),
             "date": now,
             "execution-time": execution_time
         },
@@ -81,7 +82,7 @@ async def make_requests(username, results):
     """
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
         tasks = []
-        for u in searchData["sites"]:
+        for u in get_data_from_url(url)["sites"]:
             task = asyncio.ensure_future(make_request(session, u, username, results))
             tasks.append(task)
         await asyncio.gather(*tasks)
@@ -136,3 +137,13 @@ def print_results(user_json):
         printer.success(f"Response Status: {site['response-status']}")
         printer.success(f"Status: {site['status']}")
         printer.error(f"Error Message: {site['error-message']}\n")
+
+
+def get_data_from_url(url):
+    """
+    Gets the search data from the given url.
+
+    :param url: The url to get the search data from.
+    """
+    headers = {"User-Agent": random.choice(randomuser.users)}
+    return json.loads(requests.get(url, headers=headers).text)
