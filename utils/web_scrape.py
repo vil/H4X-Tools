@@ -39,7 +39,7 @@ class Scrape:
             time.sleep(1)
             for link in soup.find_all("a"):
                 count += 1
-                printer.info(f"found {count} link(s) : ", link.get("href"))
+                printer.info(f"found {count} link(s) : ", link.get("href"), " - " + link.text)
         except Exception as e:
             printer.error(f"Error : ", e)
             pass

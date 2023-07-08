@@ -41,7 +41,7 @@ class Scan:
             else:
                 printer.success(f"Found {len(open_ports)} open ports in '{ip}'..!")
         except KeyboardInterrupt:
-            printer.error("Keyboard Interrupt Detected..!")
+            printer.error("Cancelled..!")
 
 
 def scan(ip, port_range):

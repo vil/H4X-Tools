@@ -31,17 +31,38 @@ class Search:
     def __init__(self, query):
         url = "https://duckduckgo.com/html/?q=" + query
         headers = {"User-Agent": random.choice(users)}
-        r = requests.get(url, headers=headers)
-        soup = BeautifulSoup(r.text, "html.parser")
-        results = soup.find_all("div", {"class": "result__body"})
 
-        if len(results) == 0:
-            printer.error(f"Error : No results found for {query}..!")
-            return
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()  # Raise exception if request fails
 
-        printer.info(f"Searching for '{query}' -- With the agent {headers['User-Agent']}")
-        time.sleep(1)
-        for result in results:
-            title = result.find("a", {"class": "result__a"}).text
-            link = result.find("a", {"class": "result__a"})["href"]
-            printer.success(f"{title} - {link}")
+            soup = BeautifulSoup(response.text, "html.parser")
+            results = soup.find_all("div", {"class": "result__body"})
+
+            if len(results) == 0:
+                printer.error(f"No results found for '{query}'..!")
+                return
+
+            printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
+            time.sleep(1)
+            for result in results:
+                print_result(result)
+
+        except requests.exceptions.RequestException as e:
+            printer.error(f"Error : {e}")
+            pass
+        except KeyboardInterrupt:
+            printer.error("Cancelled..!")
+            pass
+
+
+def print_result(result):
+    """
+    Prints the result of a search.
+
+    :param result: The result to print.
+    """
+    title = result.find("a", {"class": "result__a"}).text
+    link = result.find("a", {"class": "result__a"})["href"]
+    status = requests.get(link).status_code
+    printer.success(f"'{title}' - {link} - [{status}]")

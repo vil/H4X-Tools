@@ -44,6 +44,7 @@ class Lookup:
             printer.success(f"Lat - ", values['lat'])
             printer.success(f"Lon - ", values['lon'])
             printer.success(f"AS - ", values['as'])
+            printer.success(f"Maps URL - ", f"https://www.google.com/maps/search/{values['lat']},{values['lon']}")
 
         except Exception as e:
             printer.error(f"Error : ", e)

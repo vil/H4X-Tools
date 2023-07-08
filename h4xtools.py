@@ -33,7 +33,7 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.11"
+version = "0.2.12"
 
 
 def internet_check():
@@ -333,7 +333,6 @@ def __main__():
         print_banner()
         time.sleep(1)
         print_menu()
-        time.sleep(1)
         a = input("[*] Select your option : \t")
 
         if a in menu_options:
