@@ -21,6 +21,7 @@ from helper import printer
 from utils import randomuser
 
 url_list = []
+wordlist_url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/wordlist.txt"
 
 
 class Scan:
@@ -87,7 +88,7 @@ def scan_urls(domain):
     :param domain: domain name to scan
     """
     # paths = get_wordlist('data/wordlist.txt')
-    paths = get_wordlist_from_url("https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/wordlist.txt")
+    paths = get_wordlist_from_url(wordlist_url)
     valid_url = 0
 
     try:
