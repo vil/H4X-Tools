@@ -4,3 +4,4 @@ tokenlogger
 .idea
 build
 dist
+venv
