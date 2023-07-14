@@ -20,12 +20,11 @@ import random
 import time
 from datetime import datetime
 import aiohttp
-import requests
 import asyncio
 from utils import randomuser
-from helper import printer
+from helper import printer, url_helper
 
-url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/data.json"
+PATH = "h4xtools/data.json"
 
 
 class Search:
@@ -50,7 +49,7 @@ def scan(username):
     :param username: The username to scan for.
     """
     start_time = time.time()
-    printer.info(f"Searching for '{username}' across {len(get_data_from_url(url)['sites'])} sites...")
+    printer.info(f"Searching for '{username}' across {len(url_helper.read_json_content(PATH)['sites'])} sites...")
 
     results = []
     loop = asyncio.get_event_loop()
@@ -61,7 +60,7 @@ def scan(username):
     user_json = {
         "search-params": {
             "username": username,
-            "sites-number": len(get_data_from_url(url)['sites']),
+            "sites-number": len(url_helper.read_json_content(PATH)['sites']),
             "date": now,
             "execution-time": execution_time
         },
@@ -82,7 +81,7 @@ async def make_requests(username, results):
     """
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
         tasks = []
-        for u in get_data_from_url(url)["sites"]:
+        for u in url_helper.read_json_content(PATH)["sites"]:
             task = asyncio.ensure_future(make_request(session, u, username, results))
             tasks.append(task)
         await asyncio.gather(*tasks)
@@ -137,13 +136,3 @@ def print_results(user_json):
         printer.success(f"Response Status: {site['response-status']}")
         printer.success(f"Status: {site['status']}")
         printer.error(f"Error Message: {site['error-message']}\n")
-
-
-def get_data_from_url(url):
-    """
-    Gets the search data from the given url.
-
-    :param url: The url to get the search data from.
-    """
-    headers = {"User-Agent": random.choice(randomuser.users)}
-    return json.loads(requests.get(url, headers=headers).text)

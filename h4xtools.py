@@ -25,7 +25,7 @@ import requests
 from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, port_scanner, ip_lookup, \
     phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator, \
     dirbuster
-from helper import printer
+from helper import printer, url_helper
 
 if os.name == "nt":
     os.system("cls")
@@ -57,11 +57,10 @@ def version_check():
 
     :return: version
     """
-    url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/version.txt"
-    # Get the version from the url and return it
+    path = "h4xtools/version.txt"
     try:
-        r = requests.get(url)
-        return r.text
+        r = url_helper.read_content(path)
+        return r
     except requests.exceptions.ConnectionError:
         printer.error("Failed to check the version..!")
 

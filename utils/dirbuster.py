@@ -17,11 +17,11 @@
 
 import requests
 import random
-from helper import printer
+from helper import printer, url_helper
 from utils import randomuser
 
 url_list = []
-wordlist_url = "https://raw.githubusercontent.com/V1li/H4X-Tools-ver/master/wordlist.txt"
+PATH = "h4xtools/wordlist.txt"
 
 
 class Scan:
@@ -40,43 +40,23 @@ class Scan:
         printer.success(f"Scan Complete..! Found {len(url_list)} valid URL(s)..!")
 
 
-def get_wordlist(text_file):
-    """
-    Reads the wordlist from the file and returns a list of names
-
-    :param text_file: path to the text file
-    """
-    names = []
-    try:
-        with open(text_file, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if len(line) == 0:
-                    continue
-                else:
-                    names.append(line)
-        return names
-    except FileNotFoundError:
-        printer.error(f"File '{text_file}' not found..!")
-
-
-def get_wordlist_from_url(url):
+def get_wordlist():
     """
     Reads the wordlist from the url and returns a list of names
 
-    :param url: url to the text file
+    :return: list of names
     """
     names = []
     try:
-        r = requests.get(url)
-        for line in r.text.splitlines():
+        content = url_helper.read_content(PATH)
+        for line in content.splitlines():
             line = line.strip()
             if len(line) == 0:
                 continue
             else:
                 names.append(line)
         return names
-    except requests.ConnectionError:
+    except requests.exceptions.ConnectionError:
         printer.error("Connection Error..!")
         return None
 
@@ -87,8 +67,7 @@ def scan_urls(domain):
 
     :param domain: domain name to scan
     """
-    # paths = get_wordlist('data/wordlist.txt')
-    paths = get_wordlist_from_url(wordlist_url)
+    paths = get_wordlist()
     valid_url = 0
 
     try:
@@ -102,7 +81,7 @@ def scan_urls(domain):
                     valid_url += 1
                     printer.success(f"{valid_url} Valid URL(s): {url}")
                     url_list.append(url)
-            except requests.ConnectionError:
+            except requests.exceptions.ConnectionError:
                 printer.error("Connection Error..!")
                 continue
     except KeyboardInterrupt:
