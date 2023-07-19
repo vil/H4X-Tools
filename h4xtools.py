@@ -205,7 +205,8 @@ def handle_webhook_spammer():
     amount = int(input("Enter a amount of messages : \t"))
     message = str(input("Enter a message : \t"))
     username = str(input("Enter a username : \t"))
-    webhook_spammer.Spam(url, amount, message, username)
+    throttle = int(input("Enter time of sleep (seconds) : \t"))
+    webhook_spammer.Spam(url, amount, message, username, throttle)
 
 
 def handle_whois_lookup():

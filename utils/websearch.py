@@ -14,6 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
+
 import time
 import requests
 import random
@@ -33,36 +34,48 @@ class Search:
         headers = {"User-Agent": random.choice(users)}
 
         try:
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()  # Raise exception if request fails
+            with requests.get(url, headers=headers) as response:
+                response.raise_for_status()  # Raise exception if request fails
 
-            soup = BeautifulSoup(response.text, "html.parser")
-            results = soup.find_all("div", {"class": "result__body"})
+                soup = BeautifulSoup(response.text, "html.parser")
+                results = soup.find_all("div", {"class": "result__body"})
 
-            if len(results) == 0:
-                printer.error(f"No results found for '{query}'..!")
-                return
+                if len(results) == 0:
+                    printer.error(f"No results found for '{query}'..!")
+                    return
 
-            printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
-            time.sleep(1)
-            for result in results:
-                print_result(result)
+                printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
+                time.sleep(1)
+                for result in results:
+                    self.print_search_result(result)
 
         except requests.exceptions.RequestException as e:
-            printer.error(f"Error : {e}")
-            pass
+            printer.error(f"Error: {e}")
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
-            pass
 
+    def print_search_result(self, result):
+        """
+        Prints the result of a search.
 
-def print_result(result):
-    """
-    Prints the result of a search.
+        :param result: The result to print.
+        """
+        title = result.find("a", {"class": "result__a"}).text
+        link = result.find("a", {"class": "result__a"})["href"]
+        status_code = self.get_status_code(link)
+        printer.success(f"'{title}' - {link} - [{status_code}]")
 
-    :param result: The result to print.
-    """
-    title = result.find("a", {"class": "result__a"}).text
-    link = result.find("a", {"class": "result__a"})["href"]
-    status = requests.get(link).status_code
-    printer.success(f"'{title}' - {link} - [{status}]")
+    @staticmethod
+    def get_status_code(url):
+        """
+        Retrieves the status code of a given URL.
+
+        :param url: The URL to check.
+        :return: The status code if the request is successful, or None otherwise.
+        """
+        try:
+            with requests.get(url, stream=True) as response:
+                response.raise_for_status()
+                return response.status_code
+        except requests.exceptions.RequestException:
+            return None
