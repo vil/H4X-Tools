@@ -15,7 +15,7 @@ EOF
 
 echo
 echo
-echo "Make sure to run this in the main directory!"
+echo "Make sure to run this in the directory that you cloned from GitHub!"
 echo
 echo "Do you want to update H4XTools? [y/n]"
 read -r answer
