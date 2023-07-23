@@ -4,7 +4,7 @@ requests
 beautifulsoup4
 urllib3
 pyinstaller
-whois
+whoisdomain
 requests
 instagram_private_api
 snscrape

@@ -22,9 +22,23 @@ import time
 from colorama import Fore
 import socket
 import requests
-from utils import email_search, search_username, ig_scrape, whois_lookup, webhook_spammer, port_scanner, ip_lookup, \
-    phonenumber_lookup, websearch, smsbomber, web_scrape, wifi_finder, wifi_password_getter, fake_info_generator, \
-    dirbuster
+from utils import (
+    email_search,
+    search_username,
+    ig_scrape,
+    whois_lookup,
+    webhook_spammer,
+    port_scanner,
+    ip_lookup,
+    phonenumber_lookup,
+    websearch,
+    smsbomber,
+    web_scrape,
+    wifi_finder,
+    wifi_password_getter,
+    fake_info_generator,
+    dirbuster,
+)
 from helper import printer, url_helper
 
 if os.name == "nt":
@@ -182,7 +196,8 @@ def handle_email_search():
     Windows support is not available yet.
     """
     if os.name == "nt":
-        printer.warning(f"Sorry, this currently only works on Linux machines :( \n Maybe try to get rid of Windows?")
+        printer.warning(f"Sorry, this currently only works on Linux machines :(")
+        printer.warning(f"You could try running this in a Linux subsystem on Windows?")
     else:
         email = str(input("Enter a email address : \t"))
         email_search.Holehe(email)

@@ -23,6 +23,10 @@ echo "Creating virtual environment..."
 python3 -m venv venv
 source venv/bin/activate
 
+echo "Updating pip..."
+sleep 1
+pip3 install --upgrade pip
+
 echo "Installing dependencies in 3 seconds..."
 sleep 3
 

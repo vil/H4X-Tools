@@ -15,7 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import whois
+import whoisdomain
 from helper import printer
 import time
 
@@ -28,11 +28,11 @@ class Lookup:
     """
     def __init__(self, domain):
         try:
-            domain = whois.query(domain)
-            printer.info(f"Trying to find the information of '{domain}'")
+            q = whoisdomain.query(domain)
+            printer.info(f"Trying to find the information of '{domain}'...")
             time.sleep(1)
-            for key in domain.__dict__:
-                printer.success(key, "-", domain.__dict__[key])
+            for key in q.__dict__:
+                printer.success(key, "-", q.__dict__[key])
         except Exception as e:
-            printer.error(f"Error : ", e)
-            pass
+            printer.error("Error : ", e)
+            printer.error("Make sure you have 'whois' installed on your system..!")
