@@ -22,6 +22,7 @@ import time
 from colorama import Fore
 import socket
 import requests
+from getpass import getpass
 from utils import (
     email_search,
     search_username,
@@ -152,8 +153,10 @@ def handle_ig_scrape():
     """
     printer.warning("NOTE! You have to log in to Instagram everytime in order to use this util.")
     printer.warning("I suggest you to create a new account for this purpose.")
+    username = str(input("Your username : "))
+    password = getpass("Your password : ")
     target = str(input("Enter a target username : \t")).replace(" ", "_")
-    ig_scrape.Scrape(target)
+    ig_scrape.Scrape(username, password, target)
     time.sleep(1)
 
 
