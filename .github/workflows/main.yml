@@ -2,14 +2,15 @@ name: Build executables
 
 on:
   workflow_dispatch: # Manually triggered event
+  pull_request: # Trigger the workflow on push or pull request,
 
 jobs:
   build_windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Set up Python 3.11
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.11
       - name: Install dependencies
@@ -28,9 +29,9 @@ jobs:
   build_linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Set up Python 3.11
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.11
       - name: Install dependencies
