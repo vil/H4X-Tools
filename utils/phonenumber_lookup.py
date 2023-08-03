@@ -17,7 +17,7 @@
 
 import phonenumbers as p
 from phonenumbers import carrier, geocoder, timezone
-from helper import printer
+from helper import printer, timer
 import time
 
 
@@ -27,6 +27,7 @@ class LookUp:
 
     :param no: The phone number.
     """
+    @timer.timer
     def __init__(self, no):
         print("\n")
         try:

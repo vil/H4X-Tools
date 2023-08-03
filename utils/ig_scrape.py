@@ -16,7 +16,7 @@
  """
 
 from instagram_private_api import Client
-from helper import printer
+from helper import printer, timer
 
 
 class Scrape:
@@ -31,6 +31,7 @@ class Scrape:
     :param password: The password of the account to log in to.
     :param target: The username of the account to scrape.
     """
+    @timer.timer
     def __init__(self, username, password, target):
         try:
             api = Client(username, password)

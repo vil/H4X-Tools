@@ -48,7 +48,7 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.12a"
+version = "0.2.13"
 
 
 def internet_check():
@@ -85,34 +85,27 @@ def print_banner():
     Prints the banner of H4X-Tools.
     """
     print(Fore.CYAN + f"""
-[+]
-|
-|    //    / /        \\ / /      /__  ___/ //   ) ) //   ) ) / /        //   ) )
-|   //___ / //___/ /   \  /         / /    //   / / //   / / / /        ((
-|  / ___   /____  /    / /   ____  / /    //   / / //   / / / /           \\
-| //    / /    / /    / /\\       / /    //   / / //   / / / /              ) )
-|//    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ / /  ~~v{version}
-|
-| by Vili (https://vili.dev)
-|
-| NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!
-|
-[+]
+    //    / /        \\ / /      /__  ___/ //   ) ) //   ) ) / /        //   ) )
+   //___ / //___/ /   \  /         / /    //   / / //   / / / /        ((
+  / ___   /____  /    / /   ____  / /    //   / / //   / / / /           \\
+ //    / /    / /    / /\\       / /    //   / / //   / / / /              ) )
+//    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ / /  
+v{version} ~~by Vili (https://vili.dev)
     """)
 
 
-def print_about():
+def about():
     """
     Prints the about text.
     """
     print(Fore.GREEN)
-    printer.nonprefix(f"H4X-Tools, collection of multiple tools for scraping, OSINT and more.\n")
+    printer.nonprefix(f"H4X-Tools, toolkit for scraping, OSINT and more.\n")
     printer.nonprefix(f"Completely open source and free to use! Feel free to contribute.\n")
     printer.nonprefix(f"Repo: https://github.com/v1li/h4x-tools\n")
     printer.nonprefix(f"NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
 
 
-def print_donate():
+def donate():
     """
     Prints the donate text.
     """
@@ -131,16 +124,14 @@ def print_menu():
     """
     Prints the main menu of H4X-Tools.
     """
-    print(Fore.CYAN)
-    print("[1] IG Scrape            ||   [2] Web Search")
-    print("[3] Phone Lookup         ||   [4] IP Lookup")
-    print("[5] Username Search      ||   [6] Email Search")
-    print("[7] Port Scanner         ||   [8] Webhook Spammer")
-    print("[9] WhoIs Scan           ||   [10] SMS Bomber (US Only!)")
-    print("[11] Fake Info Generator ||   [12] Web Scrape")
-    print("[13] Wi-Fi Finder        ||   [14] Saved Wi-Fi Passwords")
-    print("[15] Dir Buster          ||   [16] About")
-    print("[17] Donate              ||   [18] Update")
+    max_option_length = max(len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in menu_options.values())
+
+    for i, (key, value) in enumerate(menu_options.items(), start=1):
+        option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
+        print(f"[{key}] {option_name.ljust(max_option_length)}", end='\t')
+        if i % 2 == 0 or i == len(menu_options):
+            print()
+
     print("[19] Exit")
     print("\n")
 
@@ -323,8 +314,8 @@ menu_options = {
     "13": handle_wifi_finder,
     "14": handle_wifi_password_getter,
     "15": handle_dir_buster,
-    "16": print_about,
-    "17": print_donate,
+    "16": about,
+    "17": donate,
     "18": update
 }
 
@@ -336,12 +327,9 @@ def __main__():
     version_from_url = version_check()
     # Check if the user is using the latest version
     if version.strip() != version_from_url.strip():
-        printer.error(f"Version mismatch! ({version}) ... Should be ({version_from_url})")
-        printer.error("Check for updates..! (https://github.com/v1li/h4x-tools)")
+        printer.warning(f"You are using an outdated version! ({version})")
+        printer.warning("Check for updates..! (https://github.com/v1li/h4x-tools)")
         time.sleep(3)
-    else:
-        printer.success(f"Version matches! ({version})")
-        time.sleep(1)
 
     if os.name == "nt":
         printer.warning("Windows system detected..! Expect issues...")
@@ -351,7 +339,7 @@ def __main__():
         print_banner()
         time.sleep(1)
         print_menu()
-        a = input("[*] Select your option : \t")
+        a = input("[$] Select your option ~> \t")
 
         if a in menu_options:
             menu_options[a]()  # Call the corresponding function based on the selected option

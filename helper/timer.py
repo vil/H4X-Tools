@@ -15,25 +15,19 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import whoisdomain
-from helper import printer, timer
 import time
+from helper import printer
 
 
-class Lookup:
+def timer(func):
     """
-    Looks up for the information of a given domain.
-
-    :param domain: The domain name.
+    A timer decorator to measure the execution time of a function.
     """
-    @timer.timer
-    def __init__(self, domain):
-        try:
-            q = whoisdomain.query(domain)
-            printer.info(f"Trying to find the information of '{domain}'...")
-            time.sleep(1)
-            for key in q.__dict__:
-                printer.success(key, "-", q.__dict__[key])
-        except Exception as e:
-            printer.error("Error : ", e)
-            printer.error("Make sure you have 'whois' installed on your system..!")
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        printer.info(f"Completed in {elapsed_time:.4f} seconds.")
+        return result
+    return wrapper

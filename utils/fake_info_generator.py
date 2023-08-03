@@ -17,7 +17,7 @@
 
 from faker import Faker
 import time
-from helper import printer
+from helper import printer, timer
 
 
 class Generate:
@@ -26,6 +26,7 @@ class Generate:
 
     Thanks to Faker, https://pypi.org/project/Faker/
     """
+    @timer.timer
     def __init__(self):
         fake = Faker()
         printer.info("Generating fake information...")

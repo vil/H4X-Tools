@@ -46,7 +46,7 @@ def error(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.RED + "[!!!] " + message + Fore.RESET, *args)
+    print(Fore.RED + "[!] " + message + Fore.RESET, *args)
 
 
 def warning(message, *args):
@@ -56,7 +56,17 @@ def warning(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.YELLOW + "[!] " + message + Fore.RESET, *args)
+    print(Fore.YELLOW + "[-] " + message + Fore.RESET, *args)
+
+
+def debug(message, *args):
+    """
+    Print debug message with magenta color.
+
+    :param message: message to print
+    :param args: arguments if any
+    """
+    print(Fore.MAGENTA + "[$] " + message + Fore.RESET, *args)
 
 
 def nonprefix(message, *args):

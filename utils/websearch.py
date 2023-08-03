@@ -19,7 +19,7 @@ import time
 import requests
 import random
 from bs4 import BeautifulSoup
-from helper import printer
+from helper import printer, timer
 from utils.randomuser import users
 
 
@@ -29,6 +29,7 @@ class Search:
 
     :param query: The query to search for.
     """
+    @timer.timer
     def __init__(self, query):
         url = "https://duckduckgo.com/html/?q=" + query
         headers = {"User-Agent": random.choice(users)}

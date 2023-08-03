@@ -20,7 +20,7 @@ import time
 import requests
 import random
 import socket
-from helper import printer
+from helper import printer, timer
 from utils import randomuser
 
 
@@ -30,6 +30,7 @@ class Lookup:
 
     :param ip: The ip address to search for.
     """
+    @timer.timer
     def __init__(self, ip):
         try:
             ip = socket.gethostbyname(ip)

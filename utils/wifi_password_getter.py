@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import os
 import subprocess
 import re
-from helper import printer
+from helper import printer, timer
 import time
 
 
@@ -26,7 +26,7 @@ class Scan:
     """
     Scans for the saved Wi-Fi passwords on the system.
     """
-
+    @timer.timer
     def __init__(self):
         if os.name == "nt":
             printer.info("Windows system detected..!")

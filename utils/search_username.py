@@ -22,7 +22,7 @@ from datetime import datetime
 import aiohttp
 import asyncio
 from utils import randomuser
-from helper import printer, url_helper
+from helper import printer, url_helper, timer
 
 PATH = "h4xtools/data.json"
 
@@ -33,7 +33,7 @@ class Search:
 
     :param username: The username to search for.
     """
-
+    @timer.timer
     def __init__(self, username):
         self.username = username
         try:

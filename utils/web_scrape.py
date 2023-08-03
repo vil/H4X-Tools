@@ -17,10 +17,9 @@
 
 import asyncio
 import aiohttp
-import time
 import random
 from bs4 import BeautifulSoup
-from helper import printer
+from helper import printer, timer
 from utils.randomuser import users
 
 
@@ -30,13 +29,12 @@ class Scrape:
 
     :param url: The website url.
     """
+    @timer.timer
     def __init__(self, url):
         try:
             printer.info(f"Trying to scrape links from '{url}'...")
-            start_time = time.time()
             asyncio.run(self.scrape_links(url))
-            end_time = time.time()
-            printer.success(f"Scraping complete. Total time: {end_time - start_time:.2f} seconds.")
+            printer.success(f"Scraping completed..!")
         except Exception as e:
             printer.error(f"Error: {e}")
 

@@ -18,7 +18,7 @@
 import random
 import requests
 import time
-from helper import printer
+from helper import printer, timer
 from utils.randomuser import users
 
 
@@ -32,6 +32,7 @@ class Spam:
     :param count: The number of times to spam.
     :param throttle: The time interval between each spam.
     """
+    @timer.timer
     def __init__(self, number, count, throttle):
         url = ["https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20" + number,
                "https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B" + str(91) + "&nod=4&phone=" + number,

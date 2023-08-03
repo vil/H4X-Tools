@@ -16,7 +16,7 @@
  """
 
 import socket
-from helper import printer
+from helper import printer, timer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 open_ports = []
@@ -29,6 +29,7 @@ class Scan:
     :param ip: IP address.
     :param port_range: The range of ports to scan.
     """
+    @timer.timer
     def __init__(self, ip, port_range):
         try:
             printer.info(f"Scanning for open ports in '{ip}' with range of '1-{port_range}'..!")

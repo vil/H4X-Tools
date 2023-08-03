@@ -17,7 +17,7 @@
 
 import aiohttp
 import asyncio
-from helper import printer
+from helper import printer, timer
 
 
 class Spam:
@@ -30,6 +30,7 @@ class Spam:
     :param username: The username of the webhook.
     :param throttle_interval: Time interval between sending messages (in seconds).
     """
+    @timer.timer
     def __init__(self, url, amount, message, username, throttle_interval=1):
         self.url = url
         self.amount = amount

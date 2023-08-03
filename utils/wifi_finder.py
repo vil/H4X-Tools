@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import os
-from helper import printer
+from helper import printer, timer
 import time
 import subprocess
 
@@ -27,6 +27,7 @@ class Scan:
 
     Requires netsh for Windows and nmcli for Linux.
     """
+    @timer.timer
     def __init__(self):
         if os.name == "nt":
             printer.info("Windows system detected..! Doing a netsh scan...")

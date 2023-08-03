@@ -17,7 +17,7 @@
 
 import time
 import subprocess
-from helper import printer
+from helper import printer, timer
 
 
 class Holehe:
@@ -28,6 +28,7 @@ class Holehe:
 
     :param email: The email address to search for.
     """
+    @timer.timer
     def __init__(self, email):
         printer.info(f"Trying to find sites where '{email}' is used, thanks to holehe.")
         time.sleep(1)

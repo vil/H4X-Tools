@@ -17,7 +17,7 @@
 
 import requests
 import random
-from helper import printer, url_helper
+from helper import printer, url_helper, timer
 from utils import randomuser
 
 PATH = "h4xtools/wordlist.txt"
@@ -29,6 +29,7 @@ class Scan:
 
     :param domain: url to scan
     """
+    @timer.timer
     def __init__(self, domain):
         self.domain = domain
         self.url_list = []
@@ -36,7 +37,7 @@ class Scan:
         printer.info(f"Scanning for valid URLs for '{domain}'..!")
         printer.warning("This may take a while..!")
         self.scan_urls()
-        printer.success(f"Scan Complete..! Found {len(self.url_list)} valid URL(s)..!")
+        printer.success(f"Scan Complete..! Found {len(self.url_list)} valid URL(s).")
 
     @staticmethod
     def get_wordlist():
