@@ -12,30 +12,30 @@ Submit requests and bugs in the [issues](https://github.com/V1li/H4X-Tools/issue
 If you want to help with the development, feel free to make a pull request.
 
 
-![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.11.png)
+![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.13.png)
 
 # Current tools
-| Tool Name           | Description                                                                                                       |
-|---------------------|-------------------------------------------------------------------------------------------------------------------|
-| Ig Scrape           | Scrapes information from IG accounts.                                                                             |
-| Web Search          | Searches the internet for the given query.                                                                        |
-| Phone Lookup        | Looks up a phone number and returns information about it.                                                         |
-| Ip Lookup           | Looks up an IP/domain address and returns information about it.                                                   |
-| Port Scanner        | Scans for open ports in a given IP/domain address.                                                                |
-| Username Search     | Tries to find a given username from many different websites.                                                      |
-| Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe) |
-| Webhook Spammer     | Spams messages to a discord webhook.                                                                              |
-| WhoIs Scan          | Looks up a domain and returns information about it.                                                               |
-| SMS Bomber          | Spams messages to a given mobile number.                                                                          |
-| Fake Info Generator | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                        |
-| Web Scrape          | Scrapes links from a given url.                                                                                   |
-| Wi-Fi Finder        | Scans for nearby Wi-Fi networks.                                                                                  |
-| Wi-Fi Passwords     | Scans for locally saved Wi-Fi passwords.                                                                          |
-| DirBuster           | Bruteforces directories on a website.                                                                             |
-| Update              | Updates the tool if new versions are available.                                                                   |
-| About               | Tells you about the tool.                                                                                         |
-| Donate              | My crypto addresses where to donate.                                                                              |    
-| Exit                | Exits the tool.                                                                                                   |
+| Tool Name             | Description                                                                                                       |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------|
+| Ig Scrape             | Scrapes information from IG accounts.                                                                             |
+| Web Search            | Searches the internet for the given query.                                                                        |
+| Phone Lookup          | Looks up a phone number and returns information about it.                                                         |
+| Ip Lookup             | Looks up an IP/domain address and returns information about it.                                                   |
+| Port Scanner          | Scans for open ports in a given IP/domain address.                                                                |
+| Username Search       | Tries to find a given username from many different websites.                                                      |
+| Email Search          | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe) |
+| Webhook Spammer       | Spams messages to a discord webhook.                                                                              |
+| WhoIs Lookup          | Looks up a domain and returns information about it.                                                               |
+| SMS Bomber            | Spams messages to a given mobile number.                                                                          |
+| Fake Info Generator   | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                        |
+| Web Scrape            | Scrapes links from a given url.                                                                                   |
+| Wi-Fi Finder          | Scans for nearby Wi-Fi networks.                                                                                  |
+| Wi-Fi Password Getter | Scans for locally saved Wi-Fi passwords.                                                                          |
+| Dir Buster            | Bruteforces directories on a website.                                                                             |
+| Update                | Updates the tool if new versions are available.                                                                   |
+| About                 | Tells you about the tool.                                                                                         |
+| Donate                | My crypto addresses where to donate.                                                                              |    
+| Exit                  | Exits the tool.                                                                                                   |
 
 
 # Installation
