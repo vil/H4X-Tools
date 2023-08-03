@@ -59,10 +59,10 @@ def internet_check():
     """
     try:
         socket.create_connection(("www.google.com", 80))
-        printer.success("\nInternet Connection is Available!")
+        printer.success("Internet Connection is Available..!")
         return None
     except OSError:
-        printer.warning("\nWarning! Internet Connection is Unavailable!")
+        printer.warning("Internet Connection is Unavailable..!")
         return None
 
 
@@ -324,6 +324,8 @@ def __main__():
     """
     Main function.
     """
+    internet_check()
+    time.sleep(1)
     version_from_url = version_check()
     # Check if the user is using the latest version
     if version.strip() != version_from_url.strip():
