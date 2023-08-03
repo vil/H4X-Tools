@@ -9,7 +9,7 @@ cat << "EOF"
  //    / /    / /    / /\\       / /    //   / / //   / / / /              ) )
 //    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ / /
 
-~~by Vili (https://github.com/v1li)
+~~by Vili (https://vili.dev)
 
 EOF
 

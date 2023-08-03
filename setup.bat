@@ -7,7 +7,7 @@ echo   / ___   /____  /    / /   ____  / /    //   / / //   / / / /           \\
 echo  //    / /    / /    / /\\       / /    //   / / //   / / / /              ) )
 echo //    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ / /
 echo.
-echo ~~by Vili (https://github.com/v1li)
+echo ~~by Vili (https://vili.dev)
 echo.
 echo Installing dependencies in 3 seconds...
 timeout /t 3 /nobreak > nul
