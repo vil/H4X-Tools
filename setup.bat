@@ -1,3 +1,4 @@
+:: Copyright (c) 2023. Vili and contributors.
 @echo off
 cls
 echo

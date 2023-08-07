@@ -1,5 +1,5 @@
 """
- Copyright (c) 2022 GNU GENERAL PUBLIC
+ Copyright (c) 2023. Vili and contributors.
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

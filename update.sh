@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright (c) 2023. Vili and contributors.
+
 clear
 
 cat << "EOF"
