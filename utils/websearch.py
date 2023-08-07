@@ -16,11 +16,18 @@
  """
 
 import time
-import requests
 import random
+import requests
 from bs4 import BeautifulSoup
-from helper import printer, timer
 from utils.randomuser import users
+from helper import printer, timer
+
+headers = {
+    "User-Agent": random.choice(users),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Referer": "https://duckduckgo.com/"
+}
 
 
 class Search:
@@ -31,29 +38,50 @@ class Search:
     """
     @timer.timer
     def __init__(self, query):
-        url = "https://duckduckgo.com/html/?q=" + query
-        headers = {"User-Agent": random.choice(users)}
+        url = f"https://duckduckgo.com/html/?q={query}"
 
         try:
-            with requests.get(url, headers=headers) as response:
-                response.raise_for_status()  # Raise exception if request fails
-
-                soup = BeautifulSoup(response.text, "html.parser")
-                results = soup.find_all("div", {"class": "result__body"})
-
-                if len(results) == 0:
-                    printer.error(f"No results found for '{query}'..!")
-                    return
-
-                printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
-                time.sleep(1)
-                for result in results:
-                    self.print_search_result(result)
-
+            response = self.send_request(url)
+            if response is not None:
+                self.parse_and_print_results(response.text, query)
         except requests.exceptions.RequestException as e:
-            printer.error(f"Error: {e}")
+            printer.error(f"Error : {e}")
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
+
+    @staticmethod
+    def send_request(url):
+        """
+        Send a request to the given URL with appropriate headers.
+
+        :param url: The URL to send the request to.
+        :return: The response object if successful, or None.
+        """
+        try:
+            with requests.get(url, headers=headers) as response:
+                response.raise_for_status()
+                return response
+        except requests.exceptions.RequestException:
+            return None
+
+    def parse_and_print_results(self, response_text, query):
+        """
+        Parse the response and print search results.
+
+        :param response_text: The response HTML text.
+        :param query: The search query.
+        """
+        soup = BeautifulSoup(response_text, "html.parser")
+        results = soup.find_all("div", {"class": "result__body"})
+
+        if not results:
+            printer.error(f"No results found for '{query}'..!")
+            return
+
+        printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
+        time.sleep(1)
+        for result in results:
+            self.print_search_result(result)
 
     def print_search_result(self, result):
         """
