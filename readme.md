@@ -63,11 +63,8 @@ To update the tool, run `sh update.sh`.
 
 4. Run the `setup.bat` file.
 
-Setup files will automatically build the tool and install the dependencies.
-You can also run them with `python3 h4xtools.py` if you want to.
-
-To update the tool, run the program as usual (Inside the folder!!!) and then run the update `[18]` option.
-
+Setup files will automatically build the tool as an executable.
+You can also run the tool using `python h4xtools.py` in the terminal.
 
 # License
 >[This source code is under the GNU General Public License, version 3.](https://www.gnu.org/licenses/gpl-3.0.txt)
