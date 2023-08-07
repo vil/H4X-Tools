@@ -131,9 +131,18 @@ def print_menu():
         print(f"[{key}] {option_name.ljust(max_option_length)}", end='\t')
         if i % 2 == 0 or i == len(menu_options):
             print()
-
-    print("[19] Exit")
     print("\n")
+
+
+def handle_exit():
+    """
+    Kills the program.
+    """
+    printer.warning("Exiting...")
+    printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
+    time.sleep(1)
+    print(Fore.RESET)
+    exit(0)
 
 
 def handle_ig_scrape():
@@ -306,7 +315,8 @@ menu_options = {
     "15": handle_dir_buster,
     "16": about,
     "17": donate,
-    "18": update
+    "18": update,
+    "19": handle_exit
 }
 
 
@@ -336,12 +346,6 @@ def __main__():
         if a in menu_options:
             menu_options[a]()  # Call the corresponding function based on the selected option
             time.sleep(3)  # Sleep so user has time to see results.
-        elif a == "19":
-            printer.warning("Exiting...")
-            printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
-            time.sleep(1)
-            print(Fore.RESET)
-            break
         else:
             printer.error("Invalid option!")
             time.sleep(2)
