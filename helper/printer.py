@@ -25,7 +25,7 @@ def info(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.BLUE + "[*] " + message + Fore.RESET, *args)
+    print(Fore.BLUE, "[*] " + message, Fore.RESET, *args)
 
 
 def success(message, *args):
@@ -36,7 +36,7 @@ def success(message, *args):
     :param args: arguments if any
 
     """
-    print(Fore.GREEN + "[+] " + message + Fore.RESET, *args)
+    print(Fore.GREEN, "[+] " + message, Fore.RESET, *args)
 
 
 def error(message, *args):
@@ -46,7 +46,7 @@ def error(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.RED + "[!] " + message + Fore.RESET, *args)
+    print(Fore.RED, "[!]" + message, Fore.RESET, *args)
 
 
 def warning(message, *args):
@@ -56,7 +56,7 @@ def warning(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.YELLOW + "[-] " + message + Fore.RESET, *args)
+    print(Fore.YELLOW, "[-] " + message, Fore.RESET, *args)
 
 
 def debug(message, *args):
@@ -66,7 +66,7 @@ def debug(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.MAGENTA + "[$] " + message + Fore.RESET, *args)
+    print(Fore.MAGENTA, "[$] " + message, Fore.RESET, *args)
 
 
 def nonprefix(message, *args):
