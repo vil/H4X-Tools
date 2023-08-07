@@ -238,16 +238,6 @@ def handle_sms_bomber():
     smsbomber.Spam(number, count, throttle)
 
 
-""" 
-Deprecated
-
-def handle_dtlg():
-    print(f"{Fore.RED}Note! Tokenlogger only works on Windows machines!")
-    webhook_url = input(f"{Fore.GREEN}Enter a webhook url : \t")
-    tokenlogger_generator.Create(webhook_url)
-"""
-
-
 def handle_fake_info_generator():
     """
     Handles the Fake Info Generator util.
