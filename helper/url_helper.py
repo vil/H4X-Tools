@@ -24,54 +24,64 @@ from utils import randomuser
 BASE_URL = "https://resources.vili.dev/"
 
 
-def get_file(path):
+def send_request(path):
     """
-    Downloads the file from the given url and saves it to the current directory
+    Sends a request to the given path and returns the response object.
 
-    :param path: path to the file in BASE_URL (https://resources.vili.dev/)
+    :param path: path to the resource in BASE_URL (https://resources.vili.dev/)
+    :return: Response object or None if a connection error occurs.
     """
     try:
-        # printer.info(f"Getting file from '{BASE_URL + path}'..!")
         headers = {
             "User-Agent": random.choice(randomuser.users)
         }
-        r = requests.get(BASE_URL + path, headers=headers)
-        with open(path, 'wb') as f:
-            f.write(r.content)
-        printer.success(f"Successfully downloaded file to '{path}'..!")
+        response = requests.get(BASE_URL + path, headers=headers)
+        return response
     except requests.exceptions.ConnectionError:
         printer.error("Unable to connect to the server..!")
+        return None
+
+
+def get_file(path):
+    """
+    Downloads the file from the given path and saves it to the current directory.
+
+    :param path: path to the file in BASE_URL (https://resources.vili.dev/)
+    """
+    response = send_request(path)
+    if response is not None:
+        try:
+            with open(path, 'wb') as f:
+                f.write(response.content)
+            printer.success(f"Successfully downloaded file to '{path}'..!")
+        except OSError:
+            printer.error(f"Error while writing to '{path}'")
 
 
 def read_content(path):
     """
-    Reads the content of the file from the given url
+    Reads the content of the file from the given path.
 
     :param path: path to the file in BASE_URL (https://resources.vili.dev/)
+    :return: Content of the file as a string or None if an error occurs.
     """
-    try:
-        # printer.info(f"Getting file from '{BASE_URL + path}'..!")
-        headers = {
-            "User-Agent": random.choice(randomuser.users)
-        }
-        r = requests.get(BASE_URL + path, headers=headers)
-        return r.text
-    except requests.exceptions.ConnectionError:
-        printer.error("Unable to connect to the server..!")
+    response = send_request(path)
+    if response is not None:
+        return response.text
+    return None
 
 
 def read_json_content(path):
     """
-    Reads the content of a json file from the given url
+    Reads the content of a JSON file from the given path.
 
-    :param path: path to the file in BASE_URL (https://resources.vili.dev/)
+    :param path: path to the JSON file in BASE_URL (https://resources.vili.dev/)
+    :return: Content of the JSON file as a dictionary or None if an error occurs.
     """
-    try:
-        # printer.info(f"Getting file from '{BASE_URL + path}'..!")
-        headers = {
-            "User-Agent": random.choice(randomuser.users)
-        }
-        r = requests.get(BASE_URL + path, headers=headers)
-        return json.loads(r.text)
-    except requests.exceptions.ConnectionError:
-        printer.error("Unable to connect to the server..!")
+    response = send_request(path)
+    if response is not None:
+        try:
+            return json.loads(response.text)
+        except json.JSONDecodeError:
+            printer.error("Error decoding JSON content")
+    return None
