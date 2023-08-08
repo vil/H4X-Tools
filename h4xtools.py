@@ -58,7 +58,7 @@ def internet_check():
     :return: None
     """
     try:
-        socket.create_connection(("www.google.com", 80))
+        socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
         return None
     except OSError:

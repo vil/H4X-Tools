@@ -46,7 +46,7 @@ def error(message, *args):
     :param message: message to print
     :param args: arguments if any
     """
-    print(Fore.RED, "[!]" + message, Fore.RESET, *args)
+    print(Fore.RED, "[!] " + message, Fore.RESET, *args)
 
 
 def warning(message, *args):
