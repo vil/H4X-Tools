@@ -18,62 +18,67 @@
 from colorama import Fore
 
 
-def info(message, *args):
+def info(message, *args, **kwargs):
     """
     Print info message with blue color.
 
     :param message: message to print
     :param args: arguments if any
+    :param kwargs: keyword arguments if any
     """
-    print(Fore.BLUE, "[*] " + message, Fore.RESET, *args)
+    print(Fore.BLUE + "[*] " + message, Fore.RESET, *args, **kwargs)
 
 
-def success(message, *args):
+def success(message, *args, **kwargs):
     """
     Print success message with green color.
 
     :param message: message to print
     :param args: arguments if any
-
+    :param kwargs: keyword arguments if any
     """
-    print(Fore.GREEN, "[+] " + message, Fore.RESET, *args)
+    print(Fore.GREEN + "[+] " + message, Fore.RESET, *args, **kwargs)
 
 
-def error(message, *args):
+def error(message, *args, **kwargs):
     """
     Print error message with red color.
 
     :param message: message to print
     :param args: arguments if any
+    :param kwargs: keyword arguments if any
     """
-    print(Fore.RED, "[!] " + message, Fore.RESET, *args)
+    print(Fore.RED + "[!] " + message, Fore.RESET, *args, **kwargs)
 
 
-def warning(message, *args):
+def warning(message, *args, **kwargs):
     """
     Print warning message with yellow color.
 
     :param message: message to print
     :param args: arguments if any
+    :param kwargs: keyword arguments if any
     """
-    print(Fore.YELLOW, "[-] " + message, Fore.RESET, *args)
+    print(Fore.YELLOW + "[-] " + message, Fore.RESET, *args, **kwargs)
 
 
-def debug(message, *args):
+def debug(message, *args, **kwargs):
     """
     Print debug message with magenta color.
 
     :param message: message to print
     :param args: arguments if any
+    :param kwargs: keyword arguments if any
     """
-    print(Fore.MAGENTA, "[$] " + message, Fore.RESET, *args)
+    print(Fore.MAGENTA + "[$] " + message, Fore.RESET, *args, **kwargs)
 
 
-def nonprefix(message, *args):
+def nonprefix(message, *args, **kwargs):
     """
     Print message without prefix.
 
     :param message: message to print
     :param args: arguments if any
+    :param kwargs: keyword arguments if any
     """
-    print(message, *args)
+    print(message, *args, **kwargs)

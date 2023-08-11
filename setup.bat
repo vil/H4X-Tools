@@ -1,7 +1,7 @@
 :: Copyright (c) 2023. Vili and contributors.
 @echo off
 cls
-echo
+echo.
 echo     //    / /        \\ / /      /__  ___/ //   ) ) //   ) ) / /        //   ) )
 echo    //___ / //___/ /   \  /         / /    //   / / //   / / / /        ((
 echo   / ___   /____  /    / /   ____  / /    //   / / //   / / / /           \\

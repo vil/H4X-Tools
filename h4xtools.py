@@ -142,7 +142,7 @@ def handle_exit():
     printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
     time.sleep(1)
     print(Fore.RESET)
-    exit(0)
+    exit()
 
 
 def handle_ig_scrape():

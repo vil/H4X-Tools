@@ -31,7 +31,7 @@ If you want to help with the development, feel free to make a pull request.
 | Web Scrape            | Scrapes links from a given url.                                                                                   |
 | Wi-Fi Finder          | Scans for nearby Wi-Fi networks.                                                                                  |
 | Wi-Fi Password Getter | Scans for locally saved Wi-Fi passwords.                                                                          |
-| Dir Buster            | Bruteforces directories on a website.                                                                             |
+| Dir Buster            | Bruteforce directories on a website.                                                                              |
 | Update                | Updates the tool if new versions are available.                                                                   |
 | About                 | Tells you about the tool.                                                                                         |
 | Donate                | My crypto addresses where to donate.                                                                              |    
@@ -50,10 +50,6 @@ but I'd recommend installing the tool manually by following the instructions bel
 
 3. Run `sh setup.sh` in terminal to install the tool.
 
-If it doesn't work, install the dependencies manually and start the application in terminal using `python3 h4xtools.py`.
-
-To update the tool, run `sh update.sh`.
-
 ### Windows
 1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
@@ -65,6 +61,8 @@ To update the tool, run `sh update.sh`.
 
 Setup files will automatically build the tool as an executable.
 You can also run the tool using `python h4xtools.py` in the terminal.
+
+Also, dependencies can be installed manually using `pip install -r requirements.txt`.
 
 # License
 >[This source code is under the GNU General Public License, version 3.](https://www.gnu.org/licenses/gpl-3.0.txt)
