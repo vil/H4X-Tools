@@ -15,70 +15,41 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-from colorama import Fore
+from colorama import Fore, Style
+
+
+def print_colored(message, color, prefix, *args, **kwargs):
+    """
+    Print colored message with specified color and prefix.
+
+    :param message: message to print
+    :param color: color code from colorama.Fore
+    :param prefix: prefix for the message
+    :param args: arguments if any
+    :param kwargs: keyword arguments if any
+    """
+    print(f"{color}{prefix} {message}{Style.RESET_ALL}", *args, **kwargs)
 
 
 def info(message, *args, **kwargs):
-    """
-    Print info message with blue color.
-
-    :param message: message to print
-    :param args: arguments if any
-    :param kwargs: keyword arguments if any
-    """
-    print(Fore.BLUE + "[*] " + message, Fore.RESET, *args, **kwargs)
+    print_colored(message, Fore.BLUE, "[*]", *args, **kwargs)
 
 
 def success(message, *args, **kwargs):
-    """
-    Print success message with green color.
-
-    :param message: message to print
-    :param args: arguments if any
-    :param kwargs: keyword arguments if any
-    """
-    print(Fore.GREEN + "[+] " + message, Fore.RESET, *args, **kwargs)
+    print_colored(message, Fore.GREEN, "[+]", *args, **kwargs)
 
 
 def error(message, *args, **kwargs):
-    """
-    Print error message with red color.
-
-    :param message: message to print
-    :param args: arguments if any
-    :param kwargs: keyword arguments if any
-    """
-    print(Fore.RED + "[!] " + message, Fore.RESET, *args, **kwargs)
+    print_colored(message, Fore.RED, "[!]", *args, **kwargs)
 
 
 def warning(message, *args, **kwargs):
-    """
-    Print warning message with yellow color.
-
-    :param message: message to print
-    :param args: arguments if any
-    :param kwargs: keyword arguments if any
-    """
-    print(Fore.YELLOW + "[-] " + message, Fore.RESET, *args, **kwargs)
+    print_colored(message, Fore.YELLOW, "[-]", *args, **kwargs)
 
 
 def debug(message, *args, **kwargs):
-    """
-    Print debug message with magenta color.
-
-    :param message: message to print
-    :param args: arguments if any
-    :param kwargs: keyword arguments if any
-    """
-    print(Fore.MAGENTA + "[$] " + message, Fore.RESET, *args, **kwargs)
+    print_colored(message, Fore.MAGENTA, "[$]", *args, **kwargs)
 
 
 def nonprefix(message, *args, **kwargs):
-    """
-    Print message without prefix.
-
-    :param message: message to print
-    :param args: arguments if any
-    :param kwargs: keyword arguments if any
-    """
     print(message, *args, **kwargs)
