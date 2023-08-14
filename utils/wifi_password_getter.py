@@ -29,46 +29,51 @@ class Scan:
     @timer.timer
     def __init__(self):
         if os.name == "nt":
-            printer.info("Windows system detected..!")
+            printer.info("Windows system detected..!\n")
             time.sleep(1)
+            try:
+                output = subprocess.check_output("netsh wlan show profiles", shell=True).decode("utf-8")
+                profile_names = [line.split(":")[1].strip() for line in output.splitlines() if
+                                 "All User Profile" in line]
 
-            output = subprocess.check_output("netsh wlan show profile", shell=True).decode("utf-8")
-            profiles = output.split("User Profile")[1:]
+                for profile_name in profile_names:
+                    try:
+                        wifi_info = subprocess.check_output(
+                            'netsh wlan show profile name="{}" key=clear'.format(profile_name),
+                            shell=True).decode("utf-8")
 
-            for profile in profiles:
-                profile_name = profile.split(":")[1].strip()
-                printer.success("Wi-Fi Name: ", profile_name)
-
-                try:
-                    wifi_info = subprocess.check_output(
-                        'netsh wlan show profile name="' + profile_name + '" key=clear', shell=True
-                    ).decode("utf-8")
-
-                    password_index = wifi_info.find("Key Content")
-                    if password_index != -1:
-                        password_start = password_index + len("Key Content") + 2
-                        password = wifi_info[password_start:].split("\r\n")[0].strip()
-                        printer.success("Wi-Fi Password: ", password, "\n")
-                    else:
-                        printer.warning("No Wi-Fi password found.")
-                except subprocess.CalledProcessError as e:
-                    printer.error("Error retrieving Wi-Fi information: ", str(e))
-                    pass
+                        password_index = wifi_info.find("Key Content")
+                        if password_index != -1:
+                            password_start = password_index + len("Key Content") + 2
+                            password = wifi_info[password_start:].split("\r\n")[0].strip()
+                            printer.success("Wi-Fi Name:", profile_name)
+                            printer.success("Wi-Fi Password:", password, "\n")
+                        else:
+                            printer.success("Wi-Fi Name:", profile_name)
+                            printer.success("No Wi-Fi password found.\n")
+                    except subprocess.CalledProcessError as e:
+                        printer.error("Error retrieving Wi-Fi information:", str(e))
+            except subprocess.CalledProcessError as e:
+                printer.error("Error retrieving profile names:", str(e))
 
         else:
-            printer.info(f"Linux system detected..!\n")
+            printer.info("Linux system detected..!\n")
             time.sleep(1)
             try:
                 output = subprocess.check_output(['nmcli', '-f', 'NAME,UUID', 'connection', 'show', '--active'])
                 connections = re.findall(r'(\S+)\s+([0-9a-f-]{36})', output.decode())
-                for ssid, uuid in connections:
-                    password_output = subprocess.check_output(
-                        ['nmcli', '-s', '-g', '802-11-wireless-security.psk', 'connection', 'show', uuid])
-                    password = password_output.decode().strip()
-                    printer.success(f"SSID: {ssid}")
-                    printer.success(f"Password: {password}\n")
 
-            except OSError as e:
+                for ssid, uuid in connections:
+                    try:
+                        password_output = subprocess.check_output(
+                            ['nmcli', '-s', '-g', '802-11-wireless-security.psk', 'connection', 'show', uuid]
+                        )
+                        password = password_output.decode().strip()
+                        printer.success(f"SSID: {ssid}")
+                        printer.success(f"Password: {password}\n")
+                    except subprocess.CalledProcessError as e:
+                        printer.error(f"Error retrieving password for {ssid}: {str(e)}")
+
+            except subprocess.CalledProcessError as e:
+                printer.error("Error retrieving active connections:", str(e))
                 printer.error("Is your system using nmcli?")
-                printer.error(f"Error : ", e)
-                pass
