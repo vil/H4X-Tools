@@ -50,7 +50,7 @@ class Scan:
                             printer.success("Wi-Fi Password:", password, "\n")
                         else:
                             printer.success("Wi-Fi Name:", profile_name)
-                            printer.success("No Wi-Fi password found.\n")
+                            printer.warning("No Wi-Fi password found. It might be empty.\n")
                     except subprocess.CalledProcessError as e:
                         printer.error("Error retrieving Wi-Fi information:", str(e))
             except subprocess.CalledProcessError as e:
