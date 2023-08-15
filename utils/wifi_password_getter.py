@@ -60,7 +60,7 @@ class Scan:
             printer.info("Linux system detected..!\n")
             time.sleep(1)
             try:
-                output = subprocess.check_output(['nmcli', '-f', 'NAME,UUID', 'connection', 'show', '--active'])
+                output = subprocess.check_output(['nmcli', '-f', 'NAME,UUID', 'connection', 'show'])
                 connections = re.findall(r'(\S+)\s+([0-9a-f-]{36})', output.decode())
 
                 for ssid, uuid in connections:
@@ -69,11 +69,13 @@ class Scan:
                             ['nmcli', '-s', '-g', '802-11-wireless-security.psk', 'connection', 'show', uuid]
                         )
                         password = password_output.decode().strip()
+
                         printer.success(f"SSID: {ssid}")
                         printer.success(f"Password: {password}\n")
+
                     except subprocess.CalledProcessError as e:
                         printer.error(f"Error retrieving password for {ssid}: {str(e)}")
 
             except subprocess.CalledProcessError as e:
-                printer.error("Error retrieving active connections:", str(e))
+                printer.error("Error retrieving saved connections:", str(e))
                 printer.error("Is your system using nmcli?")
