@@ -327,8 +327,10 @@ def __main__():
     internet_check()
     time.sleep(1)
     version_from_url = version_check()
-    # Check if the user is using the latest version
-    if version.strip() != version_from_url.strip():
+    if version_from_url is None:
+        printer.warning("Failed to check the version..!")
+        time.sleep(1)
+    elif version.strip() != version_from_url.strip():
         printer.warning(f"You are using an outdated version! ({version})")
         printer.warning("Check for updates..! (https://github.com/v1li/h4x-tools)")
         time.sleep(3)
