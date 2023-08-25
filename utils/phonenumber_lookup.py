@@ -50,4 +50,3 @@ class LookUp:
             printer.success(f"Time Zone -", time_zone)
         except Exception as e:
             printer.error(f"Error : ", e)
-            pass

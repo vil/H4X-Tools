@@ -37,7 +37,7 @@ class Scan:
             except subprocess.CalledProcessError as e:
                 printer.error(f"Error : {e.returncode}")
         else:
-            printer.info("Linux system detected..! Doing an nmcli scan...")
+            printer.info("Linux system detected..! Doing a nmcli scan...")
             time.sleep(1)
             try:
                 subprocess.run(["nmcli", "dev", "wifi"], check=True)

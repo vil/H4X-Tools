@@ -20,6 +20,7 @@ from helper import printer, timer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 open_ports = []
+failed_ports = []
 
 
 class Scan:
@@ -38,7 +39,7 @@ class Scan:
             if len(open_ports) == 0:
                 printer.error(f"No open ports found in '{ip}'..!")
             else:
-                printer.success(f"Found {len(open_ports)} open ports in '{ip}'..!")
+                printer.success(f"Found {len(open_ports)}/{len(failed_ports)} open ports in '{ip}'..!")
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
 
@@ -72,9 +73,8 @@ class Scan:
                 open_ports.append(port)
                 return printer.success(f"Port '{port}' is open on '{ip}'..!")
         except socket.timeout:
-            return printer.error(f"Timeout occurred while scanning port '{port}' on '{ip}'..!")
+            failed_ports.append(port)
         except ConnectionRefusedError:
             return None
         except socket.error as e:
-            return printer.error(f"An error occurred while scanning port '{port}' on '{ip}': {str(e)}..!")
-
+            return printer.error(f"An error occurred while scanning port '{port}' on '{ip}' : {str(e)}..!")
