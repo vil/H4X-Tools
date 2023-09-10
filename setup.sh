@@ -40,8 +40,8 @@ else
 fi
 
 sleep 1
-echo "Making H4XTools into a Linux command..."
-sleep 1
+echo "Building H4X-Tools to a single executable in 3 seconds..."
+sleep 3
 
 chmod +x h4xtools.py
 

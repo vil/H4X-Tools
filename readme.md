@@ -43,6 +43,8 @@ I'll upload already built executables to the [releases](https://github.com/V1li/
 but I'd recommend installing the tool manually by following the instructions below. This way you also get the freshest version.
 
 # Setup
+Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
+
 ### Linux
 1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
@@ -51,13 +53,11 @@ but I'd recommend installing the tool manually by following the instructions bel
 3. Run `sh setup.sh` in terminal to install the tool.
 
 ### Windows
-1. Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
+1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
 
-2. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
+2. Change directory `cd H4X-Tools`
 
-3. Change directory `cd H4X-Tools`
-
-4. Run the `setup.bat` file.
+3. Run the `setup.bat` file.
 
 Setup files will automatically build the tool as an executable.
 You can also run the tool using `python h4xtools.py` in the terminal.

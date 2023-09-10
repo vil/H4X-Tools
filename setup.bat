@@ -12,7 +12,7 @@ echo ~~by Vili (https://vili.dev)
 echo.
 echo Installing dependencies in 3 seconds...
 timeout /t 3 /nobreak > nul
-pip3 install -r requirements.txt
+python -m pip install -r requirements.txt
 echo.
 timeout /t 1 /nobreak > nul
 echo.
