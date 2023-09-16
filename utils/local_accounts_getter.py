@@ -53,11 +53,12 @@ class Scan:
 
                 # Iterate through the user information list to print the information
                 for user_info in user_info_list:
-                    printer.success("Username:", user_info['Username'])
-                    printer.success("Terminal:", user_info['Terminal'])
-                    printer.success("Host:", user_info['Host'])
-                    printer.success("Started:", user_info['Started'])
-                    printer.success("PID:", user_info['PID'], "\n")
+                    printer.success("User Information:")
+                    printer.success(f"Username: {user_info['Username']}")
+                    printer.success(f"Terminal: {user_info['Terminal']}")
+                    printer.success(f"Host: {user_info['Host']}")
+                    printer.success(f"Started: {user_info['Started']}")
+                    printer.success(f"PID: {user_info['PID']}", "\n")
             except Exception as e:
                 printer.error("Error retrieving account information:", str(e))
 
