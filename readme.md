@@ -32,7 +32,7 @@ If you want to help with the development, feel free to make a pull request.
 | Wi-Fi Finder          | Scans for nearby Wi-Fi networks.                                                                                  |
 | Wi-Fi Password Getter | Scans for locally saved Wi-Fi passwords.                                                                          |
 | Dir Buster            | Bruteforce directories on a website.                                                                              |
-| Update                | Updates the tool if new versions are available.                                                                   |
+| Local Accounts Getter | Scans for all local accounts and their information.                                                               |
 | About                 | Tells you about the tool.                                                                                         |
 | Donate                | My crypto addresses where to donate.                                                                              |    
 | Exit                  | Exits the tool.                                                                                                   |

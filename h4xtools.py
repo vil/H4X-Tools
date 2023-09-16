@@ -39,6 +39,7 @@ from utils import (
     wifi_password_getter,
     fake_info_generator,
     dirbuster,
+    local_accounts_getter
 )
 from helper import printer, url_helper
 
@@ -48,7 +49,7 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.13"
+version = "0.2.14"
 
 
 def internet_check():
@@ -200,7 +201,6 @@ def handle_email_search():
     """
     if os.name == "nt":
         printer.warning(f"Sorry, this currently only works on Linux machines :(")
-        printer.warning(f"You could try running this in a Linux subsystem on Windows?")
     else:
         email = str(input("Enter a email address : \t"))
         email_search.Holehe(email)
@@ -286,14 +286,12 @@ def handle_dir_buster():
     dirbuster.Scan(url)
 
 
-def update():
+def handle_local_accounts_getter():
     """
-    Performs a git fetch and a git pull to update the tool.
+    Handles the Local Accounts Getter util.
     """
-    try:
-        os.system("git fetch && git pull")
-    except Exception as e:
-        printer.error(f"Error while updating..! {e}")
+    printer.info(f"Scanning for local accounts...")
+    local_accounts_getter.Scan()
 
 
 # Create a dictionary to map menu options to corresponding functions
@@ -313,9 +311,9 @@ menu_options = {
     "13": handle_wifi_finder,
     "14": handle_wifi_password_getter,
     "15": handle_dir_buster,
-    "16": about,
-    "17": donate,
-    "18": update,
+    "16": handle_local_accounts_getter,
+    "17": about,
+    "18": donate,
     "19": handle_exit
 }
 
