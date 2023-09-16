@@ -16,6 +16,7 @@
  """
 
 import os
+import psutil
 import subprocess
 import time
 from helper import printer, timer
@@ -31,29 +32,34 @@ class Scan:
             printer.info("Windows system detected..!\n")
             time.sleep(1)
             try:
-                output = subprocess.check_output("net user", shell=True).decode("utf-8")
-                profile_names = [line.split(":")[1].strip() for line in output.splitlines() if
-                                 "All User Profile" in line]
+                user_info_list = []
 
-                for profile_name in profile_names:
-                    try:
-                        wifi_info = subprocess.check_output(
-                            'net user "{}"'.format(profile_name),
-                            shell=True).decode("utf-8")
+                for user in psutil.users():
+                    username = user.name
+                    terminal = user.terminal
+                    host = user.host
+                    started = time.strftime("%m/%d/%Y %H:%M:%S", time.localtime(user.started))
+                    pid = user.pid
 
-                        password_index = wifi_info.find("Password last set")
-                        if password_index != -1:
-                            password_start = password_index + len("Password last set") + 2
-                            password = wifi_info[password_start:].split("\r\n")[0].strip()
-                            printer.success("Account Name:", profile_name)
-                            printer.success("Account Password:", password, "\n")
-                        else:
-                            printer.success("Account Name:", profile_name)
-                            printer.warning("No account password found. It might be empty.\n")
-                    except subprocess.CalledProcessError as e:
-                        printer.error("Error retrieving account information:", str(e))
-            except subprocess.CalledProcessError as e:
-                printer.error("Error retrieving profile names:", str(e))
+                    user_info = {
+                        'Username': username,
+                        'Terminal': terminal,
+                        'Host': host,
+                        'Started': started,
+                        'PID': pid
+                    }
+
+                    user_info_list.append(user_info)
+
+                # Iterate through the user information list to print the information
+                for user_info in user_info_list:
+                    printer.success("Username:", user_info['Username'])
+                    printer.success("Terminal:", user_info['Terminal'])
+                    printer.success("Host:", user_info['Host'])
+                    printer.success("Started:", user_info['Started'])
+                    printer.success("PID:", user_info['PID'], "\n")
+            except Exception as e:
+                printer.error("Error retrieving account information:", str(e))
 
         else:
             printer.info("Linux system detected..!\n")

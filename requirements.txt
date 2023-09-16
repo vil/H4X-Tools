@@ -12,3 +12,4 @@ faker
 holehe
 aiohttp
 asyncio
+psutil
