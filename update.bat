@@ -10,8 +10,16 @@ echo //    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ /
 echo.
 echo ~~by Vili (https://vili.dev)
 echo.
-git fetch
-git pull
+echo Make sure you run this in the root of the repository!
 echo.
-echo Done!
+set /p "input=Do you want to continue and update H4X-Tools? (y/n) "
+if /i "%input%"=="y" (
+    echo Updating...
+    timeout /t 1 /nobreak > nul
+    git fetch
+    git pull
+) else (
+    echo Exiting...
+    timeout /t 1 /nobreak > nul
+)
 exit
