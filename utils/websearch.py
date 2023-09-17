@@ -16,14 +16,13 @@
  """
 
 import time
-import random
 import requests
 from bs4 import BeautifulSoup
-from utils.randomuser import users
+from utils import randomuser
 from helper import printer, timer
 
 headers = {
-    "User-Agent": random.choice(users),
+    "User-Agent": f"{randomuser.IFeelLucky()}",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
     "Referer": "https://duckduckgo.com/"

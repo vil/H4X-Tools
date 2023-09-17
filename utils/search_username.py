@@ -16,7 +16,6 @@
  """
 
 import json
-import random
 import time
 from datetime import datetime
 import aiohttp
@@ -89,7 +88,7 @@ class Search:
     async def make_request(session, u, username, results):
         url = u["url"].format(username=username)
         json_body = None
-        headers = {"User-Agent": random.choice(randomuser.users)}
+        headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
         if 'headers' in u:
             headers.update(eval(u['headers']))
         if 'json' in u:

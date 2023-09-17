@@ -435,9 +435,12 @@ users = [
 ]
 
 
-class RandomUsers:
+class IFeelLucky:
     """
     Return a random user agent from the list.
     """
     def __init__(self):
         self.user_agent = random.choice(users)
+
+    def __str__(self):
+        return self.user_agent

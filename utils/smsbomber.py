@@ -19,7 +19,7 @@ import requests
 import random
 import time
 from helper import printer, timer
-from utils.randomuser import users
+from utils import randomuser
 
 
 class SMSBomber:
@@ -48,7 +48,7 @@ class SMSBomber:
             f"https://www.olx.com.lb/api/auth/authenticate/byPhone?phone={self.number}"
         ]
         self.session = requests.session()
-        self.session.headers = random.choice(users)
+        self.session.headers = f"{randomuser.IFeelLucky()}"
 
         try:
             printer.info(f"Trying to send {self.count} SMS to '{self.number}'...")

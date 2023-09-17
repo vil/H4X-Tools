@@ -18,7 +18,6 @@
 import json
 import time
 import requests
-import random
 import socket
 from helper import printer, timer
 from utils import randomuser
@@ -35,7 +34,7 @@ class Lookup:
         try:
             ip = socket.gethostbyname(ip)
             url = f"https://ipinfo.io/{ip}/json"
-            headers = {'User-Agent': random.choice(randomuser.users)}
+            headers = {'User-Agent': f"{randomuser.IFeelLucky()}"}
             url = requests.get(url, headers=headers)
             # printer.info(url.text)
             values = json.loads(url.text)

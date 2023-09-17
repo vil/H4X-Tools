@@ -17,10 +17,9 @@
 
 import asyncio
 import aiohttp
-import random
 from bs4 import BeautifulSoup
 from helper import printer, timer
-from utils.randomuser import users
+from utils import randomuser
 
 
 class Scrape:
@@ -40,7 +39,7 @@ class Scrape:
 
     @staticmethod
     async def fetch(session, url):
-        headers = {"User-Agent": random.choice(users)}
+        headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
         async with session.get(url, headers=headers) as response:
             return await response.text()
 

@@ -62,7 +62,7 @@ class Scan:
         :param path: path to check
         """
         url = f"https://{self.domain}/{path}"
-        headers = {"User-Agent": f"{random.choice(randomuser.users)}"}
+        headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
         async with session.get(url, headers=headers) as response:
             if response.status == 200:
                 printer.success(f"Found a valid URL - {url}")
