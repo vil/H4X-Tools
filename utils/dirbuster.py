@@ -15,6 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+import asyncio
+import aiohttp
 import requests
 import random
 from helper import printer, url_helper, timer
@@ -32,12 +34,11 @@ class Scan:
     @timer.timer
     def __init__(self, domain):
         self.domain = domain
-        self.url_list = []
+        self.url_set = set()
 
         printer.info(f"Scanning for valid URLs for '{domain}'..!")
-        printer.warning("This may take a while..!")
         self.scan_urls()
-        printer.success(f"Scan Complete..! Found {len(self.url_list)} valid URL(s).")
+        printer.success(f"Scan Complete..! Found {len(self.url_set)} valid URLs!")
 
     @staticmethod
     def get_wordlist():
@@ -48,31 +49,43 @@ class Scan:
         """
         try:
             content = url_helper.read_content(PATH)
-            return [line.strip() for line in content.splitlines() if line.strip()]
+            return {line.strip() for line in content.splitlines() if line.strip()}
         except requests.exceptions.ConnectionError:
-            printer.error("Connection Error..!")
             return None
 
+    async def fetch_url(self, session, path):
+        """
+        Fetches the url and checks if it is valid
+
+        :param session: aiohttp session
+
+        :param path: path to check
+        """
+        url = f"https://{self.domain}/{path}"
+        headers = {"User-Agent": f"{random.choice(randomuser.users)}"}
+        async with session.get(url, headers=headers) as response:
+            if response.status == 200:
+                printer.success(f"Found a valid URL - {url}")
+                self.url_set.add(url)
+
+    async def scan_async(self, paths):
+        """
+        Scans the url asynchronously
+
+        :param paths: list of paths to scan
+        """
+        async with aiohttp.ClientSession() as session:
+            tasks = [self.fetch_url(session, path) for path in paths]
+            await asyncio.gather(*tasks)
+
     def scan_urls(self):
-        """
-        Scans the given domain name for valid paths
-        """
         paths = self.get_wordlist()
-        valid_url_count = 0
+        if paths is None:
+            printer.error("Connection Error..!")
+            return
 
         try:
-            for path in paths:
-                url = f"https://{self.domain}/{path}"
-                try:
-                    headers = {"User-Agent": random.choice(randomuser.users)}
-                    response = requests.get(url, headers=headers)
-
-                    if response.status_code == 200:
-                        valid_url_count += 1
-                        printer.success(f"{valid_url_count} Valid URL(s): {url}")
-                        self.url_list.append(url)
-                except requests.exceptions.ConnectionError:
-                    printer.error("Connection Error..!")
-                    continue
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(self.scan_async(paths))
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
