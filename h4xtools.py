@@ -318,7 +318,7 @@ menu_options = {
 }
 
 
-def __main__():
+def main():
     """
     Main function.
     """
@@ -352,4 +352,4 @@ def __main__():
 
 
 if __name__ == "__main__":
-    __main__()
+    main()
