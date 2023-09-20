@@ -112,9 +112,10 @@ def donate():
     """
     printer.nonprefix(f"""{Fore.GREEN}
 If you want to support me and my work, you can donate to these addresses: \n
-| BCH: bitcoincash:qqk9qkm7j6lc5dzjwsylnh6q3ytp8pp7yunc6tt2nv
-| BTC: bitcoin:153JzmhHeeSMGrzNA6ASwKE2zpRwKDNk2Y
+| BCH: bitcoincash:qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
+| BTC: bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
 | ETH: 0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
+| XMR: 46jxBecqTunhWAitoBvQGaGUF8sZ3LmvuQzFzmFQZyAAWydLbTVnu4n2n6SXMkZTYhff4V2oGLBF2KgipLjMBgQ8HJswdXY
 Or support me on GitHub: https://github.com/sponsors/v1li
 
 Every single donation is appreciated! <3
