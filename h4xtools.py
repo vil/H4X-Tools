@@ -39,7 +39,9 @@ from utils import (
     wifi_password_getter,
     fake_info_generator,
     dirbuster,
-    local_accounts_getter
+    local_accounts_getter,
+    caesar_cipher,
+    basexx
 )
 from helper import printer, url_helper
 
@@ -49,7 +51,7 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.14"
+version = "0.2.14b"
 
 
 def internet_check():
@@ -295,6 +297,28 @@ def handle_local_accounts_getter():
     local_accounts_getter.Scan()
 
 
+def handle_caesar_cipher():
+    """
+    Handles the Caesar Cipher util.
+    """
+    message = input("Enter a text to cipher/decipher : \t")
+    shift = int(input("Enter a number of shifts (0 to 25) : \t"))
+    if shift < 0 or shift > 25:
+        printer.error("Invalid shift number, please choose a number between 0 and 25..!")
+    mode = str(input("Enter a mode (encrypt/decrypt/bruteforce) : \t"))
+    caesar_cipher.CaesarCipher(message, shift, mode)
+
+
+def handle_basexx():
+    """
+    Handles the BaseXX util.
+    """
+    message = input("Enter a text to encode/decode : \t")
+    mode = str(input("Enter a mode (encode/decode) : \t"))
+    encoding = str(input("Enter a encoding (64/32/16) : \t"))
+    basexx.BaseXX(message, mode, encoding)
+
+
 # Create a dictionary to map menu options to corresponding functions
 menu_options = {
     "1": handle_ig_scrape,
@@ -313,9 +337,11 @@ menu_options = {
     "14": handle_wifi_password_getter,
     "15": handle_dir_buster,
     "16": handle_local_accounts_getter,
-    "17": about,
-    "18": donate,
-    "19": handle_exit
+    "17": handle_caesar_cipher,
+    "18": handle_basexx,
+    "19": about,
+    "20": donate,
+    "21": handle_exit
 }
 
 
@@ -332,7 +358,7 @@ def main():
     elif version.strip() != version_from_url.strip():
         printer.warning(f"You are using an outdated version! ({version})")
         printer.warning("Check for updates..! (https://github.com/v1li/h4x-tools)")
-        time.sleep(3)
+        time.sleep(1)
 
     if os.name == "nt":
         printer.warning("Windows system detected..! Expect issues...")

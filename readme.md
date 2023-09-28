@@ -33,6 +33,8 @@ If you want to help with the development, feel free to make a pull request.
 | Wi-Fi Password Getter | Scans for locally saved Wi-Fi passwords.                                                                          |
 | Dir Buster            | Bruteforce directories on a website.                                                                              |
 | Local Accounts Getter | Scans for all local accounts and their information.                                                               |
+| Caesar Cipher         | Encrypts/decrypts/bruteforce a message using the Caesar cipher.                                                   |
+| BaseXX                | Encodes/decodes a message using Base64/32/16.                                                                     |
 | About                 | Tells you about the tool.                                                                                         |
 | Donate                | My crypto addresses where to donate.                                                                              |    
 | Exit                  | Exits the tool.                                                                                                   |
