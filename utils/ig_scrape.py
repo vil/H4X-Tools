@@ -15,6 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+import os
+import json
 from instagram_private_api import Client
 from helper import printer, timer
 
@@ -33,6 +35,14 @@ class Scrape:
     """
     @timer.timer
     def __init__(self, username, password, target):
+        self.username = username
+        self.password = password
+
+        temp_dir = '/tmp'
+        credentials_file = os.path.join(temp_dir, "dontlookhere.json")
+        if os.name == "posix" and not os.path.exists(credentials_file):
+            self.save_credentials(username, password)
+
         try:
             api = Client(username, password)
             data = api.username_info(target)
@@ -42,6 +52,27 @@ class Scrape:
             return
 
         self.print_account_info(data)
+
+    @staticmethod
+    def save_credentials(username, password):
+        """
+        Saves users credentials temporarily in /tmp/
+
+        Warning, credentials are in cleartext.
+
+        :param username: The username of the account.
+        :param password: The password of the account.
+        """
+        if os.name == "posix":
+            temp_dir = '/tmp'
+            credentials_file = os.path.join(temp_dir, "dontlookhere.json")
+            credentials = {"username": username, "password": password}
+            with open(credentials_file, "w") as file:
+                json.dump(credentials, file)
+
+            printer.info(f"Credentials saved temporarily in {credentials_file}.")
+        else:
+            printer.warning("Win system! Not saving...")
 
     @staticmethod
     def safe_get(data, key, default=None):

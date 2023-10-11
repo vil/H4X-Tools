@@ -22,6 +22,7 @@ import time
 from colorama import Fore
 import socket
 import requests
+import json
 from getpass import getpass
 from utils import (
     email_search,
@@ -54,7 +55,7 @@ if os.name == "posix":
 version = "0.2.14b"
 
 
-def internet_check():
+def internet_check() -> None:
     """
     Checks if the internet connection is available.
 
@@ -63,13 +64,11 @@ def internet_check():
     try:
         socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
-        return None
     except OSError:
         printer.warning("Internet Connection is Unavailable..!")
-        return None
 
 
-def version_check():
+def version_check() -> str:
     """
     Checks the version from an external url and returns it.
 
@@ -83,7 +82,7 @@ def version_check():
         printer.error("Failed to check the version..!")
 
 
-def print_banner():
+def print_banner() -> None:
     """
     Prints the banner of H4X-Tools.
     """
@@ -97,7 +96,7 @@ v{version} ~~by Vili (https://vili.dev)
     """)
 
 
-def about():
+def about() -> None:
     """
     Prints the about text.
     """
@@ -108,7 +107,7 @@ def about():
     printer.nonprefix(f"NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
 
 
-def donate():
+def donate() -> None:
     """
     Prints the donate text.
     """
@@ -124,7 +123,7 @@ Every single donation is appreciated! <3
             """)
 
 
-def print_menu():
+def print_menu() -> None:
     """
     Prints the main menu of H4X-Tools.
     """
@@ -138,7 +137,7 @@ def print_menu():
     print("\n")
 
 
-def handle_exit():
+def handle_exit() -> None:
     """
     Kills the program.
     """
@@ -149,7 +148,7 @@ def handle_exit():
     exit()
 
 
-def handle_ig_scrape():
+def handle_ig_scrape() -> None:
     """
     Handles the IG Scrape util.
 
@@ -157,14 +156,24 @@ def handle_ig_scrape():
     """
     printer.warning("NOTE! You have to log in to Instagram everytime in order to use this util.")
     printer.warning("I suggest you to create a new account for this purpose.")
-    username = str(input("Your username : "))
-    password = getpass("Your password : ")
+    # Check if saved credentials exist
+    temp_dir = '/tmp'
+    credentials_file = os.path.join(temp_dir, "dontlookhere.json")
+    if os.name == "posix" and os.path.exists(credentials_file):
+        with open(credentials_file, "r") as file:
+            credentials = json.load(file)
+        username = credentials["username"]
+        password = credentials["password"]
+        printer.info(f"Using saved credentials for '{username}'")
+    else:
+        username = str(input("Your username : "))
+        password = getpass("Your password : ")
     target = str(input("Enter a target username : \t")).replace(" ", "_")
     ig_scrape.Scrape(username, password, target)
     time.sleep(1)
 
 
-def handle_web_search():
+def handle_web_search() -> None:
     """
     Handles the Web Search util.
     """
@@ -172,7 +181,7 @@ def handle_web_search():
     websearch.Search(query)
 
 
-def handle_phone_lookup():
+def handle_phone_lookup() -> None:
     """
     Handles the Phone number Lookup util.
     """
@@ -180,7 +189,7 @@ def handle_phone_lookup():
     phonenumber_lookup.LookUp(no)
 
 
-def handle_ip_lookup():
+def handle_ip_lookup() -> None:
     """
     Handles the IP/Domain Lookup util.
     """
@@ -188,7 +197,7 @@ def handle_ip_lookup():
     ip_lookup.Lookup(ip)
 
 
-def handle_username_search():
+def handle_username_search() -> None:
     """
     Handles the Username Search util.
     """
@@ -196,7 +205,7 @@ def handle_username_search():
     search_username.Search(username)
 
 
-def handle_email_search():
+def handle_email_search() -> None:
     """
     Handles the Email Search util.
 
@@ -209,7 +218,7 @@ def handle_email_search():
         email_search.Holehe(email)
 
 
-def handle_port_scanner():
+def handle_port_scanner() -> None:
     """
     Handles the Port Scanner util.
     """
@@ -218,7 +227,7 @@ def handle_port_scanner():
     port_scanner.Scan(ip, port_range)
 
 
-def handle_webhook_spammer():
+def handle_webhook_spammer() -> None:
     """
     Handles the Webhook Spammer util.
     """
@@ -230,7 +239,7 @@ def handle_webhook_spammer():
     webhook_spammer.Spam(url, amount, message, username, throttle)
 
 
-def handle_whois_lookup():
+def handle_whois_lookup() -> None:
     """
     Handles the WhoIs Lookup util.
     """
@@ -238,7 +247,7 @@ def handle_whois_lookup():
     whois_lookup.Lookup(domain)
 
 
-def handle_sms_bomber():
+def handle_sms_bomber() -> None:
     """
     Handles the SMS Bomber util.
 
@@ -250,14 +259,14 @@ def handle_sms_bomber():
     smsbomber.SMSBomber(number, count, throttle)
 
 
-def handle_fake_info_generator():
+def handle_fake_info_generator() -> None:
     """
     Handles the Fake Info Generator util.
     """
     fake_info_generator.Generate()
 
 
-def handle_web_scrape():
+def handle_web_scrape() -> None:
     """
     Handles the Web Scrape util.
     """
@@ -265,7 +274,7 @@ def handle_web_scrape():
     web_scrape.Scrape(url)
 
 
-def handle_wifi_finder():
+def handle_wifi_finder() -> None:
     """
     Handles the Wi-Fi Finder util.
     """
@@ -273,7 +282,7 @@ def handle_wifi_finder():
     wifi_finder.Scan()
 
 
-def handle_wifi_password_getter():
+def handle_wifi_password_getter() -> None:
     """
     Handles the Wi-Fi Password Getter util.
     """
@@ -281,7 +290,7 @@ def handle_wifi_password_getter():
     wifi_password_getter.Scan()
 
 
-def handle_dir_buster():
+def handle_dir_buster() -> None:
     """
     Handles the Dir Buster util.
     """
@@ -289,7 +298,7 @@ def handle_dir_buster():
     dirbuster.Scan(url)
 
 
-def handle_local_accounts_getter():
+def handle_local_accounts_getter() -> None:
     """
     Handles the Local Accounts Getter util.
     """
@@ -297,7 +306,7 @@ def handle_local_accounts_getter():
     local_accounts_getter.Scan()
 
 
-def handle_caesar_cipher():
+def handle_caesar_cipher() -> None:
     """
     Handles the Caesar Cipher util.
     """
@@ -309,7 +318,7 @@ def handle_caesar_cipher():
     caesar_cipher.CaesarCipher(message, shift, mode)
 
 
-def handle_basexx():
+def handle_basexx() -> None:
     """
     Handles the BaseXX util.
     """
@@ -345,7 +354,7 @@ menu_options = {
 }
 
 
-def main():
+def main() -> None:
     """
     Main function.
     """
