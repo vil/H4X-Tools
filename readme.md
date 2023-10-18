@@ -57,6 +57,7 @@ I'll upload already built executables to the [releases](https://github.com/V1li/
 but I'd recommend installing the tool manually by following the instructions below. This way you also get the freshest version.
 
 ## Setup
+view the [wiki page](https://github.com/V1li/H4X-Tools/wiki) for more detailed tutorial.
 > [!IMPORTANT]
 > Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
