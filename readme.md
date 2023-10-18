@@ -61,16 +61,16 @@ but I'd recommend installing the tool manually by following the instructions bel
 > Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
 
 ### Linux
-1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
+1. Clone the repo `git clone https://github.com/v1li/h4x-tools.git`
 
-2. Change directory `cd H4X-Tools`
+2. Change directory `cd h4x-tools`
 
 3. Run `sh setup.sh` in terminal to install the tool.
 
 ### Windows
-1. Clone the repo `git clone https://github.com/v1li/H4X-Tools.git`
+1. Clone the repo `git clone https://github.com/v1li/h4x-tools.git`
 
-2. Change directory `cd H4X-Tools`
+2. Change directory `cd h4x-tools`
 
 3. Run the `setup.bat` file.
 
