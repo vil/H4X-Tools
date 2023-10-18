@@ -44,22 +44,21 @@ You can also [donate](https://vili.dev/#donate) to keep the project alive and me
 | Exit                  | Exits the tool.                                                                                                   |
 
 > [!NOTE]  
-> IG Scrape requires you to log in, in order to use it.
-
-> [!NOTE]
-> SMS Bomber only works with US numbers.
-
-> [!NOTE]
-> You might get rate limited after using some of the tools for too long.
+> -IG Scrape requires you to log in, in order to use it.
+> 
+> -SMS Bomber only works with US numbers.
+>
+> -You might get rate limited after using some of the tools for too long.
 
 # Installation
 I'll upload already built executables to the [releases](https://github.com/V1li/H4X-Tools/releases) tab, 
 but I'd recommend installing the tool manually by following the instructions below. This way you also get the freshest version.
 
 ## Setup
-view the [wiki page](https://github.com/V1li/H4X-Tools/wiki) for more detailed tutorial.
 > [!IMPORTANT]
-> Make sure you have [python](https://www.python.org/downloads/) and [git](https://git-scm.com/downloads) installed.
+> Make sure you have [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed.
+>
+> view the [wiki page](https://github.com/V1li/H4X-Tools/wiki) for more detailed tutorial.
 
 ### Linux
 1. Clone the repo `git clone https://github.com/v1li/h4x-tools.git`
