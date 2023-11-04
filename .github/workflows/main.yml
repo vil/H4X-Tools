@@ -19,7 +19,7 @@ jobs:
           pip install -r requirements.txt
       - name: Build Windows executable with pyinstaller
         run: |
-          pyinstaller --onefile h4xtools.py
+          pyinstaller --onefile --clean -F h4xtools.py
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v3
         with:
@@ -40,7 +40,7 @@ jobs:
           pip install -r requirements.txt
       - name: Build Linux executable with pyinstaller
         run: |
-          pyinstaller --onefile -F h4xtools.py
+          pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v3
         with:
