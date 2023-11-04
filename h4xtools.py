@@ -21,7 +21,6 @@ import os
 import time
 from colorama import Fore
 import socket
-import requests
 import json
 from getpass import getpass
 from utils import (
@@ -44,7 +43,7 @@ from utils import (
     caesar_cipher,
     basexx
 )
-from helper import printer, url_helper
+from helper import printer
 
 if os.name == "nt":
     os.system("cls")
@@ -52,7 +51,7 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.14b"
+version = "0.2.15"
 
 
 def internet_check() -> None:
@@ -68,18 +67,18 @@ def internet_check() -> None:
         printer.warning("Internet Connection is Unavailable..!")
 
 
-def version_check() -> str:
-    """
-    Checks the version from an external url and returns it.
-
-    :return: version
-    """
-    path = "h4xtools/version.txt"
-    try:
-        r = url_helper.read_content(path)
-        return r
-    except requests.exceptions.ConnectionError:
-        printer.error("Failed to check the version..!")
+# def version_check() -> str:
+#    """
+#    Checks the version from an external url and returns it.
+#
+#    :return: version
+#    """
+#    path = "h4xtools/version.txt"
+#    try:
+#        r = url_helper.read_content(path)
+#        return r
+#    except requests.exceptions.ConnectionError:
+#        printer.error("Failed to check the version..!")
 
 
 def print_banner() -> None:
@@ -360,14 +359,6 @@ def main() -> None:
     """
     internet_check()
     time.sleep(1)
-    version_from_url = version_check()
-    if version_from_url is None:
-        printer.warning("Failed to check the version..!")
-        time.sleep(1)
-    elif version.strip() != version_from_url.strip():
-        printer.warning(f"You are using an outdated version! ({version})")
-        printer.warning("Check for updates..! (https://github.com/v1li/h4x-tools)")
-        time.sleep(1)
 
     if os.name == "nt":
         printer.warning("Windows system detected..! Expect issues...")

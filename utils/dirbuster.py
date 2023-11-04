@@ -31,6 +31,7 @@ class Scan:
 
     :param domain: url to scan
     """
+
     @timer.timer
     def __init__(self, domain):
         self.domain = domain
@@ -48,7 +49,7 @@ class Scan:
         :return: list of names
         """
         try:
-            content = url_helper.read_content(PATH)
+            content = url_helper.read_local_content("resources/wordlist.txt")
             return {line.strip() for line in content.splitlines() if line.strip()}
         except requests.exceptions.ConnectionError:
             return None

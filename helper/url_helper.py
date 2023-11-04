@@ -22,6 +22,7 @@ from helper import printer
 from utils import randomuser
 
 BASE_URL = "https://resources.vili.dev/"
+LOCAL = "resources/"
 
 
 def send_request(path):
@@ -69,6 +70,38 @@ def read_content(path):
     if response is not None:
         return response.text
     return None
+
+
+def read_local_content(path):
+    """
+    Temp fix as the BASE_URL server is down.
+
+    :param path: path to the file
+    :return: Content of the file as a string or None if an error occurs.
+    """
+    try:
+        with open(path, 'r') as file:
+            content = file.read()
+        return content
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
+
+
+def read_local_json_content(path):
+    """
+    Temp fix as the BASE_URL server is down.
+
+    :param path: path to the JSON file.
+    :return: Content of the JSON file as a dictionary or None if an error occurs.
+    """
+    try:
+        with open(path, 'r') as json_file:
+            data = json.load(json_file)
+        return data
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
 
 
 def read_json_content(path):
