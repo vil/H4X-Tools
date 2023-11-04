@@ -15,68 +15,15 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import requests
-import random
 import sys
 import os
 import json
 from helper import printer
-from utils import randomuser
-
-BASE_URL = "https://resources.vili.dev/"
-LOCAL = "resources/"
-
-
-def send_request(path):
-    """
-    Sends a request to the given path and returns the response object.
-
-    :param path: path to the resource in BASE_URL (https://resources.vili.dev/)
-    :return: Response object or None if a connection error occurs.
-    """
-    try:
-        headers = {
-            "User-Agent": random.choice(randomuser.users)
-        }
-        response = requests.get(BASE_URL + path, headers=headers)
-        return response
-    except requests.exceptions.ConnectionError:
-        printer.error("Unable to connect to the server..!")
-        return None
-
-
-def get_file(path):
-    """
-    Downloads the file from the given path and saves it to the current directory.
-
-    :param path: path to the file in BASE_URL (https://resources.vili.dev/)
-    """
-    response = send_request(path)
-    if response is not None:
-        try:
-            with open(path, 'wb') as f:
-                f.write(response.content)
-            printer.success(f"Successfully downloaded file to '{path}'..!")
-        except OSError:
-            printer.error(f"Error while writing to '{path}'")
-
-
-def read_content(path):
-    """
-    Reads the content of the file from the given path.
-
-    :param path: path to the file in BASE_URL (https://resources.vili.dev/)
-    :return: Content of the file as a string or None if an error occurs.
-    """
-    response = send_request(path)
-    if response is not None:
-        return response.text
-    return None
 
 
 def read_local_content(path):
     """
-    Temp fix as the BASE_URL server is down.
+    Reads file content from a local file.
 
     :param path: path to the file
     :return: Content of the file as a string or None if an error occurs.
@@ -86,13 +33,13 @@ def read_local_content(path):
             content = file.read()
         return content
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        printer.error(f"An error occurred: {str(e)}")
         return None
 
 
 def read_local_json_content(path):
     """
-    Temp fix as the BASE_URL server is down.
+    Reads JSON file content from a local file.
 
     :param path: path to the JSON file.
     :return: Content of the JSON file as a dictionary or None if an error occurs.
@@ -102,24 +49,8 @@ def read_local_json_content(path):
             data = json.load(json_file)
         return data
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        printer.error(f"An error occurred: {str(e)}")
         return None
-
-
-def read_json_content(path):
-    """
-    Reads the content of a JSON file from the given path.
-
-    :param path: path to the JSON file in BASE_URL (https://resources.vili.dev/)
-    :return: Content of the JSON file as a dictionary or None if an error occurs.
-    """
-    response = send_request(path)
-    if response is not None:
-        try:
-            return json.loads(response.text)
-        except json.JSONDecodeError:
-            printer.error("Error decoding JSON content")
-    return None
 
 
 # I hate pyinstaller.

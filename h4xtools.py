@@ -67,20 +67,6 @@ def internet_check() -> None:
         printer.warning("Internet Connection is Unavailable..!")
 
 
-# def version_check() -> str:
-#    """
-#    Checks the version from an external url and returns it.
-#
-#    :return: version
-#    """
-#    path = "h4xtools/version.txt"
-#    try:
-#        r = url_helper.read_content(path)
-#        return r
-#    except requests.exceptions.ConnectionError:
-#        printer.error("Failed to check the version..!")
-
-
 def print_banner() -> None:
     """
     Prints the banner of H4X-Tools.

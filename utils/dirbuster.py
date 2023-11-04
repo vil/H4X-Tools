@@ -18,11 +18,8 @@
 import asyncio
 import aiohttp
 import requests
-import random
 from helper import printer, url_helper, timer
 from utils import randomuser
-
-PATH = "h4xtools/wordlist.txt"
 
 
 class Scan:

@@ -23,8 +23,6 @@ import asyncio
 from utils import randomuser
 from helper import printer, url_helper, timer
 
-PATH = "h4xtools/data.json"
-
 
 class Search:
     """
