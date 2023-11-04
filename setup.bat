@@ -20,7 +20,7 @@ echo Done..!
 echo.
 echo Building H4X-Tools to a single executable in 3 seconds...
 timeout /t 3 /nobreak > nul
-python -m PyInstaller h4xtools.py --onefile -F --clean
+python -m PyInstaller h4xtools.py --add-data "resources/*;resources" --onefile -F --clean
 echo.
 echo Done..!
 echo Your H4X-Tools executable is located in the 'dist' folder. You can now move it to your desired location.
