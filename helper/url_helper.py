@@ -17,6 +17,8 @@
 
 import requests
 import random
+import sys
+import os
 import json
 from helper import printer
 from utils import randomuser
@@ -80,7 +82,7 @@ def read_local_content(path):
     :return: Content of the file as a string or None if an error occurs.
     """
     try:
-        with open(path, 'r') as file:
+        with open(resource_path(path), 'r') as file:
             content = file.read()
         return content
     except Exception as e:
@@ -96,7 +98,7 @@ def read_local_json_content(path):
     :return: Content of the JSON file as a dictionary or None if an error occurs.
     """
     try:
-        with open(path, 'r') as json_file:
+        with open(resource_path(path), 'r') as json_file:
             data = json.load(json_file)
         return data
     except Exception as e:
@@ -118,3 +120,10 @@ def read_json_content(path):
         except json.JSONDecodeError:
             printer.error("Error decoding JSON content")
     return None
+
+
+# I hate pyinstaller.
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)

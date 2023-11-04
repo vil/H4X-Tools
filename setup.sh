@@ -46,7 +46,7 @@ sleep 3
 chmod +x h4xtools.py
 
 if command -v pyinstaller >/dev/null 2>&1; then
-    pyinstaller h4xtools.py --onefile -F
+    pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
     sleep 1
     chmod +x dist/h4xtools
     sudo mv dist/h4xtools /usr/local/bin/
