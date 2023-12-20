@@ -101,7 +101,7 @@ If you want to support me and my work, you can donate to these addresses: \n
 | BCH: bitcoincash:qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
 | BTC: bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
 | ETH: 0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
-| XMR: 46jxBecqTunhWAitoBvQGaGUF8sZ3LmvuQzFzmFQZyAAWydLbTVnu4n2n6SXMkZTYhff4V2oGLBF2KgipLjMBgQ8HJswdXY
+| XMR: 42fC3fZDPeMMqnMt7hqgdAJonJQtzshc9C5R9PMAFBkwDu36xwAKDW44J42JPLtDjy337SVkbG2Ceir2PhsvDYeS4T5BaPT
 Or support me on GitHub: https://github.com/sponsors/v1li
 
 Every single donation is appreciated! <3
@@ -112,7 +112,8 @@ def print_menu() -> None:
     """
     Prints the main menu of H4X-Tools.
     """
-    max_option_length = max(len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in menu_options.values())
+    max_option_length = max(
+        len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in menu_options.values())
 
     for i, (key, value) in enumerate(menu_options.items(), start=1):
         option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
