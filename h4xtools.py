@@ -19,10 +19,10 @@
 
 import os
 import time
-from colorama import Fore
 import socket
 import json
 from getpass import getpass
+from colorama import Fore
 from utils import (
     email_search,
     search_username,
@@ -45,13 +45,14 @@ from utils import (
 )
 from helper import printer
 
+
 if os.name == "nt":
     os.system("cls")
     os.system("title H4X-Tools")
 if os.name == "posix":
     os.system("clear")
 
-version = "0.2.15"
+VERSION = "0.2.15+"
 
 
 def internet_check() -> None:
@@ -72,12 +73,12 @@ def print_banner() -> None:
     Prints the banner of H4X-Tools.
     """
     print(Fore.CYAN + f"""
-    //    / /        \\ / /      /__  ___/ //   ) ) //   ) ) / /        //   ) )
-   //___ / //___/ /   \  /         / /    //   / / //   / / / /        ((
-  / ___   /____  /    / /   ____  / /    //   / / //   / / / /           \\
- //    / /    / /    / /\\       / /    //   / / //   / / / /              ) )
-//    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ / /  
-v{version} ~~by Vili (https://vili.dev)
+ ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ · 
+██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀. 
+██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
+██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
+▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀ v{VERSION} 
+~~by Vili (https://vili.dev)
     """)
 
 
@@ -86,10 +87,13 @@ def about() -> None:
     Prints the about text.
     """
     print(Fore.GREEN)
-    printer.nonprefix(f"H4X-Tools, toolkit for scraping, OSINT and more.\n")
-    printer.nonprefix(f"Completely open source and free to use! Feel free to contribute.\n")
-    printer.nonprefix(f"Repo: https://github.com/v1li/h4x-tools\n")
-    printer.nonprefix(f"NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DONT USE IT TO DO SOMETHING ILLEGAL!\n")
+    printer.nonprefix(f"""
+H4X-Tools, toolkit for scraping, OSINT and more.
+Completely open source and free to use! Feel free to contribute.
+Repo: https://github.com/vil/h4x-tools
+NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT ILLEGALLY!
+Version: {VERSION}
+    """)
 
 
 def donate() -> None:
@@ -102,24 +106,26 @@ If you want to support me and my work, you can donate to these addresses: \n
 | BTC: bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
 | ETH: 0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
 | XMR: 42fC3fZDPeMMqnMt7hqgdAJonJQtzshc9C5R9PMAFBkwDu36xwAKDW44J42JPLtDjy337SVkbG2Ceir2PhsvDYeS4T5BaPT
-Or support me on GitHub: https://github.com/sponsors/v1li
-
+Or support me on GitHub: https://github.com/sponsors/vil
+  
 Every single donation is appreciated! <3
-            """)
+    """)
 
 
 def print_menu() -> None:
     """
     Prints the main menu of H4X-Tools.
     """
-    max_option_length = max(
-        len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in menu_options.values())
+    max_option_length = max(len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in MENU_OPTIONS.values())
 
-    for i, (key, value) in enumerate(menu_options.items(), start=1):
+    for i, (key, value) in enumerate(MENU_OPTIONS.items(), start=1):
         option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
         print(f"[{key}] {option_name.ljust(max_option_length)}", end='\t')
-        if i % 2 == 0 or i == len(menu_options):
+
+        # Break line every two options or at the end
+        if i % 2 == 0 or i == len(MENU_OPTIONS):
             print()
+
     print("\n")
 
 
@@ -314,8 +320,7 @@ def handle_basexx() -> None:
     basexx.BaseXX(message, mode, encoding)
 
 
-# Create a dictionary to map menu options to corresponding functions
-menu_options = {
+MENU_OPTIONS = {
     "1": handle_ig_scrape,
     "2": handle_web_search,
     "3": handle_phone_lookup,
@@ -355,11 +360,15 @@ def main() -> None:
         print_banner()
         time.sleep(1)
         print_menu()
-        a = input("[$] Select your option ~> \t")
+        user_input = input("[$] Select your option ~> \t")
 
-        if a in menu_options:
-            menu_options[a]()  # Call the corresponding function based on the selected option
-            time.sleep(3)  # Sleep so user has time to see results.
+        # Check if the user wants to exit
+        if user_input.lower() in {"quit", "exit"}:
+            handle_exit()
+
+        if user_input in MENU_OPTIONS:
+            MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
+            time.sleep(3)  # Sleep so the user has time to see results.
         else:
             printer.error("Invalid option!")
             time.sleep(2)
