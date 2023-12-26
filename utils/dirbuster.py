@@ -28,7 +28,6 @@ class Scan:
 
     :param domain: url to scan
     """
-
     @timer.timer
     def __init__(self, domain):
         self.domain = domain
@@ -56,7 +55,6 @@ class Scan:
         Fetches the url and checks if it is valid
 
         :param session: aiohttp session
-
         :param path: path to check
         """
         url = f"https://{self.domain}/{path}"

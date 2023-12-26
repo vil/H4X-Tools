@@ -77,4 +77,3 @@ class Spam:
             failure_count = self.amount - success_count
             if failure_count > 0:
                 printer.error(f"Failed to send {failure_count} messages to '{self.url}'..!")
-

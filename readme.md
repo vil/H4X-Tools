@@ -8,7 +8,7 @@
 Toolkit for scraping, OSINT and more.
 
 > [!IMPORTANT]
-> Use Python 3.11 otherwise H4X-Tools will not build! Please refer to [this](https://github.com/V1li/H4X-Tools/issues/17) issue.
+> Please make sure to install `python-devel` package, otherwise H4X-Tools will not build in the 3.12 version of Python! Please refer to [this](https://github.com/V1li/H4X-Tools/issues/17) issue.
 
 Submit feature requests and bugs in the [issues](https://github.com/V1li/H4X-Tools/issues) tab.
 
