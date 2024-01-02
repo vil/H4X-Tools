@@ -16,7 +16,7 @@ If you want to help with the development, follow the instructions in [contributi
 You can also [donate](https://vili.dev/#donate) to keep the project alive and me motivated!
 
 
-![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.14b.png)
+![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.15plus.png)
 
 # Current tools
 > [!WARNING]

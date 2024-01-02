@@ -5,12 +5,12 @@
 clear
 
 cat << "EOF"
-    //    / /        \\ / /      /__  ___/ //   ) ) //   ) ) / /        //   ) )
-   //___ / //___/ /   \  /         / /    //   / / //   / / / /        ((
-  / ___   /____  /    / /   ____  / /    //   / / //   / / / /           \\
- //    / /    / /    / /\\       / /    //   / / //   / / / /              ) )
-//    / /    / /    / /  \\     / /    ((___/ / ((___/ / / /____/ / ((___ / /
 
+ ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ ·
+██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀.
+██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
+██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
+▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
 ~~by Vili (https://vili.dev)
 
 EOF
@@ -18,6 +18,8 @@ EOF
 echo "Press CTRL+C to cancel."
 echo
 echo "Note that this script might ask for sudo password."
+echo
+echo "You may need to install python-devel package."
 sleep 3
 
 echo "Creating virtual environment..."
@@ -60,4 +62,3 @@ if command -v pyinstaller >/dev/null 2>&1; then
     fi
 else
     echo "pyinstaller not installed or not in PATH!"
-fi
