@@ -363,7 +363,7 @@ def main() -> None:
         user_input = input("[$] Select your option ~> \t")
 
         # Check if the user wants to exit
-        if user_input.lower() in {"quit", "exit"}:
+        if user_input.lower() in {"quit", "exit", "q", "kill"}:
             handle_exit()
 
         if user_input in MENU_OPTIONS:
