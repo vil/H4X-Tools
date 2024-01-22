@@ -2,11 +2,8 @@
 @echo off
 cls
 echo.
-echo ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ ·
-echo ██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀.
-echo ██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
-echo ██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
-echo ▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
+echo H4X-Tools Setup Script
+echo.
 echo ~~by Vili (https://vili.dev)
 echo.
 echo Installing dependencies in 3 seconds...
@@ -26,11 +23,11 @@ echo Your H4X-Tools executable is located in the 'dist' folder. You can now move
 echo.
 echo OR you can start H4X-Tools with python by typing 'python h4xtools.py' in the terminal.
 
-set /p "input=Start H4X-Tools now? (y/n) -> "
+set /p "input=Open 'dist' folder now? (y/n) -> "
 if /i "%input%"=="y" (
-    echo Starting H4XTools...
+    echo Opening up 'dist'.
     timeout /t 1 /nobreak > nul
-    start dist\h4xtools.exe
+    start dist\.
 ) else (
     echo Exiting...
     timeout /t 1 /nobreak > nul

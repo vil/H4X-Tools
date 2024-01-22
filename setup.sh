@@ -4,22 +4,13 @@
 
 clear
 
-cat << "EOF"
-
- ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ ·
-██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀.
-██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
-██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
-▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
-~~by Vili (https://vili.dev)
-
-EOF
-
-echo "Press CTRL+C to cancel."
+echo "H4X-Tools Setup Script"
+echo
+echo "~~by Vili (https://vili.dev)"
 echo
 echo "Note that this script might ask for sudo password."
 echo
-echo "You may need to install python-devel package."
+echo "You may need to install 'python-devel' packages."
 sleep 3
 
 echo "Creating virtual environment..."

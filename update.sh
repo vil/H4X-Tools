@@ -4,20 +4,11 @@
 
 clear
 
-cat << "EOF"
-
- ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ ·
-██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀.
-██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
-██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
-▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
-~~by Vili (https://vili.dev)
-
-EOF
-
+echo "H4X-Tools Update Script"
 echo
+echo "~~by Vili (https://vili.dev)"
 echo
-echo "Make sure to run this in the directory that you cloned from GitHub!"
+echo "Make sure to run this in the root project directory!"
 echo
 echo "Do you want to update H4XTools? [y/n]"
 read -r answer
