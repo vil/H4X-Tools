@@ -51,7 +51,7 @@ class Lookup:
 
                 printer.success(f"{value.capitalize()} - ", values[value])
 
-            printer.success(f"Maps URL - ", f"https://www.google.com/maps/search/{values['loc']}")
+            printer.success(f"Maps URL - ", f"https://www.openstreetmap.org/search?query={values['loc']}")
 
         except Exception as e:
             printer.error(f"Error : {e}")

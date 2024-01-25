@@ -30,16 +30,25 @@ class Scan:
     @timer.timer
     def __init__(self):
         if os.name == "nt":
-            printer.info("Windows system detected..! Doing a netsh scan...")
-            time.sleep(1)
-            try:
-                subprocess.run(["netsh", "wlan", "show", "networks"], check=True)
-            except subprocess.CalledProcessError as e:
-                printer.error(f"Error : {e.returncode}")
+            self.scan_windows()
         else:
-            printer.info("Linux system detected..! Doing a nmcli scan...")
-            time.sleep(1)
-            try:
-                subprocess.run(["nmcli", "dev", "wifi"], check=True)
-            except subprocess.CalledProcessError as e:
-                printer.error(f"Error : {e.returncode}")
+            self.scan_linux()
+
+    @staticmethod
+    def scan_windows():
+        printer.info("Windows system detected... Performing netsh scan...")
+        time.sleep(1)
+        try:
+            subprocess.run(["netsh", "wlan", "show", "networks"], check=True)
+        except subprocess.CalledProcessError as e:
+            printer.error(f"Error: {e.returncode}")
+
+    @staticmethod
+    def scan_linux():
+        printer.info("Linux system detected... Performing nmcli scan...")
+        time.sleep(1)
+        try:
+            subprocess.run(["nmcli", "dev", "wifi"], check=True)
+        except subprocess.CalledProcessError as e:
+            printer.error(f"Error: {e.returncode}")
+

@@ -52,11 +52,9 @@ class Scrape:
     async def scrape_links(self, url):
         async with aiohttp.ClientSession() as session:
             html_content = await self.fetch(session, url)
-
-            # TODO This part can be further improved by using ThreadPoolExecutor to parse links concurrently.
             links = await self.parse_links(html_content)
 
             count = 0
             for href, text in links:
                 count += 1
-                printer.success(f"found {count} link(s): {href} - {text}")
+                printer.success(f"Found {count} link(s): {href} - {text}")
