@@ -15,8 +15,8 @@ sleep 3
 
 echo "Creating virtual environment..."
 # Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 
 echo "Updating pip..."
 sleep 1
