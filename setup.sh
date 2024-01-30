@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2023. Vili and contributors.
+# H4X-Tools Setup Script
+# ~~by Vili (https://vili.dev)
 
 clear
 
@@ -30,7 +31,7 @@ if command -v pip3 >/dev/null 2>&1; then
     pip3 install -r requirements.txt
 else
     echo "python3-pip not installed, failed to install dependencies."
-fi
+fi  # Corrected closure for the first if block
 
 sleep 1
 echo "Building H4X-Tools to a single executable in 3 seconds..."
@@ -50,6 +51,9 @@ if command -v pyinstaller >/dev/null 2>&1; then
     read -r answer
     if [ "$answer" = "y" ]; then
         h4xtools
-    fi
+    fi  # Corrected closure for the second if block
 else
     echo "pyinstaller not installed or not in PATH!"
+fi  # Ensures the else block from the second if statement is closed
+
+# Add any additional commands or logic you need at the end of the script
