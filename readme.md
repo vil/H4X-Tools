@@ -53,24 +53,24 @@ You can also [donate](https://vili.dev/#donate) to keep the project alive and me
 > -You might get rate limited after using some of the tools for too long.
 
 # Installation
-I'll upload already built executables to the [releases](https://github.com/V1li/H4X-Tools/releases) tab, 
+I'll upload already built executables to the [releases](https://github.com/vil/H4X-Tools/releases) tab, 
 but I'd recommend installing the tool manually by following the instructions below. This way you also get the freshest version.
 
 ## Setup
 > [!IMPORTANT]
 > Make sure you have [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed.
 >
-> view the [wiki page](https://github.com/V1li/H4X-Tools/wiki) for more detailed tutorial.
+> view the [wiki page](https://github.com/vil/H4X-Tools/wiki) for more detailed tutorial.
 
 ### Linux
-1. Clone the repo `git clone https://github.com/v1li/h4x-tools.git`
+1. Clone the repo `git clone https://github.com/vil/h4x-tools.git`
 
 2. Change directory `cd h4x-tools`
 
 3. Run `sh setup.sh` in terminal to install the tool.
 
 ### Windows
-1. Clone the repo `git clone https://github.com/v1li/h4x-tools.git`
+1. Clone the repo `git clone https://github.com/vil/h4x-tools.git`
 
 2. Change directory `cd h4x-tools`
 
