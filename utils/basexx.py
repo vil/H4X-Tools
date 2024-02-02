@@ -32,10 +32,10 @@ class BaseXX:
         self.mode = mode
         self.encoding = encoding
 
-        if self.mode == "encode":
+        if self.mode in ("encode", "e"):
             printer.info(f"Encoding '{self.message}' into Base{self.encoding}...")
             self.encode()
-        elif self.mode == "decode":
+        elif self.mode in ("decode", "d"):
             printer.info(f"Decoding '{self.message}' from Base{self.encoding}...")
             self.decode()
         else:
