@@ -45,45 +45,39 @@ class Search:
 
         :param username: The username to scan for.
         """
-        start_time = time.time()
         printer.info(f"Searching for '{username}' across {len(url_helper.read_local_content('resources/data.json')['sites'])} sites...")
 
         results = []
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.make_requests(username, results))
+        loop.run_until_complete(self.make_requests(username))
 
         now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-        execution_time = round(time.time() - start_time, 1)
         user_json = {
             "search-params": {
                 "username": username,
                 "sites-number": len(url_helper.read_local_content('resources/data.json')['sites']),
                 "date": now,
-                "execution-time": execution_time
             },
             "sites": results
         }
 
-        # print_results(user_json)
-
         return user_json
 
-    async def make_requests(self, username, results):
+    async def make_requests(self, username):
         """
         Makes the requests to the sites.
 
         :param username: The username to scan for.
-        :param results: The results list.
         """
         async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
             tasks = []
             for u in url_helper.read_local_content('resources/data.json')["sites"]:
-                task = asyncio.ensure_future(self.make_request(session, u, username, results))
+                task = asyncio.ensure_future(self.make_request(session, u, username))
                 tasks.append(task)
             await asyncio.gather(*tasks)
 
     @staticmethod
-    async def make_request(session, u, username, results):
+    async def make_request(session, u, username):
         url = u["url"].format(username=username)
         json_body = None
         headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
@@ -98,37 +92,5 @@ class Search:
                 if eval(u["valid"]):
                     printer.success(
                         f'- #{u["id"]} {u["app"]} - Account found - {url} [{response.status} {response.reason}]')
-                    results.append({
-                        "id": u["id"],
-                        "app": u['app'],
-                        "url": url,
-                        "response-status": f"{response.status} {response.reason}",
-                        "status": "FOUND",
-                        "error-message": None
-                    })
-                else:
-                    results.append({
-                        "id": u["id"],
-                        "app": u['app'],
-                        "url": url,
-                        "response-status": f"{response.status} {response.reason}",
-                        "status": "NOT FOUND",
-                        "error-message": None
-                    })
         except:
             pass
-
-    @staticmethod
-    def print_results(user_json):
-        """
-        Prints the results.
-
-        :param user_json: The user json.
-        """
-        for site in user_json["sites"]:
-            printer.success(f"ID: {site['id']}")
-            printer.success(f"App: {site['app']}")
-            printer.success(f"URL: {site['url']}")
-            printer.success(f"Response Status: {site['response-status']}")
-            printer.success(f"Status: {site['status']}")
-            printer.error(f"Error Message: {site['error-message']}\n")
