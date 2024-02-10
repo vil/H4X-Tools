@@ -46,7 +46,7 @@ class Search:
         :param username: The username to scan for.
         """
         start_time = time.time()
-        printer.info(f"Searching for '{username}' across {len(url_helper.read_local_json_content('resources/data.json')['sites'])} sites...")
+        printer.info(f"Searching for '{username}' across {len(url_helper.read_local_content('resources/data.json')['sites'])} sites...")
 
         results = []
         loop = asyncio.get_event_loop()
@@ -57,7 +57,7 @@ class Search:
         user_json = {
             "search-params": {
                 "username": username,
-                "sites-number": len(url_helper.read_local_json_content('resources/data.json')['sites']),
+                "sites-number": len(url_helper.read_local_content('resources/data.json')['sites']),
                 "date": now,
                 "execution-time": execution_time
             },
@@ -77,7 +77,7 @@ class Search:
         """
         async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
             tasks = []
-            for u in url_helper.read_local_json_content('resources/data.json')["sites"]:
+            for u in url_helper.read_local_content('resources/data.json')["sites"]:
                 task = asyncio.ensure_future(self.make_request(session, u, username, results))
                 tasks.append(task)
             await asyncio.gather(*tasks)

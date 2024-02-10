@@ -30,28 +30,14 @@ def read_local_content(path):
     """
     try:
         with open(resource_path(path), 'r') as file:
-            content = file.read()
+            if path.endswith(".json"):
+                content = json.load(file)
+            else:
+                content = file.read()
         return content
     except Exception as e:
         printer.error(f"An error occurred: {str(e)}")
         return None
-
-
-def read_local_json_content(path):
-    """
-    Reads JSON file content from a local file.
-
-    :param path: path to the JSON file.
-    :return: Content of the JSON file as a dictionary or None if an error occurs.
-    """
-    try:
-        with open(resource_path(path), 'r') as json_file:
-            data = json.load(json_file)
-        return data
-    except Exception as e:
-        printer.error(f"An error occurred: {str(e)}")
-        return None
-
 
 # I hate pyinstaller.
 def resource_path(relative_path):
