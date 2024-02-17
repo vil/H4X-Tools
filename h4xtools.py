@@ -20,30 +20,8 @@
 import os
 import time
 import socket
-import json
-from getpass import getpass
 from colorama import Fore
-from utils import (
-    email_search,
-    search_username,
-    ig_scrape,
-    whois_lookup,
-    webhook_spammer,
-    port_scanner,
-    ip_lookup,
-    phonenumber_lookup,
-    websearch,
-    smsbomber,
-    web_scrape,
-    wifi_finder,
-    wifi_password_getter,
-    fake_info_generator,
-    dirbuster,
-    local_accounts_getter,
-    caesar_cipher,
-    basexx
-)
-from helper import printer
+from helper import printer, handles
 
 
 if os.name == "nt":
@@ -129,219 +107,28 @@ def print_menu() -> None:
     print("\n")
 
 
-def handle_exit() -> None:
-    """
-    Kills the program.
-    """
-    printer.warning("Exiting...")
-    printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub! \n -Vili")
-    time.sleep(1)
-    print(Fore.RESET)
-    exit()
-
-
-def handle_ig_scrape() -> None:
-    """
-    Handles the IG Scrape util.
-
-    Note, you have to log in to Instagram in order to use this util.
-    """
-    printer.warning("NOTE! You have to log in to Instagram everytime in order to use this util.")
-    printer.warning("I suggest you to create a new account for this purpose.")
-    # Check if saved credentials exist
-    temp_dir = '/tmp'
-    credentials_file = os.path.join(temp_dir, "dontlookhere.json")
-    if os.name == "posix" and os.path.exists(credentials_file):
-        with open(credentials_file, "r") as file:
-            credentials = json.load(file)
-        username = credentials["username"]
-        password = credentials["password"]
-        printer.info(f"Using saved credentials for '{username}'")
-    else:
-        username = str(input("Your username : "))
-        password = getpass("Your password : ")
-    target = str(input("Enter a target username : \t")).replace(" ", "_")
-    ig_scrape.Scrape(username, password, target)
-    time.sleep(1)
-
-
-def handle_web_search() -> None:
-    """
-    Handles the Web Search util.
-    """
-    query = str(input("Search query : \t"))
-    websearch.Search(query)
-
-
-def handle_phone_lookup() -> None:
-    """
-    Handles the Phone number Lookup util.
-    """
-    no = str(input("Enter a phone-number with country code : \t"))
-    phonenumber_lookup.LookUp(no)
-
-
-def handle_ip_lookup() -> None:
-    """
-    Handles the IP/Domain Lookup util.
-    """
-    ip = str(input("Enter a IP address OR domain : \t"))
-    ip_lookup.Lookup(ip)
-
-
-def handle_username_search() -> None:
-    """
-    Handles the Username Search util.
-    """
-    username = str(input("Enter a Username : \t")).replace(" ", "_")
-    search_username.Search(username)
-
-
-def handle_email_search() -> None:
-    """
-    Handles the Email Search util.
-
-    Windows support is not available yet.
-    """
-    if os.name == "nt":
-        printer.warning(f"Sorry, this currently only works on Linux machines :(")
-    else:
-        email = str(input("Enter a email address : \t"))
-        email_search.Holehe(email)
-
-
-def handle_port_scanner() -> None:
-    """
-    Handles the Port Scanner util.
-    """
-    ip = str(input("Enter a IP address OR domain : \t"))
-    port_range = int(input("Enter number of ports to scan : \t"))
-    port_scanner.Scan(ip, port_range)
-
-
-def handle_webhook_spammer() -> None:
-    """
-    Handles the Webhook Spammer util.
-    """
-    url = str(input("Enter a webhook url : \t"))
-    amount = int(input("Enter a amount of messages : \t"))
-    message = str(input("Enter a message : \t"))
-    username = str(input("Enter a username : \t"))
-    throttle = int(input("Enter time of sleep (seconds) : \t"))
-    webhook_spammer.Spam(url, amount, message, username, throttle)
-
-
-def handle_whois_lookup() -> None:
-    """
-    Handles the WhoIs Lookup util.
-    """
-    domain = str(input("Enter a domain : \t"))
-    whois_lookup.Lookup(domain)
-
-
-def handle_sms_bomber() -> None:
-    """
-    Handles the SMS Bomber util.
-
-    Currently only works for US numbers.
-    """
-    number = input("Enter the target phone number (with country code): \t")
-    count = input("Enter the number of SMS to send: \t")
-    throttle = input("Enter the throttle time (in seconds): \t")
-    smsbomber.SMSBomber(number, count, throttle)
-
-
-def handle_fake_info_generator() -> None:
-    """
-    Handles the Fake Info Generator util.
-    """
-    fake_info_generator.Generate()
-
-
-def handle_web_scrape() -> None:
-    """
-    Handles the Web Scrape util.
-    """
-    url = str(input(f"Enter a url : \t"))
-    web_scrape.Scrape(url)
-
-
-def handle_wifi_finder() -> None:
-    """
-    Handles the Wi-Fi Finder util.
-    """
-    printer.info(f"Scanning for nearby Wi-Fi networks...")
-    wifi_finder.Scan()
-
-
-def handle_wifi_password_getter() -> None:
-    """
-    Handles the Wi-Fi Password Getter util.
-    """
-    printer.info(f"Scanning for locally saved Wi-Fi passwords...")
-    wifi_password_getter.Scan()
-
-
-def handle_dir_buster() -> None:
-    """
-    Handles the Dir Buster util.
-    """
-    url = input(f"Enter a domain : \t")
-    dirbuster.Scan(url)
-
-
-def handle_local_accounts_getter() -> None:
-    """
-    Handles the Local Accounts Getter util.
-    """
-    printer.info(f"Scanning for local accounts...")
-    local_accounts_getter.Scan()
-
-
-def handle_caesar_cipher() -> None:
-    """
-    Handles the Caesar Cipher util.
-    """
-    message = input("Enter a text to cipher/decipher : \t")
-    shift = int(input("Enter a number of shifts (0 to 25) : \t"))
-    if shift < 0 or shift > 25:
-        printer.error("Invalid shift number, please choose a number between 0 and 25..!")
-    mode = str(input("Enter a mode (encrypt/decrypt/bruteforce) : \t"))
-    caesar_cipher.CaesarCipher(message, shift, mode)
-
-
-def handle_basexx() -> None:
-    """
-    Handles the BaseXX util.
-    """
-    message = input("Enter a text to encode/decode : \t")
-    mode = str(input("Enter a mode (encode/decode) : \t"))
-    encoding = str(input("Enter a encoding (64/32/16) : \t"))
-    basexx.BaseXX(message, mode, encoding)
-
-
 MENU_OPTIONS = {
-    "1": handle_ig_scrape,
-    "2": handle_web_search,
-    "3": handle_phone_lookup,
-    "4": handle_ip_lookup,
-    "5": handle_username_search,
-    "6": handle_email_search,
-    "7": handle_port_scanner,
-    "8": handle_webhook_spammer,
-    "9": handle_whois_lookup,
-    "10": handle_sms_bomber,
-    "11": handle_fake_info_generator,
-    "12": handle_web_scrape,
-    "13": handle_wifi_finder,
-    "14": handle_wifi_password_getter,
-    "15": handle_dir_buster,
-    "16": handle_local_accounts_getter,
-    "17": handle_caesar_cipher,
-    "18": handle_basexx,
+    "1": handles.handle_ig_scrape,
+    "2": handles.handle_web_search,
+    "3": handles.handle_phone_lookup,
+    "4": handles.handle_ip_lookup,
+    "5": handles.handle_username_search,
+    "6": handles.handle_email_search,
+    "7": handles.handle_port_scanner,
+    "8": handles.handle_webhook_spammer,
+    "9": handles.handle_whois_lookup,
+    "10": handles.handle_sms_bomber,
+    "11": handles.handle_fake_info_generator,
+    "12": handles.handle_web_scrape,
+    "13": handles.handle_wifi_finder,
+    "14": handles.handle_wifi_password_getter,
+    "15": handles.handle_dir_buster,
+    "16": handles.handle_local_accounts_getter,
+    "17": handles.handle_caesar_cipher,
+    "18": handles.handle_basexx,
     "19": about,
     "20": donate,
-    "21": handle_exit
+    "21": handles.handle_exit
 }
 
 
@@ -350,7 +137,7 @@ def main() -> None:
     Main function.
     """
     internet_check()
-    time.sleep(1)
+    time.sleep(0.5)
 
     if os.name == "nt":
         printer.warning("Windows system detected..! Expect issues...")
@@ -364,14 +151,14 @@ def main() -> None:
 
         # Check if the user wants to exit
         if user_input.lower() in {"quit", "exit", "q", "kill"}:
-            handle_exit()
+            handles.handle_exit()
 
         if user_input in MENU_OPTIONS:
             MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
             time.sleep(3)  # Sleep so the user has time to see results.
         else:
             printer.error("Invalid option!")
-            time.sleep(2)
+            time.sleep(0.5)
 
 
 if __name__ == "__main__":

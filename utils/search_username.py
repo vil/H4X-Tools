@@ -16,7 +16,6 @@
  """
 
 import json
-import time
 from datetime import datetime
 import aiohttp
 import asyncio
@@ -91,6 +90,6 @@ class Search:
                                        ssl=False) as response:
                 if eval(u["valid"]):
                     printer.success(
-                        f'- #{u["id"]} {u["app"]} - Account found - {url} [{response.status} {response.reason}]')
+                        f'#{u["id"]} {u["app"]} - Account found - {url} [{response.status} {response.reason}]')
         except:
             pass
