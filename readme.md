@@ -1,7 +1,6 @@
 # H4X-Tools
-[![GitHub commits](https://badgen.net/github/commits/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/commit/)
-![](https://img.shields.io/github/languages/code-size/v1li/h4x-tools)
 [![GitHub latest commit](https://badgen.net/github/last-commit/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/commit/)
+[![GitHub commits](https://badgen.net/github/commits/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/commit/)
 [![GitHub stars](https://badgen.net/github/stars/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/stargazers/)
 [![GitHub forks](https://badgen.net/github/forks/V1li/H4X-Tools)](https://GitHub.com/V1li/H4X-Tools/network/)
 
