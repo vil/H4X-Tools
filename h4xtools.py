@@ -80,10 +80,10 @@ def donate() -> None:
     """
     printer.nonprefix(f"""{Fore.GREEN}
 If you want to support me and my work, you can donate to these addresses: \n
-| BCH: bitcoincash:qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
+| BCH: qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
 | BTC: bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
 | ETH: 0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
-| XMR: 42fC3fZDPeMMqnMt7hqgdAJonJQtzshc9C5R9PMAFBkwDu36xwAKDW44J42JPLtDjy337SVkbG2Ceir2PhsvDYeS4T5BaPT
+| XMR: 47RTtA7b8dgQmd9dDYYTUrhsrXzdUvckLGqvZoBCwrchRdky1fLmzexL3esTNrTMstJiafnhDacsXi8UnS1AXACNKkNzv71
 Or support me on GitHub: https://github.com/sponsors/vil
   
 Every single donation is appreciated! <3

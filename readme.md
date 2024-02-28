@@ -7,14 +7,14 @@
 Toolkit for scraping, OSINT and more.
 
 
-Submit feature requests and bugs in the [issues](https://github.com/V1li/H4X-Tools/issues) tab.
+Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tools/issues) tab.
 
 
 If you want to help with the development, follow the instructions in [contributing](CONTRIBUTING.md) and simply open a pull request. 
 You can also [donate](https://vili.dev/#donate) to keep the project alive and me motivated!
 
 
-![](https://github.com/V1li/H4X-Tools/blob/master/img/gui-v0.2.15plus.png)
+![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.2.15plus.png)
 
 # Current tools
 > [!WARNING]
