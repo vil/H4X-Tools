@@ -15,11 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os
-import subprocess
-import re
+import os, subprocess, re, time
 from helper import printer, timer
-import time
 
 
 class Scan:

@@ -15,8 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import aiohttp
-import asyncio
+import aiohttp, asyncio
 from helper import printer, timer
 
 

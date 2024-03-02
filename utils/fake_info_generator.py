@@ -15,8 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-from faker import Faker
 import time
+from faker import Faker
 from helper import printer, timer
 
 

@@ -15,8 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os
-import json
+import os, json, base64
 from instagram_private_api import Client
 from helper import printer, timer
 
@@ -37,10 +36,10 @@ class Scrape:
     def __init__(self, username, password, target):
         self.username = username
         self.password = password
+        self.temp_dir = '/tmp'
+        self.credentials_file = os.path.join(self.temp_dir, "hxtools-temp.json")
 
-        temp_dir = '/tmp'
-        credentials_file = os.path.join(temp_dir, "dontlookhere.json")
-        if os.name == "posix" and not os.path.exists(credentials_file):
+        if os.name == "posix" and not os.path.exists(self.credentials_file):
             self.save_credentials(username, password)
 
         try:
@@ -53,8 +52,7 @@ class Scrape:
 
         self.print_account_info(data)
 
-    @staticmethod
-    def save_credentials(username, password):
+    def save_credentials(self, username, password):
         """
         Saves users credentials temporarily in /tmp/
 
@@ -64,13 +62,12 @@ class Scrape:
         :param password: The password of the account.
         """
         if os.name == "posix":
-            temp_dir = '/tmp'
-            credentials_file = os.path.join(temp_dir, "dontlookhere.json")
-            credentials = {"username": username, "password": password}
-            with open(credentials_file, "w") as file:
+            encoded_pass = base64.b64encode(password.encode()).decode()
+            credentials = {"username": username, "password": f"{encoded_pass}"}
+            with open(self.credentials_file, "w") as file:
                 json.dump(credentials, file)
 
-            printer.info(f"Credentials saved temporarily in {credentials_file}.")
+            printer.info(f"Credentials saved temporarily in {self.credentials_file}.")
         else:
             printer.warning("Win system! Not saving...")
 

@@ -15,8 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import time
-import requests
+import time, requests
 from bs4 import BeautifulSoup
 from utils import randomuser
 from helper import printer, timer

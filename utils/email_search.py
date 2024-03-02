@@ -15,8 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import time
-import subprocess
+import time, subprocess
 from helper import printer, timer
 
 

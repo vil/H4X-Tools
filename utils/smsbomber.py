@@ -15,9 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import requests
-import random
-import time
+import requests, random, time
 from helper import printer, timer
 from utils import randomuser
 

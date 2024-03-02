@@ -36,7 +36,7 @@ from utils import (
     basexx
 )
 from helper import printer
-import time, os, json
+import time, os, json, base64
 from colorama import Fore
 from getpass import getpass
 
@@ -62,12 +62,12 @@ def handle_ig_scrape() -> None:
     printer.warning("I suggest you to create a new account for this purpose.")
     # Check if saved credentials exist
     temp_dir = '/tmp'
-    credentials_file = os.path.join(temp_dir, "dontlookhere.json")
+    credentials_file = os.path.join(temp_dir, "hxtools-temp.json")
     if os.name == "posix" and os.path.exists(credentials_file):
         with open(credentials_file, "r") as file:
             credentials = json.load(file)
         username = credentials["username"]
-        password = credentials["password"]
+        password = password = base64.b64decode(credentials["password"]).decode()
         printer.info(f"Using saved credentials for '{username}'")
     else:
         username = str(input("Your username : "))

@@ -15,9 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import asyncio
-import aiohttp
-import requests
+import asyncio, aiohttp, requests
 from helper import printer, url_helper, timer
 from utils import randomuser
 

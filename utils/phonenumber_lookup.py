@@ -15,10 +15,10 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+import time
 import phonenumbers as p
 from phonenumbers import carrier, geocoder, timezone
 from helper import printer, timer
-import time
 
 
 class LookUp:

@@ -15,8 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import asyncio
-import aiohttp
+import asyncio, aiohttp
 from bs4 import BeautifulSoup
 from helper import printer, timer
 from utils import randomuser

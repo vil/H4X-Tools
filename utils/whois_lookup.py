@@ -15,9 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import whoisdomain
+import whoisdomain, time
 from helper import printer, timer
-import time
 
 
 class Lookup:

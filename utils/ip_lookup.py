@@ -15,10 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import json
-import time
-import requests
-import socket
+import json, time, requests, socket
 from helper import printer, timer
 from utils import randomuser
 

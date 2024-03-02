@@ -17,9 +17,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os
-import time
-import socket
+import os, time, socket
 from colorama import Fore
 from helper import printer, handles
 

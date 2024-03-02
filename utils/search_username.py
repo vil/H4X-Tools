@@ -15,10 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import json
+import json, aiohttp, asyncio
 from datetime import datetime
-import aiohttp
-import asyncio
 from utils import randomuser
 from helper import printer, url_helper, timer
 

@@ -15,15 +15,13 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os
+import os, time, subprocess
 from helper import printer, timer
-import time
-import subprocess
 
 
 class Scan:
     """
-    Scans for the available Wi-Fi networks.
+    Performs a basic scan for nearby Wi-Fi networks.
 
     Requires netsh for Windows and nmcli for Linux.
     """

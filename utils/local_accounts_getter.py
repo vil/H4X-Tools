@@ -15,10 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os
-import psutil
-import subprocess
-import time
+import os, psutil, subprocess, time
 from helper import printer, timer
 
 
