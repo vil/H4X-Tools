@@ -1,4 +1,4 @@
-:: Copyright (c) 2023. Vili and contributors.
+:: Copyright (c) 2024. Vili and contributors.
 @echo off
 cls
 echo.

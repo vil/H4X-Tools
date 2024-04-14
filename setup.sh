@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2023. Vili and contributors.
+# Copyright (c) 2024. Vili and contributors.
 
 clear
 
@@ -53,3 +53,4 @@ if command -v pyinstaller >/dev/null 2>&1; then
     fi
 else
     echo "pyinstaller not installed or not in PATH!"
+fi
