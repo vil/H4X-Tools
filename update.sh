@@ -12,12 +12,12 @@ echo "Make sure to run this in the root project directory!"
 echo
 echo "Do you want to update H4XTools? [y/n]"
 read -r answer
-if [ "$answer" = "y" ]; then
+if [[ $answer == "y" ||  $answer == "Y" ]]; then
     git fetch
     git pull
 fi
 echo "Run setup.sh to apply changes. Do it now? [y/n]"
 read -r answer
-if [ "$answer" = "y" ]; then
+if [[ $answer == "y" ||  $answer == "Y" ]]; then
     bash setup.sh
 fi
