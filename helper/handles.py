@@ -215,11 +215,8 @@ def handle_caesar_cipher() -> None:
     Handles the Caesar Cipher util.
     """
     message = input("Enter a text to cipher/decipher : \t")
-    shift = int(input("Enter a number of shifts (0 to 25) : \t"))
-    if shift < 0 or shift > 25:
-        printer.error("Invalid shift number, please choose a number between 0 and 25..!")
     mode = str(input("Enter a mode (encrypt/decrypt/bruteforce) : \t"))
-    caesar_cipher.CaesarCipher(message, shift, mode)
+    caesar_cipher.CaesarCipher(message, mode)
 
 
 def handle_basexx() -> None:

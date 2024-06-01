@@ -26,16 +26,17 @@ class CaesarCipher:
     :param shift: The shift to use for the encryption or decryption.
     :param mode: The mode to use for the encryption or decryption.
     """
-    def __init__(self, text: str, shift: int, mode: str):
+    def __init__(self, text: str, mode: str):
         self.text = text
-        self.shift = shift
         self.mode = mode
 
         if self.mode in ("encrypt", "e"):
+            self.shift = self.get_key()
             printer.info(f"Encrypting '{self.text}'...")
             encrypted_text = self.caesar_encrypt(self.text, self.shift)
             printer.success(f"'{self.text}' in Caesar's code : {encrypted_text}")
         elif self.mode in ("decrypt", "d"):
+            self.shift = self.get_key()
             printer.info(f"Decrypting '{self.text}'...")
             decrypted_text = self.caesar_decrypt(self.text, self.shift)
             printer.success(f"'{self.text}' in plain text : {decrypted_text}")
@@ -44,6 +45,13 @@ class CaesarCipher:
             self.brute_force(self.text)
         else:
             printer.error("Invalid mode, please choose either 'encrypt' , 'decrypt' or 'bruteforce'..!")
+
+    @staticmethod
+    def get_key():
+        shift = int(input("Enter a number of shifts (0 to 25) : \t"))
+        if shift < 0 or shift > 25:
+            printer.error("Invalid shift number, please choose a number between 0 and 25..!")
+        return shift
 
     @staticmethod
     def caesar_encrypt(text, shift):
