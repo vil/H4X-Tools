@@ -56,7 +56,7 @@ class Spam:
         data = {
             "content": str(self.message),
             "username": str(self.username),
-            "avatar_url": "https://cdn.discordapp.com/attachments/817858188753240104/821111284962689125/7ab097df97e8b8b41dd177a073867824_400x400.jpeg"
+            "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg/220px-Elon_Musk_Colorado_2022_%28cropped2%29.jpg"
         }
 
         async with aiohttp.ClientSession() as session:

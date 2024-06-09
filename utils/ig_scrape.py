@@ -15,7 +15,6 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os, base64, json
 from ensta import Guest
 from helper import printer, timer
 
@@ -24,12 +23,6 @@ class Scrape:
     """
     Scrapes data from an Instagram account.
 
-    Requires username and password to log in to Instagram.
-
-    Thanks to Instagram Private API, https://pypi.org/project/instagram-private-api/
-
-    :param username: The username of the account to log in to.
-    :param password: The password of the account to log in to.
     :param target: The username of the account to scrape.
     """
     @timer.timer
@@ -60,4 +53,4 @@ class Scrape:
         }
         
         for key, value in readable_data.items():
-            printer.success(f"{key}: {value}")
+            printer.success(f"{key} : {value}")
