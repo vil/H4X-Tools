@@ -15,8 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import os, json, base64
-from instagram_private_api import Client
+import os, base64, json
+from ensta import Guest
 from helper import printer, timer
 
 
@@ -33,90 +33,31 @@ class Scrape:
     :param target: The username of the account to scrape.
     """
     @timer.timer
-    def __init__(self, username, password, target):
-        self.username = username
-        self.password = password
-        self.temp_dir = '/tmp'
-        self.credentials_file = os.path.join(self.temp_dir, "hxtools-temp.json")
-
-        if os.name == "posix" and not os.path.exists(self.credentials_file):
-            self.save_credentials(username, password)
+    def __init__(self, target):
 
         try:
-            api = Client(username, password)
-            data = api.username_info(target)
-            printer.info(f"Logged in as '{username}'.")
+            api = Guest()
+            data = api.profile(target)
+            self.print_user_info(data.raw)
         except Exception as e:
             printer.error(f"Error : {e}")
             return
+        
 
-        self.print_account_info(data)
-
-    def save_credentials(self, username, password):
-        """
-        Saves users credentials temporarily in /tmp/
-
-        Warning, credentials are in cleartext.
-
-        :param username: The username of the account.
-        :param password: The password of the account.
-        """
-        if os.name == "posix":
-            encoded_pass = base64.b64encode(password.encode()).decode()
-            credentials = {"username": username, "password": f"{encoded_pass}"}
-            with open(self.credentials_file, "w") as file:
-                json.dump(credentials, file)
-
-            printer.info(f"Credentials saved temporarily in {self.credentials_file}.")
-        else:
-            printer.warning("Win system! Not saving...")
-
-    @staticmethod
-    def safe_get(data, key, default=None):
-        """Safely retrieves nested data from dictionaries."""
-        keys = key.split('.')
-        for k in keys:
-            if k in data:
-                data = data[k]
-            else:
-                return default
-        return data
-
-    def print_account_info(self, data):
-        """Prints account information."""
-        try:
-            user = data.get('user', {})
-            printer.info(f"Scraping data from the account '{user.get('username')}'...")
-
-            printer.success(f"Username - {user.get('username')}")
-            printer.success(f"Full Name - {user.get('full_name')}")
-            printer.success(f"Id - {user.get('pk')}")
-            printer.success(f"Biography - {user.get('biography')}")
-            printer.success(f"External Url - {user.get('external_url')}")
-            printer.success(f"Is Private? - {user.get('is_private')}")
-            printer.success(f"Is Verified? - {user.get('is_verified')}")
-            printer.success(f"Is Business? - {user.get('is_business')}")
-            printer.success(f"Business Category - {user.get('category')}")
-
-            if user.get('is_business'):
-                printer.success(f"Can Direct Message? - {user.get('direct_messaging')}")
-                printer.success(f"Email - {user.get('public_email')}")
-                printer.success(f"Phone Number - {user.get('public_phone_country_code')} {user.get('public_phone_number')}")
-
-            for link in self.safe_get(user, 'bio_links', []):
-                printer.success(f"Bio Link(s) - {link.get('url')}")
-
-            printer.success(f"Total Posts - {user.get('media_count')}")
-            printer.success(f"Followers - {user.get('follower_count')}")
-            printer.success(f"Following - {user.get('following_count')}")
-
-            chain_suggestions = user.get('chaining_suggestions', [])
-            for idx, chain in enumerate(chain_suggestions, 1):
-                printer.success(f"{idx} Chaining Suggestion(s) - {chain.get('username')} - {chain.get('full_name')} ({chain.get('pk')})")
-
-            printer.success(f"Media(s) - {user.get('media_count')}")
-            printer.success(f"IGTV Video(s) - {user.get('total_igtv_videos')}")
-            printer.success(f"Profile Pic Url - {self.safe_get(user, 'hd_profile_pic_url_info.url')}")
-            printer.success(f"Profile Url - https://www.instagram.com/{user.get('username')}")
-        except Exception as e:
-            printer.error(f"Error: {e}")
+    # Function to print user information
+    def print_user_info(self, data):
+        readable_data = { # Format
+            'Username': data.get('username', 'N/A'),
+            'Full Name': data.get('full_name', 'N/A'),
+            'Biography': data.get('biography', 'N/A'),
+            'Website': data.get('external_url', 'N/A'),
+            'Followers': data.get('edge_followed_by', {}).get('count', 'N/A'),
+            'Following': data.get('edge_follow', {}).get('count', 'N/A'),
+            'Profile Picture URL': data.get('profile_pic_url', 'N/A'),
+            'Is Private': data.get('is_private', 'N/A'),
+            'Is Verified': data.get('is_verified', 'N/A'),
+            'Total Posts': data.get('edge_owner_to_timeline_media', {}).get('count', 'N/A')
+        }
+        
+        for key, value in readable_data.items():
+            printer.success(f"{key}: {value}")

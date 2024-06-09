@@ -58,22 +58,8 @@ def handle_ig_scrape() -> None:
 
     Note, you have to log in to Instagram in order to use this util.
     """
-    printer.warning("NOTE! You have to log in to Instagram everytime in order to use this util.")
-    printer.warning("I suggest you to create a new account for this purpose.")
-    # Check if saved credentials exist
-    temp_dir = '/tmp'
-    credentials_file = os.path.join(temp_dir, "hxtools-temp.json")
-    if os.name == "posix" and os.path.exists(credentials_file):
-        with open(credentials_file, "r") as file:
-            credentials = json.load(file)
-        username = credentials["username"]
-        password = password = base64.b64decode(credentials["password"]).decode()
-        printer.info(f"Using saved credentials for '{username}'")
-    else:
-        username = str(input("Your username : "))
-        password = getpass("Your password : ")
     target = str(input("Enter a target username : \t")).replace(" ", "_")
-    ig_scrape.Scrape(username, password, target)
+    ig_scrape.Scrape(target)
     time.sleep(1)
 
 

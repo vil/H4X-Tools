@@ -6,7 +6,7 @@ urllib3
 pyinstaller
 whoisdomain
 requests
-instagram_private_api
+ensta
 snscrape
 faker
 holehe

@@ -44,7 +44,6 @@ You can also [donate](https://vili.dev/#donate) to keep the project alive and me
 | Exit                  | Exits the tool.                                                                                                   |
 
 > [!NOTE]  
-> -IG Scrape requires you to log in, in order to use it.
 > 
 > -SMS Bomber only works with US numbers.
 >

@@ -28,7 +28,7 @@ if os.name == "nt":
 if os.name == "posix":
     os.system("clear")
 
-VERSION = "0.2.15+"
+VERSION = "0.2.16"
 
 
 def internet_check() -> None:
