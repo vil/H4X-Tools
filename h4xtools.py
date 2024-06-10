@@ -148,8 +148,9 @@ def main() -> None:
         user_input = input("[$] Select your option ~> \t")
 
         # Check if the user wants to exit
-        if user_input.lower() in {"quit", "exit", "q", "kill"}:
+        if user_input.lower() in {"quit", "exit", "q", "kill", "21"}:
             handles.handle_exit()
+            break
 
         if user_input in MENU_OPTIONS:
             MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
