@@ -48,13 +48,13 @@ def print_banner() -> None:
     """
     Prints the banner of H4X-Tools.
     """
-    print(Fore.CYAN + f"""
+    print(Fore.LIGHTBLACK_EX + f"""                              
  ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ · 
 ██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀. 
 ██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
 ██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
-▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀ v{VERSION} 
-~~by Vili (https://vili.dev)
+▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀ 
+v{VERSION} / Vili (@vil) / https://vili.dev 
     """)
 
 

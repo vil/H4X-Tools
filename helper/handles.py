@@ -47,7 +47,7 @@ def handle_exit() -> None:
     """
     printer.warning("Exiting...")
     printer.info("Thanks for using H4X-Tools! Remember to star this on GitHub!\n -Vili")
-    time.sleep(1)
+    time.sleep(0.5)
     print(Fore.RESET)
     exit()
 
@@ -67,6 +67,7 @@ def handle_web_search() -> None:
     """
     Handles the Web Search util.
     """
+    printer.info("For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/")
     query = str(input("Search query : \t"))
     websearch.Search(query)
 

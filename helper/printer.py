@@ -32,23 +32,23 @@ def print_colored(message, color, prefix, *args, **kwargs):
 
 
 def info(message, *args, **kwargs):
-    print_colored(message, Fore.BLUE, "[*]", *args, **kwargs)
+    print_colored(message, Fore.LIGHTBLUE_EX, "[*]", *args, **kwargs)
 
 
 def success(message, *args, **kwargs):
-    print_colored(message, Fore.GREEN, "[+]", *args, **kwargs)
+    print_colored(message, Fore.LIGHTGREEN_EX, "[+]", *args, **kwargs)
 
 
 def error(message, *args, **kwargs):
-    print_colored(message, Fore.RED, "[!]", *args, **kwargs)
+    print_colored(message, Fore.LIGHTRED_EX, "[!]", *args, **kwargs)
 
 
 def warning(message, *args, **kwargs):
-    print_colored(message, Fore.YELLOW, "[-]", *args, **kwargs)
+    print_colored(message, Fore.LIGHTYELLOW_EX, "[-]", *args, **kwargs)
 
 
 def debug(message, *args, **kwargs):
-    print_colored(message, Fore.MAGENTA, "[$]", *args, **kwargs)
+    print_colored(message, Fore.LIGHTMAGENTA_EX, "[$]", *args, **kwargs)
 
 
 def nonprefix(message, *args, **kwargs):
