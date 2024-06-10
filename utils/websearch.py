@@ -76,7 +76,13 @@ class Search:
             printer.error(f"No results found for '{query}'..!")
             return
 
-        printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
+        dork_keywords = ['"', '~', 'inurl:', 'intitle:', 'filetype:', 'site:']
+
+        if any(keyword in query for keyword in dork_keywords):
+            printer.info(f"Searching with dorks ' {query} ' -- With the agent '{headers['User-Agent']}'")
+        else:
+            printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
+
         time.sleep(1)
         for result in results:
             self.print_search_result(result)
