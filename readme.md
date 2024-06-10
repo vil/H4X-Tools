@@ -11,7 +11,7 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 
 
 If you want to help with the development, follow the instructions in [contributing](CONTRIBUTING.md) and simply open a pull request. 
-You can also [donate](https://vili.dev/#donate) to keep the project alive and me motivated!
+You can also [donate](https://github.com/sponsors/vil) to keep the project alive and me motivated!
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.2.16.png)
 
