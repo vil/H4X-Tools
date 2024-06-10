@@ -15,6 +15,8 @@ You can also [donate](https://vili.dev/#donate) to keep the project alive and me
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.2.16.png)
 
+![](https://github.com/vil/H4X-Tools/blob/master/img/output.gif)
+
 # Current tools
 > [!WARNING]
 > Some tools might not work on Windows systems.
