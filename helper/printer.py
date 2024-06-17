@@ -28,7 +28,7 @@ def print_colored(message, color, prefix, *args, **kwargs):
     :param args: arguments if any
     :param kwargs: keyword arguments if any
     """
-    print(f"{color}{prefix} {message}{Style.RESET_ALL}", *args, **kwargs)
+    print(f"{color}{prefix}{Style.RESET_ALL} {message}", *args, **kwargs)
 
 
 def info(message, *args, **kwargs):
@@ -48,8 +48,12 @@ def warning(message, *args, **kwargs):
 
 
 def debug(message, *args, **kwargs):
-    print_colored(message, Fore.LIGHTMAGENTA_EX, "[$]", *args, **kwargs)
+    print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
 
 
 def nonprefix(message, *args, **kwargs):
     print(message, *args, **kwargs)
+
+def inp(prompt, *args, **kwargs):
+    print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
+    return input()

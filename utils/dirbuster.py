@@ -18,7 +18,7 @@
 import asyncio, aiohttp, requests
 from helper import printer, url_helper, timer
 from utils import randomuser
-
+from colorama import Style
 
 class Scan:
     """
@@ -31,9 +31,10 @@ class Scan:
         self.domain = domain
         self.url_set = set()
 
-        printer.info(f"Scanning for valid URLs for '{domain}'..!")
+        printer.info(f"Scanning for valid URLs for {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
+        printer.warning("This may take a while...")
         self.scan_urls()
-        printer.success(f"Scan Complete..! Found {len(self.url_set)} valid URLs!")
+        printer.success(f"Scan Completed..! There were {Style.BRIGHT}{len(self.url_set)}{Style.RESET_ALL} valid URLs!")
 
     @staticmethod
     def get_wordlist():
@@ -59,7 +60,7 @@ class Scan:
         headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
         async with session.get(url, headers=headers) as response:
             if response.status == 200:
-                printer.success(f"Found a valid URL - {url}")
+                printer.success(f"{len(self.url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}")
                 self.url_set.add(url)
 
     async def scan_async(self, paths):
@@ -70,7 +71,7 @@ class Scan:
         """
         async with aiohttp.ClientSession() as session:
             tasks = [self.fetch_url(session, path) for path in paths]
-            await asyncio.gather(*tasks)
+            await asyncio.gather(*tasks, return_exceptions=True)
 
     def scan_urls(self):
         paths = self.get_wordlist()

@@ -18,6 +18,7 @@
 import json, time, requests, socket
 from helper import printer, timer
 from utils import randomuser
+from colorama import Style
 
 
 class Lookup:
@@ -36,7 +37,7 @@ class Lookup:
             # printer.info(url.text)
             values = json.loads(url.text)
 
-            printer.info(f"Trying to find information for '{ip}'...")
+            printer.info(f"Trying to find information for {Style.BRIGHT}{ip}{Style.RESET_ALL}...")
             time.sleep(1)
 
             for value in values:
@@ -46,9 +47,9 @@ class Lookup:
                 elif value == "" or value is None:
                     value = "Not Found"
 
-                printer.success(f"{value.capitalize()} - ", values[value])
+                printer.success(f"{value.capitalize()} :", values[value])
 
-            printer.success(f"Maps URL - ", f"https://www.openstreetmap.org/search?query={values['loc']}")
+            printer.success(f"Openstreetmap URL :", f"https://www.openstreetmap.org/search?query={values['loc']}")
 
         except Exception as e:
             printer.error(f"Error : {e}")

@@ -17,6 +17,7 @@
 
 import aiohttp, asyncio
 from helper import printer, timer
+from colorama import Style
 
 
 class Spam:
@@ -38,7 +39,7 @@ class Spam:
         self.throttle_interval = throttle_interval
 
         try:
-            printer.info(f"Trying to send {self.amount} messages to '{self.url}'..!")
+            printer.info(f"Trying to send {self.amount} messages to {Style.BRIGHT}{self.url}{Style.RESET_ALL}...")
             asyncio.run(self.send_messages())
         except Exception as e:
             printer.error(f"Error: {e}")
@@ -65,14 +66,14 @@ class Spam:
                 result = await self.send_message(session, data)
                 if result:
                     success_count += 1
-                    printer.success(f"Successfully sent message {success_count} to '{self.url}'..!")
+                    printer.success(f"Successfully sent message {success_count} to {Style.BRIGHT}{self.url}{Style.RESET_ALL}..!")
                 else:
-                    printer.error(f"Failed to send message {success_count + 1} to '{self.url}'..!")
+                    printer.error(f"Failed to send message {success_count + 1} to {Style.BRIGHT}{self.url}{Style.RESET_ALL}..!")
 
                 # Throttle to avoid being rate-limited
                 await asyncio.sleep(self.throttle_interval)
 
-            printer.success(f"Successfully sent {success_count} messages to '{self.url}'..!")
+            printer.success(f"Successfully sent {success_count} messages to {Style.BRIGHT}{self.url}{Style.RESET_ALL}..!")
             failure_count = self.amount - success_count
             if failure_count > 0:
-                printer.error(f"Failed to send {failure_count} messages to '{self.url}'..!")
+                printer.error(f"Failed to send {failure_count} messages to {Style.BRIGHT}{self.url}{Style.RESET_ALL}..!")

@@ -19,6 +19,7 @@ import json, aiohttp, asyncio
 from datetime import datetime
 from utils import randomuser
 from helper import printer, url_helper, timer
+from colorama import Style
 
 
 class Search:
@@ -42,7 +43,7 @@ class Search:
 
         :param username: The username to scan for.
         """
-        printer.info(f"Searching for '{username}' across {len(url_helper.read_local_content('resources/data.json')['sites'])} sites...")
+        printer.info(f"Searching for {Style.BRIGHT}{username}{Style.RESET_ALL} across {len(url_helper.read_local_content('resources/data.json')['sites'])} different websites...")
 
         results = []
         loop = asyncio.get_event_loop()
@@ -87,7 +88,6 @@ class Search:
             async with session.request(u["method"], url, json=json_body, proxy=None, headers=headers,
                                        ssl=False) as response:
                 if eval(u["valid"]):
-                    printer.success(
-                        f'#{u["id"]} {u["app"]} - Account found - {url} [{response.status} {response.reason}]')
+                    printer.success(f'Account found : #{u["id"]} {Style.BRIGHT}{u["app"]}{Style.RESET_ALL} - {url} [{response.status} {response.reason}]')
         except:
             pass

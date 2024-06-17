@@ -17,7 +17,7 @@
 
 import base64
 from helper import printer
-
+from colorama import Style
 
 class BaseXX:
     """
@@ -33,22 +33,22 @@ class BaseXX:
         self.encoding = encoding
 
         if self.mode in ("encode", "e"):
-            printer.info(f"Encoding '{self.message}' into Base{self.encoding}...")
+            printer.info(f"Encoding {Style.BRIGHT}{self.message}{Style.RESET_ALL} into Base{self.encoding}...")
             self.encode()
         elif self.mode in ("decode", "d"):
-            printer.info(f"Decoding '{self.message}' from Base{self.encoding}...")
+            printer.info(f"Decoding {Style.BRIGHT}{self.message}{Style.RESET_ALL} from Base{self.encoding}...")
             self.decode()
         else:
-            printer.error("Invalid mode, please choose either 'encode' or 'decode'..!")
+            printer.error(f"Invalid mode, please choose either ENCODE or DECODE..!")
 
     def encode(self):
         try:
             if self.encoding in ("64", "32", "16"):
                 encoding_method = getattr(base64, f'b{self.encoding}encode')
                 self.encoded_message = encoding_method(self.message.encode("ascii")).decode("ascii")
-                printer.info(f"'{self.message}' in Base{self.encoding} : {self.encoded_message}")
+                printer.success(f"Encoded with Base{self.encoding} : {Style.BRIGHT}{self.encoded_message}{Style.RESET_ALL}")
             else:
-                printer.error("Invalid encoding, please choose either '64', '32', or '16'..!")
+                printer.error("Invalid encoding, please choose either : 64, 32, or 16..!")
         except UnicodeEncodeError:
             printer.error("Invalid character, please only use ASCII characters.")
 
@@ -57,9 +57,9 @@ class BaseXX:
             if self.encoding in ("64", "32", "16"):
                 decoding_method = getattr(base64, f'b{self.encoding}decode')
                 self.decoded_message = decoding_method(self.message.encode("ascii")).decode("ascii")
-                printer.info(f"'{self.message}' in plain text : {self.decoded_message}")
+                printer.success(f"Decoded from Base{self.encoding} : {Style.BRIGHT}{self.decoded_message}{Style.RESET_ALL}")
             else:
-                printer.error("Invalid encoding, please choose either '64', '32', or '16'..!")
+                printer.error("Invalid encoding, please choose either : 64, 32, or 16..!")
         except Exception:
             printer.error("Error while decoding, please make sure the message is encoded in Base64.")
 

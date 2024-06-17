@@ -9,15 +9,16 @@ echo
 echo "~~by Vili (https://vili.dev)"
 echo
 echo "Make sure to run this in the root project directory!"
-echo
-echo "Do you want to update H4XTools? [y/n]"
-read -r answer
-if [[ $answer == "y" ||  $answer == "Y" ]]; then
+
+read -r -p "Do you want to update H4XTools? (y/n) " answer
+if [[ $answer == "y" ||  $answer == "Y" || $answer == "yes" || $answer == "Yes" ]]; then
     git fetch
     git pull
-fi
-echo "Run setup.sh to apply changes. Do it now? [y/n]"
-read -r answer
-if [[ $answer == "y" ||  $answer == "Y" ]]; then
-    bash setup.sh
+    echo "Update complete. Run setup.sh to apply changes."
+    read -r -p "Do it now? (y/n) " answer
+    if [[ $answer == "y" ||  $answer == "Y" || $answer == "yes" || $answer == "Yes" ]]; then
+        bash setup.sh
+    fi
+else
+    echo "Update cancelled."
 fi

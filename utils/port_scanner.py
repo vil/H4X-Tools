@@ -18,6 +18,7 @@
 import socket
 from helper import printer, timer
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from colorama import Style
 
 open_ports = []
 failed_ports = []
@@ -33,11 +34,12 @@ class Scan:
     @timer.timer
     def __init__(self, ip, port_range):
         try:
-            printer.info(f"Scanning for open ports in '{ip}' with range of '1-{port_range}'..!")
-            printer.warning("This may take a while..!")
+            printer.info(f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}...")
+            if port_range > 1000:
+                printer.warning("This may take a while...")
             self.scan(ip, port_range)
             if len(open_ports) == 0:
-                printer.error(f"No open ports found in '{ip}'..!")
+                printer.error(f"No open ports found for {Style.BRIGHT}{ip}{Style.RESET_ALL}..!")
             else:
                 printer.success(f"Found {len(open_ports)}/{len(failed_ports)} open ports in '{ip}'..!")
         except KeyboardInterrupt:
@@ -71,10 +73,10 @@ class Scan:
                 sock.settimeout(0.5)
                 sock.connect((str(ip), port))
                 open_ports.append(port)
-                return printer.success(f"Port '{port}' is open on '{ip}'..!")
+                return printer.success(f"Found a open port : {Style.BRIGHT}{port}{Style.RESET_ALL}")
         except socket.timeout:
             failed_ports.append(port)
         except ConnectionRefusedError:
             return None
         except socket.error as e:
-            return printer.error(f"An error occurred while scanning port '{port}' on '{ip}' : {str(e)}..!")
+            return printer.error(f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {str(e)}")

@@ -19,6 +19,7 @@ import time, requests
 from bs4 import BeautifulSoup
 from utils import randomuser
 from helper import printer, timer
+from colorama import Style
 
 headers = {
     "User-Agent": f"{randomuser.IFeelLucky()}",
@@ -79,9 +80,9 @@ class Search:
         dork_keywords = ['"', '~', 'inurl:', 'intitle:', 'filetype:', 'site:']
 
         if any(keyword in query for keyword in dork_keywords):
-            printer.info(f"Searching with dorks ' {query} ' -- With the agent '{headers['User-Agent']}'")
+            printer.info(f"Searching with dorks {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]")
         else:
-            printer.info(f"Searching for '{query}' -- With the agent '{headers['User-Agent']}'")
+            printer.info(f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]")
 
         time.sleep(1)
         for result in results:
@@ -96,7 +97,7 @@ class Search:
         title = result.find("a", {"class": "result__a"}).text
         link = result.find("a", {"class": "result__a"})["href"]
         status_code = self.get_status_code(link)
-        printer.success(f"'{title}' - {link} - [{status_code}]")
+        printer.success(f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]")
 
     @staticmethod
     def get_status_code(url):
@@ -107,7 +108,7 @@ class Search:
         :return: The status code if the request is successful, or None otherwise.
         """
         try:
-            with requests.get(url, stream=True) as response:
+            with requests.head(url, allow_redirects=True) as response:
                 response.raise_for_status()
                 return response.status_code
         except requests.exceptions.RequestException:

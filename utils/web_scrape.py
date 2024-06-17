@@ -1,3 +1,4 @@
+
 """
  Copyright (c) 2024. Vili and contributors.
 
@@ -15,45 +16,62 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import asyncio, aiohttp
+import asyncio, aiohttp, time
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlparse
 from helper import printer, timer
 from utils import randomuser
-
+from colorama import Style
 
 class Scrape:
     """
-    Scrapes links from a given website.
-
-    :param url: The website url.
+    Scrapes links from the given url.
+    
+    :param url: url of the website.
     """
-    @timer.timer
     def __init__(self, url):
-        try:
-            printer.info(f"Trying to scrape links from '{url}'...")
-            asyncio.run(self.scrape_links(url))
-            printer.success(f"Scraping completed..!")
-        except Exception as e:
-            printer.error(f"Error: {e}")
+        self.url = url
+        self.base_url = urlparse(url).netloc
+        self.scraped_links = set()
 
-    @staticmethod
-    async def fetch(session, url):
+        try:
+            response = printer.inp("Do you want to scrape the linked pages as well? (y/n) : ")
+            if response.lower() == 'y' or response.lower() == "yes":
+                printer.info(f"Trying to scrape links from {Style.BRIGHT}{self.url}{Style.RESET_ALL} and its linked pages as well...")
+                printer.warning("This may take a while depending on the sizes of the sites.")
+
+                time.sleep(0.5)
+                asyncio.run(self.scrape_links(self.url, recursive=True))
+                printer.success(f"Scraping linked pages completed..!")
+            else:
+                printer.info(f"Trying to scrape links from {Style.BRIGHT}{self.url}{Style.RESET_ALL}...")
+                asyncio.run(self.scrape_links(self.url))
+                printer.success(f"Scraping completed..!")
+
+        except Exception as e:
+            printer.error(f"Error : {e}")
+        except KeyboardInterrupt:
+            printer.error(f"Cancelled..!")
+
+    async def fetch(self, session, url):
         headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
         async with session.get(url, headers=headers) as response:
             return await response.text()
 
-    @staticmethod
-    async def parse_links(content):
+    async def parse_links(self, content, base_url):
         soup = BeautifulSoup(content, "html.parser")
         links = soup.find_all("a")
-        return [(link.get("href"), link.text) for link in links]
+        return [(urljoin(base_url, link.get("href")), link.text) for link in links]
 
-    async def scrape_links(self, url):
+    async def scrape_links(self, url, recursive=False):
         async with aiohttp.ClientSession() as session:
             html_content = await self.fetch(session, url)
-            links = await self.parse_links(html_content)
+            links = await self.parse_links(html_content, url)
 
-            count = 0
             for href, text in links:
-                count += 1
-                printer.success(f"Found {count} link(s): {href} - {text}")
+                if href not in self.scraped_links:
+                    self.scraped_links.add(href)
+                    printer.success(f"{len(self.scraped_links)} Link(s) found : {Style.BRIGHT}{href} - {text}{Style.RESET_ALL}")
+                    if recursive:
+                        # await asyncio.sleep(0.5)
+                        await self.scrape_links(href)  # recursively scrape linked pages

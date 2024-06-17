@@ -18,92 +18,94 @@
  """
 
 import os, time, socket
-from colorama import Fore
+from colorama import Fore, Style
 from helper import printer, handles
 
-
-if os.name == "nt":
-    os.system("cls")
-    os.system("title H4X-Tools")
-if os.name == "posix":
-    os.system("clear")
-
-VERSION = "0.2.16"
-
+VERSION = "0.3"
 
 def internet_check() -> None:
-    """
-    Checks if the internet connection is available.
-
-    :return: None
-    """
     try:
         socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
     except OSError:
         printer.warning("Internet Connection is Unavailable..!")
 
-
 def print_banner() -> None:
-    """
-    Prints the banner of H4X-Tools.
-    """
     print(Fore.LIGHTBLACK_EX + f"""                              
  ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ · 
 ██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀. 
 ██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
 ██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
 ▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀ 
-v{VERSION} / Vili (@vil) / https://vili.dev 
+{Style.RESET_ALL}v{VERSION} / Vili (@vil) / https://vili.dev 
     """)
 
-
 def about() -> None:
-    """
-    Prints the about text.
-    """
-    print(Fore.GREEN)
+    print(Fore.LIGHTCYAN_EX)
     printer.nonprefix(f"""
-H4X-Tools, toolkit for scraping, OSINT and more.
-Completely open source and free to use! Feel free to contribute.
-Repo: https://github.com/vil/h4x-tools
-NOTE! THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT ILLEGALLY!
-Version: {VERSION}
+H4X-Tools v{VERSION}, a toolkit for scraping, OSINT and more.
+
+Repository link : https://github.com/vil/h4x-tools
+
+Made in Finland, with love.
+
+
+Name          Desc
+---------     ----------
+Ig Scrape : Scrapes information from IG accounts.
+Web Search : Searches the internet for the given query.
+Phone Lookup : Looks up a phone number and returns information about it.
+Ip Lookup : Looks up an IP/domain address and returns information about it.
+Port Scanner : Scans for open ports in a given IP/domain address.
+Username Search : Tries to find a given username from many different websites.
+Email Search : Efficiently finds registered accounts from a given email.
+Webhook Spammer : Spams messages to a discord webhook.
+WhoIs Lookup : Looks up a domain and returns information about it.
+SMS Bomber : Spams messages to a given mobile number. (Works poorly and only for US numbers)
+Fake Info Generator : Generates fake information using Faker.
+Web Scrape : Scrapes links from a given url.
+Wi-Fi Finder : Scans for nearby Wi-Fi networks.
+Wi-Fi Vault : Scans for locally saved Wi-Fi passwords.
+Dir Buster : Bruteforce directories on a website.
+Local User Enum : Enumerates local user accounts on the current machine.
+Caesar Cipher : Cipher/decipher/bruteforce a message using the Caesar's code.
+BaseXX : Encodes/decodes a message using Base64/32/16.
+About : Tells you about the tool.
+Donate : My crypto addresses where to donate.
+Exit : Exits the tool.
+
+This source code is under the GNU General Public License, version 3, and is made by Vili.
     """)
 
 
 def donate() -> None:
-    """
-    Prints the donate text.
-    """
-    printer.nonprefix(f"""{Fore.GREEN}
-If you want to support me and my work, you can donate to these addresses: \n
-| BCH: qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
-| BTC: bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
-| ETH: 0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
-| XMR: 47RTtA7b8dgQmd9dDYYTUrhsrXzdUvckLGqvZoBCwrchRdky1fLmzexL3esTNrTMstJiafnhDacsXi8UnS1AXACNKkNzv71
-Or support me on GitHub: https://github.com/sponsors/vil
+    printer.nonprefix(f"""{Fore.LIGHTCYAN_EX}
+If you want to support me and keep H4X-Tools alive, you can donate to these addresses:
+
+Platform  Address
+------    ------        
+BCH :    qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
+BTC :    bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
+ETH :    0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
+XMR :    47RTtA7b8dgQmd9dDYYTUrhsrXzdUvckLGqvZoBCwrchRdky1fLmzexL3esTNrTMstJiafnhDacsXi8UnS1AXACNKkNzv71
+Or you can support me on GitHub : https://github.com/sponsors/vil
   
 Every single donation is appreciated! <3
     """)
 
-
 def print_menu() -> None:
-    """
-    Prints the main menu of H4X-Tools.
-    """
     max_option_length = max(len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in MENU_OPTIONS.values())
 
     for i, (key, value) in enumerate(MENU_OPTIONS.items(), start=1):
         option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
-        print(f"[{key}] {option_name.ljust(max_option_length)}", end='\t')
+        print(f"{Fore.LIGHTGREEN_EX}[{key}]{Style.RESET_ALL} {option_name.ljust(max_option_length)}", end='')
 
-        # Break line every two options or at the end
-        if i % 2 == 0 or i == len(MENU_OPTIONS):
+        if i % 2 == 0:
             print()
+        else:
+            print(" " * 4, end='')
 
     print("\n")
-
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
@@ -119,9 +121,9 @@ MENU_OPTIONS = {
     "11": handles.handle_fake_info_generator,
     "12": handles.handle_web_scrape,
     "13": handles.handle_wifi_finder,
-    "14": handles.handle_wifi_password_getter,
+    "14": handles.handle_wifi_vault,
     "15": handles.handle_dir_buster,
-    "16": handles.handle_local_accounts_getter,
+    "16": handles.handle_local_user_enum,
     "17": handles.handle_caesar_cipher,
     "18": handles.handle_basexx,
     "19": about,
@@ -129,11 +131,7 @@ MENU_OPTIONS = {
     "21": handles.handle_exit
 }
 
-
 def main() -> None:
-    """
-    Main function.
-    """
     internet_check()
     time.sleep(0.5)
 
@@ -145,9 +143,8 @@ def main() -> None:
         print_banner()
         time.sleep(1)
         print_menu()
-        user_input = input("[$] Select your option ~> \t")
+        user_input = printer.inp(f"Tool to execute : ")
 
-        # Check if the user wants to exit
         if user_input.lower() in {"quit", "exit", "q", "kill", "21"}:
             handles.handle_exit()
             break
@@ -158,7 +155,6 @@ def main() -> None:
         else:
             printer.error("Invalid option!")
             time.sleep(0.5)
-
 
 if __name__ == "__main__":
     main()

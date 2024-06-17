@@ -17,7 +17,7 @@
 
 import time, subprocess
 from helper import printer, timer
-
+from colorama import Style
 
 class Holehe:
     """
@@ -46,8 +46,8 @@ class Holehe:
             else:
                 printer.error("No results found..!")
         except FileNotFoundError:
-            printer.error("Error : 'holehe' command not found. Please make sure you have holehe installed and in your PATH.")
-            printer.error("You can install holehe using 'pip install holehe'.")
+            printer.error(f"Error : {Style.BRIGHT}holehe{Style.RESET_ALL} was not found or it isn't in the PATH. Please make sure you have holehe installed and in your PATH.")
+            printer.error(f"You can install holehe by executing {Style.BRIGHT}pip install holehe{Style.RESET_ALL}.")
         except subprocess.CalledProcessError as e:
             printer.error(f"Error : {e}")
         except Exception as e:

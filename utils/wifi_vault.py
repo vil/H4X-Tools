@@ -21,7 +21,7 @@ from helper import printer, timer
 
 class Scan:
     """
-    Scans for the saved Wi-Fi passwords on the system.
+    Retrieves saved Wi-Fi passwords on the system.
     """
     @timer.timer
     def __init__(self):
@@ -43,15 +43,15 @@ class Scan:
                         if password_index != -1:
                             password_start = password_index + len("Key Content") + 2
                             password = wifi_info[password_start:].split("\r\n")[0].strip()
-                            printer.success("Wi-Fi Name:", profile_name)
-                            printer.success("Wi-Fi Password:", password, "\n")
+                            printer.success(f"Wi-Fi Network : {profile_name}")
+                            printer.success(f"Password : {password}\n")
                         else:
-                            printer.success("Wi-Fi Name:", profile_name)
-                            printer.warning("No Wi-Fi password found. It might be empty.\n")
+                            printer.success(f"Wi-Fi Network : {profile_name}")
+                            printer.warning("No password found. It might be empty.\n")
                     except subprocess.CalledProcessError as e:
-                        printer.error("Error retrieving Wi-Fi information:", str(e))
+                        printer.error(f"Error retrieving the Wi-Fi information for {profile_name} : {str(e)}")
             except subprocess.CalledProcessError as e:
-                printer.error("Error retrieving profile names:", str(e))
+                printer.error("Error retrieving profile names :", str(e))
 
         else:
             printer.info("Linux system detected..!\n")
@@ -67,12 +67,12 @@ class Scan:
                         )
                         password = password_output.decode().strip()
 
-                        printer.success(f"SSID: {ssid}")
-                        printer.success(f"Password: {password}\n")
+                        printer.success(f"Wi-Fi Network : {ssid}")
+                        printer.success(f"Password : {password}\n")
 
                     except subprocess.CalledProcessError as e:
-                        printer.error(f"Error retrieving password for {ssid}: {str(e)}")
+                        printer.error(f"Error retrieving password for {ssid} : {str(e)}")
 
             except subprocess.CalledProcessError as e:
-                printer.error("Error retrieving saved connections:", str(e))
+                printer.error("Error retrieving saved connections :", str(e))
                 printer.error("Is your system using nmcli?")

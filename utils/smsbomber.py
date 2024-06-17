@@ -18,6 +18,7 @@
 import requests, random, time
 from helper import printer, timer
 from utils import randomuser
+from colorama import Style
 
 
 class SMSBomber:
@@ -49,7 +50,7 @@ class SMSBomber:
         self.session.headers = f"{randomuser.IFeelLucky()}"
 
         try:
-            printer.info(f"Trying to send {self.count} SMS to '{self.number}'...")
+            printer.info(f"Trying to send {Style.BRIGHT}{self.count}{Style.RESET_ALL} SMS to {Style.BRIGHT}{self.number}{Style.RESET_ALL}...")
             self.start()
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
@@ -68,11 +69,11 @@ class SMSBomber:
 
                 if response.status_code == 200:
                     successes += 1
-                    printer.success(f"Sent SMS #{successes} to '{self.number}'")
+                    printer.success(f"{successes} Sent successfully.")
                 else:
                     fails += 1
-                    printer.warning(f"Failed to send SMS #{fails} to '{self.number}' with status code {response.status_code}")
+                    printer.warning(f"{fails} Failed to send... [{response.status_code}]")
         except Exception as e:
             printer.error(f"Error : {e}")
 
-        printer.success(f"Finished sending {successes} SMS to '{self.number}'..!")
+        printer.success(f"Finished sending {successes} SMS to {Style.BRIGHT}{self.number}{Style.RESET_ALL}..!")

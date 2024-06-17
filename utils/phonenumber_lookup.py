@@ -19,7 +19,7 @@ import time
 import phonenumbers as p
 from phonenumbers import carrier, geocoder, timezone
 from helper import printer, timer
-
+from colorama import Style
 
 class LookUp:
     """
@@ -29,7 +29,6 @@ class LookUp:
     """
     @timer.timer
     def __init__(self, no):
-        print("\n")
         try:
             ph_no = p.parse(no)
             country = p.region_code_for_country_code(ph_no.country_code)
@@ -39,7 +38,7 @@ class LookUp:
             time_zone = timezone.time_zones_for_number(ph_no)
             region = geocoder.description_for_number(ph_no, "en")
 
-            printer.info(f"Trying to find the information of '{no}'")
+            printer.info(f"Trying to find information about {Style.BRIGHT}{no}{Style.RESET_ALL}...")
             time.sleep(1)
             printer.success("Phone Number -", no)
             printer.success(f"Valid Number -", no_valid)

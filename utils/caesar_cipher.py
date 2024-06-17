@@ -15,6 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
+from colorama import Style
 from helper import printer
 
 
@@ -30,25 +31,25 @@ class CaesarCipher:
         self.text = text
         self.mode = mode
 
-        if self.mode in ("encrypt", "e"):
+        if self.mode in ("encrypt", "e", "cipher", "c"):
             self.shift = self.get_key()
-            printer.info(f"Encrypting '{self.text}'...")
+            printer.info(f"Encrypting the string {Style.BRIGHT}{self.text}{Style.RESET_ALL}...")
             encrypted_text = self.caesar_encrypt(self.text, self.shift)
-            printer.success(f"'{self.text}' in Caesar's code : {encrypted_text}")
-        elif self.mode in ("decrypt", "d"):
+            printer.success(f"String ciphered in Caesar's code : {Style.BRIGHT}{encrypted_text}{Style.RESET_ALL}")
+        elif self.mode in ("decrypt", "d", "decipher"):
             self.shift = self.get_key()
-            printer.info(f"Decrypting '{self.text}'...")
+            printer.info(f"Deciphering the string {Style.BRIGHT}{self.text}{Style.RESET_ALL}...")
             decrypted_text = self.caesar_decrypt(self.text, self.shift)
-            printer.success(f"'{self.text}' in plain text : {decrypted_text}")
+            printer.success(f"{Style.BRIGHT}{self.text}{Style.RESET_ALL} in plain text : {Style.BRIGHT}{decrypted_text}{Style.RESET_ALL}")
         elif self.mode in ("bruteforce", "b"):
-            printer.info(f"Brute forcing '{self.text}'...")
+            printer.info(f"Bruteforcing the string {Style.BRIGHT}{self.text}{Style.RESET_ALL}...")
             self.brute_force(self.text)
         else:
             printer.error("Invalid mode, please choose either 'encrypt' , 'decrypt' or 'bruteforce'..!")
 
     @staticmethod
     def get_key():
-        shift = int(input("Enter a number of shifts (0 to 25) : \t"))
+        shift = int(printer.inp("Enter a number of shifts (0 to 25) : \t"))
         if shift < 0 or shift > 25:
             printer.error("Invalid shift number, please choose a number between 0 and 25..!")
         return shift
@@ -97,4 +98,6 @@ class CaesarCipher:
                     decrypted_text += decrypted_char
                 else:
                     decrypted_text += char
-            printer.success(f"Shift: {i} | Decrypted text: {decrypted_text}")
+            printer.success(f"{Style.BRIGHT}{decrypted_text}{Style.RESET_ALL} ({i})")
+        
+        printer.info("Deciphering done, check all the shifts to see which one makes sense.")
