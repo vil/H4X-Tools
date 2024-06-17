@@ -1,8 +1,6 @@
 import os, psutil, subprocess, time, platform
 from helper import printer, timer
 import getpass
-import pwd
-import grp
 
 
 class Scan:
@@ -53,6 +51,8 @@ class Scan:
                 printer.error("Error retrieving account information :", str(e))
 
         else:
+            import pwd
+            import grp
             printer.info("Linux system detected..!\n")
             time.sleep(1)
             try:
