@@ -1,21 +1,22 @@
 """
- Copyright (c) 2024. Vili and contributors.
+Copyright (c) 2024. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
- """
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 
-import time, subprocess
+import time
+import subprocess
 from helper import printer, timer
 from colorama import Style
 
@@ -29,19 +30,13 @@ class Holehe:
     """
     @timer.timer
     def __init__(self, email):
-        printer.info(f"Trying to find sites where '{email}' is used, thanks to holehe.")
+        printer.info(f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe.")
         time.sleep(1)
         try:
             result = subprocess.run(["holehe", email], capture_output=True, text=True, check=True)
-            result.stdout = "\n".join(result.stdout.split("\n")[4:])
-            result.stdout = "\n".join(result.stdout.split("\n")[:-4])
-            result.stdout = "\n".join([f"\033[92m{line}\033[0m" if "[+]" in line else line for line in result.stdout.split("\n")])
-            result.stdout = "\n".join([f"\033[91m{line}\033[0m" if "[-]" in line else line for line in result.stdout.split("\n")])
-            result.stdout = "\n".join([f"\033[93m{line}\033[0m" if "[x]" in line else line for line in result.stdout.split("\n")])
-            # ^^^ moms spaghetti ^^^
-
-            if result.stdout:
-                printer.nonprefix(result.stdout)
+            output = self._format_output(result.stdout)
+            if output:
+                printer.nonprefix(output)
                 printer.nonprefix("Credits to megadose (Palenath) for holehe.")
             else:
                 printer.error("No results found..!")
@@ -52,3 +47,15 @@ class Holehe:
             printer.error(f"Error : {e}")
         except Exception as e:
             printer.error(f"Unexpected error : {e}")
+
+    @staticmethod
+    def _format_output(output):
+        lines = output.split("\n")[4:-4]
+        for i, line in enumerate(lines):
+            if "[+]" in line:
+                lines[i] = f"\033[92m{line}\033[0m"
+            elif "[-]" in line:
+                lines[i] = f"\033[91m{line}\033[0m"
+            elif "[x]" in line:
+                lines[i] = f"\033[93m{line}\033[0m"
+        return "\n".join(lines)
