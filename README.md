@@ -46,10 +46,6 @@ You can also [donate](https://github.com/sponsors/vil) to keep the project alive
 | Exit                  | Exits the tool.                                                                                                      |
 
 
-# Installation
-I'll upload already built executables to the [releases](https://github.com/vil/H4X-Tools/releases) tab, 
-but I'd recommend installing the tool manually by following the instructions below. This way you also get the freshest version.
-
 ## Setup
 > [!IMPORTANT]
 > Make sure you have [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed.

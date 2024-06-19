@@ -4,9 +4,11 @@ Volunteer developers are highly needed, as I am the only developer keeping this 
 Keep an eye at the [projects](https://github.com/users/vil/projects/2) and [issues](https://github.com/vil/H4X-Tools/issues) page to see if there is anything specific to do.
 
 ## Submitting changes
-After you have forked the project and done your changes. Open an pull request and tell what have you changed, improved or added. Also, please follow the same coding style as the project is currently using.
+After you have forked the project and done your changes. Open an pull request and tell what you have changed, improved or added.
 
-Don't also write **random** commit messages, simply tell shortly in the message what you have done.
+Also avoid using AI, human written code is always better.
+
+Don't also write **random** commit messages, simply tell shortly what you have done.
 
 
 -------------------------
