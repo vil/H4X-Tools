@@ -29,6 +29,7 @@ You can also [donate](https://github.com/sponsors/vil) to keep the project alive
 | Ip Lookup             | Looks up an IP/domain address and returns information about it.                                                      |
 | Port Scanner          | Scans for open ports in a given IP/domain address.                                                                   |
 | Username Search       | Tries to find a given username from many different websites.                                                         |
+| Cybercrime Int        | Searches if given email/domain has been compromised and leaked.                                                      |
 | Email Search          | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe)    |
 | Webhook Spammer       | Spams messages to a discord webhook.                                                                                 |
 | WhoIs Lookup          | Looks up a domain and returns information about it.                                                                  |

@@ -33,7 +33,8 @@ from utils import (
     dirbuster,
     caesar_cipher,
     basexx,
-    wifi_vault
+    wifi_vault,
+    cybercrime_int
 )
 from helper import printer
 import time, os
@@ -213,3 +214,11 @@ def handle_basexx() -> None:
     mode = str(printer.inp("Enter a mode (encode/decode) : \t"))
     encoding = str(printer.inp("Enter a encoding (64/32/16) : \t"))
     basexx.BaseXX(message, mode, encoding)
+
+
+def handle_cybercrime_int() -> None:
+    """
+    Handles the Cybercrime Intelligence util.
+    """
+    target = printer.inp("Enter a target (email/domain) : \t")
+    cybercrime_int.Scan(target)
