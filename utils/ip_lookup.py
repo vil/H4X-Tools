@@ -17,7 +17,7 @@
 
 import json, time, requests, socket
 from helper import printer, timer
-from utils import randomuser
+from helper import randomuser
 from colorama import Style
 
 
@@ -32,7 +32,7 @@ class Lookup:
         try:
             ip = socket.gethostbyname(ip)
             url = f"https://ipinfo.io/{ip}/json"
-            headers = {'User-Agent': f"{randomuser.IFeelLucky()}"}
+            headers = {'User-Agent': f"{randomuser.GetUser()}"}
             url = requests.get(url, headers=headers)
             # printer.info(url.text)
             values = json.loads(url.text)

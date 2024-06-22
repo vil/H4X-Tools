@@ -435,7 +435,7 @@ users = [
 ]
 
 
-class IFeelLucky:
+class GetUser:
     """
     Return a random user agent from the list.
     """

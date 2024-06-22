@@ -17,7 +17,7 @@
 
 from ensta import Guest
 from helper import printer, timer
-
+from colorama import Style
 
 class Scrape:
     """
@@ -27,6 +27,8 @@ class Scrape:
     """
     @timer.timer
     def __init__(self, target):
+        
+        printer.info(f"Trying to scrape information about {Style.BRIGHT}{target}{Style.RESET_ALL}...")
 
         try:
             api = Guest()

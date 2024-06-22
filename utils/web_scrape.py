@@ -20,7 +20,7 @@ import asyncio, aiohttp, time
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from helper import printer, timer
-from utils import randomuser
+from helper import randomuser
 from colorama import Style
 
 class Scrape:
@@ -54,7 +54,7 @@ class Scrape:
             printer.error(f"Cancelled..!")
 
     async def fetch(self, session, url):
-        headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
+        headers = {"User-Agent": f"{randomuser.GetUser()}"}
         async with session.get(url, headers=headers) as response:
             return await response.text()
 

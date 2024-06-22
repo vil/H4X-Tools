@@ -17,12 +17,12 @@
 
 import time, requests
 from bs4 import BeautifulSoup
-from utils import randomuser
+from helper import randomuser
 from helper import printer, timer
 from colorama import Style
 
 headers = {
-    "User-Agent": f"{randomuser.IFeelLucky()}",
+    "User-Agent": f"{randomuser.GetUser()}",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
     "Referer": "https://duckduckgo.com/"

@@ -17,7 +17,7 @@
 
 import requests, random, time
 from helper import printer, timer
-from utils import randomuser
+from helper import randomuser
 from colorama import Style
 
 
@@ -47,7 +47,7 @@ class SMSBomber:
             f"https://www.olx.com.lb/api/auth/authenticate/byPhone?phone={self.number}"
         ]
         self.session = requests.session()
-        self.session.headers = f"{randomuser.IFeelLucky()}"
+        self.session.headers = f"{randomuser.GetUser()}"
 
         try:
             printer.info(f"Trying to send {Style.BRIGHT}{self.count}{Style.RESET_ALL} SMS to {Style.BRIGHT}{self.number}{Style.RESET_ALL}...")

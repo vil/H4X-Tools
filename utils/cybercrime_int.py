@@ -17,7 +17,7 @@
 
 import json, time, requests
 from helper import printer, timer
-from utils import randomuser
+from helper import randomuser
 from colorama import Style
 
 
@@ -37,7 +37,7 @@ class Scan:
                 url = f"https://cavalier.hudsonrock.com/api/json/v2/osint-tools/search-by-domain?domain={target}"
                 target_type = 'domain'
 
-            headers = {'User-Agent': f"{randomuser.IFeelLucky()}"}
+            headers = {'User-Agent': f"{randomuser.GetUser()}"}
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()

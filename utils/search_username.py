@@ -17,7 +17,7 @@
 
 import json, aiohttp, asyncio
 from datetime import datetime
-from utils import randomuser
+from helper import randomuser
 from helper import printer, url_helper, timer
 from colorama import Style
 
@@ -78,7 +78,7 @@ class Search:
     async def make_request(session, u, username):
         url = u["url"].format(username=username)
         json_body = None
-        headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
+        headers = {"User-Agent": f"{randomuser.GetUser()}"}
         if 'headers' in u:
             headers.update(eval(u['headers']))
         if 'json' in u:

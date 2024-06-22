@@ -17,7 +17,7 @@
 
 import asyncio, aiohttp, requests
 from helper import printer, url_helper, timer
-from utils import randomuser
+from helper import randomuser
 from colorama import Style
 
 class Scan:
@@ -57,7 +57,7 @@ class Scan:
         :param path: path to check
         """
         url = f"https://{self.domain}/{path}"
-        headers = {"User-Agent": f"{randomuser.IFeelLucky()}"}
+        headers = {"User-Agent": f"{randomuser.GetUser()}"}
         async with session.get(url, headers=headers) as response:
             if response.status == 200:
                 printer.success(f"{len(self.url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}")
