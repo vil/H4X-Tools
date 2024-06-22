@@ -21,7 +21,7 @@ import os, time, socket
 from colorama import Fore, Style
 from helper import printer, handles
 
-VERSION = "0.3"
+VERSION = "0.3.1"
 
 def internet_check() -> None:
     try:
@@ -114,21 +114,22 @@ MENU_OPTIONS = {
     "4": handles.handle_ip_lookup,
     "5": handles.handle_username_search,
     "6": handles.handle_email_search,
-    "7": handles.handle_port_scanner,
-    "8": handles.handle_webhook_spammer,
-    "9": handles.handle_whois_lookup,
-    "10": handles.handle_sms_bomber,
-    "11": handles.handle_fake_info_generator,
-    "12": handles.handle_web_scrape,
-    "13": handles.handle_wifi_finder,
-    "14": handles.handle_wifi_vault,
-    "15": handles.handle_dir_buster,
-    "16": handles.handle_local_user_enum,
-    "17": handles.handle_caesar_cipher,
-    "18": handles.handle_basexx,
-    "19": about,
-    "20": donate,
-    "21": handles.handle_exit
+    "7": handles.handle_cybercrime_int,
+    "8": handles.handle_port_scanner,
+    "9": handles.handle_webhook_spammer,
+    "10": handles.handle_whois_lookup,
+    "11": handles.handle_sms_bomber,
+    "12": handles.handle_fake_info_generator,
+    "13": handles.handle_web_scrape,
+    "14": handles.handle_wifi_finder,
+    "15": handles.handle_wifi_vault,
+    "16": handles.handle_dir_buster,
+    "17": handles.handle_local_user_enum,
+    "18": handles.handle_caesar_cipher,
+    "19": handles.handle_basexx,
+    "20": about,
+    "21": donate,
+    "22": handles.handle_exit
 }
 
 def main() -> None:
@@ -145,7 +146,7 @@ def main() -> None:
         print_menu()
         user_input = printer.inp(f"Tool to execute : ")
 
-        if user_input.lower() in {"quit", "exit", "q", "kill", "21"}:
+        if user_input.lower() in {"quit", "exit", "q", "kill", "22"}:
             handles.handle_exit()
             break
 
