@@ -38,17 +38,7 @@ from utils import (
 )
 from helper import printer
 import time, os
-from colorama import Style
 
-
-def handle_exit() -> None:
-    """
-    Kills the program.
-    """
-    printer.warning("Goodbye...")
-    time.sleep(0.5)
-    print(Style.RESET_ALL)
-    
 
 def handle_ig_scrape() -> None:
     """

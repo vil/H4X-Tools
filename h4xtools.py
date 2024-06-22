@@ -73,7 +73,8 @@ Caesar Cipher : Cipher/decipher/bruteforce a message using the Caesar's code.
 BaseXX : Encodes/decodes a message using Base64/32/16.
 About : Tells you about the tool.
 Donate : My crypto addresses where to donate.
-Exit : Exits the tool.
+
+You can also exit the program with quit, q, kill, exit
 
 This source code is under the GNU General Public License, version 3, and is made by Vili.
     """)
@@ -107,6 +108,7 @@ def print_menu() -> None:
             print(" " * 4, end='')
 
     print("\n")
+    print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the tool...")
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
@@ -129,8 +131,7 @@ MENU_OPTIONS = {
     "18": handles.handle_caesar_cipher,
     "19": handles.handle_basexx,
     "20": about,
-    "21": donate,
-    "22": handles.handle_exit
+    "21": donate
 }
 
 def main() -> None:
@@ -147,8 +148,13 @@ def main() -> None:
         print_menu()
         user_input = printer.inp(f"Tool to execute : \t")
 
-        if user_input.lower() in {"quit", "exit", "q", "kill", "22"}:
-            handles.handle_exit()
+        if user_input.lower() in {"quit", "exit", "q", "kill"}:
+            """
+            Kills the program.
+            """
+            printer.warning("Quitting... Goodbye!")
+            print(Style.RESET_ALL)
+            time.sleep(0.5)
             break
 
         if user_input in MENU_OPTIONS:
@@ -159,4 +165,10 @@ def main() -> None:
             time.sleep(0.5)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n")
+        printer.warning("Quitting... Goodbye!")
+        print(Style.RESET_ALL)
+        exit(1)
