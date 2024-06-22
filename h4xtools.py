@@ -58,6 +58,7 @@ Phone Lookup : Looks up a phone number and returns information about it.
 Ip Lookup : Looks up an IP/domain address and returns information about it.
 Port Scanner : Scans for open ports in a given IP/domain address.
 Username Search : Tries to find a given username from many different websites.
+Cybercime int : Searches if given email/domain has been compromised and leaked.
 Email Search : Efficiently finds registered accounts from a given email.
 Webhook Spammer : Spams messages to a discord webhook.
 WhoIs Lookup : Looks up a domain and returns information about it.
@@ -144,7 +145,7 @@ def main() -> None:
         print_banner()
         time.sleep(1)
         print_menu()
-        user_input = printer.inp(f"Tool to execute : ")
+        user_input = printer.inp(f"Tool to execute : \t")
 
         if user_input.lower() in {"quit", "exit", "q", "kill", "22"}:
             handles.handle_exit()
