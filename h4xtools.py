@@ -40,7 +40,7 @@ def print_banner() -> None:
 {Style.RESET_ALL}v{VERSION} / Vili (@vil) / https://vili.dev 
     """)
 
-def about() -> None:
+def help() -> None:
     print(Fore.LIGHTCYAN_EX)
     printer.nonprefix(f"""
 H4X-Tools v{VERSION}, a toolkit for scraping, OSINT and more.
@@ -58,7 +58,7 @@ Phone Lookup : Looks up a phone number and returns information about it.
 Ip Lookup : Looks up an IP/domain address and returns information about it.
 Port Scanner : Scans for open ports in a given IP/domain address.
 Username Search : Tries to find a given username from many different websites.
-Cybercime int : Searches if given email/domain has been compromised and leaked.
+Cybercrime int : Searches if given email/domain has been compromised and leaked.
 Email Search : Efficiently finds registered accounts from a given email.
 Webhook Spammer : Spams messages to a discord webhook.
 WhoIs Lookup : Looks up a domain and returns information about it.
@@ -71,12 +71,12 @@ Dir Buster : Bruteforce directories on a website.
 Local User Enum : Enumerates local user accounts on the current machine.
 Caesar Cipher : Cipher/decipher/bruteforce a message using the Caesar's code.
 BaseXX : Encodes/decodes a message using Base64/32/16.
-About : Tells you about the tool.
+Help : Shows the help message.
 Donate : My crypto addresses where to donate.
 
-You can also exit the program with quit, q, kill, exit
+You can close the toolkit with the commands quit, q, kill and exit.
 
-This source code is under the GNU General Public License, version 3, and is made by Vili.
+This toolkit is under the GNU General Public License, version 3, and is made by Vili.
     """)
 
 
@@ -108,7 +108,7 @@ def print_menu() -> None:
             print(" " * 4, end='')
 
     print("\n")
-    print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the tool...")
+    print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the toolkit...")
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
@@ -130,7 +130,7 @@ MENU_OPTIONS = {
     "17": handles.handle_local_user_enum,
     "18": handles.handle_caesar_cipher,
     "19": handles.handle_basexx,
-    "20": about,
+    "20": help,
     "21": donate
 }
 
@@ -158,7 +158,10 @@ def main() -> None:
             break
 
         if user_input in MENU_OPTIONS:
-            MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
+            try:
+                MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
+            except KeyboardInterrupt:
+                printer.warning("Cancelled..!")
             time.sleep(3)  # Sleep so the user has time to see results.
         else:
             printer.error("Invalid option!")

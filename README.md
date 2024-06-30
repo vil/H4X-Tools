@@ -42,7 +42,7 @@ You can also [donate](https://github.com/sponsors/vil) to keep the project alive
 | Local User Enum       | Enumerates local user accounts on the current machine.                                                               |
 | Caesar Cipher         | Cipher/decipher/bruteforce a message using the Caesar's code.                                                        |
 | BaseXX                | Encodes/decodes a message using Base64/32/16.                                                                        |
-| About                 | Tells you about the tool.                                                                                            |
+| Help                  | Shows the help message.                                                                                              |
 | Donate                | My crypto addresses where to donate.                                                                                 |    
 | Exit                  | Exits the tool.                                                                                                      |
 
