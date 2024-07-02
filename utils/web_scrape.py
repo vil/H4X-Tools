@@ -29,7 +29,7 @@ class Scrape:
     
     :param url: url of the website.
     """
-    def __init__(self, url):
+    def __init__(self, url) -> None:
         self.url = url
         self.base_url = urlparse(url).netloc
         self.scraped_links = set()
@@ -53,17 +53,17 @@ class Scrape:
         except KeyboardInterrupt:
             printer.error(f"Cancelled..!")
 
-    async def fetch(self, session, url):
+    async def fetch(self, session, url) -> str:
         headers = {"User-Agent": f"{randomuser.GetUser()}"}
         async with session.get(url, headers=headers) as response:
             return await response.text()
 
-    async def parse_links(self, content, base_url):
+    async def parse_links(self, content, base_url) -> set:
         soup = BeautifulSoup(content, "html.parser")
         links = soup.find_all("a")
         return [(urljoin(base_url, link.get("href")), link.text) for link in links]
 
-    async def scrape_links(self, url, recursive=False):
+    async def scrape_links(self, url, recursive=False) -> None:
         async with aiohttp.ClientSession() as session:
             html_content = await self.fetch(session, url)
             links = await self.parse_links(html_content, url)

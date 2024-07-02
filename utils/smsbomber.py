@@ -29,7 +29,7 @@ class SMSBomber:
     :param count: number of SMS to send
     :param throttle: throttle time between each SMS
     """
-    def __init__(self, number, count, throttle):
+    def __init__(self, number, count, throttle) -> None:
         self.number = number
         self.count = int(count)
         self.throttle = int(throttle)
@@ -58,7 +58,7 @@ class SMSBomber:
             printer.error(f"Error : {e}")
 
     @timer.timer
-    def start(self):
+    def start(self) -> None:
         successes = 0
         fails = 0
         try:

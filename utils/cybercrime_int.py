@@ -15,7 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  """
 
-import json, time, requests
+import time, requests
 from helper import printer, timer
 from helper import randomuser
 from colorama import Style
@@ -28,7 +28,7 @@ class Scan:
     :param target: email or a domain
     """
     @timer.timer
-    def __init__(self, target):
+    def __init__(self, target) -> None:
         try:
             if '@' in target:
                 url = f"https://cavalier.hudsonrock.com/api/json/v2/osint-tools/search-by-email?email={target}"

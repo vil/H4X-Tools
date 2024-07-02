@@ -27,7 +27,7 @@ class Scan:
     :param domain: url to scan
     """
     @timer.timer
-    def __init__(self, domain):
+    def __init__(self, domain) -> None:
         self.domain = domain
         self.url_set = set()
 
@@ -37,7 +37,7 @@ class Scan:
         printer.success(f"Scan Completed..! There were {Style.BRIGHT}{len(self.url_set)}{Style.RESET_ALL} valid URLs!")
 
     @staticmethod
-    def get_wordlist():
+    def get_wordlist() -> str:
         """
         Reads the wordlist from the url and returns a list of names
 
@@ -49,7 +49,7 @@ class Scan:
         except requests.exceptions.ConnectionError:
             return None
 
-    async def fetch_url(self, session, path):
+    async def fetch_url(self, session, path) -> None:
         """
         Fetches the url and checks if it is valid
 
@@ -63,7 +63,7 @@ class Scan:
                 printer.success(f"{len(self.url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}")
                 self.url_set.add(url)
 
-    async def scan_async(self, paths):
+    async def scan_async(self, paths) -> None:
         """
         Scans the url asynchronously
 
@@ -73,7 +73,7 @@ class Scan:
             tasks = [self.fetch_url(session, path) for path in paths]
             await asyncio.gather(*tasks, return_exceptions=True)
 
-    def scan_urls(self):
+    def scan_urls(self) -> None:
         paths = self.get_wordlist()
         if paths is None:
             printer.error("Connection Error..!")

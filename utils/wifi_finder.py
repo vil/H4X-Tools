@@ -26,7 +26,7 @@ class Scan:
     Requires netsh for Windows and nmcli for Linux.
     """
     @timer.timer
-    def __init__(self):
+    def __init__(self) -> None:
         if os.name == "nt":
             self.scan_windows()
         elif os.name == "posix":
@@ -35,7 +35,7 @@ class Scan:
             printer.error("Unsupported platform..!")
 
     @staticmethod
-    def scan_windows():
+    def scan_windows() -> None:
         printer.info(f"Windows system detected... Performing {Style.BRIGHT}netsh{Style.RESET_ALL} scan...")
         time.sleep(1)
         try:
@@ -45,7 +45,7 @@ class Scan:
             printer.error(f"Error : {e.returncode} - {e.stderr}")
 
     @staticmethod
-    def scan_linux():
+    def scan_linux() -> None:
         printer.info(f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan...")
         time.sleep(1)
         try:
@@ -56,7 +56,7 @@ class Scan:
             printer.error(f"Is your system using {Style.BRIGHT}nmcli{Style.RESET_ALL}?")
 
     @staticmethod
-    def parse_output(output, platform):
+    def parse_output(output, platform) -> None:
         if platform == "windows":
             # Parse Windows output
             networks = []

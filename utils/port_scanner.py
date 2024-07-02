@@ -32,7 +32,7 @@ class Scan:
     :param port_range: The range of ports to scan.
     """
     @timer.timer
-    def __init__(self, ip, port_range):
+    def __init__(self, ip, port_range) -> None:
         try:
             printer.info(f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}...")
             if port_range > 1000:
@@ -45,7 +45,7 @@ class Scan:
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
 
-    def scan(self, ip, port_range):
+    def scan(self, ip, port_range) -> None:
         """
         Scans for open ports in a given IP address.
 
@@ -60,7 +60,7 @@ class Scan:
                     printer.success(result)
 
     @staticmethod
-    def scan_port(ip, port):
+    def scan_port(ip, port) -> None:
         """
         Scans an individual port of a given IP address.
 

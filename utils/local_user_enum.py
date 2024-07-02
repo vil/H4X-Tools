@@ -8,7 +8,7 @@ class Scan:
     Scans for local accounts on the system and their information.
     """
     @timer.timer
-    def __init__(self):
+    def __init__(self) -> None:
         if os.name == "nt":
             printer.info("Windows system detected..!\n")
             time.sleep(1)

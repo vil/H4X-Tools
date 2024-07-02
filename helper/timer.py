@@ -23,7 +23,7 @@ def timer(func):
     """
     A timer decorator to measure the execution time of a function.
     """
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs) -> str:
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()

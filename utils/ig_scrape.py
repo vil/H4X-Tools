@@ -26,8 +26,7 @@ class Scrape:
     :param target: The username of the account to scrape.
     """
     @timer.timer
-    def __init__(self, target):
-        
+    def __init__(self, target) -> None:
         printer.info(f"Trying to scrape information about {Style.BRIGHT}{target}{Style.RESET_ALL}...")
 
         try:
@@ -40,7 +39,7 @@ class Scrape:
         
 
     # Function to print user information
-    def print_user_info(self, data):
+    def print_user_info(self, data) -> None:
         readable_data = { # Format
             'Username': data.get('username', 'N/A'),
             'Full Name': data.get('full_name', 'N/A'),

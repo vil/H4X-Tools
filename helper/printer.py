@@ -18,7 +18,7 @@
 from colorama import Fore, Style
 
 
-def print_colored(message, color, prefix, *args, **kwargs):
+def print_colored(message, color, prefix, *args, **kwargs) -> None:
     """
     Print colored message with specified color and prefix.
 
@@ -31,29 +31,30 @@ def print_colored(message, color, prefix, *args, **kwargs):
     print(f"{color}{prefix}{Style.RESET_ALL} {message}", *args, **kwargs)
 
 
-def info(message, *args, **kwargs):
+def info(message, *args, **kwargs) -> None:
     print_colored(message, Fore.LIGHTBLUE_EX, "[*]", *args, **kwargs)
 
 
-def success(message, *args, **kwargs):
+def success(message, *args, **kwargs) -> None:
     print_colored(message, Fore.LIGHTGREEN_EX, "[+]", *args, **kwargs)
 
 
-def error(message, *args, **kwargs):
+def error(message, *args, **kwargs) -> None:
     print_colored(message, Fore.LIGHTRED_EX, "[!]", *args, **kwargs)
 
 
-def warning(message, *args, **kwargs):
+def warning(message, *args, **kwargs) -> None:
     print_colored(message, Fore.LIGHTYELLOW_EX, "[-]", *args, **kwargs)
 
 
-def debug(message, *args, **kwargs):
+def debug(message, *args, **kwargs) -> None:
     print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
 
 
-def nonprefix(message, *args, **kwargs):
+def nonprefix(message, *args, **kwargs) -> None:
     print(message, *args, **kwargs)
 
-def inp(prompt, *args, **kwargs):
+
+def inp(prompt, *args, **kwargs) -> None:
     print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
     return input()

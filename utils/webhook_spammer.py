@@ -31,7 +31,7 @@ class Spam:
     :param throttle_interval: Time interval between sending messages (in seconds).
     """
     @timer.timer
-    def __init__(self, url, amount, message, username, throttle_interval=1):
+    def __init__(self, url, amount, message, username, throttle_interval=1) -> None:
         self.url = url
         self.amount = amount
         self.message = message
@@ -46,14 +46,14 @@ class Spam:
         except KeyboardInterrupt:
             printer.error("Cancelled..!")
 
-    async def send_message(self, session, data):
+    async def send_message(self, session, data) -> None:
         async with session.post(self.url, json=data) as response:
             if response.status == 204:
                 return True
             else:
                 return False
 
-    async def send_messages(self):
+    async def send_messages(self) -> None:
         data = {
             "content": str(self.message),
             "username": str(self.username),

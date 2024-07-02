@@ -28,7 +28,7 @@ class LookUp:
     :param no: The phone number.
     """
     @timer.timer
-    def __init__(self, no):
+    def __init__(self, no) -> None:
         try:
             ph_no = p.parse(no)
             country = p.region_code_for_country_code(ph_no.country_code)

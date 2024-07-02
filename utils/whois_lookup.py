@@ -27,7 +27,7 @@ class Lookup:
     :param domain: The domain name.
     """
     @timer.timer
-    def __init__(self, domain):
+    def __init__(self, domain) -> None:
         try:
             q = whoisdomain.query(domain)
             printer.info(f"Trying to find the information of {Style.BRIGHT}{domain}{Style.RESET_ALL}...")

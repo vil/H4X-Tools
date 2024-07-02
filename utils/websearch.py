@@ -36,7 +36,7 @@ class Search:
     :param query: The query to search for.
     """
     @timer.timer
-    def __init__(self, query):
+    def __init__(self, query) -> None:
         url = f"https://duckduckgo.com/html/?q={query}"
 
         try:
@@ -49,7 +49,7 @@ class Search:
             printer.error("Cancelled..!")
 
     @staticmethod
-    def send_request(url):
+    def send_request(url) -> str:
         """
         Send a request to the given URL with appropriate headers.
 
@@ -63,7 +63,7 @@ class Search:
         except requests.exceptions.RequestException:
             return None
 
-    def parse_and_print_results(self, response_text, query):
+    def parse_and_print_results(self, response_text, query) -> None:
         """
         Parse the response and print search results.
 
@@ -88,7 +88,7 @@ class Search:
         for result in results:
             self.print_search_result(result)
 
-    def print_search_result(self, result):
+    def print_search_result(self, result) -> None:
         """
         Prints the result of a search.
 
@@ -100,7 +100,7 @@ class Search:
         printer.success(f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]")
 
     @staticmethod
-    def get_status_code(url):
+    def get_status_code(url) -> int:
         """
         Retrieves the status code of a given URL.
 

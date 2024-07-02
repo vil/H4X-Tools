@@ -29,7 +29,7 @@ class Holehe:
     :param email: The email address to search for.
     """
     @timer.timer
-    def __init__(self, email):
+    def __init__(self, email) -> None:
         printer.info(f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe.")
         time.sleep(1)
         try:
@@ -49,7 +49,7 @@ class Holehe:
             printer.error(f"Unexpected error : {e}")
 
     @staticmethod
-    def _format_output(output):
+    def _format_output(output) -> str:
         lines = output.split("\n")[4:-4]
         for i, line in enumerate(lines):
             if "[+]" in line:

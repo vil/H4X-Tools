@@ -29,7 +29,7 @@ class Search:
     :param username: The username to search for.
     """
     @timer.timer
-    def __init__(self, username):
+    def __init__(self, username) -> None:
         self.username = username
         try:
             self.scan(self.username)
@@ -37,7 +37,7 @@ class Search:
             printer.error("Cancelled..!")
             pass
 
-    def scan(self, username):
+    def scan(self, username) -> str:
         """
         Scans for the given username across many different sites.
 
@@ -61,7 +61,7 @@ class Search:
 
         return user_json
 
-    async def make_requests(self, username):
+    async def make_requests(self, username) -> None:
         """
         Makes the requests to the sites.
 
@@ -75,7 +75,7 @@ class Search:
             await asyncio.gather(*tasks)
 
     @staticmethod
-    async def make_request(session, u, username):
+    async def make_request(session, u, username) -> None:
         url = u["url"].format(username=username)
         json_body = None
         headers = {"User-Agent": f"{randomuser.GetUser()}"}
