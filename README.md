@@ -10,12 +10,13 @@ Toolkit for scraping, OSINT and more.
 Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tools/issues) tab.
 
 
-If you want to help with the development, follow the instructions in [contributing](CONTRIBUTING.md) and simply open a pull request. 
-You can also [donate](https://github.com/sponsors/vil) to keep the project alive and me motivated!
-
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.png)
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/output.gif)
+
+
+### notice
+The development of this toolkit will be slowed/stopped completely for at least 6 months. If you want to keep this up to date, feel free to open up a pull request. All new tools and additions are always welcome.
 
 # Current tools
 > [!WARNING]
