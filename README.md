@@ -12,11 +12,8 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.png)
 
-![](https://github.com/vil/H4X-Tools/blob/master/img/output.gif)
-
-
-### notice
-The development of this toolkit will be slowed/stopped completely for at least 6 months. If you want to keep this up to date, feel free to open up a pull request. All new tools and additions are always welcome.
+## Notice
+The development of this toolkit will be slowed/stopped completely for at least 6 months. If you want to keep this up to date, feel free to open up a pull request. All new tools, additions and other improvements are always welcome.
 
 # Current tools
 > [!WARNING]
