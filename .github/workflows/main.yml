@@ -8,7 +8,7 @@ jobs:
   build_windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.12
         uses: actions/setup-python@v3
         with:
@@ -21,7 +21,7 @@ jobs:
         run: |
           pyinstaller h4xtools.py --add-data "resources/*;resources" --onefile -F --clean
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows Executable
           path: dist/
@@ -29,7 +29,7 @@ jobs:
   build_linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.12
         uses: actions/setup-python@v3
         with:
@@ -42,7 +42,7 @@ jobs:
         run: |
           pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
       - name: Upload Linux artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Linux Executable
           path: dist/
