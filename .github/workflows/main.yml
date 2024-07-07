@@ -28,15 +28,6 @@ jobs:
         with:
           name: Windows Executable
           path: dist/
-      - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: $GITHUB_REF_NAME
-          body: |
-            Windows Executable: [${GITHUB_REF_NAME}](https://github.com/${GITHUB_REPO}/releases/download/${GITHUB_REF_NAME}/h4xtools.exe)
-            MD5 Hash: $(cat dist/h4xtools.exe.md5)
-          allowUpdates: true
-          makeLatest: true
 
   build_linux:
     runs-on: ubuntu-latest
@@ -61,12 +52,3 @@ jobs:
         with:
           name: Linux Executable
           path: dist/
-      - name: Create release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: $GITHUB_REF_NAME
-          body: |
-            Linux Executable: [${GITHUB_REF_NAME}](https://github.com/${GITHUB_REPO}/releases/download/${GITHUB_REF_NAME}/h4xtools)
-            MD5 Hash: $(cat dist/h4xtools.md5)
-          allowUpdates: true
-          makeLatest: true
