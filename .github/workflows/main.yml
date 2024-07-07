@@ -29,7 +29,7 @@ jobs:
           name: Windows Executable
           path: dist/
       - name: Create release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         with:
           tag_name: $GITHUB_REF_NAME
           release_name: $GITHUB_REF_NAME
@@ -61,7 +61,7 @@ jobs:
           name: Linux Executable
           path: dist/
       - name: Create release
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         with:
           tag_name: $GITHUB_REF_NAME
           release_name: $GITHUB_REF_NAME
