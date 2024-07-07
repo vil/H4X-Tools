@@ -31,8 +31,7 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          tag_name: $GITHUB_REF_NAME
-          release_name: $GITHUB_REF_NAME
+          tag: $GITHUB_REF_NAME
           body: |
             Windows Executable: [${GITHUB_REF_NAME}](https://github.com/${GITHUB_REPO}/releases/download/${GITHUB_REF_NAME}/h4xtools.exe)
             MD5 Hash: $(cat dist/h4xtools.exe.md5)
@@ -65,8 +64,7 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          tag_name: $GITHUB_REF_NAME
-          release_name: $GITHUB_REF_NAME
+          tag: $GITHUB_REF_NAME
           body: |
             Linux Executable: [${GITHUB_REF_NAME}](https://github.com/${GITHUB_REPO}/releases/download/${GITHUB_REF_NAME}/h4xtools)
             MD5 Hash: $(cat dist/h4xtools.md5)
