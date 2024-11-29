@@ -19,7 +19,7 @@ from utils import (
     email_search,
     local_user_enum,
     search_username,
-    ig_scrape,
+#    ig_scrape,
     whois_lookup,
     webhook_spammer,
     port_scanner,
@@ -40,15 +40,13 @@ from helper import printer
 import time, os
 
 
-def handle_ig_scrape() -> None:
-    """
+""" def handle_ig_scrape() -> None:
     Handles the IG Scrape util.
 
     Note, you have to log in to Instagram in order to use this util.
-    """
     target = str(printer.inp("Enter a target username : \t")).replace(" ", "_")
     ig_scrape.Scrape(target)
-    time.sleep(1)
+    time.sleep(1) """
 
 
 def handle_web_search() -> None:

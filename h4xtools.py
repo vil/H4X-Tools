@@ -111,7 +111,7 @@ def print_menu() -> None:
     print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the toolkit...")
 
 MENU_OPTIONS = {
-    "1": handles.handle_ig_scrape,
+    # "1": handles.handle_ig_scrape,
     "2": handles.handle_web_search,
     "3": handles.handle_phone_lookup,
     "4": handles.handle_ip_lookup,
