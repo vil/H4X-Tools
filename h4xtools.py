@@ -100,7 +100,7 @@ def print_menu() -> None:
 
     for i, (key, value) in enumerate(MENU_OPTIONS.items(), start=1):
         option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
-        print(f"{Fore.LIGHTGREEN_EX}[{key}]{Style.RESET_ALL} {option_name.ljust(max_option_length)}", end='')
+        print(f"{Fore.LIGHTGREEN_EX}[{key.zfill(2)}]{Style.RESET_ALL} {option_name.ljust(max_option_length)}", end='')
 
         if i % 2 == 0:
             print()
