@@ -21,7 +21,7 @@ The development of this toolkit will be slowed/stopped completely for at least 6
 
 | Tool Name             | Description                                                                                                          |
 |-----------------------|----------------------------------------------------------------------------------------------------------------------|
-| ~~Ig Scrape~~             | ~~Scrapes information from IG accounts~~ (removed temporarily)                                                   |
+| Ig Scrape             | Scrapes information from IG accounts                                                                                 |
 | Web Search            | Searches the internet for the given query.                                                                           |
 | Phone Lookup          | Looks up a phone number and returns information about it.                                                            |
 | Ip Lookup             | Looks up an IP/domain address and returns information about it.                                                      |
