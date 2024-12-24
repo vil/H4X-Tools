@@ -90,11 +90,8 @@ def handle_email_search() -> None:
 
     Windows support is not available yet.
     """
-    if os.name == "nt":
-        printer.warning(f"Sorry, this currently only works on Linux machines :(")
-    else:
-        email = str(printer.inp("Enter a email address : \t"))
-        email_search.Holehe(email)
+    email = str(printer.inp("Enter a email address : \t"))
+    email_search.Holehe(email)
 
 
 def handle_port_scanner() -> None:
