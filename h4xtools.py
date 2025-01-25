@@ -58,9 +58,8 @@ Phone Lookup : Looks up a phone number and returns information about it.
 Ip Lookup : Looks up an IP/domain address and returns information about it.
 Port Scanner : Scans for open ports in a given IP/domain address.
 Username Search : Tries to find a given username from many different websites.
-Cybercrime int : Searches if given email/domain has been compromised and leaked.
+Leak Search : Searches if given email/domain has been compromised and leaked.
 Email Search : Efficiently finds registered accounts from a given email.
-Webhook Spammer : Spams messages to a discord webhook.
 WhoIs Lookup : Looks up a domain and returns information about it.
 SMS Bomber : Spams messages to a given mobile number. (Works poorly and only for US numbers)
 Fake Info Generator : Generates fake information using Faker.
@@ -102,19 +101,18 @@ MENU_OPTIONS = {
     "4": handles.handle_ip_lookup,
     "5": handles.handle_username_search,
     "6": handles.handle_email_search,
-    "7": handles.handle_cybercrime_int,
+    "7": handles.handle_leak_search,
     "8": handles.handle_port_scanner,
-    "9": handles.handle_webhook_spammer,
-    "10": handles.handle_whois_lookup,
-    "11": handles.handle_sms_bomber,
-    "12": handles.handle_fake_info_generator,
-    "13": handles.handle_web_scrape,
-    "14": handles.handle_wifi_finder,
-    "15": handles.handle_wifi_vault,
-    "16": handles.handle_dir_buster,
-    "17": handles.handle_local_users,
-    "18": handles.handle_caesar_cipher,
-    "19": handles.handle_basexx
+    "9": handles.handle_whois_lookup,
+    "10": handles.handle_sms_bomber,
+    "11": handles.handle_fake_info_generator,
+    "12": handles.handle_web_scrape,
+    "13": handles.handle_wifi_finder,
+    "14": handles.handle_wifi_vault,
+    "15": handles.handle_dir_buster,
+    "16": handles.handle_local_users,
+    "17": handles.handle_caesar_cipher,
+    "18": handles.handle_basexx
 }
 
 def main() -> None:
@@ -140,9 +138,6 @@ def main() -> None:
             time.sleep(0.5)
             break
 
-        if user_input.lower() == "?":
-            help()
-            time.sleep(3)
 
         if user_input in MENU_OPTIONS:
             try:
@@ -150,6 +145,9 @@ def main() -> None:
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
             time.sleep(3)  # Sleep so the user has time to see results.
+        elif user_input.lower() == "?":
+            help()
+            time.sleep(3)
         else:
             printer.error("Invalid option!")
             time.sleep(0.5)

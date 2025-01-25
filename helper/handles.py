@@ -17,11 +17,11 @@
 
 from utils import (
     email_search,
+    leak_search,
     local_users,
     search_username,
     ig_scrape,
     whois_lookup,
-    webhook_spammer,
     port_scanner,
     ip_lookup,
     phonenumber_lookup,
@@ -34,10 +34,8 @@ from utils import (
     caesar_cipher,
     basexx,
     wifi_vault,
-    cybercrime_int
 )
 from helper import printer
-import time, os
 
 
 def handle_ig_scrape() -> None:
@@ -100,18 +98,6 @@ def handle_port_scanner() -> None:
     ip = str(printer.inp("Enter a IP address OR domain : \t"))
     port_range = int(printer.inp("Enter number of ports to scan : \t"))
     port_scanner.Scan(ip, port_range)
-
-
-def handle_webhook_spammer() -> None:
-    """
-    Handles the Webhook Spammer util.
-    """
-    url = str(printer.inp("Enter a webhook url : \t"))
-    amount = int(printer.inp("Enter a amount of messages : \t"))
-    message = str(printer.inp("Enter a message : \t"))
-    username = str(printer.inp("Enter a username : \t"))
-    throttle = int(printer.inp("Enter time of sleep (seconds) : \t"))
-    webhook_spammer.Spam(url, amount, message, username, throttle)
 
 
 def handle_whois_lookup() -> None:
@@ -200,9 +186,9 @@ def handle_basexx() -> None:
     basexx.BaseXX(message, mode, encoding)
 
 
-def handle_cybercrime_int() -> None:
+def handle_leak_search() -> None:
     """
     Handles the Cybercrime Intelligence util.
     """
     target = printer.inp("Enter a target (email/domain) : \t")
-    cybercrime_int.Scan(target)
+    leak_search.Scan(target)
