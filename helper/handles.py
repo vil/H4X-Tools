@@ -48,7 +48,6 @@ def handle_ig_scrape() -> None:
     """
     target = str(printer.inp("Enter a target username : \t")).replace(" ", "_")
     ig_scrape.Scrape(target)
-    time.sleep(1)
 
 
 def handle_web_search() -> None:
@@ -179,8 +178,6 @@ def handle_local_users() -> None:
     Handles the Local User Enum.
     """
     printer.info(f"Scanning for local accounts...")
-    printer.info(f"This is meant to be ran on a TARGET machine to gain (maybe) useful information.")
-    time.sleep(1)
     local_users.Scan()
 
 

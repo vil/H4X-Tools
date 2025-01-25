@@ -68,11 +68,10 @@ Web Scrape : Scrapes links from a given url.
 Wi-Fi Finder : Scans for nearby Wi-Fi networks.
 Wi-Fi Vault : Scans for locally saved Wi-Fi passwords.
 Dir Buster : Bruteforce directories on a website.
-Local User Enum : Enumerates local user accounts on the current machine.
+Local Users : Enumerates local user accounts on the current machine.
 Caesar Cipher : Cipher/decipher/bruteforce a message using the Caesar's code.
 BaseXX : Encodes/decodes a message using Base64/32/16.
 Help : Shows the help message.
-Donate : My crypto addresses where to donate.
 
 You can close the toolkit with the commands quit, q, kill and exit.
 
@@ -93,6 +92,7 @@ def print_menu() -> None:
             print(" " * 4, end='')
 
     print("\n")
+    print(f"Type {Style.BRIGHT}?{Style.RESET_ALL} for help.")
     print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the toolkit...")
 
 MENU_OPTIONS = {
@@ -114,8 +114,7 @@ MENU_OPTIONS = {
     "16": handles.handle_dir_buster,
     "17": handles.handle_local_users,
     "18": handles.handle_caesar_cipher,
-    "19": handles.handle_basexx,
-    "20": help
+    "19": handles.handle_basexx
 }
 
 def main() -> None:
@@ -140,6 +139,10 @@ def main() -> None:
             print(Style.RESET_ALL)
             time.sleep(0.5)
             break
+
+        if user_input.lower() == "?":
+            help()
+            time.sleep(3)
 
         if user_input in MENU_OPTIONS:
             try:
