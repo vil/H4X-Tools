@@ -12,8 +12,6 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.png)
 
-## Notice
-The development of this toolkit will be slowed/stopped completely for at least 6 months. If you want to keep this up to date, feel free to open up a pull request. All new tools, additions and other improvements are always welcome.
 
 # Current tools
 > [!WARNING]
@@ -37,11 +35,10 @@ The development of this toolkit will be slowed/stopped completely for at least 6
 | Wi-Fi Finder          | Scans for nearby Wi-Fi networks.                                                                                     |
 | Wi-Fi Vault           | Scans for locally saved Wi-Fi passwords.                                                                             |
 | Dir Buster            | Bruteforce directories on a website.                                                                                 |
-| Local User Enum       | Enumerates local user accounts on the current machine.                                                               |
+| Local Users			| Enumerates local user accounts on the current machine.                                                               |
 | Caesar Cipher         | Cipher/decipher/bruteforce a message using the Caesar's code.                                                        |
 | BaseXX                | Encodes/decodes a message using Base64/32/16.                                                                        |
 | Help                  | Shows the help message.                                                                                              |
-| Donate                | My crypto addresses where to donate.                                                                                 |    
 | Exit                  | Exits the tool.                                                                                                      |
 
 

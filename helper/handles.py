@@ -1,5 +1,5 @@
 """
- Copyright (c) 2024. Vili and contributors.
+ Copyright (c) 2023-2025. Vili and contributors.
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -13,11 +13,11 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- """
+"""
 
 from utils import (
     email_search,
-    local_user_enum,
+    local_users,
     search_username,
     ig_scrape,
     whois_lookup,
@@ -174,14 +174,14 @@ def handle_dir_buster() -> None:
     dirbuster.Scan(url)
 
 
-def handle_local_user_enum() -> None:
+def handle_local_users() -> None:
     """
     Handles the Local User Enum.
     """
     printer.info(f"Scanning for local accounts...")
     printer.info(f"This is meant to be ran on a TARGET machine to gain (maybe) useful information.")
     time.sleep(1)
-    local_user_enum.Scan()
+    local_users.Scan()
 
 
 def handle_caesar_cipher() -> None:

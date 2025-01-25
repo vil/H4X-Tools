@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
- Copyright (c) 2024. Vili and contributors.
+ Copyright (c) 2023-2025. Vili and contributors.
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- """
+"""
 
 import os, time, socket
 from colorama import Fore, Style
@@ -80,21 +80,6 @@ This toolkit is under the GNU General Public License, version 3, and is made by 
     """)
 
 
-def donate() -> None:
-    printer.nonprefix(f"""{Fore.LIGHTCYAN_EX}
-If you want to support me and keep H4X-Tools alive, you can donate to these addresses:
-
-Platform  Address
-------    ------        
-BCH :    qp58pmwsfq4rp0vvafjrj2uenp8edmftycvvh8wmlg
-BTC :    bc1qwgeuvc25g4hrylmgcup4yzavt5tl8pk93auj34
-ETH :    0x4433D6d7d31F38c63E0e6eA31Ffac2125B618142
-XMR :    47RTtA7b8dgQmd9dDYYTUrhsrXzdUvckLGqvZoBCwrchRdky1fLmzexL3esTNrTMstJiafnhDacsXi8UnS1AXACNKkNzv71
-Or you can support me on GitHub : https://github.com/sponsors/vil
-  
-Every single donation is appreciated! <3
-    """)
-
 def print_menu() -> None:
     max_option_length = max(len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in MENU_OPTIONS.values())
 
@@ -127,11 +112,10 @@ MENU_OPTIONS = {
     "14": handles.handle_wifi_finder,
     "15": handles.handle_wifi_vault,
     "16": handles.handle_dir_buster,
-    "17": handles.handle_local_user_enum,
+    "17": handles.handle_local_users,
     "18": handles.handle_caesar_cipher,
     "19": handles.handle_basexx,
-    "20": help,
-    "21": donate
+    "20": help
 }
 
 def main() -> None:

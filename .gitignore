@@ -6,3 +6,6 @@ build
 dist
 venv
 .venv
+.env
+.VC.opendb
+.vc
