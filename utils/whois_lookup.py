@@ -31,7 +31,6 @@ class Lookup:
         try:
             q = whoisdomain.query(domain)
             printer.info(f"Trying to find the information of {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
-            time.sleep(1)
             for key in q.__dict__:
                 printer.success(key, "-", q.__dict__[key])
         except Exception as e:

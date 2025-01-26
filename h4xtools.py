@@ -125,7 +125,6 @@ def main() -> None:
 
     while True:
         print_banner()
-        time.sleep(1)
         print_menu()
         user_input = printer.inp(f"Tool to execute : \t")
 

@@ -84,7 +84,6 @@ class Search:
         else:
             printer.info(f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]")
 
-        time.sleep(1)
         for result in results:
             self.print_search_result(result)
 

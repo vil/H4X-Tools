@@ -40,7 +40,6 @@ class Scrape:
                 printer.info(f"Trying to scrape links from {Style.BRIGHT}{self.url}{Style.RESET_ALL} and its linked pages as well...")
                 printer.warning("This may take a while depending on the sizes of the sites.")
 
-                time.sleep(0.5)
                 asyncio.run(self.scrape_links(self.url, recursive=True))
                 printer.success(f"Scraping linked pages completed..!")
             else:

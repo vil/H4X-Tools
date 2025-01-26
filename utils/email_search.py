@@ -31,7 +31,6 @@ class Holehe:
     @timer.timer
     def __init__(self, email) -> None:
         printer.info(f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe.")
-        time.sleep(1)
         try:
             result = subprocess.run(["holehe", email], capture_output=True, text=True, check=True)
             output = self._format_output(result.stdout)

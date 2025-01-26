@@ -37,7 +37,6 @@ class Scan:
     @staticmethod
     def scan_windows() -> None:
         printer.info(f"Windows system detected... Performing {Style.BRIGHT}netsh{Style.RESET_ALL} scan...")
-        time.sleep(1)
         try:
             output = subprocess.check_output(["netsh", "wlan", "show", "networks"])
             Scan.parse_output(output.decode("utf-8"), "windows")
@@ -47,7 +46,6 @@ class Scan:
     @staticmethod
     def scan_linux() -> None:
         printer.info(f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan...")
-        time.sleep(1)
         try:
             output = subprocess.check_output(["nmcli", "dev", "wifi"])
             Scan.parse_output(output.decode("utf-8"), "linux")

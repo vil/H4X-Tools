@@ -28,7 +28,6 @@ class Scan:
     def __init__(self) -> None:
         if os.name == "nt":
             printer.info("Windows system detected..!\n")
-            time.sleep(1)
             try:
                 user_info_list = []
 
@@ -71,7 +70,6 @@ class Scan:
             import pwd
             import grp
             printer.info("Linux system detected..!\n")
-            time.sleep(1)
             try:
                 user_info_list = []
 

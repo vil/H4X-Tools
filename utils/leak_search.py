@@ -42,8 +42,7 @@ class Scan:
             response.raise_for_status()
             data = response.json()
 
-            printer.info(f"Trying to find information for {Style.BRIGHT}{target}{Style.RESET_ALL}...")
-            time.sleep(1)
+            printer.info(f"Trying to find information for the {target_type} {Style.BRIGHT}{target}{Style.RESET_ALL}...")
 
             for key, value in data.items():
                 if key == "data":

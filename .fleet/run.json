@@ -1,9 +1,0 @@
-{
-    "configurations": [
-        {
-          "type": "python",
-          "name": "Run",
-          "arguments": ["h4xtools.py"]
-        }
-    ]
-}
