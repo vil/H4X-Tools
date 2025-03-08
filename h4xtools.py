@@ -42,40 +42,50 @@ def print_banner() -> None:
 
 def help() -> None:
     print(Fore.LIGHTCYAN_EX)
-    printer.nonprefix(f"""
-H4X-Tools v{VERSION}, a toolkit for scraping, OSINT and more.
+    print("H4X-Tools v{} - A toolkit for scraping, OSINT and more.".format(VERSION))
+    print("Repository link: https://github.com/vil/h4x-tools")
+    print("\nMade in Finland, with love.\n")
 
-Repository link : https://github.com/vil/h4x-tools
+    print("Available Tools:")
+    print("------------------")
 
-Made in Finland, with love.
+    # Use a loop to print the tools in a nice format
+    tools = {
+        "Ig Scrape": "Scrapes information from Instagram accounts.",
+        "Web Search": "Searches the internet for a given query.",
+        "Phone Lookup": "Looks up a phone number and returns information about it.",
+        "Ip Lookup": "Looks up an IP/domain address and returns information about it.",
+        "Port Scanner": "Scans for open ports in a given IP/domain address.",
+        "Username Search": "Tries to find a given username from many different websites.",
+        "Leak Search": "Searches if a given email/domain has been compromised and leaked.",
+        "Email Search": "Efficiently finds registered accounts from a given email.",
+        "WhoIs Lookup": "Looks up a domain and returns information about it.",
+        "SMS Bomber": "Spams messages to a given mobile number (works poorly and only for US numbers).",
+        "Fake Info Generator": "Generates fake information using Faker.",
+        "Web Scrape": "Scrapes links from a given URL.",
+        "Wi-Fi Finder": "Scans for nearby Wi-Fi networks.",
+        "Wi-Fi Vault": "Scans for locally saved Wi-Fi passwords.",
+        "Dir Buster": "Bruteforce directories on a website.",
+        "Local Users": "Enumerates local user accounts on the current machine.",
+        "Caesar Cipher": "Cipher/decipher/bruteforce a message using the Caesar's code.",
+        "BaseXX": "Encodes/decodes a message using Base64/32/16.",
+        "Help": "Shows this help menu."
+    }
 
+    for tool, description in tools.items():
+        print("* {} - {}".format(tool, description))
 
-Name          Desc
----------     ----------
-Ig Scrape : Scrapes information from IG accounts.
-Web Search : Searches the internet for the given query.
-Phone Lookup : Looks up a phone number and returns information about it.
-Ip Lookup : Looks up an IP/domain address and returns information about it.
-Port Scanner : Scans for open ports in a given IP/domain address.
-Username Search : Tries to find a given username from many different websites.
-Leak Search : Searches if given email/domain has been compromised and leaked.
-Email Search : Efficiently finds registered accounts from a given email.
-WhoIs Lookup : Looks up a domain and returns information about it.
-SMS Bomber : Spams messages to a given mobile number. (Works poorly and only for US numbers)
-Fake Info Generator : Generates fake information using Faker.
-Web Scrape : Scrapes links from a given url.
-Wi-Fi Finder : Scans for nearby Wi-Fi networks.
-Wi-Fi Vault : Scans for locally saved Wi-Fi passwords.
-Dir Buster : Bruteforce directories on a website.
-Local Users : Enumerates local user accounts on the current machine.
-Caesar Cipher : Cipher/decipher/bruteforce a message using the Caesar's code.
-BaseXX : Encodes/decodes a message using Base64/32/16.
-Help : Shows the help message.
+    print("\nClosing the Toolkit:")
+    print("----------------------")
+    print("You can close the toolkit using the following commands:")
+    print("* quit")
+    print("* q")
+    print("* kill")
+    print("* exit")
 
-You can close the toolkit with the commands quit, q, kill and exit.
-
-This toolkit is under the GNU General Public License, version 3, and is made by Vili.
-    """)
+    print("\nLicense and Credits:")
+    print("---------------------")
+    print("H4X-Tools is under the GNU General Public License, version 3, and is made by Vili.")
 
 
 def print_menu() -> None:
