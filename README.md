@@ -11,13 +11,6 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.png)
 
-<div align="center">
-  <a href="https://iproyal.com/?r=829462" target="_blank">
-  <img src="https://github.com/vil/vil/blob/master/IPR_500x124(x2).png?raw=true" alt="https://iproyal.com/">
-    Need proxies to stay anonymous? Try IPRoyal, they've got proxies for every need.
-  </a>
-</div>
-
 # Current tools
 > [!WARNING]
 > Some tools might not work on Windows systems.
