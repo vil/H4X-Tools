@@ -21,7 +21,7 @@ import os, time, socket
 from colorama import Fore, Style
 from helper import printer, handles
 
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 
 def internet_check() -> None:
     try:
