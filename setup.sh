@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2024. Vili and contributors.
+# Copyright (c) 2024-2025 Vili and contributors.
 
 clear
 
 echo "H4X-Tools Setup Script"
 echo
 echo "~~by Vili (https://vili.dev)"
-echo
-echo "Note that this script might ask for sudo password."
 echo
 echo "You may need to install 'python-devel' packages."
 
@@ -32,12 +30,17 @@ echo "Building H4X-Tools to a single executable..."
 if command -v pyinstaller >/dev/null 2>&1; then
     pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
     chmod +x dist/h4xtools
-    sudo mv dist/h4xtools /usr/local/bin/
+    if [ -d "$HOME/.local/bin" ]; then
+        mv dist/h4xtools "$HOME/.local/bin"
+    else
+        mkdir "$HOME/.local/bin"
+        mv dist/h4xtools "$HOME/.local/bin"
+    fi
     rm h4xtools.spec
     rm -r build
     rm -r dist
     echo "Done! Type h4xtools in your terminal to start!"
-    read -r -p "Do you want to start H4XTools now? (y/n) " answer
+    read -r -p "Do you want to start H4XTools now? (y/N) " answer
     if [[ $answer == "y" ||  $answer == "Y" || $answer == "yes" || $answer == "Yes" ]]; then
         h4xtools
     fi
