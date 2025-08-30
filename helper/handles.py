@@ -26,13 +26,10 @@ from utils import (
     ip_lookup,
     phonenumber_lookup,
     websearch,
-    smsbomber,
     web_scrape,
     wifi_finder,
     fake_info_generator,
     dirbuster,
-    caesar_cipher,
-    basexx,
     wifi_vault,
 )
 from helper import printer
@@ -108,18 +105,6 @@ def handle_whois_lookup() -> None:
     whois_lookup.Lookup(domain)
 
 
-def handle_sms_bomber() -> None:
-    """
-    Handles the SMS Bomber util.
-
-    Currently only works for US numbers.
-    """
-    number = printer.inp("Enter the target phone number (with country code): \t")
-    count = printer.inp("Enter the number of SMS to send: \t")
-    throttle = printer.inp("Enter the throttle time (in seconds): \t")
-    smsbomber.SMSBomber(number, count, throttle)
-
-
 def handle_fake_info_generator() -> None:
     """
     Handles the Fake Info Generator util.
@@ -165,25 +150,6 @@ def handle_local_users() -> None:
     """
     printer.info(f"Scanning for local accounts...")
     local_users.Scan()
-
-
-def handle_caesar_cipher() -> None:
-    """
-    Handles the Caesar Cipher util.
-    """
-    message = printer.inp("Enter a text to cipher/decipher : \t")
-    mode = str(printer.inp("Enter a mode (cipher/decipher/bruteforce) : \t"))
-    caesar_cipher.CaesarCipher(message, mode)
-
-
-def handle_basexx() -> None:
-    """
-    Handles the BaseXX util.
-    """
-    message = printer.inp("Enter a text to encode/decode : \t")
-    mode = str(printer.inp("Enter a mode (encode/decode) : \t"))
-    encoding = str(printer.inp("Enter a encoding (64/32/16) : \t"))
-    basexx.BaseXX(message, mode, encoding)
 
 
 def handle_leak_search() -> None:

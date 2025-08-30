@@ -60,15 +60,12 @@ def help() -> None:
         "Leak Search": "Searches if a given email/domain has been compromised and leaked.",
         "Email Search": "Efficiently finds registered accounts from a given email.",
         "WhoIs Lookup": "Looks up a domain and returns information about it.",
-        "SMS Bomber": "Spams messages to a given mobile number (works poorly and only for US numbers).",
         "Fake Info Generator": "Generates fake information using Faker.",
         "Web Scrape": "Scrapes links from a given URL.",
         "Wi-Fi Finder": "Scans for nearby Wi-Fi networks.",
         "Wi-Fi Vault": "Scans for locally saved Wi-Fi passwords.",
         "Dir Buster": "Bruteforce directories on a website.",
         "Local Users": "Enumerates local user accounts on the current machine.",
-        "Caesar Cipher": "Cipher/decipher/bruteforce a message using the Caesar's code.",
-        "BaseXX": "Encodes/decodes a message using Base64/32/16.",
         "Help": "Shows this help menu."
     }
 
@@ -114,15 +111,12 @@ MENU_OPTIONS = {
     "7": handles.handle_leak_search,
     "8": handles.handle_port_scanner,
     "9": handles.handle_whois_lookup,
-    "10": handles.handle_sms_bomber,
-    "11": handles.handle_fake_info_generator,
-    "12": handles.handle_web_scrape,
-    "13": handles.handle_wifi_finder,
-    "14": handles.handle_wifi_vault,
-    "15": handles.handle_dir_buster,
-    "16": handles.handle_local_users,
-    "17": handles.handle_caesar_cipher,
-    "18": handles.handle_basexx
+    "10": handles.handle_fake_info_generator,
+    "11": handles.handle_web_scrape,
+    "12": handles.handle_wifi_finder,
+    "13": handles.handle_wifi_vault,
+    "14": handles.handle_dir_buster,
+    "15": handles.handle_local_users,
 }
 
 def main() -> None:
