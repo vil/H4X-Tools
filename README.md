@@ -26,15 +26,12 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 | Leak Search			| Searches if given email/domain has been compromised and leaked.                                                      |
 | Email Search          | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe)    |
 | WhoIs Lookup          | Looks up a domain and returns information about it.                                                                  |
-| SMS Bomber            | Spams messages to a given mobile number. (Works poorly and only for US numbers)                                      |
 | Fake Info Generator   | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                           |
 | Web Scrape            | Scrapes links from a given url.                                                                                      |
 | Wi-Fi Finder          | Scans for nearby Wi-Fi networks.                                                                                     |
 | Wi-Fi Vault           | Scans for locally saved Wi-Fi passwords.                                                                             |
 | Dir Buster            | Bruteforce directories on a website.                                                                                 |
 | Local Users			| Enumerates local user accounts on the current machine.                                                               |
-| Caesar Cipher         | Cipher/decipher/bruteforce a message using the Caesar's code.                                                        |
-| BaseXX                | Encodes/decodes a message using Base64/32/16.                                                                        |
 | Help                  | Shows the help message.                                                                                              |
 | Exit                  | Exits the tool.                                                                                                      |
 
