@@ -1,4 +1,4 @@
-:: Copyright (c) 2024. Vili and contributors.
+:: Copyright (c) 2024-2025 Vili and contributors.
 @echo off
 cls
 echo.
@@ -31,7 +31,7 @@ echo Done.
 echo Your H4X-Tools executable is located in the 'dist' folder. You can now move it to your desired location.
 echo OR you can start H4X-Tools with python by typing 'python h4xtools.py' in the terminal.
 echo.
-set /p "input=Open 'dist' folder now? (y/n) -> "
+set /p "input=Open 'dist' folder now? (y/N) -> "
 if /i "%input%"=="y" (
     echo Opening up 'dist'.
     start dist\.

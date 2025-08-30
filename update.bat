@@ -1,4 +1,4 @@
-:: Copyright (c) 2024. Vili and contributors.
+:: Copyright (c) 2024-2025 Vili and contributors.
 @echo off
 cls
 echo.
@@ -9,7 +9,7 @@ echo.
 echo Make sure you run this in the root project directory!
 echo.
 
-set /p "input=Do you want to continue and update H4X-Tools? (y/n) "
+set /p "input=Do you want to continue and update H4X-Tools? (y/N) "
 
 if /i "%input%"=="y" (
     echo Updating...
