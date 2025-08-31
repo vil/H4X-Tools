@@ -11,6 +11,9 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 
 ![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.2.png)
 
+### Looking for contributors!
+If you have any Python knowledge and some time to spend, please be free to contribute by adding your own set of tools and improvements! Simply fork the repository, code your tool(s)/improvement(s) and open up a pull request!
+
 # Current tools
 > [!WARNING]
 > Some tools might not work on Windows systems.
@@ -38,28 +41,28 @@ Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tool
 
 ## Setup
 > [!IMPORTANT]
-> Make sure you have [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed.
+> Make sure you have [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed on your system.
 >
 > view the [wiki page](https://github.com/vil/H4X-Tools/wiki) for more detailed tutorial.
 
 ### Linux
-1. Clone the repo `git clone https://github.com/vil/h4x-tools.git`
+1. Clone the repository: `git clone https://github.com/vil/h4x-tools.git`
 
-2. Change directory `cd h4x-tools`
+2. Change directory into H4X-Tools: `cd h4x-tools`
 
-3. Run `sh setup.sh` in terminal to install the tool.
+3. Run the setup script: `sh setup.sh`
 
 ### Windows
-1. Clone the repo `git clone https://github.com/vil/h4x-tools.git`
+1. Clone the repository `git clone https://github.com/vil/h4x-tools.git`
 
-2. Change directory `cd h4x-tools`
+2. Change directory into H4X-Tools `cd h4x-tools`
 
-3. Run the `setup.bat` file.
+3. Run the setup script `setup.bat`
 
-Setup files will automatically build the tool as an executable.
-You can also run the tool using `python h4xtools.py` in the terminal.
+The setup script will automatically install dependencies and build H4X-Tools as an executable.
+You can also run H4X-Tools using Python by doing `python h4xtools.py`.
 
-Also, dependencies can be installed manually using `pip install -r requirements.txt`.
+Dependencies can be installed manually by doing `pip install -r requirements.txt`.
 
 # License
 >[This source code is under the GNU General Public License, version 3.](https://www.gnu.org/licenses/gpl-3.0.txt)
