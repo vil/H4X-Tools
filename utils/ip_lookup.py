@@ -21,36 +21,35 @@ from helper import randomuser
 from colorama import Style
 
 
-class Lookup:
+@timer.timer(require_input=True)
+def lookup(ip_address) -> None:
     """
     Gets information about a given ip address using https://ipinfo.io/
 
     :param ip: The ip address to search for.
     """
-    @timer.timer(require_input=True)
-    def __init__(self, ip) -> None:
-        try:
-            ip = socket.gethostbyname(ip)
-            url = f"https://ipinfo.io/{ip}/json"
-            headers = {'User-Agent': f"{randomuser.GetUser()}"}
-            url = requests.get(url, headers=headers)
-            # printer.info(url.text)
-            values = json.loads(url.text)
+    try:
+        ip_address = socket.gethostbyname(ip_address)
+        url = f"https://ipinfo.io/{ip_address}/json"
+        headers = {'User-Agent': f"{randomuser.GetUser()}"}
+        url = requests.get(url, headers=headers)
+        # printer.info(url.text)
+        values = json.loads(url.text)
 
-            printer.info(f"Trying to find information for {Style.BRIGHT}{ip}{Style.RESET_ALL}...")
-            time.sleep(1)
+        printer.info(f"Trying to find information for {Style.BRIGHT}{ip_address}{Style.RESET_ALL}...")
+        time.sleep(1)
 
-            for value in values:
-                # If value contains readme, skip it.
-                if value == "readme":
-                    continue
-                elif value == "" or value is None:
-                    value = "Not Found"
+        for value in values:
+            # If value contains readme, skip it.
+            if value == "readme":
+                continue
+            elif value == "" or value is None:
+                value = "Not Found"
 
-                printer.success(f"{value.capitalize()} :", values[value])
+            printer.success(f"{value.capitalize()} :", values[value])
 
-            printer.success(f"Openstreetmap URL :", f"https://www.openstreetmap.org/search?query={values['loc']}")
+        printer.success(f"Openstreetmap URL :", f"https://www.openstreetmap.org/search?query={values['loc']}")
 
-        except Exception as e:
-            printer.error(f"Error : {e}")
-            pass
+    except Exception as e:
+        printer.error(f"Error : {e}")
+        pass

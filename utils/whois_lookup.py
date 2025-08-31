@@ -20,19 +20,18 @@ from helper import printer, timer
 from colorama import Style
 
 
-class Lookup:
+@timer.timer(require_input=True)
+def check_whois(domain) -> None:
     """
     Looks up for the information of a given domain.
 
     :param domain: The domain name.
     """
-    @timer.timer(require_input=True)
-    def __init__(self, domain) -> None:
-        try:
-            q = whoisdomain.query(domain)
-            printer.info(f"Trying to find the information of {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
-            for key in q.__dict__:
-                printer.success(key, "-", q.__dict__[key])
-        except Exception as e:
-            printer.error("Error : ", e)
-            printer.error(f"Make sure you have the {Style.BRIGHT}whois{Style.RESET_ALL} installed on your system..!")
+    try:
+        q = whoisdomain.query(domain)
+        printer.info(f"Trying to find the information of {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
+        for key in q.__dict__:
+            printer.success(key, "-", q.__dict__[key])
+    except Exception as e:
+        printer.error("Error : ", e)
+        printer.error(f"Make sure you have the {Style.BRIGHT}whois{Style.RESET_ALL} installed on your system..!")

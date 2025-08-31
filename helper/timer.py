@@ -37,7 +37,7 @@ def timer(require_input: bool):
             
             # If require_input is True, prompt the user for input after execution
             if require_input:
-                printer.inp("Press any key to continue...")  # Prompt for input
+                printer.inp("Press Enter key to continue...")  # Prompt for input
 
             return result  # Return the result of the wrapped function
         return wrapper

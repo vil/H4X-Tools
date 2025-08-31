@@ -42,7 +42,7 @@ def handle_ig_scrape() -> None:
     Note, you have to log in to Instagram in order to use this util.
     """
     target = str(printer.inp("Enter a target username : \t")).replace(" ", "_")
-    ig_scrape.Scrape(target)
+    ig_scrape.scrape(target=target)
 
 
 def handle_web_search() -> None:
@@ -51,7 +51,7 @@ def handle_web_search() -> None:
     """
     printer.info("For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/")
     query = str(printer.inp("Search query : \t"))
-    websearch.Search(query)
+    websearch.websearch(query=query)
 
 
 def handle_phone_lookup() -> None:
@@ -59,7 +59,7 @@ def handle_phone_lookup() -> None:
     Handles the Phone number Lookup util.
     """
     no = str(printer.inp("Enter a phone-number with country code : \t"))
-    phonenumber_lookup.LookUp(no)
+    phonenumber_lookup.lookup(phone_number=no)
 
 
 def handle_ip_lookup() -> None:
@@ -67,7 +67,7 @@ def handle_ip_lookup() -> None:
     Handles the IP/Domain Lookup util.
     """
     ip = str(printer.inp("Enter a IP address OR domain : \t"))
-    ip_lookup.Lookup(ip)
+    ip_lookup.lookup(ip_address=ip)
 
 
 def handle_username_search() -> None:
@@ -75,7 +75,7 @@ def handle_username_search() -> None:
     Handles the Username Search util.
     """
     username = str(printer.inp("Enter a Username : \t")).replace(" ", "_")
-    search_username.Search(username)
+    search_username.search(username=username)
 
 
 def handle_email_search() -> None:
@@ -85,7 +85,7 @@ def handle_email_search() -> None:
     Windows support is not available yet.
     """
     email = str(printer.inp("Enter a email address : \t"))
-    email_search.Holehe(email)
+    email_search.search(email=email)
 
 
 def handle_port_scanner() -> None:
@@ -94,7 +94,7 @@ def handle_port_scanner() -> None:
     """
     ip = str(printer.inp("Enter a IP address OR domain : \t"))
     port_range = int(printer.inp("Enter number of ports to scan : \t"))
-    port_scanner.Scan(ip, port_range)
+    port_scanner.scan(ip=ip, port_range=port_range)
 
 
 def handle_whois_lookup() -> None:
@@ -102,14 +102,14 @@ def handle_whois_lookup() -> None:
     Handles the WhoIs Lookup util.
     """
     domain = str(printer.inp("Enter a domain : \t"))
-    whois_lookup.Lookup(domain)
+    whois_lookup.check_whois(domain=domain)
 
 
 def handle_fake_info_generator() -> None:
     """
     Handles the Fake Info Generator util.
     """
-    fake_info_generator.Generate()
+    fake_info_generator.generate()
 
 
 def handle_web_scrape() -> None:
@@ -117,7 +117,7 @@ def handle_web_scrape() -> None:
     Handles the Web Scrape util.
     """
     url = str(printer.inp(f"Enter a url : \t"))
-    web_scrape.Scrape(url)
+    web_scrape.scrape(url=url)
 
 
 def handle_wifi_finder() -> None:
@@ -125,7 +125,7 @@ def handle_wifi_finder() -> None:
     Handles the Wi-Fi Finder util.
     """
     printer.info(f"Scanning for nearby Wi-Fi networks...")
-    wifi_finder.Scan()
+    wifi_finder.scan_nearby_wifis()
 
 
 def handle_wifi_vault() -> None:
@@ -133,15 +133,15 @@ def handle_wifi_vault() -> None:
     Handles the Wi-Fi Password Getter util.
     """
     printer.info(f"Scanning for locally saved Wi-Fi passwords...")
-    wifi_vault.Scan()
+    wifi_vault.get_local_passwords()
 
 
 def handle_dir_buster() -> None:
     """
     Handles the Dir Buster util.
     """
-    url = printer.inp(f"Enter a domain : \t")
-    dirbuster.Scan(url)
+    domain = printer.inp(f"Enter a domain : \t")
+    dirbuster.bust(domain=domain)
 
 
 def handle_local_users() -> None:
@@ -149,7 +149,7 @@ def handle_local_users() -> None:
     Handles the Local User Enum.
     """
     printer.info(f"Scanning for local accounts...")
-    local_users.Scan()
+    local_users.scan_for_local_users()
 
 
 def handle_leak_search() -> None:
@@ -157,4 +157,4 @@ def handle_leak_search() -> None:
     Handles the Cybercrime Intelligence util.
     """
     target = printer.inp("Enter a target (email/domain) : \t")
-    leak_search.Scan(target)
+    leak_search.lookup(target=target)

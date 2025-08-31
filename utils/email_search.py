@@ -20,7 +20,8 @@ import subprocess
 from helper import printer, timer
 from colorama import Style
 
-class Holehe:
+@timer.timer(require_input=True)
+def search(email) -> None:
     """
     Searches for the email address in various websites using holehe.
 
@@ -28,33 +29,30 @@ class Holehe:
 
     :param email: The email address to search for.
     """
-    @timer.timer(require_input=True)
-    def __init__(self, email) -> None:
-        printer.info(f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe.")
-        try:
-            result = subprocess.run(["holehe", email], capture_output=True, text=True, check=True)
-            output = self._format_output(result.stdout)
-            if output:
-                printer.nonprefix(output)
-                printer.nonprefix("Credits to megadose (Palenath) for holehe.")
-            else:
-                printer.error("No results found..!")
-        except FileNotFoundError:
-            printer.error(f"Error : {Style.BRIGHT}holehe{Style.RESET_ALL} was not found or it isn't in the PATH. Please make sure you have holehe installed and in your PATH.")
-            printer.error(f"You can install holehe by executing {Style.BRIGHT}pip install holehe{Style.RESET_ALL}.")
-        except subprocess.CalledProcessError as e:
-            printer.error(f"Error : {e}")
-        except Exception as e:
-            printer.error(f"Unexpected error : {e}")
+    printer.info(f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe.")
+    try:
+        result = subprocess.run(["holehe", email], capture_output=True, text=True, check=True)
+        output = _format_output(result.stdout)
+        if output:
+            printer.nonprefix(output)
+            printer.nonprefix("Credits to megadose (Palenath) for holehe.")
+        else:
+            printer.error("No results found..!")
+    except FileNotFoundError:
+        printer.error(f"Error : {Style.BRIGHT}holehe{Style.RESET_ALL} was not found or it isn't in the PATH. Please make sure you have holehe installed and in your PATH.")
+        printer.error(f"You can install holehe by executing {Style.BRIGHT}pip install holehe{Style.RESET_ALL}.")
+    except subprocess.CalledProcessError as e:
+        printer.error(f"Error : {e}")
+    except Exception as e:
+        printer.error(f"Unexpected error : {e}")
 
-    @staticmethod
-    def _format_output(output) -> str:
-        lines = output.split("\n")[4:-4]
-        for i, line in enumerate(lines):
-            if "[+]" in line:
-                lines[i] = f"\033[92m{line}\033[0m"
-            elif "[-]" in line:
-                lines[i] = f"\033[91m{line}\033[0m"
-            elif "[x]" in line:
-                lines[i] = f"\033[93m{line}\033[0m"
-        return "\n".join(lines)
+def _format_output(output) -> str:
+    lines = output.split("\n")[4:-4]
+    for i, line in enumerate(lines):
+        if "[+]" in line:
+            lines[i] = f"\033[92m{line}\033[0m"
+        elif "[-]" in line:
+            lines[i] = f"\033[91m{line}\033[0m"
+        elif "[x]" in line:
+            lines[i] = f"\033[93m{line}\033[0m"
+    return "\n".join(lines)
