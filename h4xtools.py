@@ -151,10 +151,9 @@ def main() -> None:
                 MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
-            time.sleep(3)  # Sleep so the user has time to see results.
         elif user_input.lower() == "?":
             help()
-            time.sleep(3)
+            printer.inp("Done reading? Press the Enter key.")
         else:
             printer.error("Invalid option!")
             time.sleep(0.5)

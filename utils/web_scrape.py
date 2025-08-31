@@ -23,55 +23,55 @@ from helper import printer, timer
 from helper import randomuser
 from colorama import Style
 
-class Scrape:
+scraped_links = set()
+
+@timer.timer(require_input=True)
+def scrape(url) -> None:
     """
     Scrapes links from the given url.
-    
+
     :param url: url of the website.
     """
-    @timer.timer(require_input=True)
-    def __init__(self, url) -> None:
-        self.url = url
-        self.base_url = urlparse(url).netloc
-        self.scraped_links = set()
+    base_url = urlparse(url).netloc
 
-        try:
-            response = printer.inp("Do you want to scrape the linked pages as well? (y/n) : ")
-            if response.lower() == 'y' or response.lower() == "yes":
-                printer.info(f"Trying to scrape links from {Style.BRIGHT}{self.url}{Style.RESET_ALL} and its linked pages as well...")
-                printer.warning("This may take a while depending on the sizes of the sites.")
+    try:
+        response = printer.inp("Do you want to scrape the linked pages as well? (y/N) : ")
+        if response.lower() == 'y' or response.lower() == "yes":
+            printer.info(f"Trying to scrape links from {Style.BRIGHT}{url}{Style.RESET_ALL} and its linked pages as well...")
+            printer.warning("This may take a while depending on the sizes of the sites.")
+    
+            asyncio.run(scrape_links(url, recursive=True))
+            printer.success(f"Scraping linked pages completed..!")
+        else:
+            printer.info(f"Trying to scrape links from {Style.BRIGHT}{url}{Style.RESET_ALL}...")
+            asyncio.run(scrape_links(url))
+            printer.success(f"Scraping completed..!")
 
-                asyncio.run(self.scrape_links(self.url, recursive=True))
-                printer.success(f"Scraping linked pages completed..!")
-            else:
-                printer.info(f"Trying to scrape links from {Style.BRIGHT}{self.url}{Style.RESET_ALL}...")
-                asyncio.run(self.scrape_links(self.url))
-                printer.success(f"Scraping completed..!")
+    except Exception as e:
+        printer.error(f"Error : {e}")
+    except KeyboardInterrupt:
+        printer.error(f"Cancelled..!")
 
-        except Exception as e:
-            printer.error(f"Error : {e}")
-        except KeyboardInterrupt:
-            printer.error(f"Cancelled..!")
+async def fetch(session, url) -> str:
+    headers = {"User-Agent": f"{randomuser.GetUser()}"}
+    async with session.get(url, headers=headers) as response:
+        return await response.text()
 
-    async def fetch(self, session, url) -> str:
-        headers = {"User-Agent": f"{randomuser.GetUser()}"}
-        async with session.get(url, headers=headers) as response:
-            return await response.text()
+async def parse_links(content, base_url) -> set:
+    soup = BeautifulSoup(content, "html.parser")
+    links = soup.find_all("a")
+    return [(urljoin(base_url, link.get("href")), link.text) for link in links]
 
-    async def parse_links(self, content, base_url) -> set:
-        soup = BeautifulSoup(content, "html.parser")
-        links = soup.find_all("a")
-        return [(urljoin(base_url, link.get("href")), link.text) for link in links]
+async def scrape_links(url, recursive=False) -> None:
+    async with aiohttp.ClientSession() as session:
+        html_content = await fetch(session, url)
+        links = await parse_links(html_content, url)
 
-    async def scrape_links(self, url, recursive=False) -> None:
-        async with aiohttp.ClientSession() as session:
-            html_content = await self.fetch(session, url)
-            links = await self.parse_links(html_content, url)
+        for href, text in links:
+            if href not in scraped_links:
+                scraped_links.add(href)
+                printer.success(f"{len(scraped_links)} Link(s) found : {Style.BRIGHT}{href} - {text}{Style.RESET_ALL}")
 
-            for href, text in links:
-                if href not in self.scraped_links:
-                    self.scraped_links.add(href)
-                    printer.success(f"{len(self.scraped_links)} Link(s) found : {Style.BRIGHT}{href} - {text}{Style.RESET_ALL}")
-                    if recursive:
-                        # await asyncio.sleep(0.5)
-                        await self.scrape_links(href)  # recursively scrape linked pages
+                if recursive:
+                    # await asyncio.sleep(0.5)
+                    await scrape_links(href)  # recursively scrape linked pages
