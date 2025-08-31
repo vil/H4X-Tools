@@ -27,7 +27,7 @@ class Scan:
     
     :param target: email or a domain
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, target) -> None:
         try:
             if '@' in target:

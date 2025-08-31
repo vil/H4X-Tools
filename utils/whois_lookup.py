@@ -26,7 +26,7 @@ class Lookup:
 
     :param domain: The domain name.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, domain) -> None:
         try:
             q = whoisdomain.query(domain)

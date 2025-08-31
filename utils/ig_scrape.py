@@ -25,7 +25,7 @@ class Scrape:
 
     :param target: The username of the account to scrape.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, target) -> None:
         printer.info(f"Trying to scrape information about {Style.BRIGHT}{target}{Style.RESET_ALL}...")
 

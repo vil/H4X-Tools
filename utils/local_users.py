@@ -24,7 +24,7 @@ class Scan:
     """
     Scans for local accounts on the system and their information.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self) -> None:
         if os.name == "nt":
             printer.info("Windows system detected..!\n")

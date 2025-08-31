@@ -26,7 +26,7 @@ class Generate:
 
     Thanks to Faker, https://pypi.org/project/Faker/
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self) -> None:
         fake = Faker()
         printer.info("Generating fake information...")

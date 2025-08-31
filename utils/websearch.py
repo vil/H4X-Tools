@@ -35,7 +35,7 @@ class Search:
 
     :param query: The query to search for.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, query) -> None:
         url = f"https://duckduckgo.com/html/?q={query}"
 

@@ -28,7 +28,7 @@ class Search:
 
     :param username: The username to search for.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, username) -> None:
         self.username = username
         try:

@@ -28,7 +28,7 @@ class Holehe:
 
     :param email: The email address to search for.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, email) -> None:
         printer.info(f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe.")
         try:

@@ -23,7 +23,7 @@ class Scan:
     """
     Retrieves saved Wi-Fi passwords on the system.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self) -> None:
         if os.name == "nt":
             printer.info("Windows system detected..!\n")

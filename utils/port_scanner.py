@@ -31,7 +31,7 @@ class Scan:
     :param ip: IP address.
     :param port_range: The range of ports to scan.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, ip, port_range) -> None:
         try:
             printer.info(f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}...")

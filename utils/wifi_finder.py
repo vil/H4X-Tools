@@ -25,7 +25,7 @@ class Scan:
 
     Requires netsh for Windows and nmcli for Linux.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self) -> None:
         if os.name == "nt":
             self.scan_windows()

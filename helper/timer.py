@@ -19,15 +19,27 @@ import time
 from helper import printer
 
 
-def timer(func):
+def timer(require_input: bool):
     """
-    A timer decorator to measure the execution time of a function.
+    A timer decorator to measure the execution time of a function and optionally 
+    require user input after execution.
+    
+    :param require_input: Boolean flag to determine if input is required after execution
     """
-    def wrapper(*args, **kwargs) -> str:
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        printer.info(f"Completed in {elapsed_time:.4f} seconds.")
-        return result
-    return wrapper
+    def decorator(func):
+        def wrapper(*args, **kwargs) -> str:
+            start_time = time.time()  # Start timing
+            result = func(*args, **kwargs)  # Execute the wrapped function
+            end_time = time.time()  # End timing
+
+            elapsed_time = end_time - start_time  # Calculate elapsed time
+            printer.info(f"Completed in {elapsed_time:.4f} seconds.")  # Print the elapsed time
+            
+            # If require_input is True, prompt the user for input after execution
+            if require_input:
+                printer.inp("Press any key to continue...")  # Prompt for input
+
+            return result  # Return the result of the wrapped function
+        return wrapper
+    return decorator
+

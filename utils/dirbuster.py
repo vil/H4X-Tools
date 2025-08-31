@@ -26,7 +26,7 @@ class Scan:
 
     :param domain: url to scan
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, domain) -> None:
         self.domain = domain
         self.url_set = set()

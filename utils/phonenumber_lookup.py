@@ -27,7 +27,7 @@ class LookUp:
 
     :param no: The phone number.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, no) -> None:
         try:
             ph_no = p.parse(no)

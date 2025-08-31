@@ -27,7 +27,7 @@ class Lookup:
 
     :param ip: The ip address to search for.
     """
-    @timer.timer
+    @timer.timer(require_input=True)
     def __init__(self, ip) -> None:
         try:
             ip = socket.gethostbyname(ip)

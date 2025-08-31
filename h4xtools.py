@@ -120,7 +120,7 @@ MENU_OPTIONS = {
 }
 
 def main() -> None:
-    internet_check()
+    #internet_check()
     time.sleep(0.5)
 
     if os.name == "nt":

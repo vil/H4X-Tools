@@ -29,6 +29,7 @@ class Scrape:
     
     :param url: url of the website.
     """
+    @timer.timer(require_input=True)
     def __init__(self, url) -> None:
         self.url = url
         self.base_url = urlparse(url).netloc
