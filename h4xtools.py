@@ -24,11 +24,15 @@ from helper import printer, handles
 VERSION = "0.3.2"
 
 def internet_check() -> None:
+    """
+    Check if the user is connected to the internet.
+    """
     try:
+        socket.setdefaulttimeout(3)
         socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
-    except OSError:
-        printer.warning("Internet Connection is Unavailable..!")
+    except socket.error as sock_error:
+        printer.warning("Internet Connection is Unavailable or some other problem occurred..!\n{}".format(sock_error))
 
 def print_banner() -> None:
     print(Fore.LIGHTBLACK_EX + f"""                              
@@ -120,7 +124,7 @@ MENU_OPTIONS = {
 }
 
 def main() -> None:
-    #internet_check()
+    internet_check()
     time.sleep(0.5)
 
     if os.name == "nt":
