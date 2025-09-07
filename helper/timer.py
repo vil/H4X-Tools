@@ -16,6 +16,7 @@
 """
 
 import time
+
 from helper import printer
 
 
@@ -26,6 +27,7 @@ def timer(require_input: bool):
     
     :param require_input: Boolean flag to determine if input is required after execution
     """
+
     def decorator(func):
         def wrapper(*args, **kwargs) -> str:
             start_time = time.time()  # Start timing
@@ -34,12 +36,13 @@ def timer(require_input: bool):
 
             elapsed_time = end_time - start_time  # Calculate elapsed time
             printer.info(f"Completed in {elapsed_time:.4f} seconds.")  # Print the elapsed time
-            
+
             # If require_input is True, prompt the user for input after execution
             if require_input:
                 printer.inp("Press Enter key to continue...")  # Prompt for input
 
             return result  # Return the result of the wrapped function
-        return wrapper
-    return decorator
 
+        return wrapper
+
+    return decorator

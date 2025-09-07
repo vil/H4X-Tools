@@ -15,13 +15,14 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import whoisdomain, time
-from helper import printer, timer
+import whoisdomain
 from colorama import Style
+
+from helper import printer, timer
 
 
 @timer.timer(require_input=True)
-def check_whois(domain) -> None:
+def check_whois(domain: str) -> None:
     """
     Looks up for the information of a given domain.
 

@@ -15,14 +15,15 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import time, requests
+import requests
+from colorama import Style
+
 from helper import printer, timer
 from helper import randomuser
-from colorama import Style
 
 
 @timer.timer(require_input=True)
-def lookup(target) -> None:
+def lookup(target: str) -> None:
     """
     Uses Hudson Rock API to gather information about a email OR domain.
     
@@ -52,7 +53,7 @@ def lookup(target) -> None:
                     printer.success(f"  /__: {k.capitalize()} : {v}")
             else:
                 printer.success(f"{key.capitalize()} : {value}")
-                
+
         printer.info(f"View the raw data here : {Style.BRIGHT}{url}{Style.RESET_ALL}")
 
     except requests.exceptions.RequestException as e:

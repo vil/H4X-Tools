@@ -15,29 +15,38 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import asyncio, aiohttp, requests
-from helper import printer, url_helper, timer
-from helper import randomuser
+import aiohttp
+import asyncio
+import requests
+from typing import Any
+
 from colorama import Style
 
+from helper import printer, url_helper, timer, randomuser
+
+url_set = set()
+target_domain: str | None = None
+
+
 @timer.timer(require_input=True)
-def bust(domain) -> None:
+def bust(domain: str) -> None:
     """
     Scans the given url for valid paths
 
     param domain: url to scan
     """
-    domain = domain
-    url_set = set()    
-    
-    printer.info(f"Scanning for valid URLs for {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
+    global target_domain
+    target_domain = domain
+
+    printer.info(f"Scanning for valid URLs for {Style.BRIGHT}{target_domain}{Style.RESET_ALL}...")
     printer.warning("This may take a while...")
 
     scan_urls()
 
     printer.success(f"Scan Completed..! There were {Style.BRIGHT}{len(url_set)}{Style.RESET_ALL} valid URLs!")
 
-def get_wordlist() -> str:
+
+def get_wordlist() -> set[Any] | None:
     """
     Reads the wordlist from the url and returns a list of names
 
@@ -49,19 +58,21 @@ def get_wordlist() -> str:
     except requests.exceptions.ConnectionError:
         return None
 
-async def fetch_url(session, path) -> None:
+
+async def fetch_url(session, path: str) -> None:
     """
     Fetches the url and checks if it is valid
 
     :param session: aiohttp session
     :param path: path to check
     """
-    url = f"https://{domain}/{path}"
+    url = f"https://{target_domain}/{path}"
     headers = {"User-Agent": f"{randomuser.GetUser()}"}
     async with session.get(url, headers=headers) as response:
         if response.status == 200:
             printer.success(f"{len(url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}")
             url_set.add(url)
+
 
 async def scan_async(paths) -> None:
     """
@@ -73,8 +84,10 @@ async def scan_async(paths) -> None:
         tasks = [fetch_url(session, path) for path in paths]
         await asyncio.gather(*tasks, return_exceptions=True)
 
+
 def scan_urls() -> None:
     paths = get_wordlist()
+    # printer.debug(target_domain)
     if paths is None:
         printer.error("Connection Error..!")
         return

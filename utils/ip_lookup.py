@@ -15,18 +15,23 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import json, time, requests, socket
+import json
+import requests
+import socket
+import time
+
+from colorama import Style
+
 from helper import printer, timer
 from helper import randomuser
-from colorama import Style
 
 
 @timer.timer(require_input=True)
-def lookup(ip_address) -> None:
+def lookup(ip_address: str) -> None:
     """
     Gets information about a given ip address using https://ipinfo.io/
 
-    :param ip: The ip address to search for.
+    :param ip_address: The IP address to search for.
     """
     try:
         ip_address = socket.gethostbyname(ip_address)

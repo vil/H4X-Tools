@@ -16,13 +16,16 @@
 """
 
 import time
+
 import phonenumbers as p
-from phonenumbers import carrier, geocoder, timezone
-from helper import printer, timer
 from colorama import Style
+from phonenumbers import carrier, geocoder, timezone
+
+from helper import printer, timer
+
 
 @timer.timer(require_input=True)
-def lookup(phone_number) -> None:
+def lookup(phone_number: str) -> None:
     """
     Looks up for the information of a given phone number.
 
@@ -37,9 +40,9 @@ def lookup(phone_number) -> None:
         time_zone = timezone.time_zones_for_number(ph_no)
         region = geocoder.description_for_number(ph_no, "en")
 
-        printer.info(f"Trying to find information about {Style.BRIGHT}{no}{Style.RESET_ALL}...")
+        printer.info(f"Trying to find information about {Style.BRIGHT}{ph_no}{Style.RESET_ALL}...")
         time.sleep(1)
-        printer.success("Phone Number -", no)
+        printer.success("Phone Number -", ph_no)
         printer.success(f"Valid Number -", no_valid)
         printer.success(f"Possible Number -", no_possible)
         printer.success(f"Sim Provider -", no_carrier)

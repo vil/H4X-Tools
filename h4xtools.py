@@ -17,11 +17,16 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import os, time, socket
+import os
+import socket
+import time
+
 from colorama import Fore, Style
+
 from helper import printer, handles
 
 VERSION = "0.3.2"
+
 
 def internet_check() -> None:
     """
@@ -34,6 +39,7 @@ def internet_check() -> None:
     except socket.error as sock_error:
         printer.warning("Internet Connection is Unavailable or some other problem occurred..!\n{}".format(sock_error))
 
+
 def print_banner() -> None:
     print(Fore.LIGHTBLACK_EX + f"""                              
  ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ · 
@@ -44,7 +50,8 @@ def print_banner() -> None:
 {Style.RESET_ALL}v{VERSION} / Vili (@vil) / https://vili.dev 
     """)
 
-def help() -> None:
+
+def display_help() -> None:
     print(Fore.LIGHTCYAN_EX)
     print("H4X-Tools v{} - A toolkit for scraping, OSINT and more.".format(VERSION))
     print("Repository link: https://github.com/vil/h4x-tools")
@@ -90,7 +97,8 @@ def help() -> None:
 
 
 def print_menu() -> None:
-    max_option_length = max(len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in MENU_OPTIONS.values())
+    max_option_length = max(
+        len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in MENU_OPTIONS.values())
 
     for i, (key, value) in enumerate(MENU_OPTIONS.items(), start=1):
         option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
@@ -104,6 +112,7 @@ def print_menu() -> None:
     print("\n")
     print(f"Type {Style.BRIGHT}?{Style.RESET_ALL} for help.")
     print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the toolkit...")
+
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
@@ -123,6 +132,7 @@ MENU_OPTIONS = {
     "15": handles.handle_local_users,
 }
 
+
 def main() -> None:
     internet_check()
     time.sleep(0.5)
@@ -136,7 +146,7 @@ def main() -> None:
         print_menu()
         user_input = printer.inp(f"Tool to execute : \t")
 
-        if user_input.lower() in {"quit", "exit", "q", "kill"}:
+        if user_input in {"quit", "exit", "q", "kill"}:
             """
             Kills the program.
             """
@@ -145,18 +155,18 @@ def main() -> None:
             time.sleep(0.5)
             break
 
-
         if user_input in MENU_OPTIONS:
             try:
                 MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
         elif user_input.lower() == "?":
-            help()
+            display_help()
             printer.inp("Done reading? Press the Enter key.")
         else:
             printer.error("Invalid option!")
             time.sleep(0.5)
+
 
 if __name__ == "__main__":
     try:

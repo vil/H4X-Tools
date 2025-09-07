@@ -15,9 +15,13 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import os, psutil, subprocess, time, platform
-from helper import printer, timer
 import getpass
+import os
+import psutil
+import subprocess
+import time
+
+from helper import printer, timer
 
 
 @timer.timer(require_input=True)
@@ -38,8 +42,10 @@ def scan_for_local_users() -> None:
                 pid = user.pid
 
                 # Get additional information using subprocess
-                user_sid = subprocess.check_output(['wmic', 'useraccount', 'get', 'sid', '/value']).decode('utf-8').strip()
-                user_domain = subprocess.check_output(['wmic', 'useraccount', 'get', 'domain', '/value']).decode('utf-8').strip()
+                user_sid = subprocess.check_output(['wmic', 'useraccount', 'get', 'sid', '/value']).decode(
+                    'utf-8').strip()
+                user_domain = subprocess.check_output(['wmic', 'useraccount', 'get', 'domain', '/value']).decode(
+                    'utf-8').strip()
 
                 user_info = {
                     'Username': username,
@@ -68,7 +74,7 @@ def scan_for_local_users() -> None:
     else:
         import pwd
         import grp
-        
+
         printer.info("Linux system detected..!\n")
         try:
             user_info_list = []
@@ -110,4 +116,3 @@ def scan_for_local_users() -> None:
                 printer.success(f"Login Name : {user_info['Login Name']}", "\n")
         except Exception as e:
             printer.error("Error retrieving account information:", str(e))
-                

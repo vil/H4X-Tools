@@ -55,6 +55,6 @@ def nonprefix(message, *args, **kwargs) -> None:
     print(message, *args, **kwargs)
 
 
-def inp(prompt, *args, **kwargs) -> None:
+def inp(prompt, *args, **kwargs) -> str:
     print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
     return input()

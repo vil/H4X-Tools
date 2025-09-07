@@ -15,6 +15,7 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from helper import printer
 from utils import (
     email_search,
     leak_search,
@@ -32,7 +33,6 @@ from utils import (
     dirbuster,
     wifi_vault,
 )
-from helper import printer
 
 
 def handle_ig_scrape() -> None:
@@ -49,7 +49,8 @@ def handle_web_search() -> None:
     """
     Handles the Web Search util.
     """
-    printer.info("For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/")
+    printer.info(
+        "For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/")
     query = str(printer.inp("Search query : \t"))
     websearch.websearch(query=query)
 
@@ -125,7 +126,7 @@ def handle_wifi_finder() -> None:
     Handles the Wi-Fi Finder util.
     """
     printer.info(f"Scanning for nearby Wi-Fi networks...")
-    wifi_finder.scan_nearby_wifis()
+    wifi_finder.scan_nearby_wifi()
 
 
 def handle_wifi_vault() -> None:

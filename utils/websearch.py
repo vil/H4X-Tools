@@ -15,11 +15,13 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import time, requests
+import requests
 from bs4 import BeautifulSoup
-from helper import randomuser
-from helper import printer, timer
 from colorama import Style
+from requests import Response
+
+from helper import printer, timer
+from helper import randomuser
 
 headers = {
     "User-Agent": f"{randomuser.GetUser()}",
@@ -30,7 +32,7 @@ headers = {
 
 
 @timer.timer(require_input=True)
-def websearch(query) -> None:
+def websearch(query: str) -> None:
     """
     Searches for a given query on DuckDuckGo.
 
@@ -47,8 +49,8 @@ def websearch(query) -> None:
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
 
-@staticmethod
-def send_request(url) -> str:
+
+def send_request(url: str) -> Response | None:
     """
     Send a request to the given URL with appropriate headers.
 
@@ -62,7 +64,8 @@ def send_request(url) -> str:
     except requests.exceptions.RequestException:
         return None
 
-def parse_and_print_results(response_text, query) -> None:
+
+def parse_and_print_results(response_text, query: str) -> None:
     """
     Parse the response and print search results.
 
@@ -86,6 +89,7 @@ def parse_and_print_results(response_text, query) -> None:
     for result in results:
         print_search_result(result)
 
+
 def print_search_result(result) -> None:
     """
     Prints the result of a search.
@@ -97,7 +101,8 @@ def print_search_result(result) -> None:
     status_code = get_status_code(link)
     printer.success(f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]")
 
-def get_status_code(url) -> int:
+
+def get_status_code(url: str) -> int | None:
     """
     Retrieves the status code of a given URL.
 

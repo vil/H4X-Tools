@@ -15,12 +15,16 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import os, time, subprocess
-from helper import printer, timer
+import os
+import subprocess
+
 from colorama import Style
 
+from helper import printer, timer
+
+
 @timer.timer(require_input=True)
-def scan_nearby_wifis() -> None:
+def scan_nearby_wifi() -> None:
     """
     Performs a basic scan for nearby Wi-Fi networks.
 
@@ -33,6 +37,7 @@ def scan_nearby_wifis() -> None:
     else:
         printer.error("Unsupported platform..!")
 
+
 def scan_windows() -> None:
     printer.info(f"Windows system detected... Performing {Style.BRIGHT}netsh{Style.RESET_ALL} scan...")
     try:
@@ -40,7 +45,8 @@ def scan_windows() -> None:
         parse_output(output.decode("utf-8"), "windows")
     except subprocess.CalledProcessError as e:
         printer.error(f"Error : {e.returncode} - {e.stderr}")
-        
+
+
 def scan_linux() -> None:
     printer.info(f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan...")
     try:
@@ -49,6 +55,7 @@ def scan_linux() -> None:
     except subprocess.CalledProcessError as e:
         printer.error(f"Error : {e.returncode} - {e.stderr}")
         printer.error(f"Is your system using {Style.BRIGHT}nmcli{Style.RESET_ALL}?")
+
 
 def parse_output(output, platform) -> None:
     if platform == "windows":
@@ -76,5 +83,3 @@ def parse_output(output, platform) -> None:
         printer.info("Available Wi-Fi networks :")
         for network in networks:
             printer.success(f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})")
-
-

@@ -15,9 +15,10 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import sys
-import os
 import json
+import os
+import sys
+
 from helper import printer
 
 
@@ -38,6 +39,7 @@ def read_local_content(path):
     except Exception as e:
         printer.error(f"An error occurred: {str(e)}")
         return None
+
 
 # I hate pyinstaller.
 def resource_path(relative_path) -> str:

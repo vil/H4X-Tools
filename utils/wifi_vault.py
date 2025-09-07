@@ -15,7 +15,10 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import os, subprocess, re, time
+import os
+import re
+import subprocess
+
 from helper import printer, timer
 
 
@@ -72,4 +75,3 @@ def get_local_passwords() -> None:
         except subprocess.CalledProcessError as e:
             printer.error("Error retrieving saved connections :", str(e))
             printer.error("Is your system using nmcli?")
-            

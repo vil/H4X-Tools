@@ -15,13 +15,14 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from ensta import Guest
-from helper import printer, timer
 from colorama import Style
+from ensta import Guest
+
+from helper import printer, timer
 
 
 @timer.timer(require_input=True)
-def scrape(target) -> None:
+def scrape(target: str) -> None:
     """
     Scrapes data from an Instagram account.
 
@@ -36,7 +37,8 @@ def scrape(target) -> None:
     except Exception as e:
         printer.error(f"Error : {e}")
         return
-        
+
+
 def print_scraped_data(data) -> None:
     readable_data = {  # Format
         'Username': data.get('username', 'N/A'),
@@ -51,7 +53,7 @@ def print_scraped_data(data) -> None:
         'Account Verified?': data.get('is_verified', 'N/A'),
         'Total Posts': data.get('edge_owner_to_timeline_media', {}).get('count', 'N/A')
     }
-        
+
     for key, value in readable_data.items():
         printer.success(f"{key} : {value}")
 
@@ -64,7 +66,7 @@ def print_scraped_data(data) -> None:
             caption_edges = post_node.get('edge_media_to_caption', {}).get('edges', [])
             caption = caption_edges[0]['node']['text'] if caption_edges else "No caption"
             post_url = f"https://www.instagram.com/p/{shortcode}/" if shortcode else "No URL"
-                
-            printer.success(f"Post {idx}: {caption}\nURL: {post_url}\n")    
+
+            printer.success(f"Post {idx}: {caption}\nURL: {post_url}\n")
     else:
         printer.warning("No posts found or the account is private.")

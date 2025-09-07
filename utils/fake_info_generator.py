@@ -16,7 +16,9 @@
 """
 
 import time
+
 from faker import Faker
+
 from helper import printer, timer
 
 

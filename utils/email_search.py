@@ -15,10 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import time
 import subprocess
-from helper import printer, timer
+
 from colorama import Style
+
+from helper import printer, timer
+
 
 @timer.timer(require_input=True)
 def search(email) -> None:
@@ -39,12 +41,14 @@ def search(email) -> None:
         else:
             printer.error("No results found..!")
     except FileNotFoundError:
-        printer.error(f"Error : {Style.BRIGHT}holehe{Style.RESET_ALL} was not found or it isn't in the PATH. Please make sure you have holehe installed and in your PATH.")
+        printer.error(
+            f"Error : {Style.BRIGHT}holehe{Style.RESET_ALL} was not found or it isn't in the PATH. Please make sure you have holehe installed and in your PATH.")
         printer.error(f"You can install holehe by executing {Style.BRIGHT}pip install holehe{Style.RESET_ALL}.")
     except subprocess.CalledProcessError as e:
         printer.error(f"Error : {e}")
     except Exception as e:
         printer.error(f"Unexpected error : {e}")
+
 
 def _format_output(output) -> str:
     lines = output.split("\n")[4:-4]

@@ -16,16 +16,18 @@
 """
 
 import socket
-from helper import printer, timer
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from colorama import Style
+
+from helper import printer, timer
 
 open_ports = []
 failed_ports = []
 
 
 @timer.timer(require_input=True)
-def scan(ip, port_range) -> None:
+def scan(ip: str, port_range: int) -> None:
     """
     Scans for open ports in a given IP address.
 
@@ -33,12 +35,13 @@ def scan(ip, port_range) -> None:
     :param port_range: The range of ports to scan.
     """
     try:
-        printer.info(f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}...")
+        printer.info(
+            f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}...")
         if port_range > 1000:
             printer.warning("This may take a while...")
-        
+
         scan_ports(ip, port_range)
-        
+
         if len(open_ports) == 0:
             printer.error(f"No open ports found for {Style.BRIGHT}{ip}{Style.RESET_ALL}..!")
         else:
@@ -48,7 +51,8 @@ def scan(ip, port_range) -> None:
     except RecursionError:
         printer.error("wtf.")
 
-def scan_ports(ip, port_range) -> None:
+
+def scan_ports(ip: str, port_range: int) -> None:
     """
     Scans for open ports in a given IP address.
 
@@ -61,8 +65,9 @@ def scan_ports(ip, port_range) -> None:
             result = future.result()
             if result is not None:
                 printer.success(result)
-    
-def connect_to_port(ip, port) -> None:
+
+
+def connect_to_port(ip: str, port: int) -> None:
     """
     Scans an individual port of a given IP address.
 
@@ -81,4 +86,5 @@ def connect_to_port(ip, port) -> None:
     except ConnectionRefusedError:
         return None
     except socket.error as e:
-        return printer.error(f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {str(e)}")
+        return printer.error(
+            f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {str(e)}")

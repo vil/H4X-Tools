@@ -15,15 +15,20 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import json, aiohttp, asyncio
+import aiohttp
+import asyncio
+import json
 from datetime import datetime
-from helper import randomuser
-from helper import printer, url_helper, timer
+from typing import Any
+
 from colorama import Style
+
+from helper import printer, url_helper, timer
+from helper import randomuser
 
 
 @timer.timer(require_input=True)
-def search(username) -> None:
+def search(username: str) -> None:
     """
     Performs a search for the given username.
 
@@ -35,13 +40,15 @@ def search(username) -> None:
         printer.error("Cancelled..!")
         pass
 
-def check_user_from_data(username) -> str:
+
+def check_user_from_data(username: str) -> dict[str, dict[str, str | int] | list[Any]]:
     """
     Scans for the given username across many different sites.
 
     :param username: The username to scan for.
     """
-    printer.info(f"Searching for {Style.BRIGHT}{username}{Style.RESET_ALL} across {len(url_helper.read_local_content('resources/data.json')['sites'])} different websites...")
+    printer.info(
+        f"Searching for {Style.BRIGHT}{username}{Style.RESET_ALL} across {len(url_helper.read_local_content('resources/data.json')['sites'])} different websites...")
 
     results = []
     loop = asyncio.get_event_loop()
@@ -59,7 +66,8 @@ def check_user_from_data(username) -> str:
 
     return user_json
 
-async def make_requests(username) -> None:
+
+async def make_requests(username: str) -> None:
     """
     Makes the requests to the sites.
 
@@ -71,6 +79,7 @@ async def make_requests(username) -> None:
             task = asyncio.ensure_future(make_request(session, u, username))
             tasks.append(task)
         await asyncio.gather(*tasks)
+
 
 async def make_request(session, u, username) -> None:
     url = u["url"].format(username=username)
@@ -85,6 +94,8 @@ async def make_request(session, u, username) -> None:
         async with session.request(u["method"], url, json=json_body, proxy=None, headers=headers,
                                    ssl=False) as response:
             if eval(u["valid"]):
-                printer.success(f'#{u["id"]} {Style.BRIGHT}{u["app"]}{Style.RESET_ALL} - {url} [{response.status} {response.reason}]')
-    except:
+                printer.success(
+                    f'#{u["id"]} {Style.BRIGHT}{u["app"]}{Style.RESET_ALL} - {url} [{response.status} {response.reason}]')
+    except Exception as error:
+        # printer.debug(error)
         pass
