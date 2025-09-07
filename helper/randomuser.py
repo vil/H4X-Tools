@@ -440,7 +440,7 @@ class GetUser:
     Return a random user agent from the list.
     """
 
-    def __init__(self) -> str:
+    def __init__(self) -> None:
         self.user_agent = random.choice(users)
 
     def __str__(self) -> str:

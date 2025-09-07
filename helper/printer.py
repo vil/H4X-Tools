@@ -51,7 +51,7 @@ def debug(message, *args, **kwargs) -> None:
     print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
 
 
-def nonprefix(message, *args, **kwargs) -> None:
+def noprefix(message, *args, **kwargs) -> None:
     print(message, *args, **kwargs)
 
 

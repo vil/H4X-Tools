@@ -36,8 +36,8 @@ def search(email) -> None:
         result = subprocess.run(["holehe", email], capture_output=True, text=True, check=True)
         output = _format_output(result.stdout)
         if output:
-            printer.nonprefix(output)
-            printer.nonprefix("Credits to megadose (Palenath) for holehe.")
+            printer.noprefix(output)
+            printer.noprefix("Credits to megadose (Palenath) for holehe.")
         else:
             printer.error("No results found..!")
     except FileNotFoundError:
