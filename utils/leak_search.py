@@ -50,7 +50,7 @@ def lookup(target: str) -> None:
             if isinstance(value, dict):
                 printer.success(f"{key.capitalize()} :")
                 for k, v in value.items():
-                    printer.success(f"  /__: {k.capitalize()} : {v}")
+                    printer.success(f"  |---{k.capitalize()} : {v}")
             else:
                 printer.success(f"{key.capitalize()} : {value}")
 
