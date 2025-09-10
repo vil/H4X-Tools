@@ -25,7 +25,7 @@ from helper import randomuser
 @timer.timer(require_input=True)
 def lookup(target: str) -> None:
     """
-    Uses Hudson Rock API to gather information about a email OR domain.
+    Uses Hudson Rock API to gather information about an email OR domain.
     
     :param target: email or a domain
     """

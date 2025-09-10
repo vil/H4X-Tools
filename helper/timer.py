@@ -37,7 +37,7 @@ def timer(require_input: bool):
             elapsed_time = end_time - start_time  # Calculate elapsed time
             printer.info(f"Completed in {elapsed_time:.4f} seconds.")  # Print the elapsed time
 
-            # If require_input is True, prompt the user for input after execution
+            # Prompt the user for input after execution
             if require_input:
                 printer.inp("Press Enter key to continue...")  # Prompt for input
 

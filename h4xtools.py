@@ -146,7 +146,7 @@ def main() -> None:
         print_menu()
         user_input = printer.inp(f"Tool to execute : \t")
 
-        if user_input in {"quit", "exit", "q", "kill"}:
+        if user_input.lower() in {"quit", "exit", "q", "kill"}:
             """
             Kills the program.
             """

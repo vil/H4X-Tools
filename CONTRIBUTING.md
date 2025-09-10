@@ -8,7 +8,7 @@ and [issues](https://github.com/vil/H4X-Tools/issues) page to see if there is an
 
 ## Submitting changes
 
-After you have forked the project and done your changes. Open an pull request and tell what you have changed, improved
+After you have forked the project and done your changes. Open a pull request and tell what you have changed, improved
 or added.
 
 Also avoid using AI, human written code is always better.
