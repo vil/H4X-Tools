@@ -25,7 +25,7 @@ from colorama import Fore, Style
 
 from helper import printer, handles
 
-VERSION = "0.3.2"
+VERSION = "0.3.3"
 
 
 def internet_check() -> None:
@@ -62,6 +62,7 @@ def display_help() -> None:
 
     # Use a loop to print the tools in a nice format
     tools = {
+        "Exit": "Exiting the program",        
         "Ig Scrape": "Scrapes information from Instagram accounts.",
         "Web Search": "Searches the internet for a given query.",
         "Phone Lookup": "Looks up a phone number and returns information about it.",
@@ -90,7 +91,6 @@ def display_help() -> None:
     print("* q")
     print("* kill")
     print("* exit")
-    print("* 0")
 
     print("\nLicense and Credits:")
     print("---------------------")
@@ -131,6 +131,7 @@ MENU_OPTIONS = {
     "13": handles.handle_wifi_vault,
     "14": handles.handle_dir_buster,
     "15": handles.handle_local_users,
+    "16": handles.handle_exit_program
 }
 
 
@@ -147,7 +148,7 @@ def main() -> None:
         print_menu()
         user_input = printer.inp(f"Tool to execute : \t")
 
-        if user_input.lower() in {"quit", "exit", "q", "kill", "0"}:
+        if user_input.lower() in {"quit", "exit", "q", "kill", "16"}:
             """
             Kills the program.
             """
