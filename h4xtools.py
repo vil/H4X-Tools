@@ -90,6 +90,7 @@ def display_help() -> None:
     print("* q")
     print("* kill")
     print("* exit")
+    print("* 0")
 
     print("\nLicense and Credits:")
     print("---------------------")
@@ -146,7 +147,7 @@ def main() -> None:
         print_menu()
         user_input = printer.inp(f"Tool to execute : \t")
 
-        if user_input.lower() in {"quit", "exit", "q", "kill"}:
+        if user_input.lower() in {"quit", "exit", "q", "kill", "0"}:
             """
             Kills the program.
             """
