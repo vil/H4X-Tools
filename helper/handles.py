@@ -32,6 +32,7 @@ from utils import (
     fake_info_generator,
     dirbuster,
     wifi_vault,
+    exit_program,
 )
 
 
@@ -44,6 +45,10 @@ def handle_ig_scrape() -> None:
     target = str(printer.inp("Enter a target username : \t")).replace(" ", "_")
     ig_scrape.scrape(target=target)
 
+def handle_exit_program() -> None:
+    """
+    Exiting the program.
+    """
 
 def handle_web_search() -> None:
     """
