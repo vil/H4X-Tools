@@ -4,6 +4,7 @@ tokenlogger
 .idea
 build
 dist
+scraped_data
 venv
 .venv
 .env
