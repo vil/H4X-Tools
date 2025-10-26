@@ -4,7 +4,7 @@ cls
 echo.
 echo H4X-Tools Setup Script
 echo.
-echo ~~by Vili (https://vili.dev)
+echo -- Made in Finland, by Vili.
 echo.
 
 :: Install dependencies

@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import os
@@ -37,18 +37,25 @@ def internet_check() -> None:
         socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
     except socket.error as sock_error:
-        printer.warning("Internet Connection is Unavailable or some other problem occurred..!\n{}".format(sock_error))
+        printer.warning(
+            "Internet Connection is Unavailable or some other problem occurred..!\n{}".format(
+                sock_error
+            )
+        )
 
 
 def print_banner() -> None:
-    print(Fore.LIGHTBLACK_EX + f"""                              
- ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ · 
-██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀. 
+    print(
+        Fore.LIGHTBLACK_EX
+        + f"""
+ ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ ·
+██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀.
 ██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
 ██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
-▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀ 
-{Style.RESET_ALL}v{VERSION} / Vili (@vil) / https://vili.dev 
-    """)
+▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
+{Style.RESET_ALL}v{VERSION} / Vili (@vil)
+    """
+    )
 
 
 def display_help() -> None:
@@ -77,7 +84,7 @@ def display_help() -> None:
         "Wi-Fi Vault": "Scans for locally saved Wi-Fi passwords.",
         "Dir Buster": "Bruteforce directories on a website.",
         "Local Users": "Enumerates local user accounts on the current machine.",
-        "Help": "Shows this help menu."
+        "Help": "Shows this help menu.",
     }
 
     for tool, description in tools.items():
@@ -93,21 +100,28 @@ def display_help() -> None:
 
     print("\nLicense and Credits:")
     print("---------------------")
-    print("H4X-Tools is under the GNU General Public License, version 3, and is made by Vili.")
+    print(
+        "H4X-Tools is under the GNU General Public License, version 3, and is made by Vili."
+    )
 
 
 def print_menu() -> None:
     max_option_length = max(
-        len(value.__name__.replace('handle_', '').replace('_', ' ').title()) for value in MENU_OPTIONS.values())
+        len(value.__name__.replace("handle_", "").replace("_", " ").title())
+        for value in MENU_OPTIONS.values()
+    )
 
     for i, (key, value) in enumerate(MENU_OPTIONS.items(), start=1):
-        option_name = value.__name__.replace('handle_', '').replace('_', ' ').title()
-        print(f"{Fore.LIGHTGREEN_EX}[{key.zfill(2)}]{Style.RESET_ALL} {option_name.ljust(max_option_length)}", end='')
+        option_name = value.__name__.replace("handle_", "").replace("_", " ").title()
+        print(
+            f"{Fore.LIGHTGREEN_EX}[{key.zfill(2)}]{Style.RESET_ALL} {option_name.ljust(max_option_length)}",
+            end="",
+        )
 
         if i % 2 == 0:
             print()
         else:
-            print(" " * 4, end='')
+            print(" " * 4, end="")
 
     print("\n")
     print(f"Type {Style.BRIGHT}?{Style.RESET_ALL} for help.")
@@ -157,7 +171,9 @@ def main() -> None:
 
         if user_input in MENU_OPTIONS:
             try:
-                MENU_OPTIONS[user_input]()  # Call the corresponding function based on the selected option
+                MENU_OPTIONS[
+                    user_input
+                ]()  # Call the corresponding function based on the selected option
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
         elif user_input.lower() == "?":

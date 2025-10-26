@@ -6,7 +6,7 @@ clear
 
 echo "H4X-Tools Setup Script"
 echo
-echo "~~by Vili (https://vili.dev)"
+echo "-- Made in Finland, by Vili."
 echo
 echo "You may need to install 'python-devel' packages."
 

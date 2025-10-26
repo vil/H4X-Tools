@@ -20,9 +20,9 @@ jobs:
       - name: Build Windows executable with pyinstaller
         run: |
           pyinstaller h4xtools.py --add-data "resources/*;resources" --onefile -F --clean
-      - name: Calculate MD5 hash
+      - name: Calculate SHA256 hash
         run: |
-          md5sum dist/h4xtools.exe > dist/h4xtools.exe.md5
+          sha256sum dist/h4xtools.exe > dist/h4xtools.exe.hash
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
@@ -44,9 +44,9 @@ jobs:
       - name: Build Linux executable with pyinstaller
         run: |
           pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
-      - name: Calculate MD5 hash
+      - name: Calculate SHA256 hash
         run: |
-          md5sum dist/h4xtools > dist/h4xtools.md5
+          sha256sum dist/h4xtools > dist/h4xtools.hash
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:

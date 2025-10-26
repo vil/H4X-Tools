@@ -6,7 +6,7 @@ clear
 
 echo "H4X-Tools Update Script"
 echo
-echo "~~by Vili (https://vili.dev)"
+echo "-- Made in Finland, by Vili."
 echo
 echo "Make sure to run this in the root project directory!"
 
