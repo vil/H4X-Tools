@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import requests
@@ -27,7 +27,7 @@ headers = {
     "User-Agent": f"{randomuser.GetUser()}",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
-    "Referer": "https://duckduckgo.com/"
+    "Referer": "https://duckduckgo.com/",
 }
 
 
@@ -79,12 +79,16 @@ def parse_and_print_results(response_text, query: str) -> None:
         printer.error(f"No results found for '{query}'..!")
         return
 
-    dork_keywords = ['"', '~', 'inurl:', 'intitle:', 'filetype:', 'site:']
+    dork_keywords = ['"', "~", "inurl:", "intitle:", "filetype:", "site:"]
 
     if any(keyword in query for keyword in dork_keywords):
-        printer.info(f"Searching with dorks {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]")
+        printer.info(
+            f"Searching with dorks {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]"
+        )
     else:
-        printer.info(f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]")
+        printer.info(
+            f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]"
+        )
 
     for result in results:
         print_search_result(result)
@@ -99,7 +103,9 @@ def print_search_result(result) -> None:
     title = result.find("a", {"class": "result__a"}).text
     link = result.find("a", {"class": "result__a"})["href"]
     status_code = get_status_code(link)
-    printer.success(f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]")
+    printer.success(
+        f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]"
+    )
 
 
 def get_status_code(url: str) -> int | None:

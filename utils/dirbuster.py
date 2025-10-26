@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import aiohttp
@@ -38,12 +38,16 @@ def bust(domain: str) -> None:
     global target_domain
     target_domain = domain
 
-    printer.info(f"Scanning for valid URLs for {Style.BRIGHT}{target_domain}{Style.RESET_ALL}...")
+    printer.info(
+        f"Scanning for valid URLs for {Style.BRIGHT}{target_domain}{Style.RESET_ALL}..."
+    )
     printer.warning("This may take a while...")
 
     scan_urls()
 
-    printer.success(f"Scan Completed..! There were {Style.BRIGHT}{len(url_set)}{Style.RESET_ALL} valid URLs!")
+    printer.success(
+        f"Scan Completed..! There were {Style.BRIGHT}{len(url_set)}{Style.RESET_ALL} valid URLs!"
+    )
 
 
 def get_wordlist() -> set[Any] | None:
@@ -70,7 +74,9 @@ async def fetch_url(session, path: str) -> None:
     headers = {"User-Agent": f"{randomuser.GetUser()}"}
     async with session.get(url, headers=headers) as response:
         if response.status == 200:
-            printer.success(f"{len(url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}")
+            printer.success(
+                f"{len(url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}"
+            )
             url_set.add(url)
 
 

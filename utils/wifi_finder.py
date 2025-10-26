@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import os
@@ -39,7 +39,9 @@ def scan_nearby_wifi() -> None:
 
 
 def scan_windows() -> None:
-    printer.info(f"Windows system detected... Performing {Style.BRIGHT}netsh{Style.RESET_ALL} scan...")
+    printer.info(
+        f"Windows system detected... Performing {Style.BRIGHT}netsh{Style.RESET_ALL} scan..."
+    )
     try:
         output = subprocess.check_output(["netsh", "wlan", "show", "networks"])
         parse_output(output.decode("utf-8"), "windows")
@@ -48,7 +50,9 @@ def scan_windows() -> None:
 
 
 def scan_linux() -> None:
-    printer.info(f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan...")
+    printer.info(
+        f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan..."
+    )
     try:
         output = subprocess.check_output(["nmcli", "dev", "wifi"])
         parse_output(output.decode("utf-8"), "linux")
@@ -69,7 +73,9 @@ def parse_output(output, platform) -> None:
                     networks.append({"ssid": ssid, "signal": "", "encryption": ""})
         printer.info("Available Wi-Fi networks :")
         for network in networks:
-            printer.success(f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})")
+            printer.success(
+                f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
+            )
     elif platform == "linux":
         # Parse Linux output
         networks = []
@@ -79,7 +85,11 @@ def parse_output(output, platform) -> None:
                 ssid = " ".join(parts[1:-3])  # Extract Wi-Fi name
                 signal = parts[-3]
                 encryption = parts[-2]
-                networks.append({"ssid": ssid, "signal": signal, "encryption": encryption})
+                networks.append(
+                    {"ssid": ssid, "signal": signal, "encryption": encryption}
+                )
         printer.info("Available Wi-Fi networks :")
         for network in networks:
-            printer.success(f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})")
+            printer.success(
+                f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
+            )

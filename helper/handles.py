@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from helper import printer
@@ -50,7 +50,8 @@ def handle_web_search() -> None:
     Handles the Web Search util.
     """
     printer.info(
-        "For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/")
+        "For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/"
+    )
     query = str(printer.inp("Search query : \t"))
     websearch.websearch(query=query)
 
@@ -117,7 +118,7 @@ def handle_web_scrape() -> None:
     """
     Handles the Web Scrape util.
     """
-    url = str(printer.inp(f"Enter a url : \t"))
+    url = str(printer.inp("Enter a url : \t"))
     web_scrape.scrape(url=url)
 
 
@@ -125,7 +126,7 @@ def handle_wifi_finder() -> None:
     """
     Handles the Wi-Fi Finder util.
     """
-    printer.info(f"Scanning for nearby Wi-Fi networks...")
+    printer.info("Scanning for nearby Wi-Fi networks...")
     wifi_finder.scan_nearby_wifi()
 
 
@@ -133,7 +134,7 @@ def handle_wifi_vault() -> None:
     """
     Handles the Wi-Fi Password Getter util.
     """
-    printer.info(f"Scanning for locally saved Wi-Fi passwords...")
+    printer.info("Scanning for locally saved Wi-Fi passwords...")
     wifi_vault.get_local_passwords()
 
 
@@ -141,7 +142,7 @@ def handle_dir_buster() -> None:
     """
     Handles the Dir Buster util.
     """
-    domain = printer.inp(f"Enter a domain : \t")
+    domain = printer.inp("Enter a domain : \t")
     dirbuster.bust(domain=domain)
 
 
@@ -149,7 +150,7 @@ def handle_local_users() -> None:
     """
     Handles the Local User Enum.
     """
-    printer.info(f"Scanning for local accounts...")
+    printer.info("Scanning for local accounts...")
     local_users.scan_for_local_users()
 
 

@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import socket
@@ -36,16 +36,21 @@ def scan(ip: str, port_range: int) -> None:
     """
     try:
         printer.info(
-            f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}...")
+            f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}..."
+        )
         if port_range > 1000:
             printer.warning("This may take a while...")
 
         scan_ports(ip, port_range)
 
         if len(open_ports) == 0:
-            printer.error(f"No open ports found for {Style.BRIGHT}{ip}{Style.RESET_ALL}..!")
+            printer.error(
+                f"No open ports found for {Style.BRIGHT}{ip}{Style.RESET_ALL}..!"
+            )
         else:
-            printer.success(f"Found {len(open_ports)}/{len(failed_ports)} open ports in '{ip}'..!")
+            printer.success(
+                f"Found {len(open_ports)}/{len(failed_ports)} open ports in '{ip}'..!"
+            )
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
     except RecursionError:
@@ -60,7 +65,10 @@ def scan_ports(ip: str, port_range: int) -> None:
     :param port_range: The range of ports to scan.
     """
     with ThreadPoolExecutor(max_workers=50) as executor:
-        futures = {executor.submit(connect_to_port, ip, port): port for port in range(1, port_range + 1)}
+        futures = {
+            executor.submit(connect_to_port, ip, port): port
+            for port in range(1, port_range + 1)
+        }
         for future in as_completed(futures):
             result = future.result()
             if result is not None:
@@ -80,11 +88,14 @@ def connect_to_port(ip: str, port: int) -> None:
             sock.settimeout(0.5)
             sock.connect((str(ip), port))
             open_ports.append(port)
-            return printer.success(f"Found a open port : {Style.BRIGHT}{port}{Style.RESET_ALL}")
+            return printer.success(
+                f"Found a open port : {Style.BRIGHT}{port}{Style.RESET_ALL}"
+            )
     except socket.timeout:
         failed_ports.append(port)
     except ConnectionRefusedError:
         return None
     except socket.error as e:
         return printer.error(
-            f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {str(e)}")
+            f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {str(e)}"
+        )

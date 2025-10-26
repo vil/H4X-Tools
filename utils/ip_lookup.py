@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import json
@@ -36,12 +36,14 @@ def lookup(ip_address: str) -> None:
     try:
         ip_address = socket.gethostbyname(ip_address)
         url = f"https://ipinfo.io/{ip_address}/json"
-        headers = {'User-Agent': f"{randomuser.GetUser()}"}
+        headers = {"User-Agent": f"{randomuser.GetUser()}"}
         url = requests.get(url, headers=headers)
         # printer.info(url.text)
         values = json.loads(url.text)
 
-        printer.info(f"Trying to find information for {Style.BRIGHT}{ip_address}{Style.RESET_ALL}...")
+        printer.info(
+            f"Trying to find information for {Style.BRIGHT}{ip_address}{Style.RESET_ALL}..."
+        )
         time.sleep(1)
 
         for value in values:
@@ -53,7 +55,10 @@ def lookup(ip_address: str) -> None:
 
             printer.success(f"{value.capitalize()} :", values[value])
 
-        printer.success(f"Openstreetmap URL :", f"https://www.openstreetmap.org/search?query={values['loc']}")
+        printer.success(
+            "Openstreetmap URL :",
+            f"https://www.openstreetmap.org/search?query={values['loc']}",
+        )
 
     except Exception as e:
         printer.error(f"Error : {e}")

@@ -1,18 +1,18 @@
 """
- Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2025. Vili and contributors.
 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import getpass
@@ -38,23 +38,35 @@ def scan_for_local_users() -> None:
                 username = user.name
                 terminal = user.terminal
                 host = user.host
-                started = time.strftime("%m/%d/%Y %H:%M:%S", time.localtime(user.started))
+                started = time.strftime(
+                    "%m/%d/%Y %H:%M:%S", time.localtime(user.started)
+                )
                 pid = user.pid
 
                 # Get additional information using subprocess
-                user_sid = subprocess.check_output(['wmic', 'useraccount', 'get', 'sid', '/value']).decode(
-                    'utf-8').strip()
-                user_domain = subprocess.check_output(['wmic', 'useraccount', 'get', 'domain', '/value']).decode(
-                    'utf-8').strip()
+                user_sid = (
+                    subprocess.check_output(
+                        ["wmic", "useraccount", "get", "sid", "/value"]
+                    )
+                    .decode("utf-8")
+                    .strip()
+                )
+                user_domain = (
+                    subprocess.check_output(
+                        ["wmic", "useraccount", "get", "domain", "/value"]
+                    )
+                    .decode("utf-8")
+                    .strip()
+                )
 
                 user_info = {
-                    'Username': username,
-                    'Terminal': terminal,
-                    'Host': host,
-                    'Started': started,
-                    'PID': pid,
-                    'SID': user_sid,
-                    'Domain': user_domain
+                    "Username": username,
+                    "Terminal": terminal,
+                    "Host": host,
+                    "Started": started,
+                    "PID": pid,
+                    "SID": user_sid,
+                    "Domain": user_domain,
                 }
 
                 user_info_list.append(user_info)
@@ -92,14 +104,14 @@ def scan_for_local_users() -> None:
                 login_name = getpass.getuser()
 
                 user_info = {
-                    'Username': username,
-                    'UID': uid,
-                    'GID': gid,
-                    'Full Name': full_name,
-                    'Home Directory': home_dir,
-                    'Shell': shell,
-                    'Group Name': group_name,
-                    'Login Name': login_name
+                    "Username": username,
+                    "UID": uid,
+                    "GID": gid,
+                    "Full Name": full_name,
+                    "Home Directory": home_dir,
+                    "Shell": shell,
+                    "Group Name": group_name,
+                    "Login Name": login_name,
                 }
 
                 user_info_list.append(user_info)
