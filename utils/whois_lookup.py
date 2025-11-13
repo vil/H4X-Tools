@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import whoisdomain
+import whois
 from colorama import Style
 
 from helper import printer, timer
@@ -29,12 +29,18 @@ def check_whois(domain: str) -> None:
     :param domain: The domain name.
     """
     try:
-        q = whoisdomain.query(domain)
         printer.info(
             f"Trying to find the information of {Style.BRIGHT}{domain}{Style.RESET_ALL}..."
         )
-        for key in q.__dict__:
-            printer.success(key, "-", q.__dict__[key])
+        q = whois.whois(domain)
+        # `whois.whois()` may return a dict or an object with attributes
+        try:
+            items = q.items()
+        except Exception:
+            items = getattr(q, "__dict__", {}).items()
+
+        for key, val in items:
+            printer.success(key, "-", val)
     except Exception as e:
         printer.error("Error : ", e)
         printer.error(
