@@ -15,16 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import aiohttp
 import asyncio
 import json
 from datetime import datetime
 from typing import Any
 
+import aiohttp
 from colorama import Style
 
-from helper import printer, url_helper, timer
-from helper import randomuser
+from helper import printer, randomuser, timer, url_helper
 
 
 @timer.timer(require_input=True)

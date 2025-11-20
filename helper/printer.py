@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import sys
+
 from colorama import Fore, Style
 
 
@@ -48,7 +50,10 @@ def warning(message, *args, **kwargs) -> None:
 
 
 def debug(message, *args, **kwargs) -> None:
-    print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
+    if "--debug" in sys.argv:
+        print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
+    else:
+        pass
 
 
 def noprefix(message, *args, **kwargs) -> None:

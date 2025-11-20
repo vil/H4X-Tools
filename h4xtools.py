@@ -23,7 +23,7 @@ import time
 
 from colorama import Fore, Style
 
-from helper import printer, handles
+from helper import handles, printer
 
 VERSION = "0.3.2"
 
@@ -155,10 +155,12 @@ def main() -> None:
         printer.warning("Windows system detected..! Expect issues...")
         time.sleep(1)
 
+    printer.debug("DEBUG IS ON.")
+
     while True:
         print_banner()
         print_menu()
-        user_input = printer.inp(f"Tool to execute : \t")
+        user_input = printer.inp("Tool to execute : \t")
 
         if user_input.lower() in {"quit", "exit", "q", "kill"}:
             """

@@ -16,11 +16,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import time
+from types import FunctionType
 
 from helper import printer
 
 
-def timer(require_input: bool):
+def timer(require_input: bool) -> FunctionType:
     """
     A timer decorator to measure the execution time of a function and optionally
     require user input after execution.
