@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import getpass
 import os
-import psutil
 import subprocess
 import time
 
@@ -84,8 +83,8 @@ def scan_for_local_users() -> None:
             printer.error("Error retrieving account information :", str(e))
 
     else:
-        import pwd
         import grp
+        import pwd
 
         printer.info("Linux system detected..!\n")
         try:

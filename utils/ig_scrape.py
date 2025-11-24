@@ -34,7 +34,7 @@ def scrape(target: str) -> None:
     try:
         api = Guest()
         data = api.profile(target)
-        # printer.debug(data)
+        printer.debug(data)
         print_scraped_data(data.raw)
     except Exception as e:
         printer.error(f"Error : {e}")

@@ -18,9 +18,6 @@ and improvements! Simply fork the repository, code your tool(s)/improvement(s) a
 
 # Current tools
 
-> [!WARNING]
-> Some tools might not work on Windows systems.
-
 | Tool Name           | Description                                                                                                       |
 |---------------------|-------------------------------------------------------------------------------------------------------------------|
 | Ig Scrape           | Scrapes information from IG accounts                                                                              |
@@ -69,6 +66,10 @@ The setup script will automatically install dependencies and build H4X-Tools as 
 You can also run H4X-Tools using Python by doing `python h4xtools.py`.
 
 Dependencies can be installed manually by doing `pip install -r requirements.txt`.
+
+### Debug
+
+To enable debug mode, launch h4x-tools with `--debug` flag.
 
 # License
 

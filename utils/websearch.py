@@ -20,8 +20,7 @@ from bs4 import BeautifulSoup
 from colorama import Style
 from requests import Response
 
-from helper import printer, timer
-from helper import randomuser
+from helper import printer, randomuser, timer
 
 headers = {
     "User-Agent": f"{randomuser.GetUser()}",
@@ -82,13 +81,11 @@ def parse_and_print_results(response_text, query: str) -> None:
     dork_keywords = ['"', "~", "inurl:", "intitle:", "filetype:", "site:"]
 
     if any(keyword in query for keyword in dork_keywords):
-        printer.info(
-            f"Searching with dorks {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]"
-        )
+        printer.info(f"Searching with dorks {Style.BRIGHT}{query}{Style.RESET_ALL}")
+        printer.debug(headers["User-Agent"])
     else:
-        printer.info(
-            f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL} [{headers['User-Agent']}]"
-        )
+        printer.info(f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL}")
+        printer.debug(headers["User-Agent"])
 
     for result in results:
         print_search_result(result)

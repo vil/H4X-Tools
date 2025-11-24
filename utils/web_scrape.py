@@ -15,20 +15,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import aiohttp
 import asyncio
-import json
 import csv
-from typing import Any
-from urllib.parse import urljoin, urlparse
+import json
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+from urllib.parse import urljoin, urlparse
 
+import aiohttp
 from bs4 import BeautifulSoup
 from colorama import Style
 
-from helper import printer, timer
-from helper import randomuser
+from helper import printer, randomuser, timer
 
 scraped_links = set()
 
