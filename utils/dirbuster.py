@@ -98,7 +98,8 @@ def scan_urls() -> None:
         return
 
     try:
-        loop = asyncio.get_event_loop()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         loop.run_until_complete(scan_async(paths))
     except KeyboardInterrupt:
         printer.error("Cancelled..!")

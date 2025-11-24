@@ -22,7 +22,7 @@ import sys
 from helper import printer
 
 
-def read_local_content(path) -> str | None:
+def read_local_content(path) -> str:
     """
     Reads file content from a local file.
 
@@ -38,7 +38,7 @@ def read_local_content(path) -> str | None:
         return content
     except Exception as e:
         printer.error(f"An error occurred: {str(e)}")
-        return None
+        return "None"
 
 
 # I hate pyinstaller.

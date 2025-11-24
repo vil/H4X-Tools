@@ -51,7 +51,8 @@ def check_user_from_data(username: str) -> dict[str, dict[str, str | int] | list
     )
 
     results = []
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     loop.run_until_complete(make_requests(username))
 
     now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
@@ -79,28 +80,35 @@ async def make_requests(username: str) -> None:
         timeout=aiohttp.ClientTimeout(total=20)
     ) as session:
         tasks = []
-        for u in url_helper.read_local_content("resources/data.json")["sites"]:
-            task = asyncio.ensure_future(make_request(session, u, username))
+        for content in url_helper.read_local_content("resources/data.json")["sites"]:
+            task = asyncio.ensure_future(make_request(session, content, username))
             tasks.append(task)
         await asyncio.gather(*tasks)
 
 
-async def make_request(session, u, username) -> None:
-    url = u["url"].format(username=username)
+async def make_request(
+    session: aiohttp.ClientSession, content: dict, username: str
+) -> None:
+    url = content["url"].format(username=username)
     json_body = None
     headers = {"User-Agent": f"{randomuser.GetUser()}"}
-    if "headers" in u:
-        headers.update(eval(u["headers"]))
-    if "json" in u:
-        json_body = u["json"].format(username=username)
+    if "headers" in content:
+        headers.update(eval(content["headers"]))
+    if "json" in content:
+        json_body = content["json"].format(username=username)
         json_body = json.loads(json_body)
     try:
         async with session.request(
-            u["method"], url, json=json_body, proxy=None, headers=headers, ssl=False
+            content["method"],
+            url,
+            json=json_body,
+            proxy=None,
+            headers=headers,
+            ssl=False,
         ) as response:
-            if eval(u["valid"]):
+            if eval(content["valid"]):
                 printer.success(
-                    f"#{u['id']} {Style.BRIGHT}{u['app']}{Style.RESET_ALL} - {url} [{response.status} {response.reason}]"
+                    f"#{content['id']} {Style.BRIGHT}{content['app']}{Style.RESET_ALL} - {url} [{response.status} {response.reason}]"
                 )
     except Exception:
         pass

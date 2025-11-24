@@ -25,7 +25,7 @@ from colorama import Fore, Style
 
 from helper import handles, printer
 
-VERSION = "0.3.2"
+VERSION = "0.3.3"
 
 
 def internet_check() -> None:
