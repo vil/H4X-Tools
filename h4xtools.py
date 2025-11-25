@@ -151,10 +151,6 @@ def main() -> None:
     internet_check()
     time.sleep(0.5)
 
-    if os.name == "nt":
-        printer.warning("Windows system detected..! Expect issues...")
-        time.sleep(1)
-
     printer.debug("DEBUG IS ON.")
 
     while True:
