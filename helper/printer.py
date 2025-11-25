@@ -15,9 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import re
 import sys
 
 from colorama import Fore, Style
+
+ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
 def print_colored(message, color, prefix, *args, **kwargs) -> None:
@@ -60,6 +63,17 @@ def noprefix(message, *args, **kwargs) -> None:
     print(message, *args, **kwargs)
 
 
-def inp(prompt, *args, **kwargs) -> str:
+def user_input(prompt, *args, **kwargs) -> str:
     print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
     return input()
+
+
+def ansi_escape(output: str) -> str:
+    """
+    Strips ANSI escapes from output.
+
+    :retrun clean_output: ANSI escape stripped output.
+    """
+    clean_output = ANSI_ESCAPE.sub("", output)
+
+    return clean_output

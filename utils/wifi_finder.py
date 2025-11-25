@@ -62,7 +62,7 @@ def scan_linux() -> None:
         printer.error(f"Is your system using {Style.BRIGHT}nmcli{Style.RESET_ALL}?")
 
 
-def parse_output(output, platform) -> None:
+def parse_output(output: str, platform: str) -> None:
     match platform:
         case "windows":
             # Parse Windows output

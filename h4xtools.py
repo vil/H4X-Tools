@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import os
 import socket
 import time
 
@@ -83,6 +82,7 @@ def display_help() -> None:
         "Wi-Fi Finder": "Scans for nearby Wi-Fi networks.",
         "Wi-Fi Vault": "Scans for locally saved Wi-Fi passwords.",
         "Dir Buster": "Bruteforce directories on a website.",
+        "Bluetooth Scanner": "Scans for nearby Bluetooth devices.",
         "Local Users": "Enumerates local user accounts on the current machine.",
         "Help": "Shows this help menu.",
     }
@@ -143,7 +143,8 @@ MENU_OPTIONS = {
     "12": handles.handle_wifi_finder,
     "13": handles.handle_wifi_vault,
     "14": handles.handle_dir_buster,
-    "15": handles.handle_local_users,
+    "15": handles.handle_bluetooth_scanner,
+    "16": handles.handle_local_users,
 }
 
 
@@ -156,7 +157,7 @@ def main() -> None:
     while True:
         print_banner()
         print_menu()
-        user_input = printer.inp("Tool to execute : \t")
+        user_input = printer.user_input("Tool to execute : \t")
 
         if user_input.lower() in {"quit", "exit", "q", "kill"}:
             """
@@ -176,7 +177,7 @@ def main() -> None:
                 printer.warning("Cancelled..!")
         elif user_input.lower() == "?":
             display_help()
-            printer.inp("Done reading? Press the Enter key.")
+            printer.user_input("Done reading? Press the Enter key.")
         else:
             printer.error("Invalid option!")
             time.sleep(0.5)
@@ -185,6 +186,9 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
+    except ValueError:
+        printer.error("Invalid value inputted..!")
+        main()  # re-run
     except KeyboardInterrupt:
         print("\n")
         printer.warning("Quitting... Goodbye!")

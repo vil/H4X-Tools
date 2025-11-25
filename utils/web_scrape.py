@@ -121,7 +121,7 @@ def scrape(url: str) -> None:
     printer.debug(f"Scraping {base_url}")
 
     try:
-        response = printer.inp(
+        response = printer.user_input(
             "Do you want to scrape the linked pages as well? (y/N) : "
         )
         if response.lower() in {"y", "yes"}:
@@ -143,7 +143,7 @@ def scrape(url: str) -> None:
 
         # Ask user if they want to export the results
         if scraped_links:
-            export_response = printer.inp(
+            export_response = printer.user_input(
                 "\nDo you want to export the scraped links? (y/N) : "
             )
             if export_response.lower() in {"y", "yes"}:
@@ -152,7 +152,7 @@ def scrape(url: str) -> None:
                 printer.info("  2. CSV (comma-separated values)")
                 printer.info("  3. JSON (structured data)")
 
-                format_choice = printer.inp(
+                format_choice = printer.user_input(
                     "Choose format (1/2/3) [default: 1] : "
                 ).strip()
 

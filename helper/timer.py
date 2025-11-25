@@ -42,7 +42,7 @@ def timer(require_input: bool) -> FunctionType:
 
             # Prompt the user for input after execution
             if require_input:
-                printer.inp("Press Enter key to continue...")  # Prompt for input
+                printer.user_input("Press Enter key to continue...")  # Prompt for input
 
             return result  # Return the result of the wrapped function
 
