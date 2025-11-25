@@ -34,12 +34,11 @@ def scan_nearby_bluetooth(duration: int) -> None:
     match os.name:
         case "nt":
             # TODO
-            return printer.warning("Sorry, this feature isn't ready yet..!")
+            printer.warning("Sorry, this feature isn't ready yet..!")
         case "posix":
             parse_output(output=scan_linux(duration=duration), platform="linux")
-
         case _:
-            return printer.error("Unsupported platform..!")
+            printer.error("Unsupported platform..!")
 
 
 def scan_linux(duration: int) -> str:

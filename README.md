@@ -26,15 +26,16 @@ and improvements! Simply fork the repository, code your tool(s)/improvement(s) a
 | Ip Lookup           | Looks up an IP/domain address and returns information about it.                                                   |
 | Port Scanner        | Scans for open ports in a given IP/domain address.                                                                |
 | Username Search     | Tries to find a given username from many different websites.                                                      |
-| Leak Search			      | Searches if given email/domain has been compromised and leaked.                                                   |
+| Leak Search			      | Searches if given email/domain has been compromised and leaked.                                                 |
 | Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe) |
 | WhoIs Lookup        | Looks up a domain and returns information about it.                                                               |
 | Fake Info Generator | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                        |
 | Web Scrape          | Scrapes links from a given url.                                                                                   |
 | Wi-Fi Finder        | Scans for nearby Wi-Fi networks.                                                                                  |
 | Wi-Fi Vault         | Scans for locally saved Wi-Fi passwords.                                                                          |
+| Bluetooth Scanner   | Scan for nearby Bluetooth devices.                                                                                |
 | Dir Buster          | Bruteforce directories on a website.                                                                              |
-| Local Users			      | Enumerates local user accounts on the current machine.                                                            |
+| Local Users			    | Enumerates local user accounts on the current machine.                                                            |
 | Help                | Shows the help message.                                                                                           |
 | Exit                | Exits the tool.                                                                                                   |
 
