@@ -24,9 +24,7 @@ from helper import printer, timer
 
 @timer.timer(require_input=True)
 def get_local_passwords() -> None:
-    """
-    Retrieves saved Wi-Fi passwords on the system.
-    """
+    """Retrieves saved Wi-Fi passwords on the system."""
     match os.name:
         case "nt":
             printer.info("Windows system detected..!\n")

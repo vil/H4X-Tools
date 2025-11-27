@@ -64,7 +64,7 @@ def send_request(url: str) -> Response | None:
         return None
 
 
-def parse_and_print_results(response_text, query: str) -> None:
+def parse_and_print_results(response_text: str, query: str) -> None:
     """
     Parse the response and print search results.
 
@@ -97,12 +97,15 @@ def print_search_result(result) -> None:
 
     :param result: The result to print.
     """
-    title = result.find("a", {"class": "result__a"}).text
-    link = result.find("a", {"class": "result__a"})["href"]
-    status_code = get_status_code(link)
-    printer.success(
-        f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]"
-    )
+    try:
+        title = result.find("a", {"class": "result__a"}).text
+        link = result.find("a", {"class": "result__a"})["href"]
+        status_code = get_status_code(link)
+        printer.success(
+            f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]"
+        )
+    except Exception as e:
+        printer.error(e)
 
 
 def get_status_code(url: str) -> int | None:

@@ -23,7 +23,7 @@ from colorama import Fore, Style
 ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
-def print_colored(message, color, prefix, *args, **kwargs) -> None:
+def print_colored(message: str, color: str, prefix: str, *args, **kwargs) -> None:
     """
     Print colored message with specified color and prefix.
 

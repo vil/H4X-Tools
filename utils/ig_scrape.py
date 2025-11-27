@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from colorama import Style
 from ensta import Guest
+from ensta.lib.Exceptions import APIError, NetworkError, RateLimitedError
 
 from helper import printer, timer
 
@@ -36,12 +37,15 @@ def scrape(target: str) -> None:
         data = api.profile(target)
         printer.debug(data)
         print_scraped_data(data.raw)
-    except Exception as e:
-        printer.error(f"Error : {e}")
-        return
+    except NetworkError as e:
+        printer.error("Possible network error:", e)
+    except RateLimitedError:
+        printer.error("You are being rate limited..!")
+    except APIError as e:
+        printer.error("There is a issue with the API:", e)
 
 
-def print_scraped_data(data) -> None:
+def print_scraped_data(data: dict) -> None:
     readable_data = {  # Format
         "Username": data.get("username", "N/A"),
         "User ID": data.get("id", "N/A"),

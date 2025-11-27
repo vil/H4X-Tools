@@ -34,7 +34,6 @@ def bust(domain: str) -> None:
 
     param domain: url to scan
     """
-    global target_domain
     target_domain = domain
 
     printer.info(
@@ -62,7 +61,7 @@ def get_wordlist() -> set[str] | None:
         return None
 
 
-async def fetch_url(session, path: str) -> None:
+async def fetch_url(session: aiohttp.ClientSession, path: str) -> None:
     """
     Fetches the url and checks if it is valid
 
@@ -79,11 +78,11 @@ async def fetch_url(session, path: str) -> None:
             url_set.add(url)
 
 
-async def scan_async(paths) -> None:
+async def scan_async(paths: set[str]) -> None:
     """
     Scans the url asynchronously
 
-    :param paths: list of paths to scan
+    :param paths: set of paths to scan
     """
     async with aiohttp.ClientSession() as session:
         tasks = [fetch_url(session, path) for path in paths]

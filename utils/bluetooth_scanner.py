@@ -30,6 +30,8 @@ def scan_nearby_bluetooth(duration: int) -> None:
     Performs a basic scan for nearby Bluetooth devices.
 
     - Requires 'bluetoothctl' on Linux
+
+    :param duration: amount of seconds to scan for
     """
     match os.name:
         case "nt":
@@ -81,6 +83,11 @@ def scan_linux(duration: int) -> str:
         )
 
     return output
+
+
+def scan_windows() -> None:
+    """TODO"""
+    return
 
 
 def parse_output(output: str, platform: str) -> None:
