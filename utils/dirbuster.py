@@ -15,14 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import aiohttp
 import asyncio
-import requests
-from typing import Any
 
+import aiohttp
+import requests
 from colorama import Style
 
-from helper import printer, url_helper, timer, randomuser
+from helper import printer, randomuser, timer, url_helper
 
 url_set = set()
 target_domain: str | None = None
@@ -35,7 +34,6 @@ def bust(domain: str) -> None:
 
     param domain: url to scan
     """
-    global target_domain
     target_domain = domain
 
     printer.info(
@@ -50,7 +48,7 @@ def bust(domain: str) -> None:
     )
 
 
-def get_wordlist() -> set[Any] | None:
+def get_wordlist() -> set[str] | None:
     """
     Reads the wordlist from the url and returns a list of names
 
@@ -63,7 +61,7 @@ def get_wordlist() -> set[Any] | None:
         return None
 
 
-async def fetch_url(session, path: str) -> None:
+async def fetch_url(session: aiohttp.ClientSession, path: str) -> None:
     """
     Fetches the url and checks if it is valid
 
@@ -80,11 +78,11 @@ async def fetch_url(session, path: str) -> None:
             url_set.add(url)
 
 
-async def scan_async(paths) -> None:
+async def scan_async(paths: set[str]) -> None:
     """
     Scans the url asynchronously
 
-    :param paths: list of paths to scan
+    :param paths: set of paths to scan
     """
     async with aiohttp.ClientSession() as session:
         tasks = [fetch_url(session, path) for path in paths]
@@ -93,13 +91,16 @@ async def scan_async(paths) -> None:
 
 def scan_urls() -> None:
     paths = get_wordlist()
-    # printer.debug(target_domain)
+    printer.debug(target_domain, paths)
     if paths is None:
         printer.error("Connection Error..!")
         return
 
     try:
-        loop = asyncio.get_event_loop()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         loop.run_until_complete(scan_async(paths))
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
+    except RuntimeError as e:
+        printer.error("Ran into a RuntimeError:", e)

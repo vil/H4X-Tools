@@ -33,7 +33,7 @@ def lookup(phone_number: str) -> None:
     """
     try:
         ph_no = p.parse(phone_number)
-        country = p.region_code_for_country_code(ph_no.country_code)
+        country = p.region_code_for_country_code(ph_no.country_code if None else 0)
         no_carrier = carrier.name_for_number(ph_no, "en")
         no_valid = p.is_valid_number(ph_no)
         no_possible = p.is_possible_number(ph_no)

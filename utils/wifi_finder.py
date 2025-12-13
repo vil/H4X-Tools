@@ -30,12 +30,13 @@ def scan_nearby_wifi() -> None:
 
     Requires netsh for Windows and nmcli for Linux.
     """
-    if os.name == "nt":
-        scan_windows()
-    elif os.name == "posix":
-        scan_linux()
-    else:
-        printer.error("Unsupported platform..!")
+    match os.name:
+        case "nt":
+            scan_windows()
+        case "posix":
+            scan_linux()
+        case _:
+            printer.error("Unsupported platform..!")
 
 
 def scan_windows() -> None:
@@ -61,35 +62,38 @@ def scan_linux() -> None:
         printer.error(f"Is your system using {Style.BRIGHT}nmcli{Style.RESET_ALL}?")
 
 
-def parse_output(output, platform) -> None:
-    if platform == "windows":
-        # Parse Windows output
-        networks = []
-        for line in output.splitlines():
-            if "SSID" in line:
-                parts = line.split(":")
-                if len(parts) > 1:
-                    ssid = parts[1].strip()
-                    networks.append({"ssid": ssid, "signal": "", "encryption": ""})
-        printer.info("Available Wi-Fi networks :")
-        for network in networks:
-            printer.success(
-                f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
-            )
-    elif platform == "linux":
-        # Parse Linux output
-        networks = []
-        for line in output.splitlines():
-            if "*" in line:
-                parts = line.split()
-                ssid = " ".join(parts[1:-3])  # Extract Wi-Fi name
-                signal = parts[-3]
-                encryption = parts[-2]
-                networks.append(
-                    {"ssid": ssid, "signal": signal, "encryption": encryption}
+def parse_output(output: str, platform: str) -> None:
+    match platform:
+        case "windows":
+            # Parse Windows output
+            networks = []
+            for line in output.splitlines():
+                if "SSID" in line:
+                    parts = line.split(":")
+                    if len(parts) > 1:
+                        ssid = parts[1].strip()
+                        networks.append({"ssid": ssid, "signal": "", "encryption": ""})
+            printer.info("Available Wi-Fi networks :")
+            for network in networks:
+                printer.success(
+                    f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
                 )
-        printer.info("Available Wi-Fi networks :")
-        for network in networks:
-            printer.success(
-                f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
-            )
+        case "linux":
+            # Parse Linux output
+            networks = []
+            for line in output.splitlines():
+                if "*" in line:
+                    parts = line.split()
+                    ssid = " ".join(parts[1:-3])  # Extract Wi-Fi name
+                    signal = parts[-3]
+                    encryption = parts[-2]
+                    networks.append(
+                        {"ssid": ssid, "signal": signal, "encryption": encryption}
+                    )
+            printer.info("Available Wi-Fi networks :")
+            for network in networks:
+                printer.success(
+                    f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
+                )
+        case _:
+            printer.error("idk how u got here.")

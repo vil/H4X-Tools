@@ -16,14 +16,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import json
-import requests
 import socket
 import time
 
+import requests
 from colorama import Style
 
-from helper import printer, timer
-from helper import randomuser
+from helper import printer, randomuser, timer
 
 
 @timer.timer(require_input=True)

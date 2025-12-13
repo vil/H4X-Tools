@@ -15,20 +15,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import aiohttp
 import asyncio
-import json
 import csv
-from typing import Any
-from urllib.parse import urljoin, urlparse
+import json
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+from urllib.parse import urljoin, urlparse
 
+import aiohttp
 from bs4 import BeautifulSoup
 from colorama import Style
 
-from helper import printer, timer
-from helper import randomuser
+from helper import printer, randomuser, timer
 
 scraped_links = set()
 
@@ -55,59 +54,57 @@ def export_links(links: set, base_url: str, format_type: str = "txt") -> None:
     filename = f"{domain}_{timestamp}"
 
     try:
-        if format_type.lower() == "txt":
-            filepath = output_dir / f"{filename}.txt"
-            with open(filepath, "w", encoding="utf-8") as f:
-                f.write(f"Scraped links from: {base_url}\n")
-                f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-                f.write(f"Total links: {len(links)}\n")
-                f.write("-" * 80 + "\n\n")
-                for link in sorted(links):
-                    f.write(f"{link}\n")
-            printer.success(
-                f"Links exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
-            )
-
-        elif format_type.lower() == "csv":
-            filepath = output_dir / f"{filename}.csv"
-            with open(filepath, "w", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow(["URL", "Domain", "Path"])
-                for link in sorted(links):
-                    parsed = urlparse(link)
-                    writer.writerow([link, parsed.netloc, parsed.path])
-            printer.success(
-                f"Links exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
-            )
-
-        elif format_type.lower() == "json":
-            filepath = output_dir / f"{filename}.json"
-            link_data = {
-                "metadata": {
-                    "source_url": base_url,
-                    "scraped_date": datetime.now().isoformat(),
-                    "total_links": len(links),
-                },
-                "links": [
-                    {
-                        "url": link,
-                        "domain": urlparse(link).netloc,
-                        "path": urlparse(link).path,
-                        "scheme": urlparse(link).scheme,
-                    }
-                    for link in sorted(links)
-                ],
-            }
-            with open(filepath, "w", encoding="utf-8") as f:
-                json.dump(link_data, f, indent=2, ensure_ascii=False)
-            printer.success(
-                f"Links exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
-            )
-
-        else:
-            printer.error(
-                f"Invalid format: {format_type}. Use 'txt', 'csv', or 'json'."
-            )
+        match format_type.lower():
+            case "txt":
+                filepath = output_dir / f"{filename}.txt"
+                with open(filepath, "w", encoding="utf-8") as f:
+                    f.write(f"Scraped links from: {base_url}\n")
+                    f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                    f.write(f"Total links: {len(links)}\n")
+                    f.write("-" * 80 + "\n\n")
+                    for link in sorted(links):
+                        f.write(f"{link}\n")
+                printer.success(
+                    f"Links exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
+                )
+            case "csv":
+                filepath = output_dir / f"{filename}.csv"
+                with open(filepath, "w", newline="", encoding="utf-8") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["URL", "Domain", "Path"])
+                    for link in sorted(links):
+                        parsed = urlparse(link)
+                        writer.writerow([link, parsed.netloc, parsed.path])
+                printer.success(
+                    f"Links exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
+                )
+            case "json":
+                filepath = output_dir / f"{filename}.json"
+                link_data = {
+                    "metadata": {
+                        "source_url": base_url,
+                        "scraped_date": datetime.now().isoformat(),
+                        "total_links": len(links),
+                    },
+                    "links": [
+                        {
+                            "url": link,
+                            "domain": urlparse(link).netloc,
+                            "path": urlparse(link).path,
+                            "scheme": urlparse(link).scheme,
+                        }
+                        for link in sorted(links)
+                    ],
+                }
+                with open(filepath, "w", encoding="utf-8") as f:
+                    json.dump(link_data, f, indent=2, ensure_ascii=False)
+                printer.success(
+                    f"Links exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
+                )
+            case _:
+                printer.error(
+                    f"Invalid format: {format_type}. Use 'txt', 'csv', or 'json'."
+                )
 
     except Exception as e:
         printer.error(f"Error exporting links: {e}")
@@ -124,10 +121,10 @@ def scrape(url: str) -> None:
     printer.debug(f"Scraping {base_url}")
 
     try:
-        response = printer.inp(
+        response = printer.user_input(
             "Do you want to scrape the linked pages as well? (y/N) : "
         )
-        if response.lower() == "y" or response.lower() == "yes":
+        if response.lower() in {"y", "yes"}:
             printer.info(
                 f"Trying to scrape links from {Style.BRIGHT}{url}{Style.RESET_ALL} and its linked pages as well..."
             )
@@ -146,16 +143,16 @@ def scrape(url: str) -> None:
 
         # Ask user if they want to export the results
         if scraped_links:
-            export_response = printer.inp(
+            export_response = printer.user_input(
                 "\nDo you want to export the scraped links? (y/N) : "
             )
-            if export_response.lower() == "y" or export_response.lower() == "yes":
+            if export_response.lower() in {"y", "yes"}:
                 printer.info("Available export formats:")
                 printer.info("  1. TXT (plain text)")
                 printer.info("  2. CSV (comma-separated values)")
                 printer.info("  3. JSON (structured data)")
 
-                format_choice = printer.inp(
+                format_choice = printer.user_input(
                     "Choose format (1/2/3) [default: 1] : "
                 ).strip()
 
@@ -184,13 +181,15 @@ async def fetch(session, url: str) -> str:
         return await response.text()
 
 
-async def parse_links(content, base_url: str) -> list[tuple[str | bytes | Any, str]]:
+async def parse_links(
+    content: str, base_url: str
+) -> list[tuple[str | bytes | Any, str]]:
     soup = BeautifulSoup(content, "html.parser")
     links = soup.find_all("a")
-    return [(urljoin(base_url, link.get("href")), link.text) for link in links]
+    return [(urljoin(base_url, str(link.get("href"))), link.text) for link in links]
 
 
-async def scrape_links(url: str, recursive=False) -> None:
+async def scrape_links(url: str | Any, recursive=False) -> None:
     async with aiohttp.ClientSession() as session:
         html_content = await fetch(session, url)
         links = await parse_links(html_content, url)

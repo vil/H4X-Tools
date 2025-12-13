@@ -18,12 +18,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import json
 import os
 import sys
-from typing import LiteralString
 
 from helper import printer
 
 
-def read_local_content(path):
+def read_local_content(path) -> str:
     """
     Reads file content from a local file.
 
@@ -39,11 +38,11 @@ def read_local_content(path):
         return content
     except Exception as e:
         printer.error(f"An error occurred: {str(e)}")
-        return None
+        return "None"
 
 
 # I hate pyinstaller.
-def resource_path(relative_path) -> LiteralString | str | bytes:
+def resource_path(relative_path) -> str:
     if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)

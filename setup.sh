@@ -41,7 +41,7 @@ if command -v pyinstaller >/dev/null 2>&1; then
     rm -r dist
     echo "Done! Type h4xtools in your terminal to start!"
     read -r -p "Do you want to start H4XTools now? (y/N) " answer
-    if [[ $answer == "y" ||  $answer == "Y" || $answer == "yes" || $answer == "Yes" ]]; then
+    if [[ "$answer" =~ ^[yY]$ ]]; then
         h4xtools
     fi
 else

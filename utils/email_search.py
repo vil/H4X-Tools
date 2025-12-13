@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import re
 import subprocess
 
 from colorama import Style
@@ -23,27 +24,28 @@ from helper import printer, timer
 
 
 @timer.timer(require_input=True)
-def search(email) -> None:
+def search(email: str) -> None:
     """
     Searches for the email address in various websites using holehe.
 
     Thanks to Holehe, https://github.com/megadose/holehe
 
-    :param email: The email address to search for.
+    :param email: The email address to search for
     """
     printer.info(
-        f"Trying to find sites where {Style.BRIGHT}{email}{Style.RESET_ALL} is used, thanks to holehe."
+        f"Trying to find sites where {Style.BRIGHT}'{email}'{Style.RESET_ALL} has been registered:"
     )
     try:
         result = subprocess.run(
             ["holehe", email], capture_output=True, text=True, check=True
         )
-        output = _format_output(result.stdout)
-        if output:
-            printer.noprefix(output)
-            printer.noprefix("Credits to megadose (Palenath) for holehe.")
+
+        if result:
+            print_output(result.stdout)
+            printer.info("Credits to megadose (Palenath) for holehe.")
         else:
-            printer.error("No results found..!")
+            printer.error("No results.")
+
     except FileNotFoundError:
         printer.error(
             f"Error : {Style.BRIGHT}holehe{Style.RESET_ALL} was not found or it isn't in the PATH. Please make sure you have holehe installed and in your PATH."
@@ -57,13 +59,33 @@ def search(email) -> None:
         printer.error(f"Unexpected error : {e}")
 
 
-def _format_output(output) -> str:
-    lines = output.split("\n")[4:-4]
-    for i, line in enumerate(lines):
-        if "[+]" in line:
-            lines[i] = f"\033[92m{line}\033[0m"
-        elif "[-]" in line:
-            lines[i] = f"\033[91m{line}\033[0m"
-        elif "[x]" in line:
-            lines[i] = f"\033[93m{line}\033[0m"
-    return "\n".join(lines)
+def print_output(output: str) -> None:
+    """Format and print Holehe's output"""
+    # Remove top/bottom decoration lines, keep only content
+    lines = output.split("\n")
+
+    for line in lines:
+        clean_line = printer.ansi_escape(line).strip()
+
+        # Skip decorative lines, email and footer
+        if (
+            clean_line.startswith("***")
+            or "@" in clean_line
+            or clean_line.startswith("[+] Email used")
+        ):
+            continue
+
+        # Match patterns like:  [x] adobe.com
+        match = re.match(r"^\[(\+|\-|x)\]\s*(.+)$", clean_line)
+        if not match:
+            continue
+
+        symbol, site = match.groups()
+
+        # Call appropriate printer method
+        if symbol == "+":
+            printer.success(site)
+        elif symbol == "-":
+            printer.error(site)
+        elif symbol == "x":
+            printer.warning(site)

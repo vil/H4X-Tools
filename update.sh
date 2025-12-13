@@ -16,7 +16,7 @@ if [[ $answer == "y" ||  $answer == "Y" || $answer == "yes" || $answer == "Yes" 
     git pull
     echo "Update complete. Run setup.sh to apply changes."
     read -r -p "Do it now? (y/N) " answer
-    if [[ $answer == "y" ||  $answer == "Y" || $answer == "yes" || $answer == "Yes" ]]; then
+    if [[ "$answer" =~ ^[yY]$ ]]; then
         bash setup.sh
     fi
 else
