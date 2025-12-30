@@ -40,6 +40,7 @@ and improvements! Simply fork the repository, code your tool(s)/improvement(s) a
 | Exit                | Exits the tool.                                                                                                   |
 
 ## Setup
+Due to security reasons, I will **NOT** provide any more pre-compiled binaries of H4X-Tools. Downloading pre-compiled software from a random dude on the Internet is **NOT** safe. Learn to build binaries yourself.
 
 > [!IMPORTANT]
 > Make sure you have [Python](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads) installed on
