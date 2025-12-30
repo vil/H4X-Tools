@@ -193,4 +193,4 @@ if __name__ == "__main__":
         print("\n")
         printer.warning("Quitting... Goodbye!")
         print(Style.RESET_ALL)
-        exit(1)
+        exit(0)
