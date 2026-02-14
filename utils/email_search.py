@@ -37,7 +37,7 @@ def search(email: str) -> None:
     )
     try:
         result = subprocess.run(
-            ["holehe", email], capture_output=True, text=True, check=True
+            ["holehe", email, "--only-used"], capture_output=True, text=True, check=True
         )
 
         if result:
