@@ -27,9 +27,10 @@ from helper import handles, printer
 VERSION = "0.3.5"
 
 
-def internet_check() -> None:
+def _internet_check() -> None:
     """
-    Check if the user is connected to the internet.
+    Check if the user is connected to the internet by
+    creating a socket connection to a known host and port.
     """
     try:
         socket.setdefaulttimeout(3)
@@ -43,7 +44,7 @@ def internet_check() -> None:
         )
 
 
-def print_banner() -> None:
+def _print_banner() -> None:
     print(
         Fore.LIGHTBLACK_EX
         + f"""
@@ -57,7 +58,7 @@ def print_banner() -> None:
     )
 
 
-def display_help() -> None:
+def _display_help() -> None:
     print(Fore.LIGHTCYAN_EX)
     print(
         "H4X-Tools v{} - A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows.".format(
@@ -169,7 +170,7 @@ def display_help() -> None:
     )
 
 
-def print_menu() -> None:
+def _print_menu() -> None:
     max_option_length = max(
         len(value.__name__.replace("handle_", "").replace("_", " ").title())
         for value in MENU_OPTIONS.values()
@@ -213,14 +214,14 @@ MENU_OPTIONS = {
 
 
 def main() -> None:
-    internet_check()
+    _internet_check()
     time.sleep(0.5)
 
     printer.debug("DEBUG IS ON.")
 
     while True:
-        print_banner()
-        print_menu()
+        _print_banner()
+        _print_menu()
         user_input = printer.user_input("Tool to execute : \t")
 
         if user_input.lower() in {"quit", "exit", "q", "kill"}:
@@ -238,7 +239,7 @@ def main() -> None:
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
         elif user_input.lower() == "?":
-            display_help()
+            _display_help()
             printer.user_input("Done reading? Press the Enter key.")
         else:
             printer.error("Invalid option!")

@@ -33,12 +33,12 @@ def search(username: str) -> None:
     :param username: The username to search for.
     """
     try:
-        check_user_from_data(username)
+        _check_user_from_data(username)
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
 
 
-def check_user_from_data(username: str) -> dict:
+def _check_user_from_data(username: str) -> dict:
     """
     Scans for the given username across many different sites.
 
@@ -60,7 +60,7 @@ def check_user_from_data(username: str) -> dict:
     printer.noprefix("")
     printer.section("Username Search Results")
 
-    results = asyncio.run(make_requests(username, sites))
+    results = asyncio.run(_make_requests(username, sites))
 
     now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     user_json = {
@@ -75,7 +75,7 @@ def check_user_from_data(username: str) -> dict:
     return user_json
 
 
-async def make_requests(username: str, sites: list) -> list:
+async def _make_requests(username: str, sites: list) -> list:
     """
     Makes the requests to all sites and returns a list of matched results.
 
@@ -87,7 +87,7 @@ async def make_requests(username: str, sites: list) -> list:
         timeout=aiohttp.ClientTimeout(total=20)
     ) as session:
         tasks = [
-            asyncio.ensure_future(make_request(session, content, username))
+            asyncio.ensure_future(_make_request(session, content, username))
             for content in sites
         ]
         results = await asyncio.gather(*tasks)
@@ -96,7 +96,7 @@ async def make_requests(username: str, sites: list) -> list:
     return [r for r in results if r is not None]
 
 
-async def make_request(
+async def _make_request(
     session: aiohttp.ClientSession, content: dict, username: str
 ) -> dict | None:
     """

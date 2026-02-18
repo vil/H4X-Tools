@@ -23,7 +23,7 @@ from colorama import Fore, Style
 ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
-def print_colored(message: str, color: str, prefix: str, *args, **kwargs) -> None:
+def _print_colored(message: str, color: str, prefix: str, *args, **kwargs) -> None:
     """
     Print colored message with specified color and prefix.
 
@@ -37,24 +37,24 @@ def print_colored(message: str, color: str, prefix: str, *args, **kwargs) -> Non
 
 
 def info(message, *args, **kwargs) -> None:
-    print_colored(message, Fore.LIGHTBLUE_EX, "[*]", *args, **kwargs)
+    _print_colored(message, Fore.LIGHTBLUE_EX, "[*]", *args, **kwargs)
 
 
 def success(message, *args, **kwargs) -> None:
-    print_colored(message, Fore.LIGHTGREEN_EX, "[+]", *args, **kwargs)
+    _print_colored(message, Fore.LIGHTGREEN_EX, "[+]", *args, **kwargs)
 
 
 def error(message, *args, **kwargs) -> None:
-    print_colored(message, Fore.LIGHTRED_EX, "[!]", *args, **kwargs)
+    _print_colored(message, Fore.LIGHTRED_EX, "[!]", *args, **kwargs)
 
 
 def warning(message, *args, **kwargs) -> None:
-    print_colored(message, Fore.LIGHTYELLOW_EX, "[-]", *args, **kwargs)
+    _print_colored(message, Fore.LIGHTYELLOW_EX, "[-]", *args, **kwargs)
 
 
 def debug(message, *args, **kwargs) -> None:
     if "--debug" in sys.argv:
-        print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
+        _print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
 
 
 def section(title: str) -> None:
@@ -73,7 +73,7 @@ def section(title: str) -> None:
     left = "─── "
     fill = _TOTAL - len(left) - len(title) - 1
     right = " " + "─" * max(fill, 3)
-    print_colored(left + title + right, Fore.LIGHTBLUE_EX, "[*]")
+    _print_colored(left + title + right, Fore.LIGHTBLUE_EX, "[*]")
 
 
 def noprefix(message, *args, **kwargs) -> None:
@@ -81,7 +81,7 @@ def noprefix(message, *args, **kwargs) -> None:
 
 
 def user_input(prompt, *args, **kwargs) -> str:
-    print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
+    _print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
     return input()
 
 

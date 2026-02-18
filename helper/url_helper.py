@@ -31,7 +31,7 @@ def read_local_content(path) -> str | dict | None:
              or None if an error occurs.
     """
     try:
-        with open(resource_path(path), "r") as file:
+        with open(_resource_path(path), "r") as file:
             if path.endswith(".json"):
                 content = json.load(file)
             else:
@@ -43,7 +43,7 @@ def read_local_content(path) -> str | dict | None:
 
 
 # I hate pyinstaller.
-def resource_path(relative_path) -> str:
+def _resource_path(relative_path) -> str:
     if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)

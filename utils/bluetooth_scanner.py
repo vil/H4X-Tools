@@ -38,12 +38,12 @@ def scan_nearby_bluetooth(duration: int) -> None:
             # TODO
             printer.warning("Sorry, this feature isn't ready yet..!")
         case "posix":
-            parse_output(output=scan_linux(duration=duration), platform="linux")
+            _parse_output(output=_scan_linux(duration=duration), platform="linux")
         case _:
             printer.error("Unsupported platform..!")
 
 
-def scan_linux(duration: int) -> str:
+def _scan_linux(duration: int) -> str:
     """
     Performs a bluetoothctl scan on Linux systems.
 
@@ -89,12 +89,12 @@ def scan_linux(duration: int) -> str:
     return output
 
 
-def scan_windows() -> None:
+def _scan_windows() -> None:
     """TODO"""
     return
 
 
-def parse_output(output: str, platform: str) -> None:
+def _parse_output(output: str, platform: str) -> None:
     match platform:
         case "windows":
             # Parse Windows output

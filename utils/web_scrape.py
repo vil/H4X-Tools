@@ -29,7 +29,7 @@ from colorama import Style
 from helper import printer, randomuser, timer
 
 
-def export_links(links: set, base_url: str, format_type: str = "txt") -> None:
+def _export_links(links: set, base_url: str, format_type: str = "txt") -> None:
     """
     Exports scraped links to a file in the specified format.
 
@@ -130,14 +130,14 @@ def scrape(url: str) -> None:
             printer.warning("This may take a while depending on the size of the site.")
             printer.noprefix("")
             printer.section("Scraped Links")
-            asyncio.run(scrape_links(url, scraped_links, recursive=True))
+            asyncio.run(_scrape_links(url, scraped_links, recursive=True))
             printer.noprefix("")
             printer.success("Scraping completed.")
         else:
             printer.info(f"Scraping links from {Style.BRIGHT}{url}{Style.RESET_ALL}...")
             printer.noprefix("")
             printer.section("Scraped Links")
-            asyncio.run(scrape_links(url, scraped_links, recursive=False))
+            asyncio.run(_scrape_links(url, scraped_links, recursive=False))
             printer.noprefix("")
             printer.success("Scraping completed.")
 
@@ -166,7 +166,7 @@ def scrape(url: str) -> None:
                 }
 
                 export_format = format_map.get(format_choice, "txt")
-                export_links(scraped_links, url, export_format)
+                _export_links(scraped_links, url, export_format)
 
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
@@ -174,7 +174,7 @@ def scrape(url: str) -> None:
         printer.error(f"Error : {e}")
 
 
-async def fetch(session: aiohttp.ClientSession, url: str) -> str:
+async def _fetch(session: aiohttp.ClientSession, url: str) -> str:
     """
     Fetches the HTML content of a URL.
 
@@ -190,7 +190,7 @@ async def fetch(session: aiohttp.ClientSession, url: str) -> str:
         return ""
 
 
-async def parse_links(content: str, base_url: str) -> list[tuple[str, str]]:
+async def _parse_links(content: str, base_url: str) -> list[tuple[str, str]]:
     """
     Parses all anchor tags from *content* and returns absolute (href, text) pairs.
 
@@ -205,7 +205,7 @@ async def parse_links(content: str, base_url: str) -> list[tuple[str, str]]:
     ]
 
 
-async def scrape_links(
+async def _scrape_links(
     url: str,
     scraped_links: set[str],
     recursive: bool = False,
@@ -219,8 +219,8 @@ async def scrape_links(
     :param recursive: When True, every newly discovered URL is scraped as well.
     """
     async with aiohttp.ClientSession() as session:
-        html_content = await fetch(session, url)
-        links = await parse_links(html_content, url)
+        html_content = await _fetch(session, url)
+        links = await _parse_links(html_content, url)
 
         for href, text in links:
             if href not in scraped_links:
@@ -231,4 +231,4 @@ async def scrape_links(
                 )
 
                 if recursive:
-                    await scrape_links(href, scraped_links, recursive=True)
+                    await _scrape_links(href, scraped_links, recursive=True)

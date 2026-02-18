@@ -361,7 +361,7 @@ def _ask_save_results() -> str | None:
     :return: ``'txt'``, ``'csv'``, or ``'json'`` if the user wants to save;
              ``None`` if they decline.
     """
-    answer = printer.user_input("Save results to file? [y/N] : ").strip().lower()
+    answer = printer.user_input("Save results to file? (y/N) : ").strip().lower()
     if answer not in {"y", "yes"}:
         return None
 

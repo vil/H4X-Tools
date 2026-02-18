@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import random
 
-users = [
+_USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1; rv:94.0) Gecko/20100101 Firefox/94.0",
     "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:94.0) Gecko/20100101 Firefox/94.0",
     "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0",
@@ -441,7 +441,7 @@ class GetUser:
     """
 
     def __init__(self) -> None:
-        self.user_agent = random.choice(users)
+        self.user_agent = random.choice(_USER_AGENTS)
 
     def __str__(self) -> str:
         return self.user_agent

@@ -46,7 +46,7 @@ def scan(ip: str, port_range: int) -> None:
         printer.noprefix("")
         printer.section("Port Scan Results")
 
-        scan_ports(ip, port_range, open_ports, failed_ports)
+        _scan_ports(ip, port_range, open_ports, failed_ports)
 
         printer.noprefix("")
         if not open_ports:
@@ -64,7 +64,7 @@ def scan(ip: str, port_range: int) -> None:
         printer.error("Unexpected recursion error.")
 
 
-def scan_ports(
+def _scan_ports(
     ip: str,
     port_range: int,
     open_ports: list[int],
@@ -80,7 +80,7 @@ def scan_ports(
     """
     with ThreadPoolExecutor(max_workers=50) as executor:
         futures = {
-            executor.submit(connect_to_port, ip, port, open_ports, failed_ports): port
+            executor.submit(_connect_to_port, ip, port, open_ports, failed_ports): port
             for port in range(1, port_range + 1)
         }
         for future in as_completed(futures):
@@ -88,7 +88,7 @@ def scan_ports(
             future.result()
 
 
-def connect_to_port(
+def _connect_to_port(
     ip: str,
     port: int,
     open_ports: list[int],

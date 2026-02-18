@@ -35,14 +35,14 @@ def bust(domain: str) -> None:
     )
     printer.warning("This may take a while...")
 
-    valid_urls = scan_urls(domain)
+    valid_urls = _scan_urls(domain)
 
     printer.success(
         f"Scan Completed..! There were {Style.BRIGHT}{len(valid_urls)}{Style.RESET_ALL} valid URLs!"
     )
 
 
-def get_wordlist() -> set[str] | None:
+def _get_wordlist() -> set[str] | None:
     """
     Reads the wordlist from the local resources and returns a set of paths.
 
@@ -54,7 +54,7 @@ def get_wordlist() -> set[str] | None:
     return {line.strip() for line in content.splitlines() if line.strip()}
 
 
-async def fetch_url(
+async def _fetch_url(
     session: aiohttp.ClientSession, domain: str, path: str, url_set: set
 ) -> None:
     """
@@ -78,7 +78,7 @@ async def fetch_url(
         pass
 
 
-async def scan_async(domain: str, paths: set[str]) -> set[str]:
+async def _scan_async(domain: str, paths: set[str]) -> set[str]:
     """
     Scans the domain asynchronously for all paths.
 
@@ -88,26 +88,26 @@ async def scan_async(domain: str, paths: set[str]) -> set[str]:
     """
     url_set: set[str] = set()
     async with aiohttp.ClientSession() as session:
-        tasks = [fetch_url(session, domain, path, url_set) for path in paths]
+        tasks = [_fetch_url(session, domain, path, url_set) for path in paths]
         await asyncio.gather(*tasks, return_exceptions=True)
     return url_set
 
 
-def scan_urls(domain: str) -> set[str]:
+def _scan_urls(domain: str) -> set[str]:
     """
     Loads the wordlist and runs the async scan.
 
     :param domain: target domain
     :return: set of valid URLs found
     """
-    paths = get_wordlist()
+    paths = _get_wordlist()
     printer.debug(f"Domain: {domain}, paths loaded: {len(paths) if paths else 0}")
     if paths is None:
         printer.error("Failed to load wordlist..!")
         return set()
 
     try:
-        return asyncio.run(scan_async(domain, paths))
+        return asyncio.run(_scan_async(domain, paths))
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
         return set()

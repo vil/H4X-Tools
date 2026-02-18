@@ -31,7 +31,7 @@ def check_whois(domain: str) -> None:
     try:
         q = whoisdomain.query(domain)
         printer.info(f"Looking up {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
-
+        printer.debug(q)
         printer.noprefix("")
         printer.section("WhoIs Results")
 

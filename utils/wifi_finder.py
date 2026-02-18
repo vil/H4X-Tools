@@ -32,25 +32,25 @@ def scan_nearby_wifi() -> None:
     """
     match os.name:
         case "nt":
-            scan_windows()
+            _scan_windows()
         case "posix":
-            scan_linux()
+            _scan_linux()
         case _:
             printer.error("Unsupported platform..!")
 
 
-def scan_windows() -> None:
+def _scan_windows() -> None:
     printer.info(
         f"Windows system detected... Performing {Style.BRIGHT}netsh{Style.RESET_ALL} scan..."
     )
     try:
         output = subprocess.check_output(["netsh", "wlan", "show", "networks"])
-        parse_windows_output(output.decode("utf-8"))
+        _parse_windows_output(output.decode("utf-8"))
     except subprocess.CalledProcessError as e:
         printer.error(f"Error : {e.returncode} - {e.stderr}")
 
 
-def scan_linux() -> None:
+def _scan_linux() -> None:
     printer.info(
         f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan..."
     )
@@ -61,7 +61,7 @@ def scan_linux() -> None:
         output = subprocess.check_output(
             ["nmcli", "-t", "-f", "IN-USE,SSID,SIGNAL,SECURITY", "dev", "wifi"]
         )
-        parse_linux_output(output.decode("utf-8"))
+        _parse_linux_output(output.decode("utf-8"))
     except FileNotFoundError:
         printer.error(
             f"Could not find {Style.BRIGHT}nmcli{Style.RESET_ALL}. "
@@ -72,7 +72,7 @@ def scan_linux() -> None:
         printer.error(f"Is your system using {Style.BRIGHT}nmcli{Style.RESET_ALL}?")
 
 
-def parse_windows_output(output: str) -> None:
+def _parse_windows_output(output: str) -> None:
     """
     Parses the output of `netsh wlan show networks` and prints each network.
 
@@ -117,7 +117,7 @@ def parse_windows_output(output: str) -> None:
         )
 
 
-def parse_linux_output(output: str) -> None:
+def _parse_linux_output(output: str) -> None:
     """
     Parses the terse output of `nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY dev wifi`
     and prints every visible network, marking the connected one with an asterisk.
