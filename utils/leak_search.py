@@ -186,14 +186,106 @@ def _fetch_hudson_rock(
 
     message: str = data.get("message", "")
 
-    # Email / username responses → "stealers" list.
-    # Domain responses may return "employees" / "users" lists instead.
-    raw_stealers: list[dict] = data.get("stealers", [])
-    raw_employees: list[dict] = data.get("employees", [])
-    raw_users: list[dict] = data.get("users", [])
-
+    # Top-level stealers (email / username responses)
+    raw_stealers: list[dict] = data.get("stealers", []) or []
     stealers = [_parse_stealer(s) for s in raw_stealers]
-    return message, stealers, raw_employees, raw_users
+
+    # Prepare employees/users lists (domain responses use different shapes)
+    employees: list[dict] = []
+    users: list[dict] = []
+
+    # If domain-style response contains a "data" dict
+    data_block = data.get("data")
+    if isinstance(data_block, dict):
+        # Prefer detailed all_urls entries which include type/occurrence
+        all_urls = data_block.get("all_urls") or []
+        if isinstance(all_urls, list) and all_urls:
+            for item in all_urls:
+                try:
+                    t = (item.get("type") or "").lower()
+                    rec = {
+                        "url": item.get("url", "") or "",
+                        "occurrence": int(item.get("occurrence") or 0),
+                    }
+                except Exception:
+                    # Skip malformed items
+                    continue
+                if t == "employee":
+                    employees.append(rec)
+                elif t == "user":
+                    users.append(rec)
+            # Return early; employees/users built from all_urls
+            return message, stealers, employees, users
+
+        # Fallback to employees_urls / clients_urls arrays with occurrence/type
+        emp_urls = data_block.get("employees_urls") or []
+        if isinstance(emp_urls, list):
+            for item in emp_urls:
+                if not isinstance(item, dict):
+                    continue
+                employees.append(
+                    {
+                        "url": item.get("url", "") or "",
+                        "occurrence": int(item.get("occurrence") or 0),
+                    }
+                )
+        client_urls = data_block.get("clients_urls") or []
+        if isinstance(client_urls, list):
+            for item in client_urls:
+                if not isinstance(item, dict):
+                    continue
+                users.append(
+                    {
+                        "url": item.get("url", "") or "",
+                        "occurrence": int(item.get("occurrence") or 0),
+                    }
+                )
+        # Continue to return at end after attempting data_block parsing
+
+    # If there's a stats block with URL lists (less detailed)
+    stats = data.get("stats")
+    if (not employees and not users) and isinstance(stats, dict):
+        emp_stats_urls = stats.get("employees_urls") or []
+        if isinstance(emp_stats_urls, list):
+            for u in emp_stats_urls:
+                if isinstance(u, str):
+                    employees.append({"url": u, "occurrence": None})
+        client_stats_urls = stats.get("clients_urls") or []
+        if isinstance(client_stats_urls, list):
+            for u in client_stats_urls:
+                if isinstance(u, str):
+                    users.append({"url": u, "occurrence": None})
+
+    # Some responses include top-level numeric counts for employees/users - don't treat as lists
+    # Normalize any accidental scalar values from data.get("employees") / data.get("users")
+    raw_employees = data.get("employees")
+    raw_users = data.get("users")
+    if isinstance(raw_employees, list) and not employees:
+        for item in raw_employees:
+            if isinstance(item, dict):
+                employees.append(
+                    {
+                        "url": item.get("url", "") or "",
+                        "occurrence": int(item.get("occurrence") or 0),
+                    }
+                )
+    if isinstance(raw_users, list) and not users:
+        for item in raw_users:
+            if isinstance(item, dict):
+                users.append(
+                    {
+                        "url": item.get("url", "") or "",
+                        "occurrence": int(item.get("occurrence") or 0),
+                    }
+                )
+
+    # Final normalization: ensure lists are lists (empty if nothing found)
+    if employees is None:
+        employees = []
+    if users is None:
+        users = []
+
+    return message, stealers, employees, users
 
 
 def _parse_stealer(raw: dict) -> StealerEntry:
@@ -291,7 +383,7 @@ def _ask_export() -> str | None:
 
     :return: ``'txt'``, ``'csv'``, or ``'json'``; ``None`` if declined.
     """
-    answer = printer.user_input("Save results to file? [y/N] : ").strip().lower()
+    answer = printer.user_input("Save results to file? (y/N) : ").strip().lower()
     if answer not in {"y", "yes"}:
         return None
 
@@ -511,8 +603,8 @@ def lookup(target: str) -> None:
     )
     report.hr_message = hr_msg
     report.hr_stealers = hr_stealers
-    report.hr_employees = hr_employees
-    report.hr_users = hr_users
+    report.hr_employees = hr_employees or []
+    report.hr_users = hr_users or []
 
     if hr_stealers:
         printer.success(
@@ -538,10 +630,15 @@ def lookup(target: str) -> None:
             )
 
     elif hr_employees or hr_users:
+        printer.debug(hr_employees, hr_users)
+
+        emp_count = len(hr_employees) if isinstance(hr_employees, (list, tuple)) else 0
+        user_count = len(hr_users) if isinstance(hr_users, (list, tuple)) else 0
+
         printer.success(
-            f"Found {Style.BRIGHT}{len(hr_employees)}{Style.RESET_ALL} "
+            f"Found {Style.BRIGHT}{emp_count}{Style.RESET_ALL} "
             f"employee(s) and "
-            f"{Style.BRIGHT}{len(hr_users)}{Style.RESET_ALL} user(s)."
+            f"{Style.BRIGHT}{user_count}{Style.RESET_ALL} user(s)."
         )
         printer.noprefix("")
 
