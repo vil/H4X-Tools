@@ -11,6 +11,7 @@ snscrape
 faker
 holehe
 ignorant
+toutatis
 httpx
 aiohttp
 psutil

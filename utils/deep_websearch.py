@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import csv
 import json
 import time
 from dataclasses import asdict, dataclass, field
@@ -26,8 +27,6 @@ from ddgs import DDGS
 from ddgs.exceptions import DDGSException, RatelimitException, TimeoutException
 
 from helper import printer, timer
-
-# Constants
 
 # How many results to fetch per query (user-selectable).
 _RESULTS_CHOICES: dict[str, int] = {"1": 5, "2": 10, "3": 20, "4": 50}
@@ -42,9 +41,6 @@ _RETRY_BASE_DELAY: float = 4.0  # doubles on each attempt (exponential back-off)
 
 # Directory where optional JSON exports are written.
 _SAVE_DIR = Path("scraped_data")
-
-
-# Result model
 
 
 @dataclass
@@ -254,7 +250,7 @@ def websearch() -> None:
 
     primary_value = list(target.values())[0]
     max_results = _ask_max_results()
-    want_save = _ask_save_results()
+    save_fmt = _ask_save_results()
 
     printer.noprefix("")
 
@@ -275,8 +271,8 @@ def websearch() -> None:
 
         printer.info(f"Total results : {Style.BRIGHT}{len(results)}{Style.RESET_ALL}")
 
-        if want_save:
-            _save_results(results, mode_name, primary_value)
+        if save_fmt:
+            _save_results(results, mode_name, primary_value, save_fmt)
         return
 
     # OSINT dork modes (2–7)
@@ -327,9 +323,9 @@ def websearch() -> None:
         f"{len(dorks)} quer{'y' if len(dorks) == 1 else 'ies'}."
     )
 
-    if want_save and all_results:
-        _save_results(all_results, mode_name, primary_value)
-    elif want_save:
+    if save_fmt and all_results:
+        _save_results(all_results, mode_name, primary_value, save_fmt)
+    elif save_fmt:
         printer.warning("No results to save.")
 
 
@@ -358,19 +354,41 @@ def _ask_max_results() -> int:
     return selected
 
 
-def _ask_save_results() -> bool:
-    """Ask whether to export collected results to a JSON file."""
-    answer = printer.user_input("Save results to JSON file? (y/N) : ").strip().lower()
-    return answer in {"y", "yes"}
-
-
-def _save_results(results: list[SearchResult], mode_name: str, target: str) -> None:
+def _ask_save_results() -> str | None:
     """
-    Serialise *results* to a timestamped JSON file under ``scraped_data/``.
+    Ask whether to export collected results and, if so, in which format.
+
+    :return: ``'txt'``, ``'csv'``, or ``'json'`` if the user wants to save;
+             ``None`` if they decline.
+    """
+    answer = printer.user_input("Save results to file? [y/N] : ").strip().lower()
+    if answer not in {"y", "yes"}:
+        return None
+
+    printer.noprefix("")
+    printer.section("Export Format")
+    printer.info("  1 : TXT  (plain text)")
+    printer.info("  2 : CSV  (comma-separated values)")
+    printer.info("  3 : JSON (structured data)")
+
+    format_map = {"1": "txt", "2": "csv", "3": "json", "": "txt"}
+    choice = printer.user_input("Choose format (1/2/3) [default: 1] : ").strip()
+    return format_map.get(choice, "txt")
+
+
+def _save_results(
+    results: list[SearchResult],
+    mode_name: str,
+    target: str,
+    fmt: str = "json",
+) -> None:
+    """
+    Export *results* to a timestamped file under ``scraped_data/``.
 
     :param results:   List of :class:`SearchResult` objects to persist.
     :param mode_name: Human-readable mode name used in the filename.
     :param target:    Primary target value used in the filename.
+    :param fmt:       Export format — ``'txt'``, ``'csv'``, or ``'json'``.
     """
     _SAVE_DIR.mkdir(exist_ok=True)
 
@@ -380,20 +398,59 @@ def _save_results(results: list[SearchResult], mode_name: str, target: str) -> N
         + "".join(c if c.isalnum() or c in "-_." else "_" for c in target)[:40]
     )
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filepath = _SAVE_DIR / f"websearch_{slug}_{timestamp}.json"
-
-    payload = {
-        "mode": mode_name,
-        "target": target,
-        "timestamp": datetime.now().isoformat(),
-        "total_results": len(results),
-        "results": [asdict(r) for r in results],
-    }
 
     try:
-        with filepath.open("w", encoding="utf-8") as fh:
-            json.dump(payload, fh, indent=2, ensure_ascii=False)
-        printer.success(f"Results saved → {Style.BRIGHT}{filepath}{Style.RESET_ALL}")
+        match fmt.lower():
+            case "txt":
+                filepath = _SAVE_DIR / f"websearch_{slug}_{timestamp}.txt"
+                with filepath.open("w", encoding="utf-8") as fh:
+                    fh.write(f"Deep Web Search — {mode_name}\n")
+                    fh.write(f"Target  : {target}\n")
+                    fh.write(
+                        f"Date    : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    )
+                    fh.write(f"Results : {len(results)}\n")
+                    fh.write("-" * 80 + "\n\n")
+                    for r in results:
+                        fh.write(f"[{r.label}]\n" if r.label else "")
+                        fh.write(f"Title   : {r.title}\n")
+                        fh.write(f"URL     : {r.url}\n")
+                        if r.snippet:
+                            fh.write(f"Snippet : {r.snippet}\n")
+                        fh.write("\n")
+                printer.success(
+                    f"Results saved → {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
+                )
+
+            case "csv":
+                filepath = _SAVE_DIR / f"websearch_{slug}_{timestamp}.csv"
+                with filepath.open("w", newline="", encoding="utf-8") as fh:
+                    writer = csv.writer(fh)
+                    writer.writerow(["Label", "Title", "URL", "Snippet"])
+                    for r in results:
+                        writer.writerow([r.label, r.title, r.url, r.snippet])
+                printer.success(
+                    f"Results saved → {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
+                )
+
+            case "json":
+                filepath = _SAVE_DIR / f"websearch_{slug}_{timestamp}.json"
+                payload = {
+                    "mode": mode_name,
+                    "target": target,
+                    "timestamp": datetime.now().isoformat(),
+                    "total_results": len(results),
+                    "results": [asdict(r) for r in results],
+                }
+                with filepath.open("w", encoding="utf-8") as fh:
+                    json.dump(payload, fh, indent=2, ensure_ascii=False)
+                printer.success(
+                    f"Results saved → {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
+                )
+
+            case _:
+                printer.error(f"Unknown format '{fmt}'. Use 'txt', 'csv', or 'json'.")
+
     except OSError as exc:
         printer.error(f"Could not write results file: {exc}")
 

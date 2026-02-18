@@ -59,7 +59,11 @@ def print_banner() -> None:
 
 def display_help() -> None:
     print(Fore.LIGHTCYAN_EX)
-    print("H4X-Tools v{} - A toolkit for scraping, OSINT and more.".format(VERSION))
+    print(
+        "H4X-Tools v{} - A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows.".format(
+            VERSION
+        )
+    )
     print("Repository link: https://github.com/vil/h4x-tools")
     print("\nMade in Finland, with love.\n")
 
@@ -68,22 +72,81 @@ def display_help() -> None:
 
     # Use a loop to print the tools in a nice format
     tools = {
-        "Ig Scrape": "Scrapes information from Instagram accounts.",
-        "Deep Web Search": "Does a deep search on the internet for a given query.",
-        "Phone Lookup": "Looks up a phone number and returns information about it.",
-        "Ip Lookup": "Looks up an IP/domain address and returns information about it.",
-        "Port Scanner": "Scans for open ports in a given IP/domain address.",
-        "Username Search": "Tries to find a given username from many different websites.",
-        "Leak Search": "Searches if a given email/domain has been compromised and leaked.",
-        "Email Search": "Efficiently finds registered accounts from a given email.",
-        "WhoIs Lookup": "Looks up a domain and returns information about it.",
-        "Fake Info Generator": "Generates fake information using Faker.",
-        "Web Scrape": "Scrapes links from a given URL.",
-        "Wi-Fi Finder": "Scans for nearby Wi-Fi networks.",
-        "Wi-Fi Vault": "Scans for locally saved Wi-Fi passwords.",
-        "Dir Buster": "Bruteforce directories on a website.",
-        "Bluetooth Scanner": "Scans for nearby Bluetooth devices.",
-        "Local Users": "Enumerates local user accounts on the current machine.",
+        "Ig Scrape": (
+            "Two-track Instagram OSINT scraper. **Guest mode** (no login) uses the `ensta` Guest API for public profile data and recent posts. "
+            "**Authenticated mode** (Instagram `sessionid` cookie) uses [`toutatis`](https://github.com/megadose/toutatis) "
+            "via Instagram's private mobile API for richer data — business flags, IGTV count, WhatsApp link status, and publicly listed contact details. "
+            "Both tracks run Toutatis `advanced_lookup` to surface obfuscated email and phone from Instagram's account-recovery flow. "
+            "Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**."
+        ),
+        "Deep Web Search": (
+            "Multi-mode OSINT search powered by the ddgs library. Modes: General (free-form), "
+            "Person (12 dorks), Email (8 dorks), Domain (12 recon dorks), Username (12 platform "
+            "dorks), Phone Number (8 dorks), or Custom Dork (write your own template). "
+            "Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**."
+        ),
+        "Phone Lookup": (
+            "Validates and analyses a phone number — E.164/national/international formats, country, "
+            "region, carrier, line type, and time zones via the phonenumbers library. Then runs "
+            "ignorant to check social-media platform registrations."
+        ),
+        "IP Lookup": (
+            "Resolves a hostname or IP and queries ipinfo.io for geolocation data — city, region, "
+            "country, coordinates, ISP/organization, postal code, and timezone — with a direct "
+            "OpenStreetMap link."
+        ),
+        "Username Search": (
+            "Asynchronously checks a username across hundreds of websites using a bundled site "
+            "database. All matches with direct profile URLs are printed in real time."
+        ),
+        "Email Search": (
+            "Checks an email address against 100+ websites and services using holehe to identify "
+            "where the address is registered. Credits: megadose/holehe."
+        ),
+        "Leak Search": (
+            "Multi-source breach and credential intelligence for an **email address**, **domain**, or **username**. "
+            "Queries [Hudson Rock Cavalier](https://cavalier.hudsonrock.com) for stealer-log records "
+            "(date of compromise, stealer family, infected machine details, masked credential samples, corporate/user service counts) and, for email targets, "
+            "cross-references the [ProxyNova COMB](https://api.proxynova.com/comb) dataset (3.2B+ leaked credential lines) for a total hit count. "
+            "Configurable inline entry limit; results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**."
+        ),
+        "Port Scanner": (
+            "Concurrently scans a user-defined TCP port range (1–N) on any IP or hostname using a "
+            "50-thread pool. Open ports are reported in real time."
+        ),
+        "WhoIs Lookup": (
+            "Performs a WHOIS query on a domain and displays registrar, registration/expiry dates, "
+            "name servers, status flags, and registrant details."
+        ),
+        "Fake Info Generator": (
+            "Generates a complete fake identity using Faker — name, job, company, email, phone, "
+            "address, credit card details (number, type, expiry, CVV), IBAN, and location."
+        ),
+        "Web Scrape": (
+            "Asynchronously harvests all hyperlinks from a target URL. Optionally crawls every "
+            "discovered page recursively. Results can be exported to scraped_data/ as TXT, CSV, or JSON."
+        ),
+        "Wi-Fi Finder": (
+            "Scans for nearby Wi-Fi networks using netsh (Windows) or nmcli (Linux). Reports SSID, "
+            "signal strength, and security type. The currently connected network is highlighted."
+        ),
+        "Wi-Fi Vault": (
+            "Dumps saved Wi-Fi passwords stored on the local machine using netsh (Windows) or "
+            "nmcli (Linux)."
+        ),
+        "Dir Buster": (
+            "Asynchronously bruteforces directory and file paths on a target website using a "
+            "built-in wordlist, printing every URL that returns HTTP 200."
+        ),
+        "Bluetooth Scanner": (
+            "Scans for nearby Bluetooth devices via bluetoothctl (Linux) and reports device names "
+            "and MAC addresses. Windows support is coming soon."
+        ),
+        "Local Users": (
+            "Enumerates all local user accounts on the system. Linux: username, UID, GID, full "
+            "name, home directory, shell, and group. Windows: username, terminal, host, session "
+            "start time, PID, SID, and domain."
+        ),
         "Help": "Shows this help menu.",
     }
 
@@ -101,7 +164,8 @@ def display_help() -> None:
     print("\nLicense and Credits:")
     print("---------------------")
     print(
-        "H4X-Tools is under the GNU General Public License, version 3, and is made by Vili."
+        "H4X-Tools is under the GNU General Public License v3, made by Vili (@vil).\n"
+        "This toolkit is for educational and authorised security research purposes only."
     )
 
 
@@ -130,7 +194,7 @@ def print_menu() -> None:
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
-    "2": handles.handle_deeb_web_search,
+    "2": handles.handle_deep_web_search,
     "3": handles.handle_phone_lookup,
     "4": handles.handle_ip_lookup,
     "5": handles.handle_username_search,

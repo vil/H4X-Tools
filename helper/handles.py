@@ -48,8 +48,8 @@ def handle_ig_scrape() -> None:
     ig_scrape.scrape(target=target)
 
 
-def handle_deeb_web_search() -> None:
-    """Handles the Web Search util."""
+def handle_deep_web_search() -> None:
+    """Handles the Deep Web Search util."""
     deep_websearch.websearch()
 
 
@@ -68,7 +68,7 @@ def handle_ip_lookup() -> None:
 
 def handle_username_search() -> None:
     """Handles the Username Search util."""
-    username = str(printer.user_input("Enter a username : \t")).replace(" ", "_")
+    username = str(printer.user_input("Enter a target username : \t")).replace(" ", "_")
     search_username.search(username=username)
 
 
