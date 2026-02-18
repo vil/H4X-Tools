@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from helper import printer
 from utils import (
     bluetooth_scanner,
+    deep_websearch,
     dirbuster,
     email_search,
     fake_info_generator,
@@ -29,7 +30,6 @@ from utils import (
     port_scanner,
     search_username,
     web_scrape,
-    websearch,
     whois_lookup,
     wifi_finder,
     wifi_vault,
@@ -48,13 +48,9 @@ def handle_ig_scrape() -> None:
     ig_scrape.scrape(target=target)
 
 
-def handle_web_search() -> None:
+def handle_deeb_web_search() -> None:
     """Handles the Web Search util."""
-    printer.info(
-        "For advanced searching, you can use DuckDuckGo's advanced syntaxing. Please refer to this guide: \nhttps://duckduckgo.com/duckduckgo-help-pages/results/syntax/"
-    )
-    query = str(printer.user_input("Search query : \t"))
-    websearch.websearch(query=query)
+    deep_websearch.websearch()
 
 
 def handle_phone_lookup() -> None:
@@ -72,7 +68,7 @@ def handle_ip_lookup() -> None:
 
 def handle_username_search() -> None:
     """Handles the Username Search util."""
-    username = str(printer.user_input("Enter a Username : \t")).replace(" ", "_")
+    username = str(printer.user_input("Enter a username : \t")).replace(" ", "_")
     search_username.search(username=username)
 
 
@@ -105,7 +101,7 @@ def handle_fake_info_generator() -> None:
 
 def handle_web_scrape() -> None:
     """Handles the Web Scrape util."""
-    url = str(printer.user_input("Enter a url : \t"))
+    url = str(printer.user_input("Enter a URL : \t"))
     web_scrape.scrape(url=url)
 
 

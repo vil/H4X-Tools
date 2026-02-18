@@ -9,7 +9,7 @@ Toolkit for scraping, OSINT and more.
 
 Submit feature requests and bugs in the [issues](https://github.com/vil/H4X-Tools/issues) tab.
 
-![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.2.png)
+![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.5.png)
 
 ### Looking for contributors!
 
@@ -18,28 +18,29 @@ and improvements! Simply fork the repository, code your tool(s)/improvement(s) a
 
 # Current tools
 
-| Tool Name           | Description                                                                                                       |
-|---------------------|-------------------------------------------------------------------------------------------------------------------|
-| Ig Scrape           | Scrapes information from IG accounts                                                                              |
-| Web Search          | Searches the internet for the given query.                                                                        |
-| Phone Lookup        | Looks up a phone number and returns information about it.                                                         |
-| Ip Lookup           | Looks up an IP/domain address and returns information about it.                                                   |
-| Port Scanner        | Scans for open ports in a given IP/domain address.                                                                |
-| Username Search     | Tries to find a given username from many different websites.                                                      |
-| Leak Search			      | Searches if given email/domain has been compromised and leaked.                                                 |
-| Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe) |
-| WhoIs Lookup        | Looks up a domain and returns information about it.                                                               |
-| Fake Info Generator | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                        |
-| Web Scrape          | Scrapes links from a given url.                                                                                   |
-| Wi-Fi Finder        | Scans for nearby Wi-Fi networks.                                                                                  |
-| Wi-Fi Vault         | Scans for locally saved Wi-Fi passwords.                                                                          |
-| Bluetooth Scanner   | Scan for nearby Bluetooth devices.                                                                                |
-| Dir Buster          | Bruteforce directories on a website.                                                                              |
-| Local Users			    | Enumerates local user accounts on the current machine.                                                            |
-| Help                | Shows the help message.                                                                                           |
-| Exit                | Exits the tool.                                                                                                   |
+| Tool Name           | Description                                                                                                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ig Scrape           | Scrapes information from Instagram accounts                                                                                                                                     |
+| Deep Web Search     | Does a deep search on the Internet for the given query, person, email, phone number, etc.                                                                                       |
+| Phone Lookup        | Looks up a phone number and returns information about it and checks if it is registered on any social media sites. Thanks to [ignorant.](https://github.com/megadose/ignorant) |
+| Ip Lookup           | Looks up an IP/domain address and returns information about it.                                                                                                                 |
+| Port Scanner        | Scans for open ports in a given IP/domain address.                                                                                                                              |
+| Username Search     | Tries to find a given username from many different websites.                                                                                                                    |
+| Leak Search         | Searches if given email/domain has been compromised and leaked.                                                                                                                 |
+| Email Search        | Efficiently finds registered accounts from a given email. Thanks to [holehe.](https://github.com/megadose/holehe)                                                               |
+| WhoIs Lookup        | Looks up a domain and returns information about it.                                                                                                                             |
+| Fake Info Generator | Generates fake information using [Faker](https://pypi.org/project/Faker/).                                                                                                      |
+| Web Scrape          | Scrapes links from a given url.                                                                                                                                                 |
+| Wi-Fi Finder        | Scans for nearby Wi-Fi networks.                                                                                                                                                |
+| Wi-Fi Vault         | Scans for locally saved Wi-Fi passwords.                                                                                                                                        |
+| Bluetooth Scanner   | Scan for nearby Bluetooth devices.                                                                                                                                              |
+| Dir Buster          | Bruteforce directories on a website.                                                                                                                                            |
+| Local Users         | Enumerates local user accounts on the current machine.                                                                                                                          |
+| Help                | Shows the help message.                                                                                                                                                         |
+| Exit                | Exits the tool.                                                                                                                                                                 |
 
 ## Setup
+
 Due to security reasons, I will **NOT** provide any more pre-compiled binaries of H4X-Tools. Downloading pre-compiled software from a random dude on the Internet is **NOT** safe. Learn to build binaries yourself.
 
 > [!IMPORTANT]
@@ -77,5 +78,6 @@ To enable debug mode, launch h4x-tools with `--debug` flag.
 
 > [This source code is under the GNU General Public License, version 3.](https://www.gnu.org/licenses/gpl-3.0.txt)
 
--------------------------------------------
+---
+
 THIS TOOL IS ONLY FOR EDUCATIONAL PURPOSES, DON'T USE IT TO DO SOMETHING ILLEGAL!

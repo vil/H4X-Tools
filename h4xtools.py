@@ -24,7 +24,7 @@ from colorama import Fore, Style
 
 from helper import handles, printer
 
-VERSION = "0.3.4"
+VERSION = "0.3.5"
 
 
 def internet_check() -> None:
@@ -69,7 +69,7 @@ def display_help() -> None:
     # Use a loop to print the tools in a nice format
     tools = {
         "Ig Scrape": "Scrapes information from Instagram accounts.",
-        "Web Search": "Searches the internet for a given query.",
+        "Deep Web Search": "Does a deep search on the internet for a given query.",
         "Phone Lookup": "Looks up a phone number and returns information about it.",
         "Ip Lookup": "Looks up an IP/domain address and returns information about it.",
         "Port Scanner": "Scans for open ports in a given IP/domain address.",
@@ -130,7 +130,7 @@ def print_menu() -> None:
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
-    "2": handles.handle_web_search,
+    "2": handles.handle_deeb_web_search,
     "3": handles.handle_phone_lookup,
     "4": handles.handle_ip_lookup,
     "5": handles.handle_username_search,
