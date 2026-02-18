@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ def lookup(phone_number: str) -> None:
     """
     try:
         ph_no = p.parse(phone_number)
-        country = p.region_code_for_country_code(ph_no.country_code if None else 0)
+        country = p.region_code_for_country_code(ph_no.country_code or 0)
         no_carrier = carrier.name_for_number(ph_no, "en")
         no_valid = p.is_valid_number(ph_no)
         no_possible = p.is_possible_number(ph_no)
@@ -52,4 +52,4 @@ def lookup(phone_number: str) -> None:
         printer.success("Region -", region)
         printer.success("Time Zone -", time_zone)
     except Exception as e:
-        printer.error("Error : ", e)
+        printer.error(f"Error : {e}")

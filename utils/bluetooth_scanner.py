@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -65,6 +65,10 @@ def scan_linux(duration: int) -> str:
             bufsize=1,
         )
 
+        if process.stdin is None:
+            printer.error("Failed to open bluetoothctl stdin.")
+            return output
+
         process.stdin.write("scan on\n")
         process.stdin.flush()
 
@@ -105,20 +109,23 @@ def parse_output(output: str, platform: str) -> None:
             for line in clean_output.splitlines():
                 printer.debug(line)
                 if "[NEW] Device" in line:
-                    parts = line.split(" ", 4)
+                    parts = line.split()
                     printer.debug(parts)
                     # parts[0] = [NEW]
                     # parts[1] = Device
-                    # parts[2] = MAC
-                    # parts[3+] = device name
+                    # parts[2] = MAC address
+                    # parts[3:] = device name (may contain spaces)
+                    if len(parts) < 3:
+                        continue
                     mac = parts[2]
-                    name = parts[4].strip() if len(parts) > 4 else "No Name"
+                    name = " ".join(parts[3:]).strip() if len(parts) > 3 else "No Name"
 
                     devices.append({"mac": mac, "name": name, "raw": line})
 
             printer.info("Nearby devices :")
             for device in devices:
                 printer.success(f"Device: {device['name']} ({device['mac']})")
-                printer.success(f"RAW: {device['raw']}", "\n")
+                printer.success(f"RAW: {device['raw']}")
+                print()
         case _:
             printer.error("idk how u got here.")

@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,9 +22,6 @@ from colorama import Style
 
 from helper import printer, timer
 
-open_ports = []
-failed_ports = []
-
 
 @timer.timer(require_input=True)
 def scan(ip: str, port_range: int) -> None:
@@ -34,68 +31,88 @@ def scan(ip: str, port_range: int) -> None:
     :param ip: IP address.
     :param port_range: The range of ports to scan.
     """
+    # Initialise fresh state for each run so consecutive scans don't accumulate.
+    open_ports: list[int] = []
+    failed_ports: list[int] = []
+
     try:
         printer.info(
-            f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}..."
+            f"Scanning for open ports for {Style.BRIGHT}{ip}{Style.RESET_ALL} "
+            f"with the port range of {Style.BRIGHT}1-{port_range}{Style.RESET_ALL}..."
         )
         if port_range > 1000:
             printer.warning("This may take a while...")
 
-        scan_ports(ip, port_range)
+        scan_ports(ip, port_range, open_ports, failed_ports)
 
-        if len(open_ports) == 0:
+        if not open_ports:
             printer.error(
                 f"No open ports found for {Style.BRIGHT}{ip}{Style.RESET_ALL}..!"
             )
         else:
             printer.success(
-                f"Found {len(open_ports)}/{len(failed_ports)} open ports in '{ip}'..!"
+                f"Found {len(open_ports)}/{len(open_ports) + len(failed_ports)} "
+                f"open ports in '{ip}'..!"
             )
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
     except RecursionError:
-        printer.error("wtf.")
+        printer.error("Unexpected recursion error.")
 
 
-def scan_ports(ip: str, port_range: int) -> None:
+def scan_ports(
+    ip: str,
+    port_range: int,
+    open_ports: list[int],
+    failed_ports: list[int],
+) -> None:
     """
-    Scans for open ports in a given IP address.
+    Scans for open ports in a given IP address using a thread pool.
 
     :param ip: IP address.
     :param port_range: The range of ports to scan.
+    :param open_ports: List to collect open port numbers into.
+    :param failed_ports: List to collect closed/timed-out port numbers into.
     """
     with ThreadPoolExecutor(max_workers=50) as executor:
         futures = {
-            executor.submit(connect_to_port, ip, port): port
+            executor.submit(connect_to_port, ip, port, open_ports, failed_ports): port
             for port in range(1, port_range + 1)
         }
         for future in as_completed(futures):
-            result = future.result()
-            if result is not None:
-                printer.success(result)
+            # Exceptions are already handled inside connect_to_port; just drain results.
+            future.result()
 
 
-def connect_to_port(ip: str, port: int) -> None:
+def connect_to_port(
+    ip: str,
+    port: int,
+    open_ports: list[int],
+    failed_ports: list[int],
+) -> None:
     """
-    Scans an individual port of a given IP address.
+    Attempts to connect to a single port on the given IP address.
+    Records the result in open_ports or failed_ports accordingly.
 
     :param ip: IP address.
     :param port: Port number.
-    :return: Success message if port is open, None otherwise.
+    :param open_ports: Shared list to append open ports to.
+    :param failed_ports: Shared list to append failed ports to.
     """
     try:
         with socket.socket() as sock:
             sock.settimeout(0.5)
-            sock.connect((str(ip), port))
+            sock.connect((ip, port))
             open_ports.append(port)
-            return printer.success(
-                f"Found a open port : {Style.BRIGHT}{port}{Style.RESET_ALL}"
+            printer.success(
+                f"Found an open port : {Style.BRIGHT}{port}{Style.RESET_ALL}"
             )
     except socket.timeout:
         failed_ports.append(port)
     except ConnectionRefusedError:
-        return None
+        failed_ports.append(port)
     except socket.error as e:
-        return printer.error(
-            f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {str(e)}"
+        printer.error(
+            f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} "
+            f"for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {e}"
         )

@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import functools
 import time
 from types import FunctionType
 
@@ -30,6 +31,7 @@ def timer(require_input: bool) -> FunctionType:
     """
 
     def decorator(func):
+        @functools.wraps(func)
         def wrapper(*args, **kwargs) -> str:
             start_time = time.time()  # Start timing
             result = func(*args, **kwargs)  # Execute the wrapped function

@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ import csv
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import aiohttp
@@ -28,8 +27,6 @@ from bs4 import BeautifulSoup
 from colorama import Style
 
 from helper import printer, randomuser, timer
-
-scraped_links = set()
 
 
 def export_links(links: set, base_url: str, format_type: str = "txt") -> None:
@@ -117,8 +114,10 @@ def scrape(url: str) -> None:
 
     :param url: url of the website.
     """
-    base_url = urlparse(url).netloc
-    printer.debug(f"Scraping {base_url}")
+    printer.debug(f"Scraping {urlparse(url).netloc}")
+
+    # Use a fresh set for every invocation so state never leaks between runs.
+    scraped_links: set[str] = set()
 
     try:
         response = printer.user_input(
@@ -131,14 +130,13 @@ def scrape(url: str) -> None:
             printer.warning(
                 "This may take a while depending on the sizes of the sites."
             )
-
-            asyncio.run(scrape_links(url, recursive=True))
+            asyncio.run(scrape_links(url, scraped_links, recursive=True))
             printer.success("Scraping linked pages completed..!")
         else:
             printer.info(
                 f"Trying to scrape links from {Style.BRIGHT}{url}{Style.RESET_ALL}..."
             )
-            asyncio.run(scrape_links(url, recursive=False))
+            asyncio.run(scrape_links(url, scraped_links, recursive=False))
             printer.success("Scraping completed..!")
 
         # Ask user if they want to export the results
@@ -166,30 +164,56 @@ def scrape(url: str) -> None:
                 export_format = format_map.get(format_choice, "txt")
                 export_links(scraped_links, url, export_format)
 
-            # Clear scraped links for next run
-            scraped_links.clear()
-
-    except Exception as e:
-        printer.error(f"Error : {e}")
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
+    except Exception as e:
+        printer.error(f"Error : {e}")
 
 
-async def fetch(session, url: str) -> str:
-    headers = {"User-Agent": f"{randomuser.GetUser()}"}
-    async with session.get(url, headers=headers) as response:
-        return await response.text()
+async def fetch(session: aiohttp.ClientSession, url: str) -> str:
+    """
+    Fetches the HTML content of a URL.
+
+    :param session: The shared aiohttp client session.
+    :param url: URL to fetch.
+    :return: Response body as text, or an empty string on error.
+    """
+    headers = {"User-Agent": str(randomuser.GetUser())}
+    try:
+        async with session.get(url, headers=headers) as response:
+            return await response.text()
+    except Exception:
+        return ""
 
 
-async def parse_links(
-    content: str, base_url: str
-) -> list[tuple[str | bytes | Any, str]]:
+async def parse_links(content: str, base_url: str) -> list[tuple[str, str]]:
+    """
+    Parses all anchor tags from *content* and returns absolute (href, text) pairs.
+
+    :param content: Raw HTML string.
+    :param base_url: Base URL used to resolve relative hrefs.
+    :return: List of (absolute_url, link_text) tuples.
+    """
     soup = BeautifulSoup(content, "html.parser")
-    links = soup.find_all("a")
-    return [(urljoin(base_url, str(link.get("href"))), link.text) for link in links]
+    return [
+        (urljoin(base_url, str(link.get("href"))), link.get_text(strip=True))
+        for link in soup.find_all("a")
+    ]
 
 
-async def scrape_links(url: str | Any, recursive=False) -> None:
+async def scrape_links(
+    url: str,
+    scraped_links: set[str],
+    recursive: bool = False,
+) -> None:
+    """
+    Scrapes links from *url* and, optionally, from every discovered page.
+
+    :param url: The URL to scrape.
+    :param scraped_links: Shared set used to track already-visited URLs across
+                          recursive calls, preventing infinite loops.
+    :param recursive: When True, every newly discovered URL is scraped as well.
+    """
     async with aiohttp.ClientSession() as session:
         html_content = await fetch(session, url)
         links = await parse_links(html_content, url)
@@ -198,9 +222,9 @@ async def scrape_links(url: str | Any, recursive=False) -> None:
             if href not in scraped_links:
                 scraped_links.add(href)
                 printer.success(
-                    f"{len(scraped_links)} Link(s) found : {Style.BRIGHT}{href} - {text}{Style.RESET_ALL}"
+                    f"{len(scraped_links)} Link(s) found : "
+                    f"{Style.BRIGHT}{href} - {text}{Style.RESET_ALL}"
                 )
 
                 if recursive:
-                    # await asyncio.sleep(0.5)
-                    await scrape_links(href)  # recursively scrape linked pages
+                    await scrape_links(href, scraped_links, recursive=True)

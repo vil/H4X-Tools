@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ from colorama import Fore, Style
 
 from helper import handles, printer
 
-VERSION = "0.3.3"
+VERSION = "0.3.4"
 
 
 def internet_check() -> None:
@@ -160,9 +160,7 @@ def main() -> None:
         user_input = printer.user_input("Tool to execute : \t")
 
         if user_input.lower() in {"quit", "exit", "q", "kill"}:
-            """
-            Kills the program.
-            """
+            # Kill the program.
             printer.warning("Quitting... Goodbye!")
             print(Style.RESET_ALL)
             time.sleep(0.5)
@@ -184,13 +182,14 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except ValueError:
-        printer.error("Invalid value inputted..!")
-        main()  # re-run
-    except KeyboardInterrupt:
-        print("\n")
-        printer.warning("Quitting... Goodbye!")
-        print(Style.RESET_ALL)
-        exit(0)
+    while True:
+        try:
+            main()
+            break
+        except ValueError:
+            printer.error("Invalid value inputted..!")
+        except KeyboardInterrupt:
+            print("\n")
+            printer.warning("Quitting... Goodbye!")
+            print(Style.RESET_ALL)
+            exit(0)

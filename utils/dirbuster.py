@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,89 +18,99 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import asyncio
 
 import aiohttp
-import requests
 from colorama import Style
 
 from helper import printer, randomuser, timer, url_helper
-
-url_set = set()
-target_domain: str | None = None
 
 
 @timer.timer(require_input=True)
 def bust(domain: str) -> None:
     """
-    Scans the given url for valid paths
+    Scans the given url for valid paths.
 
-    param domain: url to scan
+    :param domain: url to scan
     """
-    target_domain = domain
-
     printer.info(
-        f"Scanning for valid URLs for {Style.BRIGHT}{target_domain}{Style.RESET_ALL}..."
+        f"Scanning for valid URLs for {Style.BRIGHT}{domain}{Style.RESET_ALL}..."
     )
     printer.warning("This may take a while...")
 
-    scan_urls()
+    valid_urls = scan_urls(domain)
 
     printer.success(
-        f"Scan Completed..! There were {Style.BRIGHT}{len(url_set)}{Style.RESET_ALL} valid URLs!"
+        f"Scan Completed..! There were {Style.BRIGHT}{len(valid_urls)}{Style.RESET_ALL} valid URLs!"
     )
 
 
 def get_wordlist() -> set[str] | None:
     """
-    Reads the wordlist from the url and returns a list of names
+    Reads the wordlist from the local resources and returns a set of paths.
 
-    :return: list of names
+    :return: set of path strings, or None if an error occurs.
     """
-    try:
-        content = url_helper.read_local_content("resources/wordlist.txt")
-        return {line.strip() for line in content.splitlines() if line.strip()}
-    except requests.exceptions.ConnectionError:
+    content = url_helper.read_local_content("resources/wordlist.txt")
+    if not isinstance(content, str):
         return None
+    return {line.strip() for line in content.splitlines() if line.strip()}
 
 
-async def fetch_url(session: aiohttp.ClientSession, path: str) -> None:
+async def fetch_url(
+    session: aiohttp.ClientSession, domain: str, path: str, url_set: set
+) -> None:
     """
-    Fetches the url and checks if it is valid
+    Fetches a URL and records it if it returns HTTP 200.
 
     :param session: aiohttp session
+    :param domain: target domain
     :param path: path to check
+    :param url_set: set to collect valid URLs into
     """
-    url = f"https://{target_domain}/{path}"
-    headers = {"User-Agent": f"{randomuser.GetUser()}"}
-    async with session.get(url, headers=headers) as response:
-        if response.status == 200:
-            printer.success(
-                f"{len(url_set) + 1} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}"
-            )
-            url_set.add(url)
+    url = f"https://{domain}/{path}"
+    headers = {"User-Agent": str(randomuser.GetUser())}
+    try:
+        async with session.get(url, headers=headers) as response:
+            if response.status == 200:
+                url_set.add(url)
+                printer.success(
+                    f"{len(url_set)} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}"
+                )
+    except Exception:
+        pass
 
 
-async def scan_async(paths: set[str]) -> None:
+async def scan_async(domain: str, paths: set[str]) -> set[str]:
     """
-    Scans the url asynchronously
+    Scans the domain asynchronously for all paths.
 
+    :param domain: target domain
     :param paths: set of paths to scan
+    :return: set of valid URLs found
     """
+    url_set: set[str] = set()
     async with aiohttp.ClientSession() as session:
-        tasks = [fetch_url(session, path) for path in paths]
+        tasks = [fetch_url(session, domain, path, url_set) for path in paths]
         await asyncio.gather(*tasks, return_exceptions=True)
+    return url_set
 
 
-def scan_urls() -> None:
+def scan_urls(domain: str) -> set[str]:
+    """
+    Loads the wordlist and runs the async scan.
+
+    :param domain: target domain
+    :return: set of valid URLs found
+    """
     paths = get_wordlist()
-    printer.debug(target_domain, paths)
+    printer.debug(f"Domain: {domain}, paths loaded: {len(paths) if paths else 0}")
     if paths is None:
-        printer.error("Connection Error..!")
-        return
+        printer.error("Failed to load wordlist..!")
+        return set()
 
     try:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(scan_async(paths))
+        return asyncio.run(scan_async(domain, paths))
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
+        return set()
     except RuntimeError as e:
-        printer.error("Ran into a RuntimeError:", e)
+        printer.error(f"Ran into a RuntimeError: {e}")
+        return set()
