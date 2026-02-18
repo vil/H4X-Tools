@@ -24,19 +24,26 @@ from helper import printer, timer
 @timer.timer(require_input=True)
 def check_whois(domain: str) -> None:
     """
-    Looks up for the information of a given domain.
+    Looks up WhoIs information for a given domain.
 
-    :param domain: The domain name.
+    :param domain: The domain name to look up.
     """
     try:
         q = whoisdomain.query(domain)
-        printer.info(
-            f"Trying to find the information of {Style.BRIGHT}{domain}{Style.RESET_ALL}..."
-        )
-        for key in q.__dict__:
-            printer.success(key, "-", q.__dict__[key])
+        printer.info(f"Looking up {Style.BRIGHT}{domain}{Style.RESET_ALL}...")
+
+        printer.noprefix("")
+        printer.section("WhoIs Results")
+
+        for key, value in q.__dict__.items():
+            # Skip None, empty strings, and empty lists/dicts.
+            if value is None or value == "" or value == [] or value == {}:
+                continue
+            label = key.replace("_", " ").title()
+            printer.success(f"{label} : {value}")
+
     except Exception as e:
-        printer.error("Error : ", e)
+        printer.error(f"Error : {e}")
         printer.error(
-            f"Make sure you have the {Style.BRIGHT}whois{Style.RESET_ALL} installed on your system..!"
+            f"Make sure {Style.BRIGHT}whois{Style.RESET_ALL} is installed on your system."
         )

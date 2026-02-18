@@ -57,6 +57,9 @@ def check_user_from_data(username: str) -> dict:
         f"across {len(sites)} different websites..."
     )
 
+    printer.noprefix("")
+    printer.section("Username Search Results")
+
     results = asyncio.run(make_requests(username, sites))
 
     now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
@@ -129,8 +132,7 @@ async def make_request(
             # NOTE: same caveat as above — data.json must be trusted.
             if eval(content["valid"]):  # noqa: S307
                 printer.success(
-                    f"#{content['id']} {Style.BRIGHT}{content['app']}{Style.RESET_ALL}"
-                    f" - {url} [{response.status} {response.reason}]"
+                    f"{Style.BRIGHT}{content['app']:<20}{Style.RESET_ALL} : {url}"
                 )
                 return content
     except Exception:

@@ -43,16 +43,20 @@ def scan(ip: str, port_range: int) -> None:
         if port_range > 1000:
             printer.warning("This may take a while...")
 
+        printer.noprefix("")
+        printer.section("Port Scan Results")
+
         scan_ports(ip, port_range, open_ports, failed_ports)
 
+        printer.noprefix("")
         if not open_ports:
             printer.error(
                 f"No open ports found for {Style.BRIGHT}{ip}{Style.RESET_ALL}..!"
             )
         else:
             printer.success(
-                f"Found {len(open_ports)}/{len(open_ports) + len(failed_ports)} "
-                f"open ports in '{ip}'..!"
+                f"Found {len(open_ports)} open port(s) out of "
+                f"{len(open_ports) + len(failed_ports)} scanned on {ip}."
             )
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
@@ -104,9 +108,7 @@ def connect_to_port(
             sock.settimeout(0.5)
             sock.connect((ip, port))
             open_ports.append(port)
-            printer.success(
-                f"Found an open port : {Style.BRIGHT}{port}{Style.RESET_ALL}"
-            )
+            printer.success(f"Port {Style.BRIGHT}{port}{Style.RESET_ALL}/TCP is open")
     except socket.timeout:
         failed_ports.append(port)
     except ConnectionRefusedError:

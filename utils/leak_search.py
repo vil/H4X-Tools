@@ -36,26 +36,44 @@ def lookup(target: str) -> None:
             url = f"https://cavalier.hudsonrock.com/api/json/v2/osint-tools/search-by-domain?domain={target}"
             target_type = "domain"
 
-        headers = {"User-Agent": f"{randomuser.GetUser()}"}
+        headers = {"User-Agent": str(randomuser.GetUser())}
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         data = response.json()
 
         printer.info(
-            f"Trying to find information for the {target_type} {Style.BRIGHT}{target}{Style.RESET_ALL}..."
+            f"Looking up {target_type} {Style.BRIGHT}{target}{Style.RESET_ALL}..."
         )
+
+        printer.noprefix("")
+        printer.section("Leak Search Results")
 
         for key, value in data.items():
             if key == "data":
                 continue
-            if isinstance(value, dict):
-                printer.success(f"{key.capitalize()} :")
-                for k, v in value.items():
-                    printer.success(f"  |---{k.capitalize()} : {v}")
-            else:
-                printer.success(f"{key.capitalize()} : {value}")
 
-        printer.info(f"View the raw data here : {Style.BRIGHT}{url}{Style.RESET_ALL}")
+            label = key.replace("_", " ").title()
+
+            if isinstance(value, dict):
+                printer.success(f"{label} :")
+                for k, v in value.items():
+                    sub_label = k.replace("_", " ").title()
+                    printer.success(f"    {sub_label} : {v}")
+            elif isinstance(value, list):
+                printer.success(f"{label} : {len(value)} item(s)")
+                for item in value:
+                    if isinstance(item, dict):
+                        for k, v in item.items():
+                            sub_label = k.replace("_", " ").title()
+                            printer.success(f"    {sub_label} : {v}")
+                        printer.noprefix("")
+                    else:
+                        printer.success(f"    {item}")
+            else:
+                printer.success(f"{label} : {value}")
+
+        printer.noprefix("")
+        printer.info(f"Raw data : {Style.BRIGHT}{url}{Style.RESET_ALL}")
 
     except requests.exceptions.RequestException as e:
         printer.error(f"Error or the target wasn't found : {e}")

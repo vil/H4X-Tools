@@ -25,26 +25,36 @@ from helper import printer, timer
 @timer.timer(require_input=True)
 def generate() -> None:
     """
-    Generates fake information.
+    Generates a fake identity with contact, payment, and location details.
 
     Thanks to Faker, https://pypi.org/project/Faker/
     """
     fake = Faker()
     printer.info("Generating fake information...")
     time.sleep(1)
-    printer.success(f"Fake name : {fake.name()}")
-    printer.success(f"Fake address : {fake.address()}")
-    printer.success(f"Fake email : {fake.email()}")
-    printer.success(f"Fake phone number : {fake.phone_number()}")
-    printer.success(f"Fake job : {fake.job()}")
-    printer.success(f"Fake company : {fake.company()}")
-    printer.success(f"Fake credit card number : {fake.credit_card_number()}")
-    printer.success(
-        f"Fake credit card security code : {fake.credit_card_security_code()}"
-    )
-    printer.success(f"Fake credit card expiration date : {fake.credit_card_expire()}")
-    printer.success(f"Fake credit card type : {fake.credit_card_provider()}")
-    printer.success(f"Fake IBAN : {fake.iban()}")
-    printer.success(f"Fake BIC : {fake.bban()}")
-    printer.success(f"Fake country : {fake.country()}")
-    printer.success(f"Fake city : {fake.city()}")
+
+    printer.noprefix("")
+    printer.section("Identity")
+    printer.success(f"Name             : {fake.name()}")
+    printer.success(f"Job              : {fake.job()}")
+    printer.success(f"Company          : {fake.company()}")
+
+    printer.noprefix("")
+    printer.section("Contact")
+    printer.success(f"Email            : {fake.email()}")
+    printer.success(f"Phone Number     : {fake.phone_number()}")
+    printer.success(f"Address          : {fake.address()}")
+
+    printer.noprefix("")
+    printer.section("Payment")
+    printer.success(f"Card Number      : {fake.credit_card_number()}")
+    printer.success(f"Card Type        : {fake.credit_card_provider()}")
+    printer.success(f"Expiry Date      : {fake.credit_card_expire()}")
+    printer.success(f"Security Code    : {fake.credit_card_security_code()}")
+    printer.success(f"IBAN             : {fake.iban()}")
+    printer.success(f"BBAN             : {fake.bban()}")
+
+    printer.noprefix("")
+    printer.section("Location")
+    printer.success(f"Country          : {fake.country()}")
+    printer.success(f"City             : {fake.city()}")

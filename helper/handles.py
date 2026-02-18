@@ -59,6 +59,7 @@ def handle_web_search() -> None:
 
 def handle_phone_lookup() -> None:
     """Handles the Phone number Lookup util."""
+    printer.info("Include the country code, e.g. +358501234567 or +12025550123")
     no = str(printer.user_input("Enter a phone-number with country code : \t"))
     phonenumber_lookup.lookup(phone_number=no)
 
@@ -77,7 +78,10 @@ def handle_username_search() -> None:
 
 def handle_email_search() -> None:
     """Handles the Email Search util."""
-    email = str(printer.user_input("Enter a email address : \t"))
+    printer.info(
+        "holehe will check the address against 100+ websites and show where it is registered."
+    )
+    email = str(printer.user_input("Enter an email address : \t"))
     email_search.search(email=email)
 
 

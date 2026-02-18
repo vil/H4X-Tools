@@ -23,11 +23,28 @@ from colorama import Style
 
 from helper import printer, randomuser, timer
 
+# Human-readable labels for the keys returned by ipinfo.io.
+# Any key not listed here falls back to key.replace("_", " ").title().
+_IP_KEY_LABELS: dict[str, str] = {
+    "ip": "IP Address",
+    "hostname": "Hostname",
+    "city": "City",
+    "region": "Region",
+    "country": "Country",
+    "loc": "Coordinates",
+    "org": "Organization",
+    "postal": "Postal Code",
+    "timezone": "Timezone",
+}
+
+# Pad all labels to this width so values line up neatly.
+_KEY_WIDTH = max(len(v) for v in _IP_KEY_LABELS.values()) + 2  # = 14
+
 
 @timer.timer(require_input=True)
 def lookup(ip_address: str) -> None:
     """
-    Gets information about a given ip address using https://ipinfo.io/
+    Gets information about a given IP address or hostname using ipinfo.io.
 
     :param ip_address: The IP address or hostname to look up.
     """
@@ -39,22 +56,24 @@ def lookup(ip_address: str) -> None:
         response.raise_for_status()
         values = response.json()
 
-        printer.info(
-            f"Trying to find information for {Style.BRIGHT}{ip_address}{Style.RESET_ALL}..."
-        )
+        printer.info(f"Looking up {Style.BRIGHT}{ip_address}{Style.RESET_ALL}...")
         time.sleep(1)
+
+        printer.noprefix("")
+        printer.section("IP Lookup Results")
 
         for key, value in values.items():
             if key == "readme":
                 continue
-            if not value:
-                value = "Not Found"
-            printer.success(f"{key.capitalize()} :", value)
+            label = _IP_KEY_LABELS.get(key, key.replace("_", " ").title())
+            display_value = value if value else "N/A"
+            printer.success(f"{label:<{_KEY_WIDTH}} : {display_value}")
 
         if "loc" in values:
-            printer.success(
-                "Openstreetmap URL :",
-                f"https://www.openstreetmap.org/search?query={values['loc']}",
+            printer.noprefix("")
+            printer.info(
+                "OpenStreetMap : "
+                f"https://www.openstreetmap.org/search?query={values['loc']}"
             )
 
     except requests.exceptions.RequestException as e:

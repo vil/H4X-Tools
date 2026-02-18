@@ -91,13 +91,16 @@ def parse_and_print_results(response_text: str, query: str) -> None:
 
     printer.debug(f"User-Agent: {_build_headers()['User-Agent']}")
 
+    printer.noprefix("")
+    printer.section("Web Search Results")
+
     for result in results:
         print_search_result(result)
 
 
 def print_search_result(result) -> None:
     """
-    Prints the result of a search.
+    Prints a single search result as two lines: bold title then URL with status.
 
     :param result: The result to print.
     """
@@ -105,9 +108,9 @@ def print_search_result(result) -> None:
         title = result.find("a", {"class": "result__a"}).text
         link = result.find("a", {"class": "result__a"})["href"]
         status_code = get_status_code(link)
-        printer.success(
-            f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]"
-        )
+        printer.success(f"{Style.BRIGHT}{title}{Style.RESET_ALL}")
+        printer.noprefix(f"    {link}  [{status_code}]")
+        printer.noprefix("")
     except Exception as e:
         printer.error(f"Error parsing result: {e}")
 

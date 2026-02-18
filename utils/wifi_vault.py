@@ -27,7 +27,7 @@ def get_local_passwords() -> None:
     """Retrieves saved Wi-Fi passwords on the system."""
     match os.name:
         case "nt":
-            printer.info("Windows system detected..!\n")
+            printer.info("Windows system detected.")
             try:
                 output = subprocess.check_output(
                     "netsh wlan show profiles", shell=True
@@ -37,6 +37,9 @@ def get_local_passwords() -> None:
                     for line in output.splitlines()
                     if "All User Profile" in line
                 ]
+
+                printer.noprefix("")
+                printer.section("Saved Wi-Fi Passwords")
 
                 for profile_name in profile_names:
                     try:
@@ -53,24 +56,29 @@ def get_local_passwords() -> None:
                             password = (
                                 wifi_info[password_start:].split("\r\n")[0].strip()
                             )
-                            printer.success(f"Wi-Fi Network : {profile_name}")
-                            printer.success(f"Password : {password}\n")
+                            printer.success(f"Network  : {profile_name}")
+                            printer.success(f"Password : {password}")
                         else:
-                            printer.success(f"Wi-Fi Network : {profile_name}")
-                            printer.warning("No password found. It might be empty.\n")
+                            printer.success(f"Network  : {profile_name}")
+                            printer.warning("Password : (none saved)")
+                        printer.noprefix("")
                     except subprocess.CalledProcessError as e:
                         printer.error(
-                            f"Error retrieving the Wi-Fi information for {profile_name} : {str(e)}"
+                            f"Error retrieving Wi-Fi info for {profile_name} : {e}"
                         )
             except subprocess.CalledProcessError as e:
-                printer.error("Error retrieving profile names :", str(e))
+                printer.error(f"Error retrieving profile names : {e}")
+
         case "posix":
-            printer.info("Linux system detected..!\n")
+            printer.info("Linux system detected.")
             try:
                 output = subprocess.check_output(
                     ["nmcli", "-f", "NAME,UUID", "connection", "show"]
                 )
                 connections = re.findall(r"(\S+)\s+([0-9a-f-]{36})", output.decode())
+
+                printer.noprefix("")
+                printer.section("Saved Wi-Fi Passwords")
 
                 for ssid, uuid in connections:
                     try:
@@ -87,15 +95,15 @@ def get_local_passwords() -> None:
                         )
                         password = password_output.decode().strip()
 
-                        printer.success(f"Wi-Fi Network : {ssid}")
-                        printer.success(f"Password : {password}\n")
+                        printer.success(f"Network  : {ssid}")
+                        printer.success(f"Password : {password}")
+                        printer.noprefix("")
                     except subprocess.CalledProcessError as e:
-                        printer.error(
-                            f"Error retrieving password for {ssid} : {str(e)}"
-                        )
+                        printer.error(f"Error retrieving password for {ssid} : {e}")
 
             except subprocess.CalledProcessError as e:
-                printer.error("Error retrieving saved connections :", str(e))
+                printer.error(f"Error retrieving saved connections : {e}")
                 printer.error("Is your system using nmcli?")
+
         case _:
             printer.error("Unsupported platform..!")

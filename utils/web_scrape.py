@@ -125,30 +125,34 @@ def scrape(url: str) -> None:
         )
         if response.lower() in {"y", "yes"}:
             printer.info(
-                f"Trying to scrape links from {Style.BRIGHT}{url}{Style.RESET_ALL} and its linked pages as well..."
+                f"Scraping links from {Style.BRIGHT}{url}{Style.RESET_ALL} and all linked pages..."
             )
-            printer.warning(
-                "This may take a while depending on the sizes of the sites."
-            )
+            printer.warning("This may take a while depending on the size of the site.")
+            printer.noprefix("")
+            printer.section("Scraped Links")
             asyncio.run(scrape_links(url, scraped_links, recursive=True))
-            printer.success("Scraping linked pages completed..!")
+            printer.noprefix("")
+            printer.success("Scraping completed.")
         else:
-            printer.info(
-                f"Trying to scrape links from {Style.BRIGHT}{url}{Style.RESET_ALL}..."
-            )
+            printer.info(f"Scraping links from {Style.BRIGHT}{url}{Style.RESET_ALL}...")
+            printer.noprefix("")
+            printer.section("Scraped Links")
             asyncio.run(scrape_links(url, scraped_links, recursive=False))
-            printer.success("Scraping completed..!")
+            printer.noprefix("")
+            printer.success("Scraping completed.")
 
         # Ask user if they want to export the results
         if scraped_links:
+            printer.info(f"{len(scraped_links)} link(s) collected in total.")
             export_response = printer.user_input(
-                "\nDo you want to export the scraped links? (y/N) : "
+                "Do you want to export the scraped links? (y/N) : "
             )
             if export_response.lower() in {"y", "yes"}:
-                printer.info("Available export formats:")
-                printer.info("  1. TXT (plain text)")
-                printer.info("  2. CSV (comma-separated values)")
-                printer.info("  3. JSON (structured data)")
+                printer.noprefix("")
+                printer.section("Export")
+                printer.info("  1 : TXT  (plain text)")
+                printer.info("  2 : CSV  (comma-separated values)")
+                printer.info("  3 : JSON (structured data)")
 
                 format_choice = printer.user_input(
                     "Choose format (1/2/3) [default: 1] : "

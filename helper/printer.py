@@ -57,6 +57,25 @@ def debug(message, *args, **kwargs) -> None:
         print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
 
 
+def section(title: str) -> None:
+    """
+    Print a consistently formatted section header.
+
+    Output looks like:
+        [*] ─── Title ──────────────────────────────────────
+
+    The total content width (after the ``[*] `` prefix) is always 50 characters,
+    regardless of the title length.
+
+    :param title: The section title to display.
+    """
+    _TOTAL = 50
+    left = "─── "
+    fill = _TOTAL - len(left) - len(title) - 1
+    right = " " + "─" * max(fill, 3)
+    print_colored(left + title + right, Fore.LIGHTBLUE_EX, "[*]")
+
+
 def noprefix(message, *args, **kwargs) -> None:
     print(message, *args, **kwargs)
 

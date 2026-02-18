@@ -21,6 +21,9 @@ from ensta.lib.Exceptions import APIError, NetworkError, RateLimitedError
 
 from helper import printer, timer
 
+# Pad all profile keys to this width so values line up neatly.
+_KEY_WIDTH = 20
+
 
 @timer.timer(require_input=True)
 def scrape(target: str) -> None:
@@ -29,28 +32,31 @@ def scrape(target: str) -> None:
 
     :param target: The username of the account to scrape.
     """
-    printer.info(
-        f"Trying to scrape information about {Style.BRIGHT}{target}{Style.RESET_ALL}..."
-    )
+    printer.info(f"Scraping profile for {Style.BRIGHT}{target}{Style.RESET_ALL}...")
     try:
         api = Guest()
         data = api.profile(target)
         printer.debug(data)
         print_scraped_data(data.raw)
     except NetworkError as e:
-        printer.error("Possible network error:", e)
+        printer.error(f"Possible network error: {e}")
     except RateLimitedError:
         printer.error("You are being rate limited..!")
     except APIError as e:
-        printer.error("There is a issue with the API:", e)
+        printer.error(f"There is an issue with the API: {e}")
     except AttributeError:
         printer.error(
-            "Couldn't get any data, you may need to change IP's or disable your VPN for a while..!"
+            "Couldn't get any data. You may need to change IPs or disable your VPN for a while."
         )
 
 
 def print_scraped_data(data: dict) -> None:
-    readable_data = {  # Format
+    """
+    Prints scraped Instagram profile data in a consistent, aligned format.
+
+    :param data: Raw profile dict from the ensta API.
+    """
+    readable_data = {
         "Username": data.get("username", "N/A"),
         "User ID": data.get("id", "N/A"),
         "Full Name": data.get("full_name", "N/A"),
@@ -59,17 +65,23 @@ def print_scraped_data(data: dict) -> None:
         "Followers": data.get("edge_followed_by", {}).get("count", "N/A"),
         "Following": data.get("edge_follow", {}).get("count", "N/A"),
         "Profile Picture URL": data.get("profile_pic_url_hd", "N/A"),
-        "Private User?": data.get("is_private", "N/A"),
-        "Account Verified?": data.get("is_verified", "N/A"),
+        "Private": data.get("is_private", "N/A"),
+        "Verified": data.get("is_verified", "N/A"),
         "Total Posts": data.get("edge_owner_to_timeline_media", {}).get("count", "N/A"),
     }
 
-    for key, value in readable_data.items():
-        printer.success(f"{key} : {value}")
+    printer.noprefix("")
+    printer.section("Instagram Profile")
 
-    # Print posts and links
+    for key, value in readable_data.items():
+        printer.success(f"{key:<{_KEY_WIDTH}} : {value}")
+
+    # Posts section
     posts = data.get("edge_owner_to_timeline_media", {}).get("edges", [])
     if posts:
+        printer.noprefix("")
+        printer.section("Recent Posts")
+
         for idx, post in enumerate(posts, start=1):
             post_node = post.get("node", {})
             shortcode = post_node.get("shortcode", None)
@@ -81,6 +93,9 @@ def print_scraped_data(data: dict) -> None:
                 f"https://www.instagram.com/p/{shortcode}/" if shortcode else "No URL"
             )
 
-            printer.success(f"Post {idx}: {caption}\nURL: {post_url}\n")
+            printer.success(f"Post {idx}")
+            printer.success(f"{'Caption':<{_KEY_WIDTH}} : {caption}")
+            printer.success(f"{'URL':<{_KEY_WIDTH}} : {post_url}")
+            printer.noprefix("")
     else:
         printer.warning("No posts found or the account is private.")

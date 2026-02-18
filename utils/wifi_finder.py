@@ -107,11 +107,12 @@ def parse_windows_output(output: str) -> None:
         printer.warning("No Wi-Fi networks found.")
         return
 
-    printer.info(f"Available Wi-Fi networks ({len(networks)} found) :")
+    printer.noprefix("")
+    printer.section(f"Wi-Fi Networks ({len(networks)} found)")
     for network in networks:
         printer.success(
             f"  {network['ssid']}"
-            f" (Signal: {network['signal'] or 'N/A'},"
+            f"  (Signal: {network['signal'] or 'N/A'},"
             f" Encryption: {network['encryption'] or 'N/A'})"
         )
 
@@ -167,13 +168,14 @@ def parse_linux_output(output: str) -> None:
         printer.warning("No Wi-Fi networks found.")
         return
 
-    printer.info(f"Available Wi-Fi networks ({len(networks)} found) :")
+    printer.noprefix("")
+    printer.section(f"Wi-Fi Networks ({len(networks)} found)")
     for network in networks:
         indicator = (
             f"{Style.BRIGHT}*{Style.RESET_ALL} " if network["connected"] else "  "
         )
         printer.success(
             f"{indicator}{network['ssid']}"
-            f" (Signal: {network['signal']},"
+            f"  (Signal: {network['signal']},"
             f" Security: {network['security']})"
         )

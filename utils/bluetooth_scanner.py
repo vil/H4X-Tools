@@ -122,10 +122,15 @@ def parse_output(output: str, platform: str) -> None:
 
                     devices.append({"mac": mac, "name": name, "raw": line})
 
-            printer.info("Nearby devices :")
-            for device in devices:
-                printer.success(f"Device: {device['name']} ({device['mac']})")
-                printer.success(f"RAW: {device['raw']}")
-                print()
+            printer.noprefix("")
+            printer.section("Nearby Bluetooth Devices")
+
+            if not devices:
+                printer.warning("No devices found.")
+            else:
+                for device in devices:
+                    printer.success(f"Name : {device['name']}")
+                    printer.success(f"MAC  : {device['mac']}")
+                    printer.noprefix("")
         case _:
             printer.error("idk how u got here.")
