@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,12 +22,16 @@ from requests import Response
 
 from helper import printer, randomuser, timer
 
-headers = {
-    "User-Agent": f"{randomuser.GetUser()}",
+_STATIC_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
     "Referer": "https://duckduckgo.com/",
 }
+
+
+def _build_headers() -> dict:
+    """Return a fresh headers dict with a newly sampled User-Agent."""
+    return {**_STATIC_HEADERS, "User-Agent": str(randomuser.GetUser())}
 
 
 @timer.timer(require_input=True)
@@ -57,7 +61,7 @@ def send_request(url: str) -> Response | None:
     :return: The response object if successful, or None.
     """
     try:
-        with requests.get(url, headers=headers) as response:
+        with requests.get(url, headers=_build_headers()) as response:
             response.raise_for_status()
             return response
     except requests.exceptions.RequestException:
@@ -82,10 +86,10 @@ def parse_and_print_results(response_text: str, query: str) -> None:
 
     if any(keyword in query for keyword in dork_keywords):
         printer.info(f"Searching with dorks {Style.BRIGHT}{query}{Style.RESET_ALL}")
-        printer.debug(headers["User-Agent"])
     else:
         printer.info(f"Searching for {Style.BRIGHT}{query}{Style.RESET_ALL}")
-        printer.debug(headers["User-Agent"])
+
+    printer.debug(f"User-Agent: {_build_headers()['User-Agent']}")
 
     for result in results:
         print_search_result(result)
@@ -105,7 +109,7 @@ def print_search_result(result) -> None:
             f"{Style.BRIGHT}{title}{Style.RESET_ALL} : {link} \t[{status_code}]"
         )
     except Exception as e:
-        printer.error(e)
+        printer.error(f"Error parsing result: {e}")
 
 
 def get_status_code(url: str) -> int | None:
@@ -116,7 +120,9 @@ def get_status_code(url: str) -> int | None:
     :return: The status code if the request is successful, or None otherwise.
     """
     try:
-        with requests.head(url, allow_redirects=True) as response:
+        with requests.head(
+            url, headers=_build_headers(), allow_redirects=True
+        ) as response:
             response.raise_for_status()
             return response.status_code
     except requests.exceptions.RequestException:

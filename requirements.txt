@@ -5,11 +5,11 @@ beautifulsoup4
 urllib3
 pyinstaller
 whoisdomain
-requests
 git+https://github.com/diezo/Ensta.git
 snscrape
 faker
 holehe
+ignorant
+httpx
 aiohttp
-asyncio
 psutil

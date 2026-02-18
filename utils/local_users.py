@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -95,6 +95,8 @@ def scan_for_local_users() -> None:
             try:
                 user_info_list = []
 
+                login_name = getpass.getuser()
+
                 for user in pwd.getpwall():
                     username = user.pw_name
                     uid = user.pw_uid
@@ -103,9 +105,8 @@ def scan_for_local_users() -> None:
                     home_dir = user.pw_dir
                     shell = user.pw_shell
 
-                    # Get additional information using grp and getpass
+                    # Get additional information using grp
                     group_name = grp.getgrgid(gid)[0]
-                    login_name = getpass.getuser()
 
                     user_info = {
                         "Username": username,

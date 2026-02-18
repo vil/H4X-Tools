@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,6 +43,10 @@ def scrape(target: str) -> None:
         printer.error("You are being rate limited..!")
     except APIError as e:
         printer.error("There is a issue with the API:", e)
+    except AttributeError:
+        printer.error(
+            "Couldn't get any data, you may need to change IP's or disable your VPN for a while..!"
+        )
 
 
 def print_scraped_data(data: dict) -> None:

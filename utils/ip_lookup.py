@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import json
 import socket
 import time
 
@@ -30,35 +29,37 @@ def lookup(ip_address: str) -> None:
     """
     Gets information about a given ip address using https://ipinfo.io/
 
-    :param ip_address: The IP address to search for.
+    :param ip_address: The IP address or hostname to look up.
     """
     try:
         ip_address = socket.gethostbyname(ip_address)
         url = f"https://ipinfo.io/{ip_address}/json"
-        headers = {"User-Agent": f"{randomuser.GetUser()}"}
-        url = requests.get(url, headers=headers)
-        # printer.info(url.text)
-        values = json.loads(url.text)
+        headers = {"User-Agent": str(randomuser.GetUser())}
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        values = response.json()
 
         printer.info(
             f"Trying to find information for {Style.BRIGHT}{ip_address}{Style.RESET_ALL}..."
         )
         time.sleep(1)
 
-        for value in values:
-            # If value contains readme, skip it.
-            if value == "readme":
+        for key, value in values.items():
+            if key == "readme":
                 continue
-            elif value == "" or value is None:
+            if not value:
                 value = "Not Found"
+            printer.success(f"{key.capitalize()} :", value)
 
-            printer.success(f"{value.capitalize()} :", values[value])
+        if "loc" in values:
+            printer.success(
+                "Openstreetmap URL :",
+                f"https://www.openstreetmap.org/search?query={values['loc']}",
+            )
 
-        printer.success(
-            "Openstreetmap URL :",
-            f"https://www.openstreetmap.org/search?query={values['loc']}",
-        )
-
+    except requests.exceptions.RequestException as e:
+        printer.error(f"Request error : {e}")
+    except socket.gaierror as e:
+        printer.error(f"Could not resolve host : {e}")
     except Exception as e:
         printer.error(f"Error : {e}")
-        pass

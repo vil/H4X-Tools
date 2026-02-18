@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ def scan_windows() -> None:
     )
     try:
         output = subprocess.check_output(["netsh", "wlan", "show", "networks"])
-        parse_output(output.decode("utf-8"), "windows")
+        parse_windows_output(output.decode("utf-8"))
     except subprocess.CalledProcessError as e:
         printer.error(f"Error : {e.returncode} - {e.stderr}")
 
@@ -55,45 +55,125 @@ def scan_linux() -> None:
         f"Linux system detected... Performing {Style.BRIGHT}nmcli{Style.RESET_ALL} scan..."
     )
     try:
-        output = subprocess.check_output(["nmcli", "dev", "wifi"])
-        parse_output(output.decode("utf-8"), "linux")
+        # Use terse mode (-t) with explicit fields so the output is easy to split
+        # reliably regardless of column widths or terminal size.
+        # Fields: IN-USE, SSID, SIGNAL, SECURITY
+        output = subprocess.check_output(
+            ["nmcli", "-t", "-f", "IN-USE,SSID,SIGNAL,SECURITY", "dev", "wifi"]
+        )
+        parse_linux_output(output.decode("utf-8"))
+    except FileNotFoundError:
+        printer.error(
+            f"Could not find {Style.BRIGHT}nmcli{Style.RESET_ALL}. "
+            "Is NetworkManager installed on your system?"
+        )
     except subprocess.CalledProcessError as e:
         printer.error(f"Error : {e.returncode} - {e.stderr}")
         printer.error(f"Is your system using {Style.BRIGHT}nmcli{Style.RESET_ALL}?")
 
 
-def parse_output(output: str, platform: str) -> None:
-    match platform:
-        case "windows":
-            # Parse Windows output
-            networks = []
-            for line in output.splitlines():
-                if "SSID" in line:
-                    parts = line.split(":")
-                    if len(parts) > 1:
-                        ssid = parts[1].strip()
-                        networks.append({"ssid": ssid, "signal": "", "encryption": ""})
-            printer.info("Available Wi-Fi networks :")
-            for network in networks:
-                printer.success(
-                    f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
-                )
-        case "linux":
-            # Parse Linux output
-            networks = []
-            for line in output.splitlines():
-                if "*" in line:
-                    parts = line.split()
-                    ssid = " ".join(parts[1:-3])  # Extract Wi-Fi name
-                    signal = parts[-3]
-                    encryption = parts[-2]
-                    networks.append(
-                        {"ssid": ssid, "signal": signal, "encryption": encryption}
-                    )
-            printer.info("Available Wi-Fi networks :")
-            for network in networks:
-                printer.success(
-                    f"  {network['ssid']} (Signal: {network['signal']}, Encryption: {network['encryption']})"
-                )
-        case _:
-            printer.error("idk how u got here.")
+def parse_windows_output(output: str) -> None:
+    """
+    Parses the output of `netsh wlan show networks` and prints each network.
+
+    :param output: Raw decoded output from netsh.
+    """
+    networks: list[dict] = []
+    current: dict = {}
+
+    for line in output.splitlines():
+        line = line.strip()
+        if line.startswith("SSID") and "BSSID" not in line:
+            # Start of a new network block.
+            if current:
+                networks.append(current)
+            parts = line.split(":", 1)
+            current = {
+                "ssid": parts[1].strip() if len(parts) > 1 else "",
+                "signal": "",
+                "encryption": "",
+            }
+        elif line.startswith("Signal"):
+            parts = line.split(":", 1)
+            current["signal"] = parts[1].strip() if len(parts) > 1 else ""
+        elif line.startswith("Authentication"):
+            parts = line.split(":", 1)
+            current["encryption"] = parts[1].strip() if len(parts) > 1 else ""
+
+    if current:
+        networks.append(current)
+
+    if not networks:
+        printer.warning("No Wi-Fi networks found.")
+        return
+
+    printer.info(f"Available Wi-Fi networks ({len(networks)} found) :")
+    for network in networks:
+        printer.success(
+            f"  {network['ssid']}"
+            f" (Signal: {network['signal'] or 'N/A'},"
+            f" Encryption: {network['encryption'] or 'N/A'})"
+        )
+
+
+def parse_linux_output(output: str) -> None:
+    """
+    Parses the terse output of `nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY dev wifi`
+    and prints every visible network, marking the connected one with an asterisk.
+
+    Terse format fields are separated by ':'. Literal colons inside field values
+    are escaped as '\\:' by nmcli.
+
+    :param output: Raw decoded terse nmcli output.
+    """
+    networks: list[dict] = []
+
+    for line in output.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        # Split on unescaped colons only.
+        # nmcli escapes literal colons inside values as '\:', so we split on ':'
+        # that is NOT preceded by a backslash.
+        import re
+
+        parts = re.split(r"(?<!\\):", line)
+
+        # Un-escape any '\:' sequences left in values.
+        parts = [p.replace("\\:", ":") for p in parts]
+
+        if len(parts) < 4:
+            continue
+
+        in_use, ssid, signal, security = (
+            parts[0],
+            parts[1],
+            parts[2],
+            ":".join(parts[3:]),
+        )
+        connected = in_use.strip() == "*"
+
+        networks.append(
+            {
+                "ssid": ssid.strip() or "(hidden)",
+                "signal": signal.strip(),
+                "security": security.strip() or "None",
+                "connected": connected,
+            }
+        )
+
+    if not networks:
+        printer.warning("No Wi-Fi networks found.")
+        return
+
+    printer.info(f"Available Wi-Fi networks ({len(networks)} found) :")
+    for network in networks:
+        indicator = (
+            f"{Style.BRIGHT}*{Style.RESET_ALL} " if network["connected"] else "  "
+        )
+        printer.success(
+            f"{indicator}{network['ssid']}"
+            f" (Signal: {network['signal']},"
+            f" Security: {network['security']})"
+        )

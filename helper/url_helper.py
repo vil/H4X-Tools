@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,12 +22,13 @@ import sys
 from helper import printer
 
 
-def read_local_content(path) -> str:
+def read_local_content(path) -> str | dict | None:
     """
     Reads file content from a local file.
 
     :param path: path to the file
-    :return: Content of the file as a string or None if an error occurs.
+    :return: Parsed dict for JSON files, raw string for text files,
+             or None if an error occurs.
     """
     try:
         with open(resource_path(path), "r") as file:
@@ -38,7 +39,7 @@ def read_local_content(path) -> str:
         return content
     except Exception as e:
         printer.error(f"An error occurred: {str(e)}")
-        return "None"
+        return None
 
 
 # I hate pyinstaller.

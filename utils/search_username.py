@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import asyncio
 import json
 from datetime import datetime
-from typing import Any
 
 import aiohttp
 from colorama import Style
@@ -37,31 +36,34 @@ def search(username: str) -> None:
         check_user_from_data(username)
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
-        pass
 
 
-def check_user_from_data(username: str) -> dict[str, dict[str, str | int] | list[Any]]:
+def check_user_from_data(username: str) -> dict:
     """
     Scans for the given username across many different sites.
 
     :param username: The username to scan for.
+    :return: A dict summarising the search parameters and matched sites.
     """
+    # Read the data file once and reuse it throughout this call.
+    data = url_helper.read_local_content("resources/data.json")
+    if not isinstance(data, dict):
+        printer.error("Failed to load site data.")
+        return {}
+
+    sites = data.get("sites", [])
     printer.info(
-        f"Searching for {Style.BRIGHT}{username}{Style.RESET_ALL} across {len(url_helper.read_local_content('resources/data.json')['sites'])} different websites..."
+        f"Searching for {Style.BRIGHT}{username}{Style.RESET_ALL} "
+        f"across {len(sites)} different websites..."
     )
 
-    results = []
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(make_requests(username))
+    results = asyncio.run(make_requests(username, sites))
 
     now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     user_json = {
         "search-params": {
             "username": username,
-            "sites-number": len(
-                url_helper.read_local_content("resources/data.json")["sites"]
-            ),
+            "sites-number": len(sites),
             "date": now,
         },
         "sites": results,
@@ -70,33 +72,50 @@ def check_user_from_data(username: str) -> dict[str, dict[str, str | int] | list
     return user_json
 
 
-async def make_requests(username: str) -> None:
+async def make_requests(username: str, sites: list) -> list:
     """
-    Makes the requests to the sites.
+    Makes the requests to all sites and returns a list of matched results.
 
     :param username: The username to scan for.
+    :param sites: List of site configuration dicts from data.json.
+    :return: List of site dicts where the username was found.
     """
     async with aiohttp.ClientSession(
         timeout=aiohttp.ClientTimeout(total=20)
     ) as session:
-        tasks = []
-        for content in url_helper.read_local_content("resources/data.json")["sites"]:
-            task = asyncio.ensure_future(make_request(session, content, username))
-            tasks.append(task)
-        await asyncio.gather(*tasks)
+        tasks = [
+            asyncio.ensure_future(make_request(session, content, username))
+            for content in sites
+        ]
+        results = await asyncio.gather(*tasks)
+
+    # Filter out None entries (sites where the username was not found).
+    return [r for r in results if r is not None]
 
 
 async def make_request(
     session: aiohttp.ClientSession, content: dict, username: str
-) -> None:
+) -> dict | None:
+    """
+    Makes a single request to one site and returns the site dict on a match.
+
+    :param session: The shared aiohttp client session.
+    :param content: Site configuration dict from data.json.
+    :param username: The username to check.
+    :return: The site dict if the username was found, otherwise None.
+    """
     url = content["url"].format(username=username)
     json_body = None
-    headers = {"User-Agent": f"{randomuser.GetUser()}"}
+    headers = {"User-Agent": str(randomuser.GetUser())}
+
     if "headers" in content:
-        headers.update(eval(content["headers"]))
+        # NOTE: eval() is used here because the data.json format stores headers
+        # as Python expression strings. Treat data.json as trusted input only.
+        headers.update(eval(content["headers"]))  # noqa: S307
+
     if "json" in content:
-        json_body = content["json"].format(username=username)
-        json_body = json.loads(json_body)
+        json_body = json.loads(content["json"].format(username=username))
+
     try:
         async with session.request(
             content["method"],
@@ -106,9 +125,15 @@ async def make_request(
             headers=headers,
             ssl=False,
         ) as response:
-            if eval(content["valid"]):
+            # `valid` is a Python expression string evaluated against the response.
+            # NOTE: same caveat as above — data.json must be trusted.
+            if eval(content["valid"]):  # noqa: S307
                 printer.success(
-                    f"#{content['id']} {Style.BRIGHT}{content['app']}{Style.RESET_ALL} - {url} [{response.status} {response.reason}]"
+                    f"#{content['id']} {Style.BRIGHT}{content['app']}{Style.RESET_ALL}"
+                    f" - {url} [{response.status} {response.reason}]"
                 )
+                return content
     except Exception:
         pass
+
+    return None

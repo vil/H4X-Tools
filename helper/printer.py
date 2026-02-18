@@ -1,5 +1,5 @@
 """
-Copyright (c) 2023-2025. Vili and contributors.
+Copyright (c) 2023-2026. Vili and contributors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,8 +55,6 @@ def warning(message, *args, **kwargs) -> None:
 def debug(message, *args, **kwargs) -> None:
     if "--debug" in sys.argv:
         print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
-    else:
-        pass
 
 
 def noprefix(message, *args, **kwargs) -> None:
