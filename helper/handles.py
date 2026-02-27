@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from helper import printer
 from utils import (
     bluetooth_scanner,
-    deep_websearch,
     dirbuster,
     email_search,
     fake_info_generator,
@@ -29,6 +28,7 @@ from utils import (
     phonenumber_lookup,
     port_scanner,
     search_username,
+    web_reconnaissance,
     web_scrape,
     whois_lookup,
     wifi_finder,
@@ -48,9 +48,9 @@ def handle_ig_scrape() -> None:
     ig_scrape.scrape(target=target)
 
 
-def handle_deep_web_search() -> None:
+def handle_web_reconnaissance() -> None:
     """Handles the Deep Web Search util."""
-    deep_websearch.websearch()
+    web_reconnaissance.websearch()
 
 
 def handle_phone_lookup() -> None:

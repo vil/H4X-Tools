@@ -195,7 +195,7 @@ def _print_menu() -> None:
 
 MENU_OPTIONS = {
     "1": handles.handle_ig_scrape,
-    "2": handles.handle_deep_web_search,
+    "2": handles.handle_web_reconnaissance,
     "3": handles.handle_phone_lookup,
     "4": handles.handle_ip_lookup,
     "5": handles.handle_username_search,
