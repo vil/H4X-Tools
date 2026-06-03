@@ -68,6 +68,9 @@ def handle_ip_lookup() -> None:
 
 def handle_username_search() -> None:
     """Handles the Username Search util."""
+    printer.info(
+        "Maigret will check the username with configurable scan options and optional TXT/CSV/JSON export."
+    )
     username = str(printer.user_input("Enter a target username : \t")).replace(" ", "_")
     search_username.search(username=username)
 

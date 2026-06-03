@@ -24,7 +24,7 @@ from colorama import Fore, Style
 
 from helper import handles, printer
 
-VERSION = "0.3.5"
+VERSION = "26"
 
 
 def _internet_check() -> None:
@@ -53,7 +53,7 @@ def _print_banner() -> None:
 ██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
 ██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
 ▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
-{Style.RESET_ALL}v{VERSION} / Vili (@vil)
+{Style.RESET_ALL}v{VERSION} / Vili (@vil) - https://vili.dev
     """
     )
 
@@ -97,8 +97,11 @@ def _display_help() -> None:
             "OpenStreetMap link."
         ),
         "Username Search": (
-            "Asynchronously checks a username across hundreds of websites using a bundled site "
-            "database. All matches with direct profile URLs are printed in real time."
+            "Checks a username across a configurable number of websites using Maigret's "
+            "maintained site database and detection engines. Configure site count, timeout, "
+            "parallel connections, retries, and detailed errors before scanning. Results can "
+            "optionally be exported to `scraped_data/maigret/` as TXT, CSV, or JSON. "
+            "Credits: soxoj/maigret."
         ),
         "Email Search": (
             "Checks an email address against 100+ websites and services using holehe to identify "
