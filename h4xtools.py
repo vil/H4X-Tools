@@ -75,10 +75,10 @@ def _display_help() -> None:
     tools = {
         "Ig Scrape": (
             "Two-track Instagram OSINT scraper. **Guest mode** (no login) uses the `ensta` Guest API for public profile data and recent posts. "
-            "**Authenticated mode** (Instagram `sessionid` cookie) uses [`toutatis`](https://github.com/megadose/toutatis) "
-            "via Instagram's private mobile API for richer data — business flags, IGTV count, WhatsApp link status, and publicly listed contact details. "
+            "**Authenticated mode** (Instagram `sessionid` cookie) queries Instagram's private mobile API directly "
+            "for richer data — business flags, IGTV count, WhatsApp link status, and publicly listed contact details. "
             "Session IDs can optionally be saved in `$HOME/.config/h4x-tools/config.json` so they do not need to be re-entered every run. "
-            "Both tracks run Toutatis `advanced_lookup` to surface obfuscated email and phone from Instagram's account-recovery flow. "
+            "Both tracks run Instagram's account-recovery lookup to surface obfuscated email and phone. "
             "Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**."
         ),
         "Deep Web Search": (

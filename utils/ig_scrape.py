@@ -20,12 +20,13 @@ import json
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote_plus
 
 import phonenumbers
+import requests
 from colorama import Style
 from ensta import Guest
 from ensta.lib.Exceptions import APIError, NetworkError, RateLimitedError
-from toutatis.core import advanced_lookup, getInfo
 
 from helper import config, printer, timer
 
@@ -70,7 +71,7 @@ class IGProfile:
     is_memorialized: bool | str = "N/A"
     is_new_to_instagram: bool | str = "N/A"
 
-    # Contact — populated by toutatis when available
+    # Contact — populated by authenticated Instagram endpoints when available
     public_email: str = ""
     public_phone: str = ""
     obfuscated_email: str = ""
@@ -143,9 +144,147 @@ def _fetch_guest(username: str, profile: IGProfile) -> None:
         )
 
 
+def _get_instagram_user_id(username: str, session_id: str) -> dict:
+    """
+    Resolve an Instagram username to a numeric user ID.
+
+    Uses the same Instagram endpoint as the old external helper, but keeps the
+    implementation local so H4X-Tools controls error handling.
+
+    :param username: Instagram username.
+    :param session_id: Instagram ``sessionid`` cookie value.
+    :return: ``{"id": str | None, "error": str | None}``.
+    """
+    try:
+        response = requests.get(
+            "https://i.instagram.com/api/v1/users/web_profile_info/",
+            params={"username": username},
+            headers={"User-Agent": "iphone_ua", "x-ig-app-id": "936619743392459"},
+            cookies={"sessionid": session_id},
+            timeout=20,
+        )
+    except requests.RequestException as exc:
+        return {"id": None, "error": f"Network error: {exc}"}
+
+    if response.status_code == 404:
+        return {"id": None, "error": "User not found"}
+    if response.status_code == 429:
+        return {"id": None, "error": "Rate limit"}
+    if response.status_code in {401, 403}:
+        return {"id": None, "error": "Access denied; session ID may be invalid"}
+
+    try:
+        payload = response.json()
+    except json.JSONDecodeError:
+        return {"id": None, "error": "Rate limit or invalid Instagram response"}
+
+    user_id = payload.get("data", {}).get("user", {}).get("id")
+    if not user_id:
+        return {"id": None, "error": "User not found"}
+
+    return {"id": str(user_id), "error": None}
+
+
+def _get_instagram_info(
+    search: str,
+    session_id: str,
+    search_type: str = "username",
+) -> dict:
+    """
+    Fetch Instagram private mobile API profile info.
+
+    This local implementation uses defensive missing-key handling because
+    Instagram frequently changes which fields are present.
+
+    :param search: Username or numeric user ID.
+    :param session_id: Instagram ``sessionid`` cookie value.
+    :param search_type: ``"username"`` or ``"id"``.
+    :return: ``{"user": dict | None, "error": str | None}``.
+    """
+    if search_type == "username":
+        data = _get_instagram_user_id(search, session_id)
+        if data["error"]:
+            return data | {"user": None}
+        user_id = data["id"]
+    else:
+        try:
+            user_id = str(int(search))
+        except ValueError:
+            return {"user": None, "error": "Invalid ID"}
+
+    try:
+        response = requests.get(
+            f"https://i.instagram.com/api/v1/users/{user_id}/info/",
+            headers={"User-Agent": "Instagram 64.0.0.14.96"},
+            cookies={"sessionid": session_id},
+            timeout=20,
+        )
+    except requests.RequestException:
+        return {"user": None, "error": "Not found"}
+
+    if response.status_code == 429:
+        return {"user": None, "error": "Rate limit"}
+    if response.status_code in {401, 403}:
+        return {"user": None, "error": "Access denied; session ID may be invalid"}
+
+    try:
+        response.raise_for_status()
+        info_user = response.json().get("user")
+    except (requests.RequestException, json.JSONDecodeError):
+        return {"user": None, "error": "Not found"}
+
+    if not info_user:
+        return {"user": None, "error": "Not found"}
+
+    info_user["userID"] = user_id
+    return {"user": info_user, "error": None}
+
+
+def _instagram_advanced_lookup(username: str) -> dict:
+    """
+    Fetch obfuscated recovery contact info from Instagram's lookup endpoint.
+
+    Uses Instagram's mobile lookup endpoint directly so H4X-Tools does not
+    depend on an external wrapper package.
+
+    :param username: Instagram username.
+    :return: ``{"user": dict | None, "error": str | None}``.
+    """
+    data = "signed_body=SIGNATURE." + quote_plus(
+        json.dumps({"q": username, "skip_recovery": "1"}, separators=(",", ":"))
+    )
+
+    try:
+        response = requests.post(
+            "https://i.instagram.com/api/v1/users/lookup/",
+            headers={
+                "Accept-Language": "en-US",
+                "User-Agent": "Instagram 101.0.0.15.120",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "X-IG-App-ID": "124024574287414",
+                "Accept-Encoding": "gzip, deflate",
+                "Host": "i.instagram.com",
+                "Connection": "keep-alive",
+                "Content-Length": str(len(data)),
+            },
+            data=data,
+            timeout=20,
+        )
+    except requests.RequestException as exc:
+        return {"user": None, "error": f"Network error: {exc}"}
+
+    if response.status_code == 429:
+        return {"user": None, "error": "rate limit"}
+
+    try:
+        return {"user": response.json(), "error": None}
+    except json.JSONDecodeError:
+        return {"user": None, "error": "rate limit"}
+
+
 def _fetch_authenticated(username: str, session_id: str, profile: IGProfile) -> None:
     """
-    Populate *profile* using the Toutatis authenticated API.
+    Populate *profile* using Instagram's authenticated private mobile API.
 
     Fills all basic fields plus business flag, WhatsApp/memorial/new-user
     flags, IGTV count, and public contact details (email / phone).
@@ -154,10 +293,10 @@ def _fetch_authenticated(username: str, session_id: str, profile: IGProfile) -> 
     :param session_id: Instagram ``sessionid`` cookie value.
     :param profile:    :class:`IGProfile` to populate in-place.
     """
-    result = getInfo(username, session_id)
+    result = _get_instagram_info(username, session_id)
 
     if result.get("error"):
-        printer.error(f"Toutatis getInfo error: {result['error']}")
+        printer.error(f"Instagram authenticated lookup error: {result['error']}")
         printer.warning("Falling back to guest track for basic profile data.")
         _fetch_guest(username, profile)
         return
@@ -206,16 +345,15 @@ def _fetch_authenticated(username: str, session_id: str, profile: IGProfile) -> 
 
 def _fetch_advanced_lookup(username: str, profile: IGProfile) -> None:
     """
-    Run the Toutatis ``advanced_lookup`` to surface obfuscated contact info.
+    Run Instagram's account-recovery lookup to surface obfuscated contact info.
 
-    This endpoint uses Instagram's account-recovery flow and requires no
-    session cookie, but may be rate-limited.
+    This endpoint requires no session cookie, but may be rate-limited.
 
     :param username: Instagram username.
     :param profile:  :class:`IGProfile` to populate in-place.
     """
-    printer.info("Running Toutatis advanced lookup (obfuscated contact)...")
-    result = advanced_lookup(username)
+    printer.info("Running Instagram recovery lookup (obfuscated contact)...")
+    result = _instagram_advanced_lookup(username)
 
     if result.get("error") == "rate limit":
         printer.warning(
@@ -317,9 +455,9 @@ def _print_profile(profile: IGProfile) -> None:
 
     printer.noprefix("")
     source = (
-        "Toutatis + ensta  (authenticated)"
+        "Instagram private API + ensta  (authenticated)"
         if profile.session_used
-        else "ensta guest + Toutatis advanced lookup"
+        else "ensta guest + Instagram recovery lookup"
     )
     printer.info(f"{'Data source':<{_KEY_WIDTH}} : {source}")
     printer.info(f"{'Scraped at':<{_KEY_WIDTH}} : {profile.scraped_at}")
@@ -560,14 +698,14 @@ def scrape(target: str) -> None:
 
     **Guest track** (no session ID)
       Uses the ``ensta`` Guest API for public profile data and recent posts,
-      then runs the Toutatis ``advanced_lookup`` to surface any obfuscated
+      then runs Instagram's account-recovery lookup to surface any obfuscated
       e-mail address or phone number tied to the account's recovery flow.
 
     **Authenticated track** (session ID provided)
-      Uses Toutatis ``getInfo()`` via Instagram's private mobile API for a
-      richer profile including business flags, IGTV count, WhatsApp link
-      status, and publicly listed contact details, then also runs
-      ``advanced_lookup`` for the obfuscated recovery contacts.
+      Uses Instagram's private mobile API for a richer profile including
+      business flags, IGTV count, WhatsApp link status, and publicly listed
+      contact details, then also runs the recovery lookup for obfuscated
+      contacts.
 
     The session ID is your Instagram ``sessionid`` cookie value.  To find it:
     open Instagram in a browser → DevTools → Application → Cookies →
