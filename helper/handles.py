@@ -36,15 +36,21 @@ from utils import (
 )
 
 
-def handle_bluetooth_scanner() -> None:
+def handle_bluetooth_scanner(duration: int | str | None = None) -> None:
     """Handles the Bluetooth Scanner util."""
-    scan_duration = int(printer.user_input("Enter a scan duration (seconds) : \t"))
+    scan_duration = int(
+        duration
+        if duration is not None
+        else printer.user_input("Enter a scan duration (seconds) : \t")
+    )
     bluetooth_scanner.scan_nearby_bluetooth(duration=scan_duration)
 
 
-def handle_ig_scrape() -> None:
+def handle_ig_scrape(target: str | None = None) -> None:
     """Handles the IG Scrape util."""
-    target = str(printer.user_input("Enter a target username : \t")).replace(" ", "_")
+    target = str(target or printer.user_input("Enter a target username : \t")).replace(
+        " ", "_"
+    )
     ig_scrape.scrape(target=target)
 
 
@@ -53,47 +59,58 @@ def handle_web_reconnaissance() -> None:
     web_reconnaissance.websearch()
 
 
-def handle_phone_lookup() -> None:
+def handle_phone_lookup(phone_number: str | None = None) -> None:
     """Handles the Phone number Lookup util."""
     printer.info("Include the country code, e.g. +358501234567 or +12025550123")
-    no = str(printer.user_input("Enter a phone-number with country code : \t"))
+    no = str(
+        phone_number
+        or printer.user_input("Enter a phone-number with country code : \t")
+    )
     phonenumber_lookup.lookup(phone_number=no)
 
 
-def handle_ip_lookup() -> None:
+def handle_ip_lookup(ip: str | None = None) -> None:
     """Handles the IP/Domain Lookup util."""
-    ip = str(printer.user_input("Enter a IP address OR domain : \t"))
+    ip = str(ip or printer.user_input("Enter a IP address OR domain : \t"))
     ip_lookup.lookup(ip_address=ip)
 
 
-def handle_username_search() -> None:
+def handle_username_search(username: str | None = None) -> None:
     """Handles the Username Search util."""
     printer.info(
         "Maigret will check the username with configurable scan options and optional TXT/CSV/JSON export."
     )
-    username = str(printer.user_input("Enter a target username : \t")).replace(" ", "_")
+    username = str(
+        username or printer.user_input("Enter a target username : \t")
+    ).replace(" ", "_")
     search_username.search(username=username)
 
 
-def handle_email_search() -> None:
+def handle_email_search(email: str | None = None) -> None:
     """Handles the Email Search util."""
     printer.info(
         "holehe will check the address against 100+ websites and show where it is registered."
     )
-    email = str(printer.user_input("Enter an email address : \t"))
+    email = str(email or printer.user_input("Enter an email address : \t"))
     email_search.search(email=email)
 
 
-def handle_port_scanner() -> None:
+def handle_port_scanner(
+    ip: str | None = None, port_range: int | str | None = None
+) -> None:
     """Handles the Port Scanner util."""
-    ip = str(printer.user_input("Enter a IP address OR domain : \t"))
-    port_range = int(printer.user_input("Enter number of ports to scan : \t"))
+    ip = str(ip or printer.user_input("Enter a IP address OR domain : \t"))
+    port_range = int(
+        port_range
+        if port_range is not None
+        else printer.user_input("Enter number of ports to scan : \t")
+    )
     port_scanner.scan(ip=ip, port_range=port_range)
 
 
-def handle_whois_lookup() -> None:
+def handle_whois_lookup(domain: str | None = None) -> None:
     """Handles the WhoIs Lookup util."""
-    domain = str(printer.user_input("Enter a domain : \t"))
+    domain = str(domain or printer.user_input("Enter a domain : \t"))
     whois_lookup.check_whois(domain=domain)
 
 
@@ -102,9 +119,9 @@ def handle_fake_info_generator() -> None:
     fake_info_generator.generate()
 
 
-def handle_web_scrape() -> None:
+def handle_web_scrape(url: str | None = None) -> None:
     """Handles the Web Scrape util."""
-    url = str(printer.user_input("Enter a URL : \t"))
+    url = str(url or printer.user_input("Enter a URL : \t"))
     web_scrape.scrape(url=url)
 
 
@@ -120,9 +137,9 @@ def handle_wifi_vault() -> None:
     wifi_vault.get_local_passwords()
 
 
-def handle_dir_buster() -> None:
+def handle_dir_buster(domain: str | None = None) -> None:
     """Handles the Dir Buster util."""
-    domain = printer.user_input("Enter a domain : \t")
+    domain = domain or printer.user_input("Enter a domain : \t")
     dirbuster.bust(domain=domain)
 
 
@@ -132,7 +149,7 @@ def handle_local_users() -> None:
     local_users.scan_for_local_users()
 
 
-def handle_leak_search() -> None:
+def handle_leak_search(target: str | None = None) -> None:
     """Handles the Cybercrime Intelligence util."""
-    target = printer.user_input("Enter a target (email/domain) : \t")
+    target = target or printer.user_input("Enter a target (email/domain/username) : \t")
     leak_search.lookup(target=target)

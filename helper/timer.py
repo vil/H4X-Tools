@@ -42,8 +42,8 @@ def timer(require_input: bool) -> FunctionType:
                 f"Completed in {elapsed_time:.4f} seconds."
             )  # Print the elapsed time
 
-            # Prompt the user for input after execution
-            if require_input:
+            # Prompt the user for input after execution in menu mode only.
+            if require_input and printer.should_pause_after_tool():
                 printer.user_input("Press Enter key to continue...")  # Prompt for input
 
             return result  # Return the result of the wrapped function

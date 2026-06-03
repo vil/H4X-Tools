@@ -21,6 +21,9 @@ import sys
 from colorama import Fore, Style
 
 ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
+VERBOSE = False
+DEBUG = "--debug" in sys.argv
+PAUSE_AFTER_TOOL = True
 
 
 def _print_colored(message: str, color: str, prefix: str, *args, **kwargs) -> None:
@@ -52,8 +55,62 @@ def warning(message, *args, **kwargs) -> None:
     _print_colored(message, Fore.LIGHTYELLOW_EX, "[-]", *args, **kwargs)
 
 
+def set_verbosity(verbose: bool = False, debug_enabled: bool = False) -> None:
+    """
+    Configure global verbosity flags used by printer helpers.
+
+    :param verbose: Enable verbose output.
+    :param debug_enabled: Enable debug output. Also implies verbose output.
+    """
+    global VERBOSE, DEBUG
+    VERBOSE = verbose or debug_enabled
+    DEBUG = debug_enabled
+
+
+def set_pause_after_tool(enabled: bool) -> None:
+    """
+    Configure whether timed tools pause for Enter after completion.
+
+    :param enabled: ``True`` for interactive menu pauses, ``False`` for direct CLI runs.
+    """
+    global PAUSE_AFTER_TOOL
+    PAUSE_AFTER_TOOL = enabled
+
+
+def should_pause_after_tool() -> bool:
+    """
+    Return whether timed tools should pause for Enter after completion.
+
+    :return: ``True`` if completion pauses are enabled.
+    """
+    return PAUSE_AFTER_TOOL
+
+
+def is_verbose() -> bool:
+    """
+    Return whether verbose output is enabled.
+
+    :return: ``True`` if verbose or debug output is enabled.
+    """
+    return VERBOSE or DEBUG
+
+
+def is_debug() -> bool:
+    """
+    Return whether debug output is enabled.
+
+    :return: ``True`` if debug output is enabled.
+    """
+    return DEBUG
+
+
+def verbose(message, *args, **kwargs) -> None:
+    if is_verbose():
+        _print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
+
+
 def debug(message, *args, **kwargs) -> None:
-    if "--debug" in sys.argv:
+    if is_debug():
         _print_colored(message, Fore.LIGHTMAGENTA_EX, "[>]", *args, **kwargs)
 
 

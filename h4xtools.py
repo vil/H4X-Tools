@@ -17,14 +17,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import argparse
 import socket
 import time
+from typing import Any
 
 from colorama import Fore, Style
 
 from helper import config, handles, printer
 
-VERSION = "26"
+VERSION = "26.1"
 
 
 def _internet_check() -> None:
@@ -217,12 +219,348 @@ MENU_OPTIONS = {
 }
 
 
-def main() -> None:
+def _add_optional_tool_arg(
+    parser: Any,
+    *flags: str,
+    dest: str,
+    metavar: str,
+    help_text: str,
+) -> None:
+    """
+    Add a tool flag that may optionally receive a target value.
+
+    If the user passes only the flag, the corresponding handler will prompt for
+    the missing value. Example: ``--igscrape`` prompts, while
+    ``--igscrape some_user`` uses ``some_user`` directly.
+    """
+    parser.add_argument(
+        *flags,
+        dest=dest,
+        nargs="?",
+        const=True,
+        default=None,
+        metavar=metavar,
+        help=help_text,
+    )
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    """
+    Build the H4X-Tools command-line parser.
+
+    :return: Configured argument parser.
+    """
+    parser = argparse.ArgumentParser(
+        prog="h4xtools",
+        description="H4X-Tools - modular OSINT, reconnaissance, and scraping toolkit.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    parser.add_argument("--version", action="version", version=f"H4X-Tools v{VERSION}")
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Enable verbose output. Repeat for more verbosity.",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug output. Implies verbose output.",
+    )
+    parser.add_argument(
+        "--list-tools",
+        action="store_true",
+        help="Print the full tool help and exit.",
+    )
+    parser.add_argument(
+        "--no-internet-check",
+        action="store_true",
+        help="Skip the startup internet connectivity check.",
+    )
+
+    tool_group = parser.add_argument_group(
+        "Tool shortcuts",
+        "Pass one or more tool flags to run them directly without opening the menu. "
+        "Flags with optional values will prompt if the value is omitted.",
+    )
+
+    _add_optional_tool_arg(
+        tool_group,
+        "--igscrape",
+        "--ig-scrape",
+        "--instagram",
+        "--ig",
+        dest="ig_scrape",
+        metavar="USERNAME",
+        help_text="Run Instagram scrape for USERNAME.",
+    )
+    tool_group.add_argument(
+        "--webrecon",
+        "--web-recon",
+        "--web-reconnaissance",
+        action="store_true",
+        help="Run the interactive deep web search workflow.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--phone",
+        "--phone-lookup",
+        dest="phone_lookup",
+        metavar="NUMBER",
+        help_text="Run phone lookup for NUMBER.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--ip",
+        "--ip-lookup",
+        dest="ip_lookup",
+        metavar="IP_OR_DOMAIN",
+        help_text="Run IP/domain lookup.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--username",
+        "--username-search",
+        dest="username_search",
+        metavar="USERNAME",
+        help_text="Run Maigret username search.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--email",
+        "--email-search",
+        dest="email_search",
+        metavar="EMAIL",
+        help_text="Run email search.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--leak",
+        "--leak-search",
+        dest="leak_search",
+        metavar="TARGET",
+        help_text="Run leak search for an email, domain, or username.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--port",
+        "--port-scanner",
+        dest="port_scanner",
+        metavar="IP_OR_DOMAIN",
+        help_text="Run port scanner for IP_OR_DOMAIN.",
+    )
+    tool_group.add_argument(
+        "--port-range",
+        type=int,
+        default=None,
+        help="Number of ports to scan when using --port/--port-scanner.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--whois",
+        "--whois-lookup",
+        dest="whois_lookup",
+        metavar="DOMAIN",
+        help_text="Run WHOIS lookup for DOMAIN.",
+    )
+    tool_group.add_argument(
+        "--fake-info",
+        "--fake-info-generator",
+        action="store_true",
+        help="Generate fake identity information.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--webscrape",
+        "--web-scrape",
+        dest="web_scrape",
+        metavar="URL",
+        help_text="Run web scrape for URL.",
+    )
+    tool_group.add_argument(
+        "--wifi-finder",
+        action="store_true",
+        help="Scan for nearby Wi-Fi networks.",
+    )
+    tool_group.add_argument(
+        "--wifi-vault",
+        action="store_true",
+        help="Dump locally saved Wi-Fi passwords.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--dirbuster",
+        "--dir-buster",
+        dest="dir_buster",
+        metavar="DOMAIN",
+        help_text="Run directory buster for DOMAIN.",
+    )
+    _add_optional_tool_arg(
+        tool_group,
+        "--bluetooth",
+        "--bluetooth-scanner",
+        dest="bluetooth_scanner",
+        metavar="SECONDS",
+        help_text="Run Bluetooth scanner for SECONDS.",
+    )
+    tool_group.add_argument(
+        "--local-users",
+        action="store_true",
+        help="Enumerate local system users.",
+    )
+
+    return parser
+
+
+def _value_or_prompt(value: object) -> str | None:
+    """
+    Convert argparse optional-argument sentinels to handler values.
+
+    :param value: ``None``, ``True`` when flag has no value, or a string value.
+    :return: ``None`` to make the handler prompt, otherwise the provided value.
+    """
+    return None if value is True or value is None else str(value)
+
+
+def _cli_tool_selected(args: argparse.Namespace) -> bool:
+    """
+    Determine whether any direct-run tool flag was provided.
+
+    :param args: Parsed CLI args.
+    :return: ``True`` if at least one tool should run directly.
+    """
+    return any(
+        [
+            args.ig_scrape is not None,
+            args.webrecon,
+            args.phone_lookup is not None,
+            args.ip_lookup is not None,
+            args.username_search is not None,
+            args.email_search is not None,
+            args.leak_search is not None,
+            args.port_scanner is not None,
+            args.whois_lookup is not None,
+            args.fake_info,
+            args.web_scrape is not None,
+            args.wifi_finder,
+            args.wifi_vault,
+            args.dir_buster is not None,
+            args.bluetooth_scanner is not None,
+            args.local_users,
+        ]
+    )
+
+
+def _run_cli_tools(args: argparse.Namespace) -> None:
+    """
+    Execute tool flags directly and exit without opening the menu.
+
+    Tools run in the fixed menu order when multiple flags are provided.
+
+    :param args: Parsed CLI args.
+    """
+    cli_tasks = [
+        (
+            args.ig_scrape is not None,
+            handles.handle_ig_scrape,
+            [_value_or_prompt(args.ig_scrape)],
+        ),
+        (args.webrecon, handles.handle_web_reconnaissance, []),
+        (
+            args.phone_lookup is not None,
+            handles.handle_phone_lookup,
+            [_value_or_prompt(args.phone_lookup)],
+        ),
+        (
+            args.ip_lookup is not None,
+            handles.handle_ip_lookup,
+            [_value_or_prompt(args.ip_lookup)],
+        ),
+        (
+            args.username_search is not None,
+            handles.handle_username_search,
+            [_value_or_prompt(args.username_search)],
+        ),
+        (
+            args.email_search is not None,
+            handles.handle_email_search,
+            [_value_or_prompt(args.email_search)],
+        ),
+        (
+            args.leak_search is not None,
+            handles.handle_leak_search,
+            [_value_or_prompt(args.leak_search)],
+        ),
+        (
+            args.port_scanner is not None,
+            handles.handle_port_scanner,
+            [_value_or_prompt(args.port_scanner), args.port_range],
+        ),
+        (
+            args.whois_lookup is not None,
+            handles.handle_whois_lookup,
+            [_value_or_prompt(args.whois_lookup)],
+        ),
+        (args.fake_info, handles.handle_fake_info_generator, []),
+        (
+            args.web_scrape is not None,
+            handles.handle_web_scrape,
+            [_value_or_prompt(args.web_scrape)],
+        ),
+        (args.wifi_finder, handles.handle_wifi_finder, []),
+        (args.wifi_vault, handles.handle_wifi_vault, []),
+        (
+            args.dir_buster is not None,
+            handles.handle_dir_buster,
+            [_value_or_prompt(args.dir_buster)],
+        ),
+        (
+            args.bluetooth_scanner is not None,
+            handles.handle_bluetooth_scanner,
+            [_value_or_prompt(args.bluetooth_scanner)],
+        ),
+        (args.local_users, handles.handle_local_users, []),
+    ]
+
+    for selected, handler, handler_args in cli_tasks:
+        if not selected:
+            continue
+
+        try:
+            printer.verbose(
+                f"Running {handler.__name__.replace('handle_', '').replace('_', ' ')}"
+            )
+            handler(*handler_args)
+        except KeyboardInterrupt:
+            printer.warning("Cancelled..!")
+            break
+
+
+def main(args: argparse.Namespace | None = None) -> None:
+    if args is None:
+        args = _build_parser().parse_args()
+
+    printer.set_verbosity(verbose=args.verbose > 0, debug_enabled=args.debug)
     config.init_config()
-    _internet_check()
-    time.sleep(0.5)
+
+    if args.list_tools:
+        _display_help()
+        return
+
+    if not args.no_internet_check:
+        _internet_check()
+        time.sleep(0.5)
 
     printer.debug("DEBUG IS ON.")
+
+    if _cli_tool_selected(args):
+        printer.set_pause_after_tool(False)
+        _run_cli_tools(args)
+        return
+
+    printer.set_pause_after_tool(True)
 
     while True:
         _print_banner()
