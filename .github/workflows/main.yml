@@ -1,54 +1,35 @@
-name: Build executables
+name: Check Code Errors
 
 on:
   workflow_dispatch: # Manually triggered event
-  pull_request: # Trigger the workflow on push or pull request,
+  pull_request: # Trigger the workflow on pull requests
 
 jobs:
-  build_windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Build Windows executable with pyinstaller
-        run: |
-          pyinstaller h4xtools.py --add-data "resources/*;resources" --onefile -F --clean
-      - name: Calculate SHA256 hash
-        run: |
-          sha256sum dist/h4xtools.exe > dist/h4xtools.exe.hash
-      - name: Upload Windows artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Windows Executable
-          path: dist/
-
-  build_linux:
+  validate_python:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: "3.12"
+          cache: "pip"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Build Linux executable with pyinstaller
+          pip install flake8
+
+      - name: Check for Python syntax errors (compileall)
         run: |
-          pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
-      - name: Calculate SHA256 hash
+          # Recursively compiles all Python files in the directory.
+          # Fails the workflow immediately if any syntax errors are found.
+          python -m compileall -q .
+
+      - name: Check for critical logic errors (flake8)
         run: |
-          sha256sum dist/h4xtools > dist/h4xtools.hash
-      - name: Upload Linux artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Linux Executable
-          path: dist/
+          # Stops the build if there are syntax errors, missing imports, or undefined names.
+          # The --select flag limits the check to critical errors only (ignoring minor styling issues).
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
