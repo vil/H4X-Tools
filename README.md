@@ -6,7 +6,7 @@ To avoid getting rate limited when doing your OSINT and scraping operations, use
 
 You can use the promo code **VILI** to get **8% off** Static ISP proxies.
 
-See the [Running with proxies](https://github.com/vil/H4X-Tools#running-with-proxies) section to see how setup your proxies.
+See the [Running with proxies](https://github.com/vil/H4X-Tools#running-with-proxies) section to see how to setup your proxies.
 
 # H4X-Tools
 
