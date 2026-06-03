@@ -22,7 +22,7 @@ import time
 
 from colorama import Fore, Style
 
-from helper import handles, printer
+from helper import config, handles, printer
 
 VERSION = "26"
 
@@ -77,6 +77,7 @@ def _display_help() -> None:
             "Two-track Instagram OSINT scraper. **Guest mode** (no login) uses the `ensta` Guest API for public profile data and recent posts. "
             "**Authenticated mode** (Instagram `sessionid` cookie) uses [`toutatis`](https://github.com/megadose/toutatis) "
             "via Instagram's private mobile API for richer data — business flags, IGTV count, WhatsApp link status, and publicly listed contact details. "
+            "Session IDs can optionally be saved in `$HOME/.config/h4x-tools/config.json` so they do not need to be re-entered every run. "
             "Both tracks run Toutatis `advanced_lookup` to surface obfuscated email and phone from Instagram's account-recovery flow. "
             "Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**."
         ),
@@ -217,6 +218,7 @@ MENU_OPTIONS = {
 
 
 def main() -> None:
+    config.init_config()
     _internet_check()
     time.sleep(0.5)
 
