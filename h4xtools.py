@@ -224,7 +224,7 @@ def main() -> None:
         _print_menu()
         user_input = printer.user_input("Tool to execute : \t")
 
-        if user_input.lower() in {"quit", "exit", "q", "kill"}:
+        if user_input.lower() in ["quit", "exit", "q", "kill"]:
             # Kill the program.
             printer.warning("Quitting... Goodbye!")
             print(Style.RESET_ALL)
@@ -238,7 +238,7 @@ def main() -> None:
                 ]()  # Call the corresponding function based on the selected option
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
-        elif user_input.lower() == "?":
+        elif user_input.lower() in ["?", "help"]:
             _display_help()
             printer.user_input("Done reading? Press the Enter key.")
         else:
