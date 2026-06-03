@@ -27,10 +27,12 @@ from ensta import Guest
 from ensta.lib.Exceptions import APIError, NetworkError, RateLimitedError
 from toutatis.core import advanced_lookup, getInfo
 
-from helper import printer, timer
+from helper import config, printer, timer
 
 _KEY_WIDTH = 24
 _SAVE_DIR = Path("scraped_data")
+_CONFIG_SECTION = "ig_scrape"
+_SESSION_ID_KEY = "session_id"
 
 
 @dataclass
@@ -323,6 +325,82 @@ def _print_profile(profile: IGProfile) -> None:
     printer.info(f"{'Scraped at':<{_KEY_WIDTH}} : {profile.scraped_at}")
 
 
+def _ask_session_id() -> str:
+    """
+    Resolve the Instagram session ID from saved config or user input.
+
+    Saved values live in ``$HOME/.config/h4x-tools/config.json`` by default,
+    using the shared H4X-Tools config helper.
+
+    :return: Session ID string, or an empty string for guest mode.
+    """
+    saved_session = config.get_value(_CONFIG_SECTION, _SESSION_ID_KEY, "")
+    if isinstance(saved_session, str) and saved_session.strip():
+        printer.info("Saved Instagram session ID found in H4X-Tools config.")
+        printer.info("  1 : Use saved session ID")
+        printer.info("  2 : Enter a different session ID")
+        printer.info("  3 : Delete saved session ID and use guest mode")
+        printer.info("  4 : Use guest mode once")
+        choice = printer.user_input("Select [1-4] (default = 1) : ").strip()
+
+        match choice:
+            case "" | "1":
+                return saved_session.strip()
+            case "2":
+                return _prompt_new_session_id()
+            case "3":
+                if config.delete_value(_CONFIG_SECTION, _SESSION_ID_KEY):
+                    printer.success("Saved Instagram session ID deleted.")
+                return ""
+            case "4":
+                return ""
+            case _:
+                printer.warning("Invalid choice. Using saved session ID.")
+                return saved_session.strip()
+
+    return _prompt_new_session_id()
+
+
+def _prompt_new_session_id() -> str:
+    """
+    Prompt for a new Instagram session ID and optionally save it.
+
+    :return: Session ID string, or an empty string for guest mode.
+    """
+    printer.noprefix("")
+    printer.info(
+        "Provide your Instagram session ID for richer data (phone, email, "
+        "business flags, etc.)."
+    )
+    printer.info(
+        "Find it in your browser: DevTools → Application → Cookies → sessionid"
+    )
+    session_id = printer.user_input(
+        "Session ID (leave blank for guest mode) : "
+    ).strip()
+
+    if not session_id:
+        return ""
+
+    printer.warning(
+        "Session IDs are sensitive cookies. Saving stores it as plaintext in an owner-only config file."
+    )
+    answer = (
+        printer.user_input(
+            "Save this session ID to H4X-Tools config for future runs? (y/N) : "
+        )
+        .strip()
+        .lower()
+    )
+    if answer in {"y", "yes"}:
+        if config.set_value(_CONFIG_SECTION, _SESSION_ID_KEY, session_id):
+            printer.success(
+                f"Session ID saved to {Style.BRIGHT}{config.get_config_file()}{Style.RESET_ALL}"
+            )
+
+    return session_id
+
+
 def _ask_export() -> str | None:
     """
     Prompt the user for an optional export format.
@@ -504,17 +582,7 @@ def scrape(target: str) -> None:
         printer.error("Username cannot be empty.")
         return
 
-    printer.noprefix("")
-    printer.info(
-        "Provide your Instagram session ID for richer data (phone, email, "
-        "business flags, etc.)."
-    )
-    printer.info(
-        "Find it in your browser: DevTools → Application → Cookies → sessionid"
-    )
-    session_id = printer.user_input(
-        "Session ID (leave blank for guest mode) : "
-    ).strip()
+    session_id = _ask_session_id()
 
     profile = IGProfile()
 
