@@ -1,3 +1,13 @@
+![](https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png)
+
+To avoid getting rate limited when doing your OSINT and scraping operations, use **MangoProxy**.
+
+**MangoProxy** provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure.
+
+You can use the promo code **VILI** to get **8% off** Static ISP proxies.
+
+See the [Running with proxies](https://github.com/vil/H4X-Tools#running-with-proxies) section to see how setup your proxies.
+
 # H4X-Tools
 
 [![GitHub latest commit](https://badgen.net/github/last-commit/vil/H4X-Tools)](https://GitHub.com/vil/H4X-Tools/commit/)
