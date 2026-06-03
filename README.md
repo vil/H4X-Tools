@@ -1,8 +1,8 @@
-![](https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png)
+[![MangoProxy](https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png)](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili)
 
-To avoid getting rate limited when doing your OSINT and scraping operations, use **MangoProxy**.
+To avoid getting rate limited when doing your OSINT and scraping operations, use [**MangoProxy**](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili).
 
-**MangoProxy** provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure.
+[**MangoProxy**](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili) provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure.
 
 You can use the promo code **VILI** to get **8% off** Static ISP proxies.
 
