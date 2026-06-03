@@ -70,11 +70,31 @@ Dependencies can be installed manually with:
 pip install -r requirements.txt
 ```
 
-### Debug mode
+### Command-line mode
 
-Launch with the `--debug` flag to enable verbose output:
+Run `python h4xtools.py --help` to list all direct-run options. If no tool flag is provided, H4X-Tools opens the interactive menu.
+
+Examples:
 
 ```sh
+python h4xtools.py --igscrape some_username --verbose
+python h4xtools.py --username some_handle --debug
+python h4xtools.py --ip example.com --whois example.com
+python h4xtools.py --port-scanner 192.168.1.10 --port-range 1000
+```
+
+Tool flags can usually be passed without a value to prompt only for the missing target:
+
+```sh
+python h4xtools.py --igscrape --verbose
+```
+
+### Debug and verbose mode
+
+Launch with `-v` / `--verbose` for verbose output or `--debug` for debug output:
+
+```sh
+python h4xtools.py --verbose
 python h4xtools.py --debug
 ```
 
