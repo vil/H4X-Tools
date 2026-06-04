@@ -17,6 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import csv
 import json
+import logging
+import random
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
@@ -28,11 +30,15 @@ from ddgs.exceptions import DDGSException, RatelimitException, TimeoutException
 
 from helper import printer, timer
 
+# Suppress verbose third-party warnings and raw info responses from filling the UI
+logging.getLogger("ddgs").setLevel(logging.ERROR)
+logging.getLogger("primp").setLevel(logging.ERROR)
+
 # How many results to fetch per query (user-selectable).
 _RESULTS_CHOICES: dict[str, int] = {"1": 5, "2": 10, "3": 20, "4": 50}
 _DEFAULT_MAX_RESULTS: int = 5
 
-# Seconds to wait between consecutive queries to reduce rate-limit risk.
+# Base seconds to wait between consecutive queries. Randomized jitter will be added.
 _INTER_QUERY_DELAY: float = 1.5
 
 # Retry policy for transient errors.
@@ -54,17 +60,6 @@ class SearchResult:
 
 
 # Dork template tables
-#
-# Each entry is a (label, query_template) tuple.
-# Templates reference placeholders that match keys in the *target* dict:
-#   {query}    – raw query (General mode)
-#   {name}     – full person name
-#   {email}    – full e-mail address
-#   {domain}   – domain name (auto-derived from e-mail when needed)
-#   {username} – account handle / screen name
-#   {phone}    – phone number string
-#   {target}   – generic placeholder (Custom Dork mode)
-
 _PERSON_DORKS: list[tuple[str, str]] = [
     ("General mention", '"{name}"'),
     ("LinkedIn", '"{name}" site:linkedin.com'),
@@ -129,11 +124,13 @@ _DOMAIN_DORKS: list[tuple[str, str]] = [
 
 _USERNAME_DORKS: list[tuple[str, str]] = [
     ("General mention", '"{username}"'),
+    ("Linktree / Bios", 'site:linktr.ee "{username}"'),
     ("GitHub", 'site:github.com "{username}"'),
     ("Reddit", 'site:reddit.com/user "{username}"'),
     ("Twitter / X", '(site:twitter.com OR site:x.com) "{username}"'),
     ("Instagram", 'site:instagram.com "{username}"'),
     ("LinkedIn", 'site:linkedin.com/in "{username}"'),
+    ("Telegram", 'site:t.me "{username}"'),
     ("Steam", 'site:steamcommunity.com "{username}"'),
     ("Hacker News", 'site:news.ycombinator.com "{username}"'),
     (
@@ -149,6 +146,7 @@ _PHONE_DORKS: list[tuple[str, str]] = [
     ("Direct mention", '"{phone}"'),
     ("Name / owner", '"{phone}" (name OR owner OR who OR person)'),
     ("TrueCaller", '"{phone}" site:truecaller.com'),
+    ("Telegram", 'site:t.me "{phone}"'),
     (
         "Social profiles",
         '"{phone}" (site:linkedin.com OR site:facebook.com OR site:twitter.com)',
@@ -277,13 +275,11 @@ def websearch() -> None:
 
     # OSINT dork modes (2–7)
     printer.info(
-        f"Running {Style.BRIGHT}{mode_name}{Style.RESET_ALL} search for "
-        f"{Style.BRIGHT}{primary_value}{Style.RESET_ALL}..."
+        f"Running {Style.BRIGHT}{mode_name}{Style.RESET_ALL} search for {Style.BRIGHT}{primary_value}{Style.RESET_ALL}..."
     )
     printer.warning(
         f"Executing {len(dorks)} quer{'y' if len(dorks) == 1 else 'ies'} "
-        f"({max_results} results each) with a {_INTER_QUERY_DELAY}s delay between "
-        "each to reduce rate-limiting."
+        f"({max_results} results each) with variable jitter and engine rotation to evade blocks."
     )
     printer.noprefix("")
     printer.section(f"{mode_name} Search Results")
@@ -302,8 +298,7 @@ def websearch() -> None:
         if new_results:
             printer.noprefix("")
             printer.info(
-                f"── [{idx}/{len(dorks)}] {label}  "
-                f"({Style.BRIGHT}{len(new_results)}{Style.RESET_ALL} new)"
+                f"── [{idx}/{len(dorks)}] {label}  ({Style.BRIGHT}{len(new_results)}{Style.RESET_ALL} new)"
             )
             for result in new_results:
                 seen_urls.add(result.url)
@@ -314,13 +309,13 @@ def websearch() -> None:
             printer.debug(f"No new results for [{label}]")
 
         if idx < len(dorks):
-            time.sleep(_INTER_QUERY_DELAY)
+            # Humanized randomized delay between queries
+            jitter = random.uniform(0.5, 2.5)
+            time.sleep(_INTER_QUERY_DELAY + jitter)
 
     printer.noprefix("")
     printer.info(
-        f"Search complete — "
-        f"{Style.BRIGHT}{total_unique}{Style.RESET_ALL} unique result(s) across "
-        f"{len(dorks)} quer{'y' if len(dorks) == 1 else 'ies'}."
+        f"Search complete — {Style.BRIGHT}{total_unique}{Style.RESET_ALL} unique result(s) across {len(dorks)} quer{'y' if len(dorks) == 1 else 'ies'}."
     )
 
     if save_fmt and all_results:
@@ -377,10 +372,7 @@ def _ask_save_results() -> str | None:
 
 
 def _save_results(
-    results: list[SearchResult],
-    mode_name: str,
-    target: str,
-    fmt: str = "json",
+    results: list[SearchResult], mode_name: str, target: str, fmt: str = "json"
 ) -> None:
     """
     Export *results* to a timestamped file under ``scraped_data/``.
@@ -456,16 +448,6 @@ def _save_results(
 
 
 def _build_query(template: str, target: dict[str, str]) -> str:
-    """
-    Fill a dork template with values from *target*.
-
-    Unknown placeholders are silently left as-is so a partially-filled
-    template still produces a runnable (if suboptimal) query string.
-
-    :param template: Dork template containing ``{placeholder}`` fields.
-    :param target:   Mapping of placeholder names → values.
-    :return: Formatted query string.
-    """
     try:
         return template.format(**target)
     except KeyError:
@@ -473,61 +455,98 @@ def _build_query(template: str, target: dict[str, str]) -> str:
 
 
 def _fetch_results(
-    query: str,
-    max_results: int,
-    *,
-    label: str = "",
+    query: str, max_results: int, *, label: str = ""
 ) -> list[SearchResult]:
     """
-    Fetch text search results via the ``ddgs`` library with exponential
-    back-off retry on rate-limit and timeout errors.
-
-    :param query:       The search query string.
-    :param max_results: Maximum number of results to request.
-    :param label:       Section label attached to each :class:`SearchResult`.
-    :return:            List of :class:`SearchResult` objects.
+    Fetch text search results via the ddgs library with exponential
+    back-off retry, humanized jitter, and valid multi-engine fallback rotation.
     """
-    for attempt in range(1, _MAX_RETRIES + 1):
-        try:
-            with DDGS() as ddgs:
-                raw: list[dict] = ddgs.text(query, max_results=max_results) or []
+    backends = ["duckduckgo", "google", "brave", "yahoo", "mojeek"]
 
+    for backend in backends:
+        for attempt in range(1, _MAX_RETRIES + 1):
+            try:
+                with DDGS() as ddgs:
+                    raw: list[dict] = (
+                        ddgs.text(query, max_results=max_results, backend=backend) or []
+                    )
+
+                if raw:
+                    return [
+                        SearchResult(
+                            title=r.get("title", "").strip(),
+                            url=r.get("href", "") or r.get("url", "").strip(),
+                            snippet=r.get("body", "").strip(),
+                            label=label,
+                        )
+                        for r in raw
+                        if r.get("href", "") or r.get("url", "")
+                    ]
+
+            except RatelimitException:
+                delay = _RETRY_BASE_DELAY * (2 ** (attempt - 1)) + random.uniform(
+                    0.5, 2.0
+                )
+                printer.warning(
+                    f"Rate limited on engine '{backend}' — waiting {delay:.1f}s (attempt {attempt}/{_MAX_RETRIES})..."
+                )
+                time.sleep(delay)
+
+            except TimeoutException:
+                printer.warning(
+                    f"Timeout on engine '{backend}' (attempt {attempt}/{_MAX_RETRIES})."
+                )
+                if attempt < _MAX_RETRIES:
+                    time.sleep(_RETRY_BASE_DELAY + random.uniform(0.1, 1.0))
+
+            except DDGSException as exc:
+                error_msg = str(exc).lower()
+                # Catch Turnstile, Captcha, or 403 blocks, then smoothly cycle to the next global backend engine
+                if any(
+                    phrase in error_msg
+                    for phrase in [
+                        "202",
+                        "403",
+                        "turnstile",
+                        "blocked",
+                        "captcha",
+                        "forbidden",
+                    ]
+                ):
+                    printer.warning(
+                        f"Engine '{backend}' encountered bot protection. Pivoting engines..."
+                    )
+                    break  # Drop attempts loop for this backend; proceed to the next platform engine
+                else:
+                    printer.error(f"Search error on '{backend}': {exc}")
+                    break
+
+            except Exception as exc:  # noqa: BLE001
+                printer.error(f"Unexpected error on engine '{backend}': {exc}")
+                break
+        else:
+            continue
+        continue
+
+    # Blanket fallback option: let the library attempt its automated resolution default
+    try:
+        with DDGS() as ddgs:
+            raw = ddgs.text(query, max_results=max_results, backend="auto") or []
             return [
                 SearchResult(
                     title=r.get("title", "").strip(),
-                    url=r.get("href", "").strip(),
+                    url=r.get("href", "") or r.get("url", "").strip(),
                     snippet=r.get("body", "").strip(),
                     label=label,
                 )
                 for r in raw
-                if r.get("href", "").strip()
+                if r.get("href", "") or r.get("url", "")
             ]
-
-        except RatelimitException:
-            delay = _RETRY_BASE_DELAY * (2 ** (attempt - 1))
-            printer.warning(
-                f"Rate limited — waiting {delay:.0f}s "
-                f"(attempt {attempt}/{_MAX_RETRIES})..."
-            )
-            time.sleep(delay)
-
-        except TimeoutException:
-            printer.warning(f"Request timed out (attempt {attempt}/{_MAX_RETRIES}).")
-            if attempt < _MAX_RETRIES:
-                time.sleep(_RETRY_BASE_DELAY)
-
-        except DDGSException as exc:
-            printer.error(f"Search error: {exc}")
-            return []
-
-        except Exception as exc:  # noqa: BLE001
-            printer.error(f"Unexpected error during search: {exc}")
-            return []
+    except Exception:
+        pass
 
     printer.error(
-        f"All {_MAX_RETRIES} attempts failed"
-        + (f" for [{label}]" if label else "")
-        + "."
+        f"All global engine queries restricted or exhausted for [{label}]. Check network interface."
     )
     return []
 
