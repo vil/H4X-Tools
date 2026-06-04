@@ -19,7 +19,7 @@ A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - buil
 
 Submit feature requests and bug reports in the [issues](https://github.com/vil/H4X-Tools/issues) tab.
 
-![](https://github.com/vil/H4X-Tools/blob/master/img/gui-v0.3.5.png)
+![](https://github.com/vil/vil/blob/master/h4xtools_gui_v26.png?raw=true)
 
 ---
 
