@@ -1,12 +1,18 @@
-[![MangoProxy](https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png)](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili)
+<p align="center">
+  <a href="https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili">
+    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="49%">
+  </a>
+  <a href="https://www.swiftproxy.net/?ref=H4XTools">
+    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="49%">
+  </a>
+</p>
 
-To avoid getting rate limited when doing your OSINT and scraping operations, use [**MangoProxy**](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili).
+To avoid getting rate limited when doing your OSINT and scraping operations, use the services provided by the great sponsors of H4X-Tools.
 
-[**MangoProxy**](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili) provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure.
+* [**MangoProxy**](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili) provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure. You can use the promo code **VILI** to get **8% off** Static ISP proxies.
+* [**Swiftproxy**](https://www.swiftproxy.net/?ref=H4XTools) — Premium residential proxies with 80M+ IPs across 190+ countries. Supports HTTP, HTTPS, and SOCKS5 with rotating and sticky sessions, non-expiring traffic. Ideal for OSINT, web scraping, automation, data collection, and large-scale online operations. **Free trial** available & **10% OFF** with code: **PROXY90**
 
-You can use the promo code **VILI** to get **8% off** Static ISP proxies.
-
-See the [Running with proxies](https://github.com/vil/H4X-Tools#running-with-proxies) section to see how to setup your proxies.
+See the [Running with proxies](#running-with-proxies) section to see how to setup your proxies.
 
 # H4X-Tools
 
