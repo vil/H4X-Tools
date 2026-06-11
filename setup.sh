@@ -2,21 +2,24 @@
 
 # Copyright (c) 2024-2026 Vili and contributors.
 
-# Stop script execution if any command fails
-set -e
+set -euo pipefail
 
-# Setup basic colors for better terminal readability
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+RED='\033[0;31m'
+NC='\033[0m'
 
 clear
 echo -e "${BLUE}H4X-Tools Setup Script${NC}"
 echo -e "-- Made in Finland, by Vili (@vil).\n"
 
-# 1. Install OS Dependencies based on the package manager
-echo -e "${GREEN}[*] Checking and installing system dependencies...${NC}"
+if [ ! -f "h4xtools.py" ] || [ ! -f "requirements.txt" ]; then
+    echo -e "${RED}[!] Please run this script from the H4X-Tools project directory.${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}[*] Checking system dependencies...${NC}"
 if command -v apt-get >/dev/null 2>&1; then
     echo "Detected Debian/Ubuntu-based system."
     sudo apt-get update
@@ -31,47 +34,42 @@ elif command -v zypper >/dev/null 2>&1; then
     echo "Detected openSUSE-based system."
     sudo zypper install -y python3 python3-pip python3-devel gcc git
 else
-    echo -e "${YELLOW}[!] Unsupported or unrecognised package manager. Please ensure Python3, pip, venv, and dev tools are installed manually.${NC}"
+    echo -e "${YELLOW}[!] Unsupported or unrecognised package manager.${NC}"
+    echo "Please make sure Python 3, pip, venv, git, and build tools are installed."
 fi
 
-# 2. Virtual Environment
+if ! command -v python3 >/dev/null 2>&1; then
+    echo -e "${RED}[!] python3 was not found. Install Python 3.10+ and run setup again.${NC}"
+    exit 1
+fi
+
 echo -e "\n${GREEN}[*] Creating virtual environment...${NC}"
-python3 -m venv .venv
-source .venv/bin/activate
+if [ ! -d ".venv" ]; then
+    python3 -m venv .venv
+else
+    echo "Existing .venv found, reusing it."
+fi
 
-# 3. Dependencies
+VENV_PYTHON=".venv/bin/python"
+if [ ! -x "$VENV_PYTHON" ]; then
+    echo -e "${RED}[!] Virtual environment Python was not found at $VENV_PYTHON.${NC}"
+    echo "Delete .venv and run setup again."
+    exit 1
+fi
+
+echo -e "\n${GREEN}[*] Upgrading pip tooling...${NC}"
+"$VENV_PYTHON" -m pip install --upgrade pip setuptools wheel
+
 echo -e "\n${GREEN}[*] Installing Python dependencies...${NC}"
-pip install --upgrade pip
-pip install -r requirements.txt
-pip install pyinstaller # Ensures PyInstaller is strictly in the venv
-
-# 4. Build Executable
-echo -e "\n${GREEN}[*] Building H4X-Tools to a single executable...${NC}"
-pyinstaller h4xtools.py --add-data "resources/*:resources" --onefile -F --clean
-
-# 5. Setup Binary in User Local Bin
-echo -e "\n${GREEN}[*] Installing executable to ~/.local/bin...${NC}"
-mkdir -p "$HOME/.local/bin"
-mv dist/h4xtools "$HOME/.local/bin/"
-chmod +x "$HOME/.local/bin/h4xtools"
-
-# 6. Cleanup
-echo -e "\n${GREEN}[*] Cleaning up build artifacts...${NC}"
-rm -f h4xtools.spec
-rm -rf build/ dist/
+"$VENV_PYTHON" -m pip install -r requirements.txt
 
 echo -e "\n${GREEN}[+] Setup complete!${NC}"
-
-# Check if ~/.local/bin is actually in the user's PATH variable
-if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
-    echo -e "${YELLOW}WARNING: $HOME/.local/bin is not in your PATH.${NC}"
-    echo "To run 'h4xtools' globally, add this line to your ~/.bashrc or ~/.zshrc:"
-    echo 'export PATH="$HOME/.local/bin:$PATH"'
-    echo "Alternatively, you can start it right now using its direct path."
-fi
+echo "Virtual environment: .venv"
+echo "Run H4X-Tools with: .venv/bin/python h4xtools.py"
+echo "Or activate the environment with: source .venv/bin/activate"
 
 echo ""
-read -r -p "Do you want to start H4XTools now? (y/N) " answer
+read -r -p "Do you want to run H4X-Tools with Python now? (y/N) " answer
 if [[ "$answer" =~ ^[yY](es)?$ ]]; then
-    "$HOME/.local/bin/h4xtools"
+    "$VENV_PYTHON" h4xtools.py
 fi

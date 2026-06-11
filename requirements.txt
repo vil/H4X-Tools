@@ -4,7 +4,6 @@ phonenumbers
 requests
 beautifulsoup4
 urllib3
-pyinstaller
 whoisdomain
 git+https://github.com/diezo/Ensta.git
 snscrape
