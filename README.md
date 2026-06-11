@@ -1,9 +1,9 @@
 <p align="center">
   <a href="https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili">
-    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="49%">
+    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="75%">
   </a>
   <a href="https://www.swiftproxy.net/?ref=H4XTools">
-    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="49%">
+    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="75%">
   </a>
 </p>
 
