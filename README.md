@@ -1,19 +1,3 @@
-<p align="center">
-  <a href="https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili">
-    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="75%">
-  </a>
-  <a href="https://www.swiftproxy.net/?ref=H4XTools">
-    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="75%">
-  </a>
-</p>
-
-To avoid getting rate limited when doing your OSINT and scraping operations, use the services provided by the great sponsors of H4X-Tools.
-
-* [**MangoProxy**](https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili) provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure. You can use the promo code **VILI** to get **8% off** Static ISP proxies.
-* [**Swiftproxy**](https://www.swiftproxy.net/?ref=H4XTools) — Premium residential proxies with 80M+ IPs across 190+ countries. Supports HTTP, HTTPS, and SOCKS5 with rotating and sticky sessions, non-expiring traffic. Ideal for OSINT, web scraping, automation, data collection, and large-scale online operations. **Free trial** available & **10% OFF** with code: **PROXY90**
-
-See the [Running with proxies](#running-with-proxies) section to see how to setup your proxies.
-
 # H4X-Tools
 
 [![GitHub latest commit](https://badgen.net/github/last-commit/vil/H4X-Tools)](https://GitHub.com/vil/H4X-Tools/commit/)
@@ -23,11 +7,46 @@ See the [Running with proxies](#running-with-proxies) section to see how to setu
 
 A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows.
 
-Submit feature requests and bug reports in the [issues](https://github.com/vil/H4X-Tools/issues) tab.
-
 ![](https://github.com/vil/vil/blob/master/h4xtools_gui_v26.png?raw=true)
 
+### Sponsors
+
+<table>
+  <thead>
+    <tr>
+      <th>Sponsor</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td width="500">
+        <a href="https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili">
+          <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="500">
+        </a>
+      </td>
+      <td>
+        <a href="https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili"><strong>MangoProxy</strong></a> provides residential, ISP, datacenter, and mobile proxies in 200+ countries. Trusted by businesses worldwide for stable connections, fast response times, and scalable proxy infrastructure. Use promo code <strong>VILI</strong> to get <strong>8% off</strong> Static ISP proxies.
+      </td>
+    </tr>
+    <tr>
+      <td width="500">
+        <a href="https://www.swiftproxy.net/?ref=H4XTools">
+          <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="500">
+        </a>
+      </td>
+      <td>
+        <a href="https://www.swiftproxy.net/?ref=H4XTools"><strong>Swiftproxy</strong></a> provides premium residential proxies with 80M+ IPs across 190+ countries. Supports HTTP, HTTPS, and SOCKS5 with rotating and sticky sessions, non-expiring traffic. Ideal for OSINT, web scraping, automation, data collection, and large-scale online operations. <strong>Free trial</strong> available and <strong>10% off</strong> with code <strong>PROXY90</strong>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
 ---
+
+<br>
 
 ## Tools
 
