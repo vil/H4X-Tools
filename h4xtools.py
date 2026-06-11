@@ -130,7 +130,7 @@ def _display_help() -> None:
             "address, credit card details (number, type, expiry, CVV), IBAN, and location."
         ),
         "Web Scrape": (
-            "Asynchronously harvests all hyperlinks from a target URL. Optionally crawls every "
+            "Asynchronously harvests all hyperlinks from a target URL, including phone numbers and emails. Optionally crawls every "
             "discovered page recursively. Results can be exported to scraped_data/ as TXT, CSV, or JSON."
         ),
         "Wi-Fi Finder": (

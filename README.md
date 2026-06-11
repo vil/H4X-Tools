@@ -1,10 +1,9 @@
 <p align="center">
   <a href="https://mangoproxy.com/?utm_source=github&utm_medium=partner&utm_campaign=vili">
-    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="75%">
+    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Banner_MangoProxy.png" alt="MangoProxy" width="49%">
   </a>
-  <br><br>
   <a href="https://www.swiftproxy.net/?ref=H4XTools">
-    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="75%">
+    <img src="https://raw.githubusercontent.com/vil/vil/refs/heads/master/Swiftproxy_banner.png" alt="Swiftproxy" width="49%">
   </a>
 </p>
 
@@ -44,7 +43,7 @@ Submit feature requests and bug reports in the [issues](https://github.com/vil/H
 | 08 | **Port Scanner** | Concurrently scans a user-defined TCP port range (1–N) on any IP or hostname using a 50-thread pool. Open ports are reported in real time. |
 | 09 | **WhoIs Lookup** | Performs a WHOIS query on a domain using the `whoisdomain` library and displays registrar, registration/expiry dates, name servers, status, and registrant details. |
 | 10 | **Fake Info Generator** | Generates a complete fake identity using [`Faker`](https://pypi.org/project/Faker/) - name, job, company, email, phone, address, credit card, IBAN, and location. |
-| 11 | **Web Scrape** | Asynchronously harvests all hyperlinks from a target URL. Optionally crawls every discovered page recursively. Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**. |
+| 11 | **Web Scrape** | Asynchronously harvests all hyperlinks from a target URL, including phone numbers and emails. Optionally crawls every discovered page recursively. Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**. |
 | 12 | **Wi-Fi Finder** | Scans for nearby Wi-Fi networks. Uses `netsh` on Windows and `nmcli` on Linux, reporting SSID, signal strength, and security type. The currently connected network is highlighted. |
 | 13 | **Wi-Fi Vault** | Dumps saved Wi-Fi passwords stored on the local machine - `netsh` on Windows, `nmcli` on Linux. |
 | 14 | **Dir Buster** | Asynchronously bruteforces directory and file paths on a target website using a built-in wordlist, printing every URL that returns HTTP 200. |
