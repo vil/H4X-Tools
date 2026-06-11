@@ -69,7 +69,7 @@ echo "Run H4X-Tools with: .venv/bin/python h4xtools.py"
 echo "Or activate the environment with: source .venv/bin/activate"
 
 echo ""
-read -r -p "Do you want to run H4X-Tools with Python now? (y/N) " answer
+read -r -p "Do you want to run H4X-Tools now? (y/N) " answer
 if [[ "$answer" =~ ^[yY](es)?$ ]]; then
     "$VENV_PYTHON" h4xtools.py
 fi
