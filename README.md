@@ -77,7 +77,7 @@ A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - buil
 > Requires [Python 3.10+](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads).
 > See the [wiki](https://github.com/vil/H4X-Tools/wiki) for a step-by-step guide.
 
-### Linux
+### Linux / macOS
 
 ```sh
 git clone https://github.com/vil/h4x-tools.git
@@ -93,13 +93,61 @@ cd h4x-tools
 setup.bat
 ```
 
-The setup scripts install all dependencies and optionally build a standalone executable via PyInstaller. You can also run the toolkit directly with:
+The setup scripts install all dependencies and create a virtual environment for H4X-Tools. If you prefer to set up a virtual environment manually (recommended), follow these steps.
+
+1. Verify your Python version:
+
+```sh
+python --version
+# or
+python3 --version
+```
+
+2. Create a virtual environment in the project directory:
+
+```sh
+# Using the standard library venv
+# Unix (Linux / macOS)
+python3 -m venv .venv
+
+# Windows (PowerShell / cmd)
+python -m venv .venv
+```
+
+3. Activate the virtual environment:
+
+```sh
+# Unix (Linux / macOS)
+source .venv/bin/activate
+
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+
+# Windows (cmd)
+.venv\Scripts\activate.bat
+```
+
+4. Upgrade pip and install dependencies:
+
+```sh
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+5. Run H4X-Tools:
 
 ```sh
 python h4xtools.py
 ```
 
-Dependencies can be installed manually with:
+You can also run the toolkit without activating the environment by calling the venv python directly:
+
+```sh
+.venv/bin/python h4xtools.py   # Unix
+.venv\Scripts\python.exe h4xtools.py   # Windows
+```
+
+If you choose not to use a virtual environment, you can install dependencies system-wide with:
 
 ```sh
 pip install -r requirements.txt
