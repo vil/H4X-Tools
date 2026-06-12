@@ -52,7 +52,7 @@ A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - buil
 
 | # | Tool | Description |
 |---|------|-------------|
-| 01 | **Ig Scrape** | Two-track Instagram OSINT scraper. **Guest mode** (no login) uses the `ensta` Guest API for public profile data and recent posts. **Authenticated mode** (Instagram `sessionid` cookie) queries Instagram's private mobile API directly for richer data - business flags, IGTV count, WhatsApp link status, and publicly listed contact details. Session IDs can optionally be saved in `$HOME/.config/h4x-tools/config.json` so they do not need to be re-entered every run. Both tracks run Instagram's account-recovery lookup to surface obfuscated email and phone. Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**. |
+| 01 | **Ig Scrape** | Two-track Instagram OSINT scraper. **Guest mode** (no login) uses the `ensta` Guest API for public profile data and recent posts. **Authenticated mode** (Instagram `sessionid` cookie) queries Instagram's private mobile API directly for richer data — business flags, IGTV count, WhatsApp link status, public contact details, stories, highlights, and reels. Advanced recovery lookup (obfuscated contact info) and per-post comment fetching are now optional to avoid noisy requests. Session IDs can optionally be saved in `$HOME/.config/h4x-tools/config.json`. Use CLI flags `--session-id`, `--skip-obf` (true/false), and `--comments-limit N` for non-interactive runs. Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**. |
 | 02 | **Web Reconnaissance** | Multi-mode OSINT search powered by the `ddgs` library. Choose from 7 modes: **General** (free-form), **Person** (12 dorks), **Email** (8 dorks), **Domain** (12 recon dorks), **Username** (12 platform dorks), **Phone Number** (8 dorks), or **Custom Dork** (write your own template). Configurable result count, retry/back-off on rate limits. Results can be exported to `scraped_data/` as **TXT**, **CSV**, or **JSON**. |
 | 03 | **Phone Lookup** | Validates and analyses a phone number via the `phonenumbers` library (E.164/national/international formats, country, region, carrier, line type, time zones), then runs [`ignorant`](https://github.com/megadose/ignorant) to check social-media platform registrations. |
 | 04 | **IP Lookup** | Resolves a hostname or IP address and queries [ipinfo.io](https://ipinfo.io) for geolocation data - city, region, country, coordinates, ISP/organization, postal code, and timezone - with a direct OpenStreetMap link. |
@@ -113,6 +113,7 @@ Examples:
 
 ```sh
 python h4xtools.py --igscrape some_username --verbose
+python h4xtools.py --igscrape some_username --comments-limit 5 --skip-obf true --verbose
 python h4xtools.py --username some_handle --debug
 python h4xtools.py --ip example.com --whois example.com
 python h4xtools.py --port-scanner 192.168.1.10 --port-range 1000
