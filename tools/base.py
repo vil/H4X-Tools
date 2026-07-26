@@ -18,8 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from typing import Any, Callable, ClassVar, Iterable
+from typing import Any, ClassVar
 
 
 @dataclass(frozen=True)
@@ -57,6 +58,9 @@ class BaseTool:
     order: ClassVar[int] = 999
     aliases: ClassVar[tuple[str, ...]] = ()
     arguments: ClassVar[tuple[ToolArgument, ...]] = ()
+    #: Set to ``False`` for tools that should not appear in the numbered TUI
+    #: menu (e.g. global utilities accessed via a dedicated shortcut key).
+    menu_visible: ClassVar[bool] = True
 
     @property
     def cli_dest(self) -> str:

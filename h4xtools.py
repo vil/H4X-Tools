@@ -20,11 +20,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 import socket
 import subprocess
+import sys
 import time
 
 from colorama import Fore, Style
 
-from helper import config, printer, proxymanager
+from helper import config, printer, tui
 from tools import BaseTool, discover_tools
 
 QUIT_COMMANDS = {"quit", "exit", "q", "kill"}
@@ -32,7 +33,7 @@ HELP_COMMANDS = {"?", "help"}
 
 
 def _get_git_ref() -> str:
-    """Returns the SHORT commit hash of the latest commit"""
+    """Returns the SHORT commit hash of the latest commit."""
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--short", "HEAD"],
@@ -42,7 +43,6 @@ def _get_git_ref() -> str:
         )
         return result.stdout.strip()
     except (subprocess.CalledProcessError, FileNotFoundError):
-        # Fallback if git fails (e.g., not a git repo) or git is not installed
         printer.verbose(
             "Failed to fetch the build hash! Make sure you are running this in the parent folder!"
         )
@@ -58,60 +58,82 @@ def _internet_check() -> None:
         socket.setdefaulttimeout(3)
         socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
-    except socket.error as sock_error:
+    except OSError as sock_error:
         printer.warning(
-            "Internet Connection is Unavailable or some other problem occurred..!\n{}".format(
-                sock_error
-            )
+            f"Internet Connection is Unavailable or some other problem occurred..!\n{sock_error}"
         )
 
 
-# Hash as the "version" string
 VERSION = _get_git_ref()
 
-
-def _print_banner() -> None:
-    print(
-        Fore.LIGHTBLACK_EX
-        + f"""
+# Pre-rendered ANSI banner passed to the TUI and fallback print paths.
+_BANNER_LINES = (
+    Fore.LIGHTBLACK_EX
+    + """\
  ▄ .▄▐▄• ▄ ▄▄▄▄▄            ▄▄▌  .▄▄ ·
 ██▪▐█ █▌█▌▪•██  ▪     ▪     ██•  ▐█ ▀.
 ██▀▐█ ·██·  ▐█.▪ ▄█▀▄  ▄█▀▄ ██▪  ▄▀▀▀█▄
 ██▌▐▀▪▐█·█▌ ▐█▌·▐█▌.▐▌▐█▌.▐▌▐█▌▐▌▐█▄▪▐█
-▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀
-{Style.RESET_ALL}Build {VERSION} / Vili (@vil) / https://vili.dev
-    """
-    )
+▀▀▀ ·•▀▀ ▀▀ ▀▀▀  ▀█▄▀▪ ▀█▄▀▪.▀▀▀  ▀▀▀▀"""
+    + Style.RESET_ALL
+    + f"\nBuild {VERSION} / Vili (@vil) / https://vili.dev\n"
+)
 
 
-def _display_help(tools: tuple[BaseTool, ...]) -> None:
+# ---------------------------------------------------------------------------
+# Help
+# ---------------------------------------------------------------------------
+
+
+def _display_help(
+    menu_tools: tuple[BaseTool, ...], proxy_tool: BaseTool | None
+) -> None:
     print(Fore.LIGHTCYAN_EX)
     print(
-        "H4X-Tools build: {} - A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows.".format(
-            VERSION
-        )
+        f"H4X-Tools build: {VERSION} - A modular, terminal-based toolkit for OSINT, "
+        "reconnaissance, and scraping - built in Python, runs on Linux and Windows."
     )
     print("Repository link: https://github.com/vil/h4x-tools")
     print("\nMade in Finland, with love.\n")
 
     print("Available Tools:")
     print("------------------")
-    for index, tool in enumerate(tools, start=1):
+    for index, tool in enumerate(menu_tools, start=1):
         aliases = ", ".join(tool.aliases)
         print(f"* {str(index).zfill(2)}. {tool.name} ({aliases}) - {tool.description}")
+
+    if proxy_tool is not None:
+        print("\nGlobal Utilities:")
+        print("------------------")
+        aliases = ", ".join(proxy_tool.aliases)
+        print(f"* P  {proxy_tool.name} ({aliases}) - {proxy_tool.description}")
+
+    print("\nNavigation (TUI menu):")
+    print("------------------")
+    print("  ↑ / ↓       Move through the tool list")
+    print("  Enter       Run the highlighted tool")
+    print("  0–9         Type a number to jump directly, then Enter to confirm")
+    print("  Backspace   Delete the last typed digit")
+    print("  Esc         Clear typed digits, or quit if nothing is typed")
+    print("  P           Open Proxy Manager")
+    print("  ?           Show this help screen")
+    print("  q           Quit")
+    print("\n  Inside any tool prompt, arrow keys move the cursor, Home/End jump")
+    print("  to line boundaries, and Ctrl-A / Ctrl-E work as expected.")
 
     print("\nAdding Tools:")
     print("------------------")
     print(
-        "Create a Python file in tools/, subclass tools.base.BaseTool, set id/name/description/order/aliases/arguments, "
-        "and implement run(). H4X-Tools discovers it automatically at startup."
+        "Create a Python file in tools/, subclass tools.base.BaseTool, set "
+        "id/name/description/order/aliases/arguments, and implement run(). "
+        "H4X-Tools discovers it automatically at startup."
     )
 
     print("\nClosing the Toolkit:")
     print("----------------------")
-    print("You can close the toolkit using the following commands:")
-    for command in sorted(QUIT_COMMANDS):
-        print(f"* {command}")
+    print(
+        "Press q or Esc in the menu, or use one of: " + ", ".join(sorted(QUIT_COMMANDS))
+    )
 
     print("\nLicense and Credits:")
     print("---------------------")
@@ -120,46 +142,20 @@ def _display_help(tools: tuple[BaseTool, ...]) -> None:
         "This toolkit is for educational and authorised security research purposes only."
     )
 
-
-def _print_menu(tools: tuple[BaseTool, ...]) -> None:
-    max_option_length = max(len(tool.name) for tool in tools)
-
-    for index, tool in enumerate(tools, start=1):
-        key = str(index)
-        print(
-            f"{Fore.LIGHTGREEN_EX}[{key.zfill(2)}]{Style.RESET_ALL} {tool.name.ljust(max_option_length)}",
-            end="",
-        )
-
-        if index % 2 == 0:
-            print()
-        else:
-            print(" " * 4, end="")
-
-    print("\n")
-
-    if proxymanager.is_enabled():
-        proxy_list = proxymanager.list_proxies()
-        count = len(proxy_list)
-        mode = "rotating" if proxymanager.is_rotating() else "fixed"
-        if count:
-            print(
-                f"{Fore.LIGHTGREEN_EX}[P]{Style.RESET_ALL} "
-                f"Proxy routing active / {count} {'proxy' if count == 1 else 'proxies'} ({mode})"
-            )
-        else:
-            print(
-                f"{Fore.LIGHTYELLOW_EX}[P]{Style.RESET_ALL} "
-                "Proxy routing enabled but no proxies configured."
-            )
-
-    print(f"Type {Style.BRIGHT}?{Style.RESET_ALL} for help.")
-    print(f"Type {Style.BRIGHT}exit{Style.RESET_ALL} to close the toolkit...")
+    print(Style.RESET_ALL, end="")
 
 
-def _build_parser(tools: tuple[BaseTool, ...]) -> argparse.ArgumentParser:
+# ---------------------------------------------------------------------------
+# CLI argument parsing
+# ---------------------------------------------------------------------------
+
+
+def _build_parser(all_tools: tuple[BaseTool, ...]) -> argparse.ArgumentParser:
     """
     Build the H4X-Tools command-line parser from discovered tool metadata.
+
+    All tools — including non-menu ones like the Proxy Manager — get their
+    CLI flags registered here so they remain reachable from the command line.
 
     :return: Configured argument parser.
     """
@@ -198,33 +194,35 @@ def _build_parser(tools: tuple[BaseTool, ...]) -> argparse.ArgumentParser:
         "Pass one or more tool flags to run them directly without opening the menu. "
         "Flags with optional values will prompt if the value is omitted.",
     )
-    for tool in tools:
+    for tool in all_tools:
         tool.add_cli_arguments(tool_group)
 
     return parser
 
 
-def _cli_tool_selected(args: argparse.Namespace, tools: tuple[BaseTool, ...]) -> bool:
+def _cli_tool_selected(
+    args: argparse.Namespace, all_tools: tuple[BaseTool, ...]
+) -> bool:
     """
     Determine whether any direct-run tool flag was provided.
 
     :param args: Parsed CLI args.
-    :param tools: Discovered tools.
+    :param all_tools: All discovered tools (including non-menu tools).
     :return: ``True`` if at least one tool should run directly.
     """
-    return any(tool.selected(args) for tool in tools)
+    return any(tool.selected(args) for tool in all_tools)
 
 
-def _run_cli_tools(args: argparse.Namespace, tools: tuple[BaseTool, ...]) -> None:
+def _run_cli_tools(args: argparse.Namespace, all_tools: tuple[BaseTool, ...]) -> None:
     """
     Execute tool flags directly and exit without opening the menu.
 
-    Tools run in menu order when multiple flags are provided.
+    Tools run in discovery order when multiple flags are provided.
 
     :param args: Parsed CLI args.
-    :param tools: Discovered tools.
+    :param all_tools: All discovered tools (including non-menu tools).
     """
-    for tool in tools:
+    for tool in all_tools:
         if not tool.selected(args):
             continue
 
@@ -236,17 +234,29 @@ def _run_cli_tools(args: argparse.Namespace, tools: tuple[BaseTool, ...]) -> Non
             break
 
 
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+
 def main(args: argparse.Namespace | None = None) -> None:
-    tools = discover_tools()
+    # discover_tools() returns ALL tools, including non-menu tools.
+    all_tools = discover_tools()
 
     if args is None:
-        args = _build_parser(tools).parse_args()
+        args = _build_parser(all_tools).parse_args()
 
     printer.set_verbosity(verbose=args.verbose > 0, debug_enabled=args.debug)
     config.init_config()
 
+    # Split into menu-visible tools and the special-access proxy manager.
+    menu_tools = tuple(t for t in all_tools if t.menu_visible)
+    proxy_tool: BaseTool | None = next(
+        (t for t in all_tools if t.id == "proxy_manager"), None
+    )
+
     if args.list_tools:
-        _display_help(tools)
+        _display_help(menu_tools, proxy_tool)
         return
 
     if not args.no_internet_check:
@@ -255,34 +265,43 @@ def main(args: argparse.Namespace | None = None) -> None:
 
     printer.debug("DEBUG IS ON.")
 
-    if _cli_tool_selected(args, tools):
+    if _cli_tool_selected(args, all_tools):
         printer.set_pause_after_tool(False)
-        _run_cli_tools(args, tools)
+        _run_cli_tools(args, all_tools)
         return
 
     printer.set_pause_after_tool(True)
-    menu_options = {str(index): tool for index, tool in enumerate(tools, start=1)}
+    menu_options = {str(index): tool for index, tool in enumerate(menu_tools, start=1)}
 
     while True:
-        _print_banner()
-        _print_menu(tools)
-        user_input = printer.user_input("Tool to execute : \t")
-        normalized_input = user_input.lower()
+        choice = tui.run_menu(menu_tools, _BANNER_LINES)
 
-        if normalized_input in QUIT_COMMANDS:
+        if choice == "quit" or choice is None:
             printer.warning("Quitting... Goodbye!")
             print(Style.RESET_ALL)
             time.sleep(0.5)
             break
 
-        if user_input in menu_options:
+        if choice == "help":
+            _display_help(menu_tools, proxy_tool)
+            printer.user_input("Done reading? Press the Enter key.")
+            continue
+
+        if choice == "proxy":
+            if proxy_tool is not None:
+                try:
+                    proxy_tool.run()
+                except KeyboardInterrupt:
+                    printer.warning("Cancelled..!")
+            else:
+                printer.warning("Proxy Manager is not available.")
+            continue
+
+        if choice in menu_options:
             try:
-                menu_options[user_input].run()
+                menu_options[choice].run()
             except KeyboardInterrupt:
                 printer.warning("Cancelled..!")
-        elif normalized_input in HELP_COMMANDS:
-            _display_help(tools)
-            printer.user_input("Done reading? Press the Enter key.")
         else:
             printer.error("Invalid option!")
             time.sleep(0.5)
@@ -299,4 +318,4 @@ if __name__ == "__main__":
             print("\n")
             printer.warning("Quitting... Goodbye!")
             print(Style.RESET_ALL)
-            exit(0)
+            sys.exit()

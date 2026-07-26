@@ -1,4 +1,5 @@
 colorama
+prompt_toolkit
 ddgs
 phonenumbers
 requests

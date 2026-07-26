@@ -137,9 +137,28 @@ def noprefix(message, *args, **kwargs) -> None:
     print(message, *args, **kwargs)
 
 
-def user_input(prompt, *args, **kwargs) -> str:
-    _print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
-    return input()
+def user_input(prompt: str, *args, **kwargs) -> str:
+    """
+    Prompt the user for text input with full readline-style editing.
+
+    Arrow keys move the cursor, Home/End jump to line boundaries, and
+    Ctrl-A / Ctrl-E work as expected.  Falls back to plain ``input()``
+    when *prompt_toolkit* is not installed.
+
+    :param prompt: Prompt text shown to the left of the cursor.
+    :return: The string entered by the user.
+    """
+    prompt_str = f"{Fore.LIGHTBLUE_EX}[?]{Style.RESET_ALL} {prompt.replace(chr(9), '')}"
+    try:
+        from prompt_toolkit import prompt as _pt_prompt
+        from prompt_toolkit.formatted_text import ANSI as _ANSI
+
+        return _pt_prompt(_ANSI(prompt_str))
+    except ImportError:
+        print(prompt_str, end="", flush=True)
+        return input()
+    except EOFError:
+        return ""
 
 
 def ansi_escape(output: str) -> str:

@@ -10,7 +10,7 @@ If you have the knowledge and skills, please contribute by opening a pull reques
 
 A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows.
 
-![](https://github.com/vil/vil/blob/master/h4xtools_gui_v26.png?raw=true)
+![](https://github.com/vil/vil/blob/master/h4xtools_tui.png?raw=true)
 
 <br>
 
@@ -35,7 +35,6 @@ A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - buil
 | 15 | **Bluetooth Scanner** | Scans for nearby Bluetooth devices via `bluetoothctl` (Linux) and reports device names and MAC addresses. *(Windows support coming soon.)* |
 | 16 | **Local Users** | Enumerates all local user accounts on the system. On Linux: username, UID, GID, full name, home directory, shell, and group. On Windows: username, terminal, host, session start time, PID, SID, and domain. |
 | 17 | **Git Scrape** | Scrapes and analyzes a Git repository (local path, GitHub URL, or any remote URL) or a GitHub account. Detects leaked commit identities, accidental secrets (API keys, tokens, private keys, passwords) in diff history, sensitive tracked files, and suspicious commit messages. *(Other platforms will be supported soon.)* |
-| 18 | **Proxy Manager** | Configure HTTP/SOCKS proxies to route H4X-Tools network traffic through, with optional round-robin rotation to avoid rate limiting. Proxies are persisted in `$HOME/.config/h4x-tools/config.json` and respected by all compatible tools automatically. |
 
 ---
 

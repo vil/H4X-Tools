@@ -29,6 +29,8 @@ class ProxyManagerTool(BaseTool):
         "Configure HTTP/SOCKS proxies for H4X-Tools to route network traffic through, "
         "with optional round-robin rotation to avoid rate limiting."
     )
+    # Accessed via the P shortcut in the TUI menu, not as a numbered entry.
+    menu_visible = False
 
     # No CLI arguments - the tool always opens its interactive sub-menu.
 
