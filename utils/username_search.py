@@ -15,12 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import asyncio
 import csv
 import json
+import logging
 import re
-import subprocess
 import sys
-import tempfile
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
@@ -54,11 +54,11 @@ class MaigretConfig:
 @timer.timer(require_input=True)
 def search(username: str, site_count: int | None = None) -> None:
     """
-    Searches for a username using Maigret.
+    Searches for a username using Maigret's Python library API.
 
-    H4X-Tools intentionally acts as a wrapper around Maigret here: it invokes
-    Maigret's maintained site database/check engines, prints Maigret's results,
-    and optionally exports a H4X-Tools report in TXT, CSV, or JSON format.
+    Loads Maigret's bundled site database directly, runs the async search via
+    ``asyncio.run``, and optionally exports a H4X-Tools report in TXT, CSV,
+    or JSON format.
 
     Thanks to Maigret — https://github.com/soxoj/maigret
 
@@ -71,7 +71,15 @@ def search(username: str, site_count: int | None = None) -> None:
     if not _validate_username(username):
         return
 
-    available_sites = _get_available_site_count()
+    db = _load_db()
+    if db is None:
+        printer.error(
+            "Could not load Maigret site database. "
+            f"Make sure Maigret is installed: {Style.BRIGHT}pip install maigret{Style.RESET_ALL}"
+        )
+        return
+
+    available_sites = len(db.sites)
     config = _ask_config(available_sites, site_count)
     if config is None:
         return
@@ -88,22 +96,22 @@ def search(username: str, site_count: int | None = None) -> None:
     printer.info("This can take a while depending on network conditions.")
 
     try:
-        report = _run_maigret(username, config)
+        results = _run_maigret(username, config, db)
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
         return
 
-    if report is None:
+    if results is None:
         return
 
-    claimed = _print_summary(username, report)
+    claimed = _print_summary(username, results)
 
     if config.save_format:
-        _save_report(username, report, claimed, config)
+        _save_report(username, results, claimed, config)
     else:
         printer.info("Report saving skipped.")
 
-    printer.info("Credits to soxoj and contributors for Maigret.")
+    printer.info("Credits to Soxoj and contributors for Maigret.")
 
 
 # Internal helpers
@@ -133,44 +141,46 @@ def _validate_username(username: str) -> bool:
     return True
 
 
-def _get_available_site_count() -> int | None:
+def _load_db():
     """
-    Counts the sites available in Maigret's local database.
+    Loads the Maigret site database.
 
-    Maigret stores the local database at ``~/.maigret/data.json``. The current
-    format keeps sites under the top-level ``sites`` key, but this stays
-    defensive in case the structure changes.
+    Tries the database bundled with the installed Maigret package first, then
+    falls back to the user-level copy at ``~/.maigret/data.json``.
 
-    :return: Number of available Maigret sites, or ``None`` if unavailable.
+    :return: A loaded ``MaigretDatabase`` instance, or ``None`` on failure.
     """
     try:
-        database = json.loads(MAIGRET_DB_PATH.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        printer.warning(
-            f"Maigret database not found at {Style.BRIGHT}{MAIGRET_DB_PATH}{Style.RESET_ALL}. "
-            f"Using default of {Style.BRIGHT}{DEFAULT_SITE_COUNT}{Style.RESET_ALL} sites."
-        )
-        return None
-    except json.JSONDecodeError as exc:
-        printer.warning(
-            f"Could not parse Maigret database ({exc}). "
-            f"Using default of {Style.BRIGHT}{DEFAULT_SITE_COUNT}{Style.RESET_ALL} sites."
-        )
-        return None
-    except OSError as exc:
-        printer.warning(
-            f"Could not read Maigret database ({exc}). "
-            f"Using default of {Style.BRIGHT}{DEFAULT_SITE_COUNT}{Style.RESET_ALL} sites."
-        )
+        from maigret.sites import MaigretDatabase
+    except ImportError:
         return None
 
-    sites = database.get("sites") if isinstance(database, dict) else None
+    # Prefer the copy bundled with the installed package so we always have a
+    # database even before the user has run `maigret --update-db`.
+    try:
+        import maigret as _maigret_pkg
 
-    if isinstance(sites, dict | list):
-        return len(sites)
+        bundled = Path(_maigret_pkg.__file__).parent / "resources" / "data.json"
+        if bundled.exists():
+            db = MaigretDatabase().load_from_path(str(bundled))
+            printer.verbose(
+                f"Loaded Maigret database: {Style.BRIGHT}{len(db.sites)}{Style.RESET_ALL} sites (bundled)."
+            )
+            return db
+    except Exception as exc:
+        printer.warning(f"Could not load bundled Maigret database: {exc}")
 
-    if isinstance(database, dict):
-        return len(database)
+    # Fall back to the user-level database updated by `maigret --update-db`.
+    if MAIGRET_DB_PATH.exists():
+        try:
+            db = MaigretDatabase().load_from_path(str(MAIGRET_DB_PATH))
+            printer.verbose(
+                f"Loaded Maigret database: {Style.BRIGHT}{len(db.sites)}{Style.RESET_ALL} sites "
+                f"({Style.BRIGHT}{MAIGRET_DB_PATH}{Style.RESET_ALL})."
+            )
+            return db
+        except Exception as exc:
+            printer.warning(f"Could not load user Maigret database: {exc}")
 
     return None
 
@@ -418,148 +428,87 @@ def _ask_save_report() -> str | None:
     return format_map.get(choice, "txt")
 
 
-def _run_maigret(username: str, config: MaigretConfig) -> dict[str, Any] | None:
+def _run_maigret(username: str, config: MaigretConfig, db) -> dict[str, Any] | None:
     """
-    Invokes Maigret and returns the parsed simple JSON report.
+    Runs the Maigret search using the library API and returns raw results.
 
-    H4X-Tools creates Maigret's JSON report in a temporary directory so it can
-    summarize results without forcing the user to save anything. If the user
-    opted to save a report, H4X-Tools exports the parsed results afterwards.
+    Uses ``asyncio.run`` to drive the async ``maigret.search`` coroutine.
+    A ``Notifier`` is attached so found accounts are printed live as Maigret
+    discovers them. Progress bars are suppressed to keep H4X-Tools' UI clean.
 
     :param username: The validated username to search.
     :param config: Maigret runtime configuration.
-    :return: Parsed Maigret report, or ``None`` on failure.
-    """
-    with tempfile.TemporaryDirectory(prefix="h4x_maigret_") as temp_dir:
-        temp_path = Path(temp_dir)
-        report_path = _maigret_json_path(temp_path, username)
-
-        command = [
-            sys.executable,
-            "-m",
-            "maigret",
-            username,
-            "--top-sites",
-            str(config.site_count),
-            "--timeout",
-            str(config.timeout),
-            "--retries",
-            str(config.retries),
-            "--max-connections",
-            str(config.connections),
-            "--no-color",
-            "--no-progressbar",
-            "--json",
-            "simple",
-            "--folderoutput",
-            str(temp_path),
-        ]
-
-        if config.print_errors:
-            command.append("--print-errors")
-
-        proxy = proxymanager.get_proxy()
-        if proxy:
-            command.extend(["--proxy", proxy])
-
-        try:
-            result = subprocess.run(
-                command,
-                capture_output=True,
-                text=True,
-                timeout=900,
-            )
-        except FileNotFoundError:
-            printer.error(
-                f"{Style.BRIGHT}maigret{Style.RESET_ALL} was not found. "
-                f"Install it with: {Style.BRIGHT}pip install maigret{Style.RESET_ALL}"
-            )
-            return None
-        except subprocess.TimeoutExpired:
-            printer.error(
-                "Maigret timed out after 15 minutes. "
-                "Try again with fewer sites or fewer parallel connections."
-            )
-            return None
-        except Exception as exc:
-            printer.error(f"Unexpected error while running Maigret: {exc}")
-            return None
-
-        _print_maigret_output(result.stdout + result.stderr)
-
-        if result.returncode != 0:
-            printer.error(f"Maigret exited with status code {result.returncode}.")
-            return None
-
-        if not report_path.exists():
-            printer.warning(
-                "Maigret finished but did not create the internal JSON report."
-            )
-            return None
-
-        return _load_report(report_path)
-
-
-def _print_maigret_output(output: str) -> None:
-    """
-    Prints Maigret output while hiding the temporary internal JSON path.
-
-    :param output: Combined stdout/stderr from Maigret.
-    """
-    for line in output.splitlines():
-        clean = line.strip()
-        if not clean:
-            continue
-
-        if "JSON simple report" in clean and "saved in" in clean:
-            continue
-
-        printer.noprefix(clean)
-
-
-def _maigret_json_path(output_dir: Path, username: str) -> Path:
-    """
-    Builds Maigret's simple JSON report path for a username.
-
-    :param output_dir: Directory passed to Maigret's ``--folderoutput`` flag.
-    :param username: The username used by Maigret.
-    :return: The expected JSON report path.
-    """
-    return output_dir / f"report_{username}_simple.json"
-
-
-def _load_report(report_path: Path) -> dict[str, Any] | None:
-    """
-    Loads a Maigret JSON report.
-
-    :param report_path: Path to Maigret's simple JSON report.
-    :return: Parsed report, or ``None`` on failure.
+    :param db: Loaded ``MaigretDatabase`` instance.
+    :return: Raw Maigret results dict, or ``None`` on failure.
     """
     try:
-        report = json.loads(report_path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        printer.error(f"Could not parse Maigret JSON report: {exc}")
-        return None
-    except OSError as exc:
-        printer.error(f"Could not read Maigret JSON report: {exc}")
-        return None
-
-    if not isinstance(report, dict):
-        printer.error("Maigret JSON report had an unexpected structure.")
+        from maigret import Notifier
+        from maigret import search as maigret_search
+    except ImportError:
+        printer.error(
+            f"{Style.BRIGHT}maigret{Style.RESET_ALL} is not installed. "
+            f"Install it with: {Style.BRIGHT}pip install maigret{Style.RESET_ALL}"
+        )
         return None
 
-    return report
+    sites = db.ranked_sites_dict(top=config.site_count)
+
+    # Gate Maigret's internal Python logging on H4X-Tools' verbosity level so
+    # its WARNING-level messages don't leak through the root logger by default.
+    logger = logging.getLogger("maigret")
+    logger.setLevel(
+        logging.DEBUG
+        if printer.is_debug()
+        else logging.WARNING
+        if printer.is_verbose()
+        else logging.ERROR
+    )
+
+    # QueryNotifyPrint prints each found account to the terminal in real time.
+    notifier = Notifier(
+        print_found_only=True,
+        color=True,
+        skip_check_errors=not config.print_errors,
+    )
+
+    proxy = proxymanager.get_proxy() or None
+
+    try:
+        results = asyncio.run(
+            maigret_search(
+                username=username,
+                site_dict=sites,
+                logger=logger,
+                query_notify=notifier,
+                proxy=proxy,
+                timeout=config.timeout,
+                is_parsing_enabled=True,
+                no_progressbar=True,
+                max_connections=config.connections,
+                retries=config.retries,
+            )
+        )
+    except KeyboardInterrupt:
+        raise
+    except Exception as exc:
+        printer.error(f"Maigret search failed: {exc}")
+        return None
+
+    return results
 
 
-def _print_summary(username: str, report: dict[str, Any]) -> list[dict[str, Any]]:
+def _print_summary(username: str, results: dict[str, Any]) -> list[dict[str, Any]]:
     """
-    Prints a concise H4X-Tools summary from Maigret's simple JSON report.
+    Prints a concise H4X-Tools summary from Maigret's result dict.
+
+    Also displays any profile fields extracted via ``is_parsing_enabled``
+    (bio, linked accounts, UIDs, etc.) grouped under each found site.
 
     :param username: The searched username.
-    :param report: Parsed Maigret report.
-    :return: Claimed account entries extracted from the report.
+    :param results: Raw results dict returned by ``maigret.search``.
+    :return: Claimed account entries extracted from the results.
     """
-    claimed = _claimed_accounts(report)
+    claimed = _claimed_accounts(results)
 
     printer.noprefix("")
     printer.section("Maigret Summary")
@@ -569,6 +518,15 @@ def _print_summary(username: str, report: dict[str, Any]) -> list[dict[str, Any]
             f"Found {Style.BRIGHT}{len(claimed)}{Style.RESET_ALL} account(s) "
             f"for {Style.BRIGHT}{username}{Style.RESET_ALL}."
         )
+        for account in claimed:
+            ids = account.get("ids_data") or {}
+            if ids:
+                printer.info(
+                    f"{Style.BRIGHT}{account['site']}{Style.RESET_ALL} — profile data:"
+                )
+                for key, value in ids.items():
+                    if value:
+                        printer.noprefix(f"    {key}: {value}")
     else:
         printer.warning(f"No claimed accounts found for {username}.")
 
@@ -577,7 +535,7 @@ def _print_summary(username: str, report: dict[str, Any]) -> list[dict[str, Any]
 
 def _save_report(
     username: str,
-    report: dict[str, Any],
+    results: dict[str, Any],
     claimed: list[dict[str, Any]],
     config: MaigretConfig,
 ) -> None:
@@ -585,8 +543,8 @@ def _save_report(
     Exports Maigret results to ``scraped_data/maigret/``.
 
     :param username: The searched username.
-    :param report: Full parsed Maigret report.
-    :param claimed: Claimed accounts extracted from the report.
+    :param results: Raw results dict returned by ``maigret.search``.
+    :param claimed: Claimed accounts extracted from the results.
     :param config: Maigret runtime configuration used for the scan.
     """
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
@@ -619,6 +577,12 @@ def _save_report(
                             tags = account.get("tags") or []
                             if tags:
                                 fh.write(f"Tags : {', '.join(tags)}\n")
+                            ids = account.get("ids_data") or {}
+                            if ids:
+                                fh.write("Profile data:\n")
+                                for key, value in ids.items():
+                                    if value:
+                                        fh.write(f"  {key}: {value}\n")
                             fh.write("\n")
                     else:
                         fh.write("No claimed accounts found.\n")
@@ -666,7 +630,6 @@ def _save_report(
                     "config": asdict(config),
                     "total_found": len(claimed),
                     "claimed_accounts": claimed,
-                    "raw_report": report,
                 }
                 with filepath.open("w", encoding="utf-8") as fh:
                     json.dump(payload, fh, indent=2, ensure_ascii=False)
@@ -692,33 +655,36 @@ def _slugify(value: str) -> str:
     return "".join(c if c.isalnum() or c in "-_.@" else "_" for c in value)[:80]
 
 
-def _claimed_accounts(report: dict[str, Any]) -> list[dict[str, Any]]:
+def _claimed_accounts(results: dict[str, Any]) -> list[dict[str, Any]]:
     """
-    Extracts claimed accounts from Maigret's simple JSON report.
+    Extracts claimed accounts from Maigret's raw result dict.
 
-    :param report: Parsed Maigret report.
+    Each value in the results dict contains a ``"status"`` key that holds a
+    ``MaigretCheckResult`` object. ``is_found()`` returns ``True`` when the
+    status is ``CLAIMED``.
+
+    :param results: Raw results dict returned by ``maigret.search``.
     :return: Claimed account entries sorted by Maigret rank and site name.
     """
     claimed: list[dict[str, Any]] = []
 
-    for site_name, entry in report.items():
-        if not isinstance(entry, dict):
+    for site_name, result in results.items():
+        if not isinstance(result, dict):
             continue
 
-        status = entry.get("status")
-        if not isinstance(status, dict):
-            continue
-
-        if status.get("status") != "Claimed":
+        status = result.get("status")
+        if status is None or not status.is_found():
             continue
 
         claimed.append(
             {
-                "site": status.get("site_name") or site_name,
-                "url": status.get("url") or entry.get("url_user"),
-                "rank": entry.get("rank", sys.maxsize),
-                "http_status": entry.get("http_status"),
-                "tags": status.get("tags") or [],
+                "site": getattr(status, "site_name", None) or site_name,
+                "url": getattr(status, "site_url_user", None)
+                or result.get("url_user", ""),
+                "rank": result.get("rank", sys.maxsize),
+                "http_status": result.get("http_status"),
+                "tags": list(getattr(status, "tags", None) or []),
+                "ids_data": dict(getattr(status, "ids_data", None) or {}),
             }
         )
 
