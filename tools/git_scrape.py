@@ -50,11 +50,10 @@ def _prompt_new_token() -> str:
         .strip()
         .lower()
     )
-    if answer in {"y", "yes"}:
-        if config.set_value(_CONFIG_SECTION, _TOKEN_KEY, token):
-            printer.success(
-                f"Token saved to {Style.BRIGHT}{config.get_config_file()}{Style.RESET_ALL}"
-            )
+    if answer in {"y", "yes"} and config.set_value(_CONFIG_SECTION, _TOKEN_KEY, token):
+        printer.success(
+            f"Token saved to {Style.BRIGHT}{config.get_config_file()}{Style.RESET_ALL}"
+        )
 
     return token
 
@@ -138,10 +137,6 @@ class GitScrape(BaseTool):
             user_target = target
 
         token = _ask_github_token()
-
-        try:
-            git_scrape.execute_scrape(
-                target=user_target, repository=repo_target, token=token
-            )
-        except Exception as exc:
-            printer.error(f"An error occurred during scraping: {exc}")
+        git_scrape.execute_scrape(
+            target=user_target, repository=repo_target, token=token
+        )

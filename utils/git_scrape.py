@@ -42,81 +42,166 @@ _MAX_COMMITS_PER_REPO: int = 500
 
 _SECRET_PATTERNS: list[tuple[str, re.Pattern]] = [
     # Cloud / Infrastructure
-    ("AWS Access Key ID",          re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
-    ("AWS Secret Access Key",      re.compile(r'(?i)\baws[_\-.]?secret[_\-.]?(?:access[_\-.]?)?key\b.{0,30}[A-Za-z0-9/+=]{40}\b')),
-    ("Google API Key",             re.compile(r"\bAIza[0-9A-Za-z\-_]{35}\b")),
-    ("Heroku API Key",             re.compile(r'(?i)heroku.{0,20}[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')),
+    ("AWS Access Key ID", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    (
+        "AWS Secret Access Key",
+        re.compile(
+            r"(?i)\baws[_\-.]?secret[_\-.]?(?:access[_\-.]?)?key\b.{0,30}[A-Za-z0-9/+=]{40}\b"
+        ),
+    ),
+    ("Google API Key", re.compile(r"\bAIza[0-9A-Za-z\-_]{35}\b")),
+    (
+        "Heroku API Key",
+        re.compile(
+            r"(?i)heroku.{0,20}[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+        ),
+    ),
     # Source control / CI
-    ("GitHub Token (Classic)",     re.compile(r"\bghp_[A-Za-z0-9]{36}\b")),
-    ("GitHub OAuth Token",         re.compile(r"\bgho_[A-Za-z0-9]{36}\b")),
-    ("GitHub Actions Token",       re.compile(r"\bghs_[A-Za-z0-9]{36}\b")),
-    ("GitHub PAT (Fine-grained)",  re.compile(r"\bgithub_pat_[A-Za-z0-9_]{82}\b")),
-    ("NPM Access Token",           re.compile(r"\bnpm_[A-Za-z0-9]{36}\b")),
+    ("GitHub Token (Classic)", re.compile(r"\bghp_[A-Za-z0-9]{36}\b")),
+    ("GitHub OAuth Token", re.compile(r"\bgho_[A-Za-z0-9]{36}\b")),
+    ("GitHub Actions Token", re.compile(r"\bghs_[A-Za-z0-9]{36}\b")),
+    ("GitHub PAT (Fine-grained)", re.compile(r"\bgithub_pat_[A-Za-z0-9_]{82}\b")),
+    ("NPM Access Token", re.compile(r"\bnpm_[A-Za-z0-9]{36}\b")),
     # Messaging
-    ("Slack Bot Token",            re.compile(r"\bxoxb-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9-]*\b")),
-    ("Slack User Token",           re.compile(r"\bxoxp-[0-9A-Za-z\-]{30,}\b")),
-    ("Slack Webhook URL",          re.compile(r"https://hooks\.slack\.com/services/T[A-Z0-9]{8,}/B[A-Z0-9]{8,}/[A-Za-z0-9]{24,}")),
-    ("Telegram Bot Token",         re.compile(r"\b[0-9]{8,10}:[A-Za-z0-9_\-]{35}\b")),
+    ("Slack Bot Token", re.compile(r"\bxoxb-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9-]*\b")),
+    ("Slack User Token", re.compile(r"\bxoxp-[0-9A-Za-z\-]{30,}\b")),
+    (
+        "Slack Webhook URL",
+        re.compile(
+            r"https://hooks\.slack\.com/services/T[A-Z0-9]{8,}/B[A-Z0-9]{8,}/[A-Za-z0-9]{24,}"
+        ),
+    ),
+    ("Telegram Bot Token", re.compile(r"\b[0-9]{8,10}:[A-Za-z0-9_\-]{35}\b")),
     # Payment
-    ("Stripe Live Secret Key",     re.compile(r"\bsk_live_[0-9a-zA-Z]{24,}\b")),
-    ("Stripe Test Secret Key",     re.compile(r"\bsk_test_[0-9a-zA-Z]{24,}\b")),
+    ("Stripe Live Secret Key", re.compile(r"\bsk_live_[0-9a-zA-Z]{24,}\b")),
+    ("Stripe Test Secret Key", re.compile(r"\bsk_test_[0-9a-zA-Z]{24,}\b")),
     # Email / Communication
-    ("SendGrid API Key",           re.compile(r"\bSG\.[A-Za-z0-9\-_]{22}\.[A-Za-z0-9\-_]{43}\b")),
-    ("Mailgun API Key",            re.compile(r"\bkey-[0-9a-zA-Z]{32}\b")),
-    ("Mailchimp API Key",          re.compile(r"\b[0-9a-f]{32}-us[0-9]{1,2}\b")),
+    ("SendGrid API Key", re.compile(r"\bSG\.[A-Za-z0-9\-_]{22}\.[A-Za-z0-9\-_]{43}\b")),
+    ("Mailgun API Key", re.compile(r"\bkey-[0-9a-zA-Z]{32}\b")),
+    ("Mailchimp API Key", re.compile(r"\b[0-9a-f]{32}-us[0-9]{1,2}\b")),
     # Crypto / Auth
-    ("Private Key (PEM)",          re.compile(r"-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----")),
-    ("JWT Token",                  re.compile(r"\beyJ[A-Za-z0-9\-_=]{10,}\.eyJ[A-Za-z0-9\-_=]{10,}\.[A-Za-z0-9\-_.+/=]{10,}")),
+    (
+        "Private Key (PEM)",
+        re.compile(r"-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"),
+    ),
+    (
+        "JWT Token",
+        re.compile(
+            r"\beyJ[A-Za-z0-9\-_=]{10,}\.eyJ[A-Za-z0-9\-_=]{10,}\.[A-Za-z0-9\-_.+/=]{10,}"
+        ),
+    ),
     # Database
-    ("Database URL",               re.compile(
-        r"(?i)(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|mariadb|redis|amqps?)://[^\s\"'<>]{8,}"
-    )),
+    (
+        "Database URL",
+        re.compile(
+            r"(?i)(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|mariadb|redis|amqps?)://[^\s\"'<>]{8,}"
+        ),
+    ),
     # Generic / catch-all (ordered last to avoid noise masking specific patterns)
-    ("Generic Password",           re.compile(r'(?i)(?:password|passwd|pwd)\s*[:=]\s*["\'][^"\']{6,}["\']')),
-    ("Generic API Key",            re.compile(r'(?i)(?:api[_\-]?key|apikey)\s*[:=]\s*["\'][A-Za-z0-9\-_.]{16,}["\']')),
-    ("Generic Secret",             re.compile(
-        r'(?i)(?:secret[_\-]?key|app[_\-]?secret|client[_\-]?secret|auth[_\-]?secret)\s*[:=]\s*["\'][A-Za-z0-9\-_.]{16,}["\']'
-    )),
-    ("Generic Token",              re.compile(
-        r'(?i)(?:access[_\-]?token|auth[_\-]?token|bearer[_\-]?token)\s*[:=]\s*["\'][A-Za-z0-9\-_.]{20,}["\']'
-    )),
+    (
+        "Generic Password",
+        re.compile(r'(?i)(?:password|passwd|pwd)\s*[:=]\s*["\'][^"\']{6,}["\']'),
+    ),
+    (
+        "Generic API Key",
+        re.compile(
+            r'(?i)(?:api[_\-]?key|apikey)\s*[:=]\s*["\'][A-Za-z0-9\-_.]{16,}["\']'
+        ),
+    ),
+    (
+        "Generic Secret",
+        re.compile(
+            r'(?i)(?:secret[_\-]?key|app[_\-]?secret|client[_\-]?secret|auth[_\-]?secret)\s*[:=]\s*["\'][A-Za-z0-9\-_.]{16,}["\']'
+        ),
+    ),
+    (
+        "Generic Token",
+        re.compile(
+            r'(?i)(?:access[_\-]?token|auth[_\-]?token|bearer[_\-]?token)\s*[:=]\s*["\'][A-Za-z0-9\-_.]{20,}["\']'
+        ),
+    ),
 ]
 
-_SENSITIVE_FILE_NAMES: frozenset[str] = frozenset({
-    ".env", ".env.local", ".env.production", ".env.staging",
-    ".env.development", ".env.test",
-    "id_rsa", "id_dsa", "id_ecdsa", "id_ed25519",
-    ".netrc", ".npmrc", ".pypirc", ".boto",
-    "credentials", "credentials.json", "credentials.yml", "credentials.yaml",
-    "service-account.json", "serviceaccount.json",
-    "secrets.json", "secrets.yml", "secrets.yaml",
-    "database.yml", "database.json",
-    "wp-config.php",
-    "local_settings.py",
-    ".htpasswd",
-    "client_secret.json",
-    "google-services.json",
-    "GoogleService-Info.plist",
-    "keystore.jks", "keystore.p12",
-    "terraform.tfvars",
-})
+_SENSITIVE_FILE_NAMES: frozenset[str] = frozenset(
+    {
+        ".env",
+        ".env.local",
+        ".env.production",
+        ".env.staging",
+        ".env.development",
+        ".env.test",
+        "id_rsa",
+        "id_dsa",
+        "id_ecdsa",
+        "id_ed25519",
+        ".netrc",
+        ".npmrc",
+        ".pypirc",
+        ".boto",
+        "credentials",
+        "credentials.json",
+        "credentials.yml",
+        "credentials.yaml",
+        "service-account.json",
+        "serviceaccount.json",
+        "secrets.json",
+        "secrets.yml",
+        "secrets.yaml",
+        "database.yml",
+        "database.json",
+        "wp-config.php",
+        "local_settings.py",
+        ".htpasswd",
+        "client_secret.json",
+        "google-services.json",
+        "GoogleService-Info.plist",
+        "keystore.jks",
+        "keystore.p12",
+        "terraform.tfvars",
+    }
+)
 
-_SENSITIVE_FILE_EXTENSIONS: frozenset[str] = frozenset({
-    ".pem", ".key", ".p12", ".pfx", ".der",
-    ".jks", ".keystore", ".ppk",
-})
+_SENSITIVE_FILE_EXTENSIONS: frozenset[str] = frozenset(
+    {
+        ".pem",
+        ".key",
+        ".p12",
+        ".pfx",
+        ".der",
+        ".jks",
+        ".keystore",
+        ".ppk",
+    }
+)
 
 _SUSPICIOUS_MSG_KEYWORDS: tuple[str, ...] = (
-    "password", "secret", "token", "credential", "private key", "api key",
-    "access key", "remove key", "delete secret", "oops", "accidentally",
-    "forgot to", "by mistake", "cleanup sensitive", "remove sensitive",
-    "do not commit", "gitignore", "env file", "sensitive data", "confidential",
+    "password",
+    "secret",
+    "token",
+    "credential",
+    "private key",
+    "api key",
+    "access key",
+    "remove key",
+    "delete secret",
+    "oops",
+    "accidentally",
+    "forgot to",
+    "by mistake",
+    "cleanup sensitive",
+    "remove sensitive",
+    "do not commit",
+    "gitignore",
+    "env file",
+    "sensitive data",
+    "confidential",
 )
 
 
 # ---------------------------------------------------------------------------
 # Data Classes
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class Commit:
@@ -221,6 +306,7 @@ class GitHubProfile:
 # Internal Helpers
 # ---------------------------------------------------------------------------
 
+
 def _shorten(value: str, max_len: int = 80) -> str:
     """Trim long terminal values."""
     if not value:
@@ -300,6 +386,7 @@ def _paginate_github(url: str, headers: dict, max_results: int = 1000) -> list:
 # Secret Scanning Utilities
 # ---------------------------------------------------------------------------
 
+
 def _is_sensitive_file(path: str) -> bool:
     """Return True if the path matches a known sensitive filename or extension."""
     name = os.path.basename(path)
@@ -366,15 +453,19 @@ def _flag_suspicious_message(
 # Local Repository Analysis
 # ---------------------------------------------------------------------------
 
+
 def _is_bare_repo(repo_path: str) -> bool:
     """Return True if the git repository at ``repo_path`` is a bare clone."""
     try:
         result = subprocess.run(
             ["git", "-C", repo_path, "rev-parse", "--is-bare-repository"],
-            capture_output=True, text=True, timeout=10,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         return result.stdout.strip() == "true"
-    except Exception:
+    except subprocess.SubprocessError:
         return False
 
 
@@ -392,21 +483,33 @@ def _check_sensitive_files(repo_path: str) -> tuple[list[str], list[str]]:
     try:
         result = subprocess.run(
             ["git", "-C", repo_path, "ls-files"],
-            capture_output=True, text=True, timeout=30, check=False,
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=False,
         )
         tracked = {f.strip() for f in result.stdout.splitlines() if f.strip()}
         current = sorted(f for f in tracked if _is_sensitive_file(f))
-    except Exception as exc:
-        printer.debug(f"ls-files failed: {exc}")
+    except subprocess.SubprocessError as e:
+        printer.debug(f"ls-files failed: {e}")
 
     # Files ever added to history (even if since removed or gitignored)
     try:
         result = subprocess.run(
             [
-                "git", "-C", repo_path, "log", "--all",
-                "--diff-filter=A", "--name-only", "--pretty=format:",
+                "git",
+                "-C",
+                repo_path,
+                "log",
+                "--all",
+                "--diff-filter=A",
+                "--name-only",
+                "--pretty=format:",
             ],
-            capture_output=True, text=True, timeout=60, check=False,
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=False,
         )
         current_set = set(current)
         seen: set[str] = set()
@@ -417,8 +520,8 @@ def _check_sensitive_files(repo_path: str) -> tuple[list[str], list[str]]:
             if _is_sensitive_file(f):
                 historical.append(f)
                 seen.add(f)
-    except Exception as exc:
-        printer.debug(f"Historical sensitive-file scan failed: {exc}")
+    except subprocess.SubprocessError as e:
+        printer.debug(f"Historical sensitive-file scan failed: {e}")
 
     return current, historical
 
@@ -434,20 +537,32 @@ def _scan_local_diffs(repo_path: str, profile: GitHubProfile) -> None:
     :param repo_path: Path to the git repository (bare or working-tree).
     :param profile: Results container; findings are appended in-place.
     """
-    printer.info("Scanning commit diffs for potential secrets (this may take a moment)...")
+    printer.info(
+        "Scanning commit diffs for potential secrets (this may take a moment)..."
+    )
     sep = "GITSCRAPE_COMMIT_BRK"
 
     try:
         result = subprocess.run(
             [
-                "git", "-C", repo_path, "log", "--all", "-p",
+                "git",
+                "-C",
+                repo_path,
+                "log",
+                "--all",
+                "-p",
                 "--no-color",
                 f"--pretty=tformat:{sep}%H\t%an\t%ae\t%aI\t%s",
             ],
-            capture_output=True, text=True, timeout=300, check=False,
+            capture_output=True,
+            text=True,
+            timeout=300,
+            check=False,
         )
     except subprocess.TimeoutExpired:
-        printer.warning("Diff scan timed out after 5 minutes. Partial results may be available.")
+        printer.warning(
+            "Diff scan timed out after 5 minutes. Partial results may be available."
+        )
         return
 
     if not result.stdout:
@@ -463,7 +578,7 @@ def _scan_local_diffs(repo_path: str, profile: GitHubProfile) -> None:
     for raw_line in result.stdout.splitlines():
         if raw_line.startswith(sep):
             # New commit boundary — parse metadata
-            meta = raw_line[len(sep):]
+            meta = raw_line[len(sep) :]
             parts = meta.split("\t", 4)
             if len(parts) >= 4:
                 current_sha = parts[0]
@@ -475,7 +590,9 @@ def _scan_local_diffs(repo_path: str, profile: GitHubProfile) -> None:
 
                 if current_sha and current_sha not in seen_sha:
                     seen_sha.add(current_sha)
-                    flagged = _flag_suspicious_message(current_sha, an, current_date, msg)
+                    flagged = _flag_suspicious_message(
+                        current_sha, an, current_date, msg
+                    )
                     if flagged:
                         profile.suspicious_commits.append(flagged)
             current_file = ""
@@ -523,10 +640,17 @@ def scrape_local_repo(repo_path: str, profile: GitHubProfile) -> None:
         printer.verbose("Fetching commit history across all branches...")
         result = subprocess.run(
             [
-                "git", "-C", repo_path, "log", "--all",
+                "git",
+                "-C",
+                repo_path,
+                "log",
+                "--all",
                 "--pretty=format:%H\t%an\t%ae\t%aI\t%s",
             ],
-            capture_output=True, text=True, timeout=60, check=True,
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=True,
         )
 
         for line in result.stdout.splitlines():
@@ -567,14 +691,17 @@ def scrape_local_repo(repo_path: str, profile: GitHubProfile) -> None:
 
     except subprocess.CalledProcessError as e:
         printer.debug(f"Git execution failed: {e.stderr}")
-        printer.error("Failed to execute git commands. Ensure git is installed and this is a valid repo.")
-    except Exception as exc:
-        printer.error(f"Error reading local repository: {exc}")
+        printer.error(
+            "Failed to execute git commands. Ensure git is installed and this is a valid repo."
+        )
+    except subprocess.SubprocessError as e:
+        printer.error(f"Error reading local repository: {e}")
 
 
 # ---------------------------------------------------------------------------
 # GitHub Scraping
 # ---------------------------------------------------------------------------
+
 
 def _scan_github_gists(gists: list, headers: dict, profile: GitHubProfile) -> None:
     """
@@ -648,23 +775,23 @@ def scrape_github_user(username: str, token: str, profile: GitHubProfile) -> Non
 
     printer.debug(f"Raw profile data: {profile_data}")
 
-    profile.username     = profile_data.get("login") or ""
-    profile.name         = profile_data.get("name") or "N/A"
-    profile.id           = profile_data.get("id") or "N/A"
-    profile.bio          = profile_data.get("bio") or "N/A"
-    profile.company      = profile_data.get("company") or "N/A"
-    profile.location     = profile_data.get("location") or "N/A"
-    profile.email        = profile_data.get("email") or "Hidden"
-    profile.hireable     = profile_data.get("hireable") or "N/A"
-    profile.blog         = profile_data.get("blog") or "N/A"
-    profile.twitter      = profile_data.get("twitter_username") or "N/A"
-    profile.followers    = profile_data.get("followers") or "N/A"
-    profile.following    = profile_data.get("following") or "N/A"
+    profile.username = profile_data.get("login") or ""
+    profile.name = profile_data.get("name") or "N/A"
+    profile.id = profile_data.get("id") or "N/A"
+    profile.bio = profile_data.get("bio") or "N/A"
+    profile.company = profile_data.get("company") or "N/A"
+    profile.location = profile_data.get("location") or "N/A"
+    profile.email = profile_data.get("email") or "Hidden"
+    profile.hireable = profile_data.get("hireable") or "N/A"
+    profile.blog = profile_data.get("blog") or "N/A"
+    profile.twitter = profile_data.get("twitter_username") or "N/A"
+    profile.followers = profile_data.get("followers") or "N/A"
+    profile.following = profile_data.get("following") or "N/A"
     profile.public_repos = profile_data.get("public_repos") or "N/A"
     profile.public_gists = profile_data.get("public_gists") or "N/A"
-    profile.created_at   = profile_data.get("created_at") or "N/A"
-    profile.updated_at   = profile_data.get("updated_at") or "N/A"
-    profile.avatar_url   = profile_data.get("avatar_url") or "N/A"
+    profile.created_at = profile_data.get("created_at") or "N/A"
+    profile.updated_at = profile_data.get("updated_at") or "N/A"
+    profile.avatar_url = profile_data.get("avatar_url") or "N/A"
 
     printer.section("Profile Information")
     printer.success(f"  Username     : {profile.username}")
@@ -713,17 +840,23 @@ def scrape_github_user(username: str, token: str, profile: GitHubProfile) -> Non
             for commit in commits_data:
                 commit_info = commit.get("commit", {})
                 author = commit_info.get("author", {})
-                email  = author.get("email") or ""
-                name   = author.get("name") or ""
-                sha    = commit.get("sha") or ""
-                date   = author.get("date") or ""
-                msg    = commit_info.get("message", "").split("\n")[0]
+                email = author.get("email") or ""
+                name = author.get("name") or ""
+                sha = commit.get("sha") or ""
+                date = author.get("date") or ""
+                msg = commit_info.get("message", "").split("\n")[0]
 
                 if email and "noreply.github.com" not in email:
                     profile.leaked_identities.add(f"{name} <{email}>")
 
                 profile.recent_commits.append(
-                    Commit(sha=sha, author_name=name, author_email=email, date=date, message=msg)
+                    Commit(
+                        sha=sha,
+                        author_name=name,
+                        author_email=email,
+                        date=date,
+                        message=msg,
+                    )
                 )
 
                 flagged = _flag_suspicious_message(sha, name, date, msg)
@@ -768,11 +901,17 @@ def scrape_github_repo(
     if repo_data:
         printer.section("Repository Information")
         printer.success(f"  Full Name      : {repo_data.get('full_name', 'N/A')}")
-        printer.success(f"  Description    : {_shorten(repo_data.get('description') or 'N/A')}")
+        printer.success(
+            f"  Description    : {_shorten(repo_data.get('description') or 'N/A')}"
+        )
         printer.success(f"  Language       : {repo_data.get('language', 'N/A')}")
-        printer.success(f"  Stars          : {repo_data.get('stargazers_count', 'N/A')}")
+        printer.success(
+            f"  Stars          : {repo_data.get('stargazers_count', 'N/A')}"
+        )
         printer.success(f"  Forks          : {repo_data.get('forks_count', 'N/A')}")
-        printer.success(f"  Open Issues    : {repo_data.get('open_issues_count', 'N/A')}")
+        printer.success(
+            f"  Open Issues    : {repo_data.get('open_issues_count', 'N/A')}"
+        )
         printer.success(f"  Visibility     : {repo_data.get('visibility', 'N/A')}")
         printer.success(f"  Default Branch : {repo_data.get('default_branch', 'N/A')}")
         printer.success(f"  Created At     : {repo_data.get('created_at', 'N/A')}")
@@ -798,17 +937,19 @@ def scrape_github_repo(
     for commit in commits_data:
         commit_info = commit.get("commit", {})
         author = commit_info.get("author", {})
-        email  = author.get("email") or ""
-        name   = author.get("name") or ""
-        sha    = commit.get("sha") or ""
-        date   = author.get("date") or ""
-        msg    = commit_info.get("message", "").split("\n")[0]
+        email = author.get("email") or ""
+        name = author.get("name") or ""
+        sha = commit.get("sha") or ""
+        date = author.get("date") or ""
+        msg = commit_info.get("message", "").split("\n")[0]
 
         if email:
             profile.leaked_identities.add(f"{name} <{email}>")
 
         profile.recent_commits.append(
-            Commit(sha=sha, author_name=name, author_email=email, date=date, message=msg)
+            Commit(
+                sha=sha, author_name=name, author_email=email, date=date, message=msg
+            )
         )
 
         flagged = _flag_suspicious_message(sha, name, date, msg)
@@ -819,6 +960,7 @@ def scrape_github_repo(
 # ---------------------------------------------------------------------------
 # Export
 # ---------------------------------------------------------------------------
+
 
 def _ask_export() -> str | None:
     """
@@ -892,21 +1034,34 @@ def _export(profile: GitHubProfile, fmt: str) -> None:
 
             writer.writerow([])
             writer.writerow(["Potential Secrets Found"])
-            writer.writerow(["SHA", "File", "Pattern", "Value (truncated)", "Date", "Author"])
+            writer.writerow(
+                ["SHA", "File", "Pattern", "Value (truncated)", "Date", "Author"]
+            )
             for s in profile.leaked_secrets:
-                writer.writerow([
-                    s.commit_sha[:7], s.file_path, s.pattern_name,
-                    s.matched_value, s.date, s.author,
-                ])
+                writer.writerow(
+                    [
+                        s.commit_sha[:7],
+                        s.file_path,
+                        s.pattern_name,
+                        s.matched_value,
+                        s.date,
+                        s.author,
+                    ]
+                )
 
             writer.writerow([])
             writer.writerow(["Suspicious Commit Messages"])
             writer.writerow(["SHA", "Author", "Date", "Message", "Keywords"])
             for sc in profile.suspicious_commits:
-                writer.writerow([
-                    sc.sha[:7], sc.author_name, sc.date,
-                    sc.message, ", ".join(sc.keywords),
-                ])
+                writer.writerow(
+                    [
+                        sc.sha[:7],
+                        sc.author_name,
+                        sc.date,
+                        sc.message,
+                        ", ".join(sc.keywords),
+                    ]
+                )
 
             writer.writerow([])
             writer.writerow(["Sensitive Files (Currently Tracked)"])
@@ -922,7 +1077,9 @@ def _export(profile: GitHubProfile, fmt: str) -> None:
             writer.writerow(["Commits"])
             writer.writerow(["SHA", "Author Name", "Author Email", "Date", "Message"])
             for c in profile.recent_commits:
-                writer.writerow([c.sha, c.author_name, c.author_email, c.date, c.message])
+                writer.writerow(
+                    [c.sha, c.author_name, c.author_email, c.date, c.message]
+                )
 
         printer.success(f"Exported CSV to {out_file}")
 
@@ -966,7 +1123,9 @@ def _export(profile: GitHubProfile, fmt: str) -> None:
                     f" | {s.pattern_name} | {s.matched_value}\n"
                 )
 
-            f.write(f"\nSuspicious Commit Messages ({len(profile.suspicious_commits)}):\n")
+            f.write(
+                f"\nSuspicious Commit Messages ({len(profile.suspicious_commits)}):\n"
+            )
             for sc in profile.suspicious_commits:
                 f.write(
                     f"  [{sc.sha[:7]}] {sc.date} | {sc.author_name} - {sc.message}\n"
@@ -974,12 +1133,16 @@ def _export(profile: GitHubProfile, fmt: str) -> None:
                 )
 
             if profile.tracked_sensitive_files:
-                f.write(f"\nCurrently-tracked Sensitive Files ({len(profile.tracked_sensitive_files)}):\n")
+                f.write(
+                    f"\nCurrently-tracked Sensitive Files ({len(profile.tracked_sensitive_files)}):\n"
+                )
                 for fn in profile.tracked_sensitive_files:
                     f.write(f"  [ACTIVE]  {fn}\n")
 
             if profile.historical_sensitive_files:
-                f.write(f"\nHistorically-committed Sensitive Files ({len(profile.historical_sensitive_files)}):\n")
+                f.write(
+                    f"\nHistorically-committed Sensitive Files ({len(profile.historical_sensitive_files)}):\n"
+                )
                 for fn in profile.historical_sensitive_files:
                     f.write(f"  [REMOVED] {fn}\n")
 
@@ -990,7 +1153,9 @@ def _export(profile: GitHubProfile, fmt: str) -> None:
                     f"  [{c.sha[:7]}] {c.date} | {c.author_name} <{c.author_email}> - {c.message}\n"
                 )
             if len(profile.recent_commits) > 500:
-                f.write(f"  ... ({len(profile.recent_commits) - 500} more commits in full export)\n")
+                f.write(
+                    f"  ... ({len(profile.recent_commits) - 500} more commits in full export)\n"
+                )
 
         printer.success(f"Exported TXT to {out_file}")
 
@@ -998,6 +1163,7 @@ def _export(profile: GitHubProfile, fmt: str) -> None:
 # ---------------------------------------------------------------------------
 # Deep Clone Scan (GitHub repos)
 # ---------------------------------------------------------------------------
+
 
 def _deep_clone_scan(clone_url: str, profile: GitHubProfile) -> None:
     """
@@ -1011,7 +1177,8 @@ def _deep_clone_scan(clone_url: str, profile: GitHubProfile) -> None:
         try:
             subprocess.run(
                 ["git", "clone", "--depth", "500", clone_url, temp_dir],
-                capture_output=True, check=True,
+                capture_output=True,
+                check=True,
             )
             _scan_local_diffs(temp_dir, profile)
             current_files, historical_files = _check_sensitive_files(temp_dir)
@@ -1026,6 +1193,7 @@ def _deep_clone_scan(clone_url: str, profile: GitHubProfile) -> None:
 # ---------------------------------------------------------------------------
 # Entry Point
 # ---------------------------------------------------------------------------
+
 
 def execute_scrape(target: str | None, repository: str | None, token: str) -> None:
     """
@@ -1048,9 +1216,13 @@ def execute_scrape(target: str | None, repository: str | None, token: str) -> No
 
             # Offer a deeper local scan by cloning the repo
             printer.noprefix("")
-            deep = printer.user_input(
-                "Perform deep secret scan by cloning the repo locally? (y/N) : "
-            ).strip().lower()
+            deep = (
+                printer.user_input(
+                    "Perform deep secret scan by cloning the repo locally? (y/N) : "
+                )
+                .strip()
+                .lower()
+            )
             if deep in {"y", "yes"}:
                 _deep_clone_scan(f"https://github.com/{owner}/{repo_name}.git", profile)
 
@@ -1065,10 +1237,16 @@ def execute_scrape(target: str | None, repository: str | None, token: str) -> No
                     printer.verbose(f"Cloning {repository} into {temp_dir}")
                     subprocess.run(
                         [
-                            "git", "clone", "--bare", "--depth", "500",
-                            repository, temp_dir,
+                            "git",
+                            "clone",
+                            "--bare",
+                            "--depth",
+                            "500",
+                            repository,
+                            temp_dir,
                         ],
-                        capture_output=True, check=True,
+                        capture_output=True,
+                        check=True,
                     )
                     scrape_local_repo(temp_dir, profile)
                 except subprocess.CalledProcessError:
@@ -1109,7 +1287,9 @@ def execute_scrape(target: str | None, repository: str | None, token: str) -> No
         printer.success("No potential secrets detected in diff history.")
 
     if profile.suspicious_commits:
-        printer.section(f"Suspicious Commit Messages ({len(profile.suspicious_commits)})")
+        printer.section(
+            f"Suspicious Commit Messages ({len(profile.suspicious_commits)})"
+        )
         for sc in profile.suspicious_commits[:10]:
             printer.warning(
                 f"  [{sc.sha[:7]}] {sc.date} | {sc.author_name} - {_shorten(sc.message, 60)}"

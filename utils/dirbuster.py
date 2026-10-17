@@ -74,7 +74,7 @@ async def _fetch_url(
                 printer.success(
                     f"{len(url_set)} Valid URL(s) found : {Style.BRIGHT}{url}{Style.RESET_ALL}"
                 )
-    except Exception:
+    except aiohttp.ClientError:
         pass
 
 

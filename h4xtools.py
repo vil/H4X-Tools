@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 import socket
 import subprocess
+import sys
 import time
 
 from colorama import Fore, Style
@@ -58,11 +59,9 @@ def _internet_check() -> None:
         socket.setdefaulttimeout(3)
         socket.create_connection(("gnu.org", 80))
         printer.success("Internet Connection is Available..!")
-    except socket.error as sock_error:
+    except OSError as sock_error:
         printer.warning(
-            "Internet Connection is Unavailable or some other problem occurred..!\n{}".format(
-                sock_error
-            )
+            f"Internet Connection is Unavailable or some other problem occurred..!\n{sock_error}"
         )
 
 
@@ -87,9 +86,7 @@ def _print_banner() -> None:
 def _display_help(tools: tuple[BaseTool, ...]) -> None:
     print(Fore.LIGHTCYAN_EX)
     print(
-        "H4X-Tools build: {} - A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows.".format(
-            VERSION
-        )
+        f"H4X-Tools build: {VERSION} - A modular, terminal-based toolkit for OSINT, reconnaissance, and scraping - built in Python, runs on Linux and Windows."
     )
     print("Repository link: https://github.com/vil/h4x-tools")
     print("\nMade in Finland, with love.\n")
@@ -299,4 +296,4 @@ if __name__ == "__main__":
             print("\n")
             printer.warning("Quitting... Goodbye!")
             print(Style.RESET_ALL)
-            exit(0)
+            sys.exit(0)

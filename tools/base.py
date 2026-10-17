@@ -18,8 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from typing import Any, Callable, ClassVar, Iterable
+from typing import Any, ClassVar
 
 
 @dataclass(frozen=True)

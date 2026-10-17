@@ -109,11 +109,11 @@ def _connect_to_port(
             sock.connect((ip, port))
             open_ports.append(port)
             printer.success(f"Port {Style.BRIGHT}{port}{Style.RESET_ALL}/TCP is open")
-    except socket.timeout:
+    except TimeoutError:
         failed_ports.append(port)
     except ConnectionRefusedError:
         failed_ports.append(port)
-    except socket.error as e:
+    except OSError as e:
         printer.error(
             f"An error occurred while scanning port {Style.BRIGHT}{port}{Style.RESET_ALL} "
             f"for {Style.BRIGHT}{ip}{Style.RESET_ALL} : {e}"

@@ -38,7 +38,7 @@ _SAVE_DIR = Path("scraped_data")
 _CONFIG_SECTION = "ig_scrape"
 _SESSION_ID_KEY = "session_id"
 _WEB_IG_APP_ID = "936619743392459"
-_RECOVERY_GRAPHQL_DOC_ID = "35299094813070532"
+_RECOVERY_GRAPHQL_DOC_ID = "36716895674620546"
 _RECOVERY_GRAPHQL_FRIENDLY_NAME = "CAAIGAccountSearchViewQuery"
 _WEB_UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -900,7 +900,7 @@ def _normalize_recovery_contact_point(node: dict, index: int) -> RecoveryContact
 
 def _jazoest(seed: str) -> str:
     """Build the jazoest value commonly paired with Instagram web LSD tokens."""
-    return "2" + "".join(str(ord(char)) for char in seed)
+    return "2" + str(sum(ord(char) for char in seed))
 
 
 def _extract_lsd(html: str) -> str:
@@ -992,7 +992,9 @@ def _instagram_graphql_recovery_lookup(username: str) -> dict:
     waterfall_id = str(uuid.uuid4())
     variables = {
         "params": {
+            "account_recovery_entry_point": None,
             "event_request_id": event_request_id,
+            "is_threads": False,
             "next_uri": "",
             "search_query": username,
             "waterfall_id": waterfall_id,
@@ -1005,7 +1007,7 @@ def _instagram_graphql_recovery_lookup(username: str) -> dict:
         "__a": "1",
         "__req": "1",
         "dpr": "1",
-        "__ccg": "MODERATE",
+        "__ccg": "GOOD",
         "__comet_req": "7",
         "lsd": lsd,
         "jazoest": _jazoest(lsd),
@@ -1067,6 +1069,24 @@ def _instagram_graphql_recovery_lookup(username: str) -> dict:
         return {"user": None, "error": "unexpected json type", "attempts": attempts}
 
     _debug_lookup_payload(label, payload)
+
+    graphql_errors = payload.get("errors")
+    if graphql_errors:
+        first_error = (
+            graphql_errors[0] if isinstance(graphql_errors, list) else graphql_errors
+        )
+        error_message = (
+            first_error.get("message")
+            if isinstance(first_error, dict)
+            else str(first_error)
+        )
+        attempt["error"] = error_message or "graphql error"
+        attempt["keys"] = sorted(payload.keys())
+        printer.verbose(f"Advanced lookup [{label}] GraphQL error: {attempt['error']}")
+        if error_message and "rate limit" in str(error_message).lower():
+            return {"user": None, "error": "rate limit", "attempts": attempts}
+        return {"user": None, "error": attempt["error"], "attempts": attempts}
+
     account_search = (payload.get("data") or {}).get("caa_ar_ig_account_search") or {}
     if not account_search:
         attempt["error"] = "missing caa_ar_ig_account_search"
@@ -1839,11 +1859,12 @@ def _prompt_new_session_id() -> str:
         .strip()
         .lower()
     )
-    if answer in {"y", "yes"}:
-        if config.set_value(_CONFIG_SECTION, _SESSION_ID_KEY, session_id):
-            printer.success(
-                f"Session ID saved to {Style.BRIGHT}{config.get_config_file()}{Style.RESET_ALL}"
-            )
+    if answer in {"y", "yes"} and config.set_value(
+        _CONFIG_SECTION, _SESSION_ID_KEY, session_id
+    ):
+        printer.success(
+            f"Session ID saved to {Style.BRIGHT}{config.get_config_file()}{Style.RESET_ALL}"
+        )
 
     return session_id
 
@@ -2400,8 +2421,7 @@ def scrape(
                     comments_limit = (
                         int(comment_limit_input) if comment_limit_input else 20
                     )
-                    if comments_limit < 0:
-                        comments_limit = 0
+                    comments_limit = max(comments_limit, 0)
                 except ValueError:
                     printer.warning(
                         "Invalid number provided; using default of 20 comments per post."

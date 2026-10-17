@@ -29,8 +29,8 @@ def discover_tools() -> tuple[BaseTool, ...]:
 
         try:
             module = importlib.import_module(module_info.name)
-        except Exception as exc:
-            printer.warning(f"Skipping tool module {module_info.name}: {exc}")
+        except ImportError as e:
+            printer.warning(f"Skipping tool module {module_info.name}: {e}")
             continue
 
         for _, obj in inspect.getmembers(module, inspect.isclass):

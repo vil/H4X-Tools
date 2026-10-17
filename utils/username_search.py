@@ -167,8 +167,8 @@ def _load_db():
                 f"Loaded Maigret database: {Style.BRIGHT}{len(db.sites)}{Style.RESET_ALL} sites (bundled)."
             )
             return db
-    except Exception as exc:
-        printer.warning(f"Could not load bundled Maigret database: {exc}")
+    except (ImportError, OSError) as e:
+        printer.warning(f"Could not load bundled Maigret database: {e}")
 
     # Fall back to the user-level database updated by `maigret --update-db`.
     if MAIGRET_DB_PATH.exists():
@@ -179,8 +179,8 @@ def _load_db():
                 f"({Style.BRIGHT}{MAIGRET_DB_PATH}{Style.RESET_ALL})."
             )
             return db
-        except Exception as exc:
-            printer.warning(f"Could not load user Maigret database: {exc}")
+        except (ImportError, OSError) as e:
+            printer.warning(f"Could not load user Maigret database: {e}")
 
     return None
 
@@ -490,8 +490,14 @@ def _run_maigret(username: str, config: MaigretConfig, db) -> dict[str, Any] | N
         )
     except KeyboardInterrupt:
         raise
-    except Exception as exc:
-        printer.error(f"Maigret search failed: {exc}")
+    except asyncio.CancelledError:
+        printer.error("Maigret search failed: cancelled")
+        return None
+    except TimeoutError:
+        printer.error("Maigret search failed: timeout")
+        return None
+    except OSError as e:
+        printer.error(f"Maigret search failed: {e}")
         return None
 
     return results

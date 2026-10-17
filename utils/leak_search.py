@@ -208,7 +208,7 @@ def _fetch_hudson_rock(
                         "url": item.get("url", "") or "",
                         "occurrence": int(item.get("occurrence") or 0),
                     }
-                except Exception:
+                except (TypeError, ValueError):
                     # Skip malformed items
                     continue
                 if t == "employee":
@@ -594,7 +594,7 @@ def lookup(target: str) -> None:
     entry_limit = _ask_entry_limit()
     report = LeakReport(target=target, target_type=target_type)
 
-    # Source 1 — Hudson Rock                                               #
+    # Source 1 — Hudson Rock
     printer.noprefix("")
     printer.section("Hudson Rock Cavalier")
     printer.info(f"Querying Hudson Rock for {Style.BRIGHT}{target}{Style.RESET_ALL}...")
@@ -664,7 +664,7 @@ def lookup(target: str) -> None:
     else:
         printer.warning("No stealer records found on Hudson Rock for this target.")
 
-    # Source 2 — ProxyNova COMB (email only)                              #
+    # Source 2 — ProxyNova COMB (email only)
     if target_type == "email":
         printer.noprefix("")
         printer.section("ProxyNova COMB Dataset")
@@ -699,7 +699,7 @@ def lookup(target: str) -> None:
         else:
             printer.warning("No entries found in the COMB dataset for this address.")
 
-    # Summary                                                              #
+    # Summary
     printer.noprefix("")
     printer.section("Summary")
     printer.info(f"Target        : {Style.BRIGHT}{target}{Style.RESET_ALL}")
@@ -719,7 +719,7 @@ def lookup(target: str) -> None:
             f"COMB hits     : {Style.BRIGHT}{report.comb_count:,}{Style.RESET_ALL}"
         )
 
-    # Export                                                               #
+    # Export
     printer.noprefix("")
     fmt = _ask_export()
     if fmt:

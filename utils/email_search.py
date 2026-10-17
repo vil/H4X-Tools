@@ -28,7 +28,7 @@ from helper import printer, timer
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 # Matches holehe's footer stat line, e.g. "118 websites checked in 4.32 seconds"
-_STATS_RE = re.compile(r"^(\d+)\s+websites?\s+checked\s+in\s+([\d.]+)\s+seconds?", re.I)
+_STATS_RE = re.compile(r"^(\d+)\s+websites?\s+checked\s+in\s+([\d.]+)\s+seconds?", re.IGNORECASE)
 
 # Matches a result line like:
 #   [+] adobe.com recovery@other.com / +1234567890 / FullName John Doe
@@ -112,7 +112,7 @@ def _run_holehe(email: str) -> None:
                 "--no-color",
                 "--no-clear",
             ],
-            capture_output=True,
+            check=False, capture_output=True,
             text=True,
             timeout=120,
         )
@@ -137,10 +137,10 @@ def _run_holehe(email: str) -> None:
             "holehe timed out after 120 seconds. "
             "Try again or check your internet connection."
         )
-    except subprocess.CalledProcessError as exc:
-        printer.error(f"holehe exited with a non-zero status: {exc}")
-    except Exception as exc:
-        printer.error(f"Unexpected error while running holehe: {exc}")
+    except subprocess.CalledProcessError as e:
+        printer.error(f"holehe exited with a non-zero status: {e}")
+    except subprocess.SubprocessError as e:
+        printer.error(f"Unexpected error while running holehe: {e}")
 
 
 def _parse_holehe_output(output: str) -> tuple[list[HoleheSite], str]:

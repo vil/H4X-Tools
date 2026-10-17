@@ -42,8 +42,11 @@ def check_whois(domain: str) -> None:
             label = key.replace("_", " ").title()
             printer.success(f"{label} : {value}")
 
-    except Exception as e:
-        printer.error(f"Error : {e}")
+    except ImportError:
         printer.error(
             f"Make sure {Style.BRIGHT}whois{Style.RESET_ALL} is installed on your system."
         )
+    except OSError:
+        printer.error("Failed to execute whois command.")
+    except (ValueError, TypeError):
+        pass

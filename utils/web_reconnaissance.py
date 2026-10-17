@@ -246,7 +246,7 @@ def websearch() -> None:
         template = target.pop("template")
         dorks = [("Custom Dork", template)]
 
-    primary_value = list(target.values())[0]
+    primary_value = next(iter(target.values()))
     max_results = _ask_max_results()
     save_fmt = _ask_save_results()
 
@@ -542,13 +542,14 @@ def _fetch_results(
                 for r in raw
                 if r.get("href", "") or r.get("url", "")
             ]
-    except Exception:
-        pass
-
-    printer.error(
-        f"All global engine queries restricted or exhausted for [{label}]. Check network interface."
-    )
-    return []
+    except OSError as e:
+        printer.error(f"Failed to query DDGS: {e}")
+        return []
+    except (ValueError, KeyError) as e:
+        printer.error(f"Failed to parse DDGS response: {e}")
+        return []
+    except DDGSException:
+        return []
 
 
 def _print_result(result: SearchResult) -> None:

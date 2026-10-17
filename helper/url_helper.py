@@ -37,8 +37,8 @@ def read_local_content(path) -> str | dict | None:
             else:
                 content = file.read()
         return content
-    except Exception as e:
-        printer.error(f"An error occurred: {str(e)}")
+    except OSError:
+        printer.error(f"Failed to read local content: {path}")
         return None
 
 

@@ -122,16 +122,13 @@ def _export_results(
                     f.write("-" * 80 + "\n\n")
 
                     f.write("Links:\n")
-                    for link in sorted(links):
-                        f.write(f"{link}\n")
+                    f.writelines(f"{link}\n" for link in sorted(links))
 
                     f.write("\nEmails:\n")
-                    for email in sorted(emails):
-                        f.write(f"{email}\n")
+                    f.writelines(f"{email}\n" for email in sorted(emails))
 
                     f.write("\nPhone numbers:\n")
-                    for phone_number in sorted(phone_numbers):
-                        f.write(f"{phone_number}\n")
+                    f.writelines(f"{phone_number}\n" for phone_number in sorted(phone_numbers))
 
                 printer.success(
                     f"Scraped data exported to {Style.BRIGHT}{filepath}{Style.RESET_ALL}"
@@ -186,7 +183,7 @@ def _export_results(
                     f"Invalid format: {format_type}. Use 'txt', 'csv', or 'json'."
                 )
 
-    except Exception as e:
+    except (ValueError, KeyError) as e:
         printer.error(f"Error exporting scraped data: {e}")
 
 
@@ -276,7 +273,7 @@ def scrape(url: str) -> None:
 
     except KeyboardInterrupt:
         printer.error("Cancelled..!")
-    except Exception as e:
+    except (ValueError, KeyError) as e:
         printer.error(f"Error : {e}")
 
 
@@ -356,12 +353,12 @@ async def _fetch(session: aiohttp.ClientSession, url: str) -> str:
             if response.status >= 400:
                 return ""
 
-            content_type = response.headers.get("Content-Type", "")
+            content_type = response._headers.get("Content-Type", "")
             if not _is_supported_content_type(content_type):
                 return ""
 
             return await response.text(errors="ignore")
-    except (aiohttp.ClientError, asyncio.TimeoutError, UnicodeDecodeError):
+    except (TimeoutError, aiohttp.ClientError, UnicodeDecodeError):
         return ""
 
 

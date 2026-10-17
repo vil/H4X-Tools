@@ -138,7 +138,7 @@ def noprefix(message, *args, **kwargs) -> None:
 
 
 def user_input(prompt, *args, **kwargs) -> str:
-    _print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", end="", *args, **kwargs)
+    _print_colored(prompt, Fore.LIGHTBLUE_EX, "[?]", *args, end="", **kwargs)
     return input()
 
 

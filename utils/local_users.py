@@ -88,8 +88,10 @@ def scan_for_local_users() -> None:
                     printer.success(f"Domain   : {user_info['Domain']}")
                     printer.noprefix("")
 
-            except Exception as e:
-                printer.error(f"Error retrieving account information: {e}")
+            except (TypeError, ValueError):
+                printer.error("Error retrieving account information.")
+            except subprocess.CalledProcessError as e:
+                printer.error(f"Subprocess error occurred: {e}")
 
         case "posix":
             import grp
@@ -140,8 +142,12 @@ def scan_for_local_users() -> None:
                     printer.success(f"Login Name     : {user_info['Login Name']}")
                     printer.noprefix("")
 
-            except Exception as e:
-                printer.error(f"Error retrieving account information: {e}")
+            except (TypeError, ValueError):
+                printer.error("Error retrieving account information.")
+            except OSError as e:
+                printer.error(f"OS error occurred: {e}")
+            except KeyError as e:
+                printer.error(f"Key error occurred: {e}")
 
         case _:
             printer.error("Unsupported platform..!")

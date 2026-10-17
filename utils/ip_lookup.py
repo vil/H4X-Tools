@@ -80,5 +80,5 @@ def lookup(ip_address: str) -> None:
         printer.error(f"Request error : {e}")
     except socket.gaierror as e:
         printer.error(f"Could not resolve host : {e}")
-    except Exception as e:
+    except OSError as e:
         printer.error(f"Error : {e}")

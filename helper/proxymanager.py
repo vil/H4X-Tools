@@ -16,7 +16,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from urllib.parse import urlparse
-from typing import Optional
 
 import requests
 
@@ -126,7 +125,7 @@ def validate_proxy_url(url: str) -> bool:
             and bool(parsed.hostname)
             and parsed.port is not None
         )
-    except Exception:
+    except ValueError:
         return False
 
 
@@ -195,7 +194,7 @@ def clear_proxies() -> bool:
 # ---------------------------------------------------------------------------
 
 
-def get_proxy() -> Optional[str]:
+def get_proxy() -> str | None:
     """
     Return the next proxy URL to use.
 
@@ -221,7 +220,7 @@ def get_proxy() -> Optional[str]:
     return proxies[index]
 
 
-def get_aiohttp_proxy() -> Optional[str]:
+def get_aiohttp_proxy() -> str | None:
     """
     Return the next proxy URL for use with ``aiohttp``.
 
@@ -240,7 +239,7 @@ def get_aiohttp_proxy() -> Optional[str]:
     return proxy
 
 
-def get_requests_proxies() -> Optional[dict[str, str]]:
+def get_requests_proxies() -> dict[str, str] | None:
     """
     Return a proxies dict ready for use with the ``requests`` library.
 

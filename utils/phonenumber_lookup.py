@@ -154,7 +154,7 @@ def _run_ignorant(ph_no: p.PhoneNumber) -> None:
                 country_code_arg,
                 national_number_arg,
             ],
-            capture_output=True,
+            check=False, capture_output=True,
             text=True,
             timeout=60,
         )
@@ -183,10 +183,10 @@ def _run_ignorant(ph_no: p.PhoneNumber) -> None:
         )
     except subprocess.TimeoutExpired:
         printer.error("ignorant timed out. The request took too long.")
-    except subprocess.CalledProcessError as exc:
-        printer.error(f"ignorant exited with a non-zero status: {exc}")
-    except Exception as exc:
-        printer.error(f"Unexpected error while running ignorant: {exc}")
+    except subprocess.CalledProcessError as e:
+        printer.error(f"ignorant exited with a non-zero status: {e}")
+    except subprocess.SubprocessError as e:
+        printer.error(f"Unexpected error while running ignorant: {e}")
 
 
 def _parse_ignorant_output(output: str) -> list[str]:
